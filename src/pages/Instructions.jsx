@@ -1,14 +1,18 @@
-import { CirclePlay, Play, User } from "lucide-react";
+import { CirclePlay, User } from "lucide-react";
 import Button from "../components/ui/Button";
 import InstructionItem from "../components/InstructionItem";
+import Heading from "../components/ui/Heading";
 
 export default function Instructions() {
  return (
   <>
    <div className="relative">
-    <h1 className="font-almaria-bold text-4xl text-center pt-14 pb-10">
+    <Heading
+     as={"h1"}
+     className="font-almaria-bold text-4xl text-center pt-14 pb-10"
+    >
      تعليمات
-    </h1>
+    </Heading>
     <div>
      <div className="flex gap-8 w-full justify-center">
       <Button>المدرسين</Button>
@@ -31,8 +35,8 @@ export default function Instructions() {
       />
      ))}
      <div className="absolute  -bottom-32 -left-32">
-           <svg
-             className="absolute -bottom-2 left-0"
+      <svg
+       className="absolute -bottom-2 left-0"
        width="38"
        height="31"
        viewBox="0 0 38 31"
@@ -62,8 +66,8 @@ export default function Instructions() {
        />
       </svg>
      </div>
-       </div>
-       <div className="col-span-1"></div>
+    </div>
+    <div className="col-span-1"></div>
     <div className="col-span-5 relative">
      <img
       src="imgs/video.jpeg"
