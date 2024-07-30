@@ -6,15 +6,11 @@ import park from "../assets/about_imgs/icon-park.svg";
 import gRect from "../assets/about_imgs/Rectangle 110.svg";
 
 export default function About() {
-  const divStyle = {
-    direction: "rtl",
-
-  };
   return (
-    <div style={divStyle} className="bg-white mx-4">
+    <div className="bg-white mx-4">
       <div className="flex">
         <h2
-          className="w-40 h-36 flex items-center justify-center text-2xl font-bold text-white rounded-full"
+          className="w-40 h-36 flex items-center justify-center text-2xl text-white rounded-full font-almaria-bold"
           style={{ backgroundColor: `#0884A2` }}
         >
           من نحن

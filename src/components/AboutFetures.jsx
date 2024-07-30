@@ -6,7 +6,7 @@ export default function AboutFetures({rect , icon , header , grayRect , paragrap
                     <img src={rect} alt="" width={8}/>
                     <div>
                         <img src={icon} alt="" width={30} className="ms-2"/>
-                        <h2 style={{color:`#F54547`}} className="text-3xl font-bold ms-8">{header}</h2>
+                        <h2 style={{color:`#F54547`}} className="text-3xl font-bold ms-8 font-almaria-bold">{header}</h2>
                     </div>
                 </div>
                 <div className="flex border-r-2 mt-4 ms-1 h-52">
@@ -16,8 +16,7 @@ export default function AboutFetures({rect , icon , header , grayRect , paragrap
                         <ul className=" list-[square] p-4 ms-4">
                             {
                                 Object.entries(list).map(([key ,val])=> 
-                                    <li style={{color:`#0884A2`}}>{key} : <span style={{color:`black`}}>{val}</span></li>
-                            
+                                    <li style={{color:`#0884A2`}}><span className="font-almaria-bold text-xl">{key} :</span> <span style={{color:`black`}}>{val}</span></li>
                                 )
                             }
                         </ul>
