@@ -3,85 +3,85 @@
 @tailwind utilities;
 
 @font-face {
- font-family: "Almarai-Regular";
- src: url("fonts/Almarai-Regular.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Regular";
+  src: url("fonts/Almarai-Regular.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Almarai-Bold";
- src: url("fonts/Almarai-Bold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Bold";
+  src: url("fonts/Almarai-Bold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Almarai-ExtraBold";
- src: url("fonts/Almarai-ExtraBold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-ExtraBold";
+  src: url("fonts/Almarai-ExtraBold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Almarai-Light";
- src: url("fonts/Almarai-Light.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Light";
+  src: url("fonts/Almarai-Light.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Cairo-Regular";
- src: url("fonts/Cairo-Regular.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Regular";
+  src: url("fonts/Cairo-Regular.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Cairo-Bold";
- src: url("fonts/Cairo-Bold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Bold";
+  src: url("fonts/Cairo-Bold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Cairo-ExtraBold";
- src: url("fonts/Cairo-ExtraBold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-ExtraBold";
+  src: url("fonts/Cairo-ExtraBold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 @font-face {
- font-family: "Cairo-Light";
- src: url("fonts/Cairo-Light.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Light";
+  src: url("fonts/Cairo-Light.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 body {
- font-family: "Almarai-Regular";
- direction: rtl;
+  font-family: "Almarai-Regular";
+  direction: rtl;
 }
 
 .triangle {
- position: absolute;
- bottom: -30px;
- right: -20px;
- width: 0;
- height: 0;
- border-left: 350px solid transparent;
- /* border-right: 100px solid transparent; */
- border-bottom: 200px solid red;
- border-bottom-left-radius: 20px; /* Adjust this for rounding */
- border-bottom-right-radius: 20px; /* Adjust this for rounding */
- border-radius: 20px;
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  width: 0;
+  height: 0;
+  border-left: 350px solid transparent;
+  /* border-right: 100px solid transparent; */
+  border-bottom: 200px solid red;
+  border-bottom-left-radius: 20px; /* Adjust this for rounding */
+  border-bottom-right-radius: 20px; /* Adjust this for rounding */
+  border-radius: 20px;
 }
 
 .triangle:before {
- content: "";
- position: absolute;
- top: 0;
- right: 0;
- width: 20px;
- height: 20px;
- border-radius: 50%;
- border-left: blue;
- transform: translate(-5%, 20%);
- background: red;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border-left: blue;
+  transform: translate(-5%, 20%);
+  background: red;
 }
 
 /* .triangle:before {
@@ -96,9 +96,10 @@ body {
   background: red;
 } */
 
-body{
-    direction: rtl;
+body {
+  direction: rtl;
 }
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
