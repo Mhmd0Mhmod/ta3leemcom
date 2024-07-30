@@ -83,7 +83,9 @@ body {
   transform: translate(-5%, 20%);
   background: red;
 }
-
+input:focus,textarea:focus {
+  outline: none;
+}
 /* .triangle:before {
   content: '';
   position: absolute;
