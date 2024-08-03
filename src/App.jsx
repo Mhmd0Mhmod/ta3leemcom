@@ -20,9 +20,10 @@ function App() {
   <>
    <Router>
     <Routes>
+     <Route path="home" element={<Home />} />
      <Route element={<AppLayout />}>
+      {/* <Route element={<h1></h1>}> */}
       <Route index element={<Navigate replace to="home" />} />
-      <Route path="home" element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="services" element={<Services />} />
       <Route path="instructions" element={<Instructions />} />
