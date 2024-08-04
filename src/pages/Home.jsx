@@ -5,15 +5,20 @@ import Heading from "../components/ui/Heading";
 import Testimonial from "../components/ui/Testimonial";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Outlet } from "react-router-dom";
+import {Outlet} from "react-router-dom";
 
 const slides = [
-  "https://via.placeholder.com/800x400?text=Slide+1",
-  "https://via.placeholder.com/800x400?text=Slide+2",
-  "https://via.placeholder.com/800x400?text=Slide+3",
+    "https://via.placeholder.com/800x400?text=Slide+1",
+    "https://via.placeholder.com/800x400?text=Slide+2",
+    "https://via.placeholder.com/800x400?text=Slide+3",
 ];
-const images = ["imgs/home-bg-1.png", "imgs/home-bg-2.png", "imgs/home-bg-3.png"];
-const OPTIONS = { loop: true, duration: 100 };
+const images = [
+    "imgs/home-bg-1.png",
+    "imgs/home-bg-2.png",
+    "imgs/home-bg-3.png",
+];
+const OPTIONS = {loop: true, duration: 100};
+
 // const SLIDE_COUNT = 5;
 // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
