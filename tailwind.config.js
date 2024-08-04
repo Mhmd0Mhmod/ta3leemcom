@@ -28,7 +28,7 @@ export default {
     },
    },
    backgroundImage:{
-    'sign-up&login': "url('/login_imgs/Bg.svg')",
+    'sign-up&login': "url('/Icons/Bg.svg')",
    }
   },
  },
