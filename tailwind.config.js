@@ -12,6 +12,7 @@ export default {
     "cairo-bold": ["Cairo-Bold", "sans-serif"], // Add your custom font here
     "cairo-extrabold": ["Cairo-ExtraBold", "sans-serif"], // Add your custom font here
     "cairo-light": ["Cairo-Light", "sans-serif"], // Add your custom font here
+
    },
    colors: {
     primary: "#F54547",
@@ -26,6 +27,9 @@ export default {
      600: "#ECECEC",
     },
    },
+   backgroundImage:{
+    'sign-up&login': "url('/login_imgs/Bg.svg')",
+   }
   },
  },
  plugins: [],

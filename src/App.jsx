@@ -1,9 +1,4 @@
-import {
- BrowserRouter as Router,
- Routes,
- Route,
- Navigate,
-} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -14,30 +9,33 @@ import Opinion from "./pages/Opinion";
 import ContactWithUs from "./pages/ContactWithUs";
 import PageNotFound from "./pages/PageNotFound";
 import Dashboard from "./pages/Dashboard";
+import TeacherDashboard from "./pages/TeacherDashboard.jsx";
+import SingUpForm from "./components/SingUpForm.jsx";
+import MainRegister from "./components/MainRegister.jsx";
 
 function App() {
- return (
-  <>
-   <Router>
-    <Routes>
-     <Route path="home" element={<Home />} />
-     <Route element={<AppLayout />}>
-      {/* <Route element={<h1></h1>}> */}
-      <Route index element={<Navigate replace to="home" />} />
-      <Route path="about" element={<About />} />
-      <Route path="services" element={<Services />} />
-      <Route path="instructions" element={<Instructions />} />
-      <Route path="subscriptions" element={<Subscriptions />} />
-      <Route path="opinion" element={<Opinion />} />
-      <Route path="contact-with-us" element={<ContactWithUs />} />
-      <Route path="dashboard" element={<Dashboard />} />
-     </Route>
+    return (
+        <>
+            <Router>
+                <Routes>
+                    <Route path="home" element={<Home/>}/>
+                    <Route element={<AppLayout/>}>
+                        <Route index element={<Navigate replace to="home"/>}/>
+                        <Route path="about" element={<About/>}/>
+                        <Route path={"signup"} element={<MainRegister rightHandeSide={<SingUpForm/>}/>}/>
+                        <Route path="services" element={<Services/>}/>
+                        <Route path="instructions" element={<Instructions/>}/>
+                        <Route path="subscriptions" element={<Subscriptions/>}/>
+                        <Route path="opinion" element={<Opinion/>}/>
+                        <Route path="contact-with-us" element={<ContactWithUs/>}/>
+                        <Route path="dashboard" element={<TeacherDashboard/>}/>
+                    </Route>
 
-     <Route path="*" element={<PageNotFound />} />
-    </Routes>
-   </Router>
-  </>
- );
+                    <Route path="*" element={<PageNotFound/>}/>
+                </Routes>
+            </Router>
+        </>
+    );
 }
 
 export default App;
