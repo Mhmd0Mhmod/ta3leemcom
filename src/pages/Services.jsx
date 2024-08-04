@@ -1,5 +1,5 @@
 import ServicesFeatures from "../components/ServicesFeatures";
-import img from "../../public/img_services/Group 117.svg";
+import img from "../../public/Icons/Group 117.svg";
 export default function Services() {
   return (
     <>

@@ -1,9 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import menu from "../../public/imgs/menu.svg";
-import profile from "../../public/imgs/profile.svg";
+import menu from "../../public/Icons/menu.svg";
+import profile from "../../public/Icons/profile.svg";
 import group from "../../public/Icons/group.svg";
 import Icon from "../components/ui/Icon.jsx";
-import Test from "../../public/imgs/test.svg";
+import Test from "../../public/Icons/test.svg";
 import graduted from "../../public/Icons/graduted.svg";
 import { useState, useEffect } from "react";
 import AddStudent from "../components/AddStudent.jsx";

@@ -1,10 +1,10 @@
-import exit from "../../public/imgs/exit.svg";
+import exit from "../../public/Icons/exit.svg";
 import Heading from "./ui/Heading.jsx";
 import FormInput from "./ui/FormInput.jsx";
-import profile from "../../public/imgs/profile.svg";
-import phone from "../../public/imgs/call.svg";
-import mail from "../../public/imgs/mail.svg";
-import lock from "../../public/imgs/Vector.svg";
+import profile from "../../public/Icons/profile.svg";
+import phone from "../../public/Icons/call.svg";
+import mail from "../../public/Icons/mail.svg";
+import lock from "../../public/Icons/Vector.svg";
 import Button from "./ui/Button.jsx";
 import {Link} from "react-router-dom";
 

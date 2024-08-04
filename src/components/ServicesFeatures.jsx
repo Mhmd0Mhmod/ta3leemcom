@@ -1,4 +1,4 @@
-import rect from "../../public/img_services/Rectangle 91.svg";
+import rect from "../../public/Icons/Rectangle 91.svg";
 export default function ServicesFeatures({ name, arr, isAvailable = false }) {
     return (
         <>

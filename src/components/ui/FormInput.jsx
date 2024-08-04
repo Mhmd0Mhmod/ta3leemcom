@@ -1,4 +1,4 @@
-import password from "../../../public/imgs/password.svg";
+import password from "../../../public/Icons/password.svg";
 
 function FormInput({type, name, placeholder, value, onChange, className, icon, flag ,divClassName}) {
 

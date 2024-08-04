@@ -1,6 +1,6 @@
 import Heading from "./ui/Heading.jsx";
 import Button from "./ui/Button.jsx";
-import circles from "../../public/imgs/circles1.svg";
+import circles from "../../public/Icons/circles.svg";
 
 export default function MainRegister({rightHandeSide}) {
     return (
