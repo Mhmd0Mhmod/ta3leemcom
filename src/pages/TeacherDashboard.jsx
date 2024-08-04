@@ -1,13 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 import menu from "../../public/imgs/menu.svg";
 import profile from "../../public/imgs/profile.svg";
-import group from "../../public/imgs/group.svg";
+import group from "../../public/Icons/group.svg";
 import Icon from "../components/ui/Icon.jsx";
 import Test from "../../public/imgs/test.svg";
-import graduted from "../../public/imgs/graduted.svg";
+import graduted from "../../public/Icons/graduted.svg";
 import { useState, useEffect } from "react";
 import AddStudent from "../components/AddStudent.jsx";
-import threeCirlce from "../../public/imgs/threeCirlceDashboard.svg";
+import threeCirlce from "../../public/Icons/threeCirlceDashboard.svg";
 function TeacherDashboard() {
     const [searchParams, setSearchParams] = useSearchParams();
     const activeTab = searchParams.get("tab") || "addStudent";

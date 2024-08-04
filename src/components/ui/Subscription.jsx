@@ -16,13 +16,13 @@ function Subscription({title, price, support, notSupport}) {
             <ul className={"flex flex-col p-5 gap-5 w-full"}>
                 {support?.map((el) => {
                     return <li className={"flex gap-5"}>
-                        <span className={"text-blue-400"}><img src="../../../public/imgs/true.svg"/></span>
+                        <span className={"text-blue-400"}><img src="../../../public/Icons/true.svg"/></span>
                         <p>{el}</p>
                     </li>
                 })}
                 {notSupport?.map((el) => {
                     return <li className={"flex gap-5"}>
-                        <span className={"text-blue-400"}><img src="../../../public/imgs/false.svg"/></span>
+                        <span className={"text-blue-400"}><img src="../../../public/Icons/false.svg"/></span>
                         <p>{el}</p>
                     </li>
                 })}

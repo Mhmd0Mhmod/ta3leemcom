@@ -33,7 +33,7 @@ export default function ContactWithUs() {
                     </div>
                 </div>
                 <div>
-                    <img src="../../public/imgs/contactusphoto.svg"/>
+                    <img src="../../public/Icons/contactusphoto.svg"/>
                 </div>
             </div>
         </div>

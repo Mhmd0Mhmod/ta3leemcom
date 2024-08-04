@@ -151,3 +151,17 @@ body {
 ul li.active {
   background-color: #b4d3e0;
 }
+/* src/index.css */
+::-webkit-scrollbar {
+ width: 10px;
+ background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+ background-color: rgba(0, 0, 0, 0.5); /* Dark and semi-transparent */
+ border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+ background-color: rgba(0, 0, 0, 0.7); /* Slightly darker on hover */
+}

@@ -1,6 +1,6 @@
 import Heading from "./ui/Heading.jsx";
 import FormInput from "./ui/FormInput.jsx";
-import profile from '../../public/login_imgs/profile.svg';
+import profile from '../../public/imgs/profile.svg';
 import DropList from "./ui/DropList.jsx";
 import Button from "./ui/Button.jsx";
 
