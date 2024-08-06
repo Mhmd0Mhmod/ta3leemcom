@@ -18,7 +18,7 @@ export default function Carousel({ slides }) {
     spaceBetween={30}
     effect={"fade"}
     // navigation={true}
-       autoplay={true}
+    autoplay={true}
     pagination={{
      clickable: true,
     }}
@@ -52,11 +52,18 @@ export default function Carousel({ slides }) {
        تعرف اكثر
       </Button>
      </div>
-     <img
-      src={"imgs/store.png"}
-      alt="store"
-      className="absolute left-0 bottom-0 translate-x-[50%] -translate-y-[80%] "
-     />
+     <div className="absolute left-0 bottom-14 translate-x-[50%] -translate-y-[80%]  ">
+      <div className="mb-[45px]">
+       <Button type="store" icon={"Icons/google.svg"}>
+        <p>تحميل تطبيق</p>
+        <p>ولي الأمر</p>
+       </Button>
+      </div>
+      <Button type="store" icon={"Icons/apple.svg"}>
+       <p>تحميل تطبيق</p>
+       <p>ولي الأمر</p>
+      </Button>
+     </div>
     </div>
     {slides.map((index) => (
      <SwiperSlide key={index}>

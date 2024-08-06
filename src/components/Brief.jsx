@@ -13,7 +13,10 @@ export default function Brief() {
   <>
    <div className="flex relative overflow-hidden">
     <div className="flex-1 ">
-     <img src="imgs/logo.png" alt="logo" />
+     <div className="px-14 pb-8">
+      <img src="Icons/logo.svg" alt="logo" />
+      <img src="Icons/decore.svg" alt="decore" className="mr-72" />
+     </div>
      <Heading as={"h3"} className="leading-[3]">
       منصة مصممة لتلبية احتياجات المدرسين، الطلاب، وأولياء الأمور. تهدف <br />
       إلى توفير بيئة تعليمية شاملة ومتكاملة تسهل العملية التعليمية والتواصل
