@@ -12,7 +12,11 @@ import "../../embla.css";
 import Heading from "./Heading";
 import { useEffect } from "react";
 
-export default function Testimonial({ setRef, slides, type = "primary" }) {
+export default function Testimonial({
+ setRef = () => {},
+ slides,
+ type = "primary",
+}) {
  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Fade()]);
 
  const { selectedIndex, scrollSnaps, onDotButtonClick } =
@@ -50,7 +54,7 @@ export default function Testimonial({ setRef, slides, type = "primary" }) {
         <div className=" w-full h-full p-8">
          <div>
           <div>
-           <div className="shadow-2xl rounded-xl ">
+           <div className="shadow-2xl rounded-xl d-rtl">
             <div className="relative p-8">
              <p className="text-accent-100 p-20 text-justify">
               قد كانت تجربتي مع هذه المنصة رائعة ومثمرة للغاية. كمعلم، كانت
