@@ -148,8 +148,12 @@ body {
   color: #fff;
   background: #0884a2;
 }
-ul li.active {
+.dashboard ul li.active {
   background-color: #b4d3e0;
+}
+nav ul li.active{
+    border-bottom: 4px solid #0884A2;
+    color: #0884A2;
 }
 /* src/index.css */
 ::-webkit-scrollbar {
