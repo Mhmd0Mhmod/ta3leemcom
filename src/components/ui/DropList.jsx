@@ -1,7 +1,12 @@
-// src/components/ui/DropList.jsx
-import { useState } from "react";
+import {useState} from "react";
+import PropTypes from "prop-types";
 
-function DropList({ title, options }) {
+DropList.propTypes = {
+    title: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired
+}
+
+function DropList({title, options}) {
     const [selectedOption, setSelectedOption] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
@@ -13,21 +18,21 @@ function DropList({ title, options }) {
     };
 
     return (
-        <div className="relative inline-block w-64 font-cairo">
+        <div className="relative inline-block w-64 font-almaria">
             <button
                 onClick={toggleDropdown}
-                className="w-full bg-gray-300 border border-gray-300 rounded-xl shadow px-4 text-right py-2 "
+                className="w-full bg-[#EFEFEF] border rounded-[8px] shadow px-4 py-2 text-right"
             >
                 {selectedOption || title}
-                <span className={`float-left ${isOpen? "rotate-180" : ""}`}>&#9662;</span>
+                <span className={`float-left ${isOpen ? "rotate-180" : ""}`}>&#9662;</span>
             </button>
             {isOpen && (
-                <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow mt-1">
+                <ul className="absolute z-10 w-full bg-white rounded  mt-2">
                     {options?.map((option) => (
                         <li
                             key={option}
                             onClick={() => handleOptionClick(option)}
-                            className="px-4 py-2 hover:bg-[#b4d3e0] cursor-pointer"
+                            className="px-4 py-2 hover:bg-[#b4d3e0] cursor-pointer border-b-[0.5px] boder-[#CACACA]"
                         >
                             {option}
                         </li>
