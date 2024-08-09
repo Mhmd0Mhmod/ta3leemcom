@@ -7,7 +7,7 @@ export default function Subscriptions() {
         </div>
         <div>
             <div className={"relative z-10 flex flex-col gap-10"}>
-                <h1 className={"text-center text-[48px] font-almaria-bold"}>الاشتركات</h1>
+                <h1 className={"text-center text-[46px] font-almaria-bold"}>الاشتركات</h1>
 
                 <div className={"absolute flex flex-col w-fit gap-[1rem]"}>
                     <img src="../../public/Icons/lamp.svg" alt="lamp" className={"w-[96px]"}/>
