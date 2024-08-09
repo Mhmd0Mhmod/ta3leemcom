@@ -56,7 +56,7 @@ export default function Testimonial({
           <div>
            <div className="shadow-2xl rounded-xl d-rtl">
             <div className="relative p-8">
-             <p className="text-accent-100 p-20 text-justify">
+             <p className="text-accent-100 p-20 text-justify text-[18px] ">
               قد كانت تجربتي مع هذه المنصة رائعة ومثمرة للغاية. كمعلم، كانت
               إدارة الصفوف والمجموعات الدراسية سلسة ومنظمة بشكل كبير.ميزة
               التواصل المباشر مع أولياء الأمور عبر الشات ساعدتني في الحفاظ على
@@ -78,7 +78,7 @@ export default function Testimonial({
            <div className="-mt-14">
             <div className=" shadow-xl rounded-xl ">
              <div className="pt-24 pb-10">
-              <div className="flex w-full justify-center gap-3 my-6">
+              <div className="flex w-full justify-center gap-3 my-3">
                {[1, 2, 3, 4, 5].map((index) => (
                 <svg
                  key={index}
@@ -114,16 +114,16 @@ export default function Testimonial({
                 </button>
                )}
               </div>
-              <Heading as={"h5"} className={"text-gray-600 my-4"}>
+              <Heading as={"h5"} className={"text-gray-600 my-2"}>
                مهندس
               </Heading>
               {type === "sec" && (
-               <div className="flex gap-3 items-center justify-center mt-12">
+               <div className="flex gap-3 items-center justify-center mt-3">
                 {scrollSnaps.map((_, index) => (
                  <DotButton
                   key={index}
                   onClick={() => onDotButtonClick(index)}
-                  className={"embla__dot ".concat(
+                  className={" embla__dot ".concat(
                    index === selectedIndex
                     ? "transition-all duration-300 embla__dot--selected "
                     : ""

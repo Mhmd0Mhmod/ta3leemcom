@@ -5,7 +5,7 @@ export default function Button({
  icon = false,
  circle = false,
 }) {
- let style = `rounded-[15px] font-almaria-light px-[39px]  text-2xl min-w-[209px] min-h-[86px] border border-primary ${className}`;
+ let style = `rounded-[15px] font-almaria px-[39px]  text-2xl min-w-[209px] min-h-[86px] border border-primary ${className}`;
  if (type === "primary") {
   if (icon) {
    return (

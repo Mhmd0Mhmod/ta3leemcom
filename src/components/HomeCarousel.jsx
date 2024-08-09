@@ -25,10 +25,10 @@ export default function Carousel({ slides }) {
     modules={[EffectFade, Pagination, Autoplay]}
     className="mySwiper "
    >
-    <div className="absolute top-0 z-10  h-full w-full mt-[10%] mx-16">
+    <div className="absolute top-0 z-10  h-full w-full mt-[5%] mx-16">
      <span>
-      <Heading as={"h1"} className={"text-white font-almaria-bold leading-[3]"}>
-       <span className="text-6xl font-almaria-bold text-secondary ml-2">
+      <Heading as={"h1"} className={"text-white font-almaria-bold leading-[2] text-[64px] "}>
+       <span className="font-almaria-extrabold text-secondary ml-2 text-[96px]">
         مرحباً بكم
        </span>{" "}
        في منصتكم <br />
@@ -36,18 +36,18 @@ export default function Carousel({ slides }) {
       </Heading>
      </span>
      <span>
-      <Heading as={"h4"} className={"text-white font-almaria-bold leading-[3]"}>
-       <span className="font-almaria-light text-accent-50">
+      <Heading as={"h4"} className={"text-white font-almaria-bold leading-[3] mt-10"}>
+       <span className="font-almaria-light text-accent-50 text-[32px] leading-[2] ">
         انضموا إلينا واستمتعوا بتعليم افضل وإدارة اسهل
         <br /> للدروس الخصوصية
        </span>
       </Heading>
      </span>
-     <div className="flex gap-12 mt-[5%] ">
-      <Button>انضم الينا</Button>
+     <div className="flex gap-12 mt-[8%] ">
+      <Button className={"text-3xl "}>انضم الينا</Button>
       <Button
        type="outline"
-       className={" border-white text-white hover:bg-transparent"}
+       className={"text-3xl  border-white text-white hover:bg-transparent"}
       >
        تعرف اكثر
       </Button>

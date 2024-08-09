@@ -9,7 +9,7 @@ export default function DownloadApp() {
      <Heading as={"h1"} className={"font-almaria-bold"}>
       حمل تطبيق ولي الأمر الآن
      </Heading>
-     <Heading as={"h4"} className={"font-almaria-light mt-12 mb-24"}>
+     <Heading as={"h4"} className={"font-almaria mt-12 mb-24 text-[#605E5E]"}>
       تابع أداء وتقدم ابنك الدراسي بكل سهولة.
      </Heading>
      <div className="flex gap-[45px]">

@@ -60,7 +60,7 @@ const EmblaCarousel = ({ slides, options }) => {
       ))}
      </div>
     </div>
-    <Button type="normal" className={"mt-8"}>
+    <Button type="normal" className={"mt-8 font-almaria-bold px-[0.9rem] py-[0.4rem] min-h-[fit-content] min-w-fit text-[20px] bg-[#B4D3E01A]"}>
      عرض التفاصيل
     </Button>
     <div className="embla__controls w-full flex   justify-end mt-0">
