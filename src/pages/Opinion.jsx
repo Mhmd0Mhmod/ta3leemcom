@@ -43,7 +43,7 @@ export default function Opinion() {
     </div>
     <div className="col-span-1"></div>
     <div className="col-span-6 ">
-     <Testimonial />
+     <Testimonial type="sec" />
     </div>
    </div>
   </div>
