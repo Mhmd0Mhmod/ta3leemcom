@@ -7,21 +7,17 @@ import gRect from "../assets/about_imgs/Rectangle 110.svg";
 
 export default function About() {
   return (
-    <div className="bg-white mx-4 font-cairo ">
-      <div className="absolute w-[180px] top-[40px]">
-        <img src="../../public/Icons/Ellipse 89.svg" alt="Ellipse"/>
-      </div>
-      <div className="flex">
-        <h2
-          className="w-[170px]  flex items-center justify-center z-10 text-[2rem] text-white font-cairo-bold mt-[0.813rem] "
-        >
-          من نحن
-        </h2>
-        <div
-          className="flex items-center pr-8 pl-4 w-fit text-[20px] leading-[50px] rounded-[15px] h-[180px]"
-          style={{ backgroundColor: `#F5F7F9` }}
-        >
-          <div>
+    <div className="font-cairo mt-4 flex flex-col gap-20">
+      <div className=" relative  w-fit text-[20px] leading-[50px] right-7 rounded-[15px] px-8 py-4  bg-[#F5F7F9]   ">
+            <div className="absolute w-[180px] rounded-full  -right-9 -top-3">
+                <img src="../../public/Icons/Ellipse 89.svg" alt="Ellipse" className={"w-full"}/>
+                <h2
+                    className="w-[100%] text-center z-10 text-[2rem] text-white font-cairo-bold absolute top-1/2 transform -translate-y-1/2"
+                >
+                    من نحن
+                </h2>
+            </div>
+        <div className={"pr-[9rem]"}>
             <p>
               تعليم كوم هي منصة تعليمية إلكترونية مبتكرة ومتكاملة تهدف إلى تحسين
               تجربة التعلم والتعليم لكل من الطلاب والمدرسين وأولياء الأمور.
@@ -31,7 +27,6 @@ export default function About() {
               إلى الأدوات والموارد التي يحتاجونها لتحقيق أفضل النتائج للدروس
               الخصوصية.
             </p>
-          </div>
         </div>
       </div>
 
@@ -39,7 +34,7 @@ export default function About() {
 
 
 
-      
+
       <div className="grid grid-cols-3">
         <AboutFetures
           rect={rect}
@@ -64,11 +59,11 @@ export default function About() {
           icon={park}
           header={"القيم"}
           grayRect={gRect}
-    
-          
+
+
           list={
               {
-                
+
                 "الابتكار" : " نسعى دائمًا لتقديم حلول تعليمية مبتكرة تواكب التطورات التكنولوجية." ,
                 "الجودة"  : "نلتزم بتقديم خدمات تعليمية عالية الجودة وأدوات تعليمية متطورة، مع التركيز على تحقيق أفضل نتائج ممكنة للطلاب.",
                 "الشفافية": " نؤمن بأهمية الشفافية في جميع تعاملاتنا، ونحرص على بناء علاقات قائمة على الثقة والمصداقية مع المعلمين والطلاب وأولياء الأمور."
