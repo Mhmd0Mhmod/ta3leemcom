@@ -6,6 +6,7 @@ export default function Button({
  circle = false,
 }) {
  let style = `rounded-[15px] font-almaria px-[39px]  text-2xl min-w-[209px] min-h-[86px] border border-primary ${className}`;
+
  if (type === "primary") {
   if (icon) {
    return (
@@ -29,7 +30,7 @@ export default function Button({
   );
  }
  if (type === "ghost") {
-  return <button className={` text-primary ${style}`}>{children}</button>;
+  return <button className={` text-primary ${style} `}>{children}</button>;
  }
  if (type === "normal") {
   return (

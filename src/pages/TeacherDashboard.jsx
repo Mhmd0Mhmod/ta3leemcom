@@ -24,7 +24,7 @@ function TeacherDashboard() {
     };
 
     return (
-        <div className={"flex gap-5 font-cairo"}>
+        <div className={"flex gap-5 font-cairo dashboard"}>
             <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-1/6" : "w-fit"} self-start`}>
                 <div className={"flex justify-end"}>
                     <Icon src={menu} className={`w-9 ${opened ? "" : "rotate-180"}`} onClick={() => setOpened((open) => !open)} />
