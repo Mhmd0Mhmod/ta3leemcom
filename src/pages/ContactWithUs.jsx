@@ -1,34 +1,36 @@
 import Button from "../components/ui/Button.jsx";
+import Heading from "../components/ui/Heading.jsx";
 
 export default function ContactWithUs() {
-    return (
-        <div className={"flex flex-col justify-evenly gap-32"}>
-            <h1 className={"font-almaria-bold text-4xl text-center"}>تواصل معنا</h1>
-            <p className={"font-almaria-bold text-2xl text-cyan-600"}>نحن هنا للمساعدة، تواصل معنا</p>
-            <div className={"grid grid-cols-2 justify-items-center"}>
+    const inputStyle = "h-12 p-2 border-[1px] border-[#0884A24D] bg-[#0884A21A]  rounded-md ";
+    const labelStyle = "flex flex-col gap-2 flex-grow text-[#6D757D] text-[20px]";
 
+    return (
+        <div className={"font-almaria-bold"}>
+            <Heading as={"h1"} className={" text-center text-[46px]"}>تواصل معنا</Heading>
+            <p className={" text-[26px]  text-[#0884A2] my-16"}>نحن هنا للمساعدة، تواصل معنا</p>
+            <div className={"grid grid-cols-2 items-center justify-items-center"}>
                 <div className={"flex flex-col gap-5 w-full"}>
                     <div className={"flex gap-5"}>
-
-                        <label className={"flex flex-col w-full gap-2 font-almaria-bold"}>
+                        <label className={labelStyle}>
                             الاسم
-                            <input type="text" className={"border-2 border-blue-200 bg-blue-100 p-2 rounded-md"}/>
+                            <input type="text" className={inputStyle}/>
                         </label>
-                        <label className={"flex flex-col gap-2 w-full font-almaria-bold"}>
+                        <label className={labelStyle}>
                             البريد الالكتروني
-                            <input type="email" className={"border-2 border-blue-200 bg-blue-100 p-2 rounded-md"}/>
+                            <input type="email" className={inputStyle}/>
                         </label>
                     </div>
-                    <label className={"flex flex-col gap-2 font-almaria-bold"}>
+                    <label className={labelStyle}>
                         الموضوع
-                        <input type="text" className={"border-2 border-blue-200 bg-blue-100 p-2 rounded-md"}/>
+                        <input type="text" className={inputStyle}/>
                     </label>
-                    <label className={"flex flex-col gap-2 font-almaria-bold"}>
+                    <label className={labelStyle}>
                         الرسالة
-                        <textarea className={"border-2 border-blue-200 bg-blue-100 p-2 rounded-md"}/>
+                        <textarea className={inputStyle + "h-40 resize-none"}/>
                     </label>
                     <div className={"self-center"}>
-                        <Button type={"primary"} icon={<img src="../../public/imgs/sendmessaage.png" />}
+                        <Button type={"primary"} icon={<img src="../../public/Icons/sendmessaage.svg" className={"w-full"}/>} iconStyle={"w-[35px]"}
                                 className={"justify-center flex-row-reverse items-center"}> إرسال الرسالة </Button>
                     </div>
                 </div>

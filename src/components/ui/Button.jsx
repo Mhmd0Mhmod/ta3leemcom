@@ -3,6 +3,7 @@ export default function Button({
  type = "primary",
  className,
  icon = false,
+    iconStyle,
  circle = false,
 }) {
  let style = `rounded-[15px] font-almaria px-[39px]  text-2xl min-w-[209px] min-h-[86px] border border-primary ${className}`;
@@ -10,8 +11,8 @@ export default function Button({
  if (type === "primary") {
   if (icon) {
    return (
-    <button className={` bg-primary text-white flex px-2 gap-1  ${style}`}>
-     <span>{icon}</span>
+    <button className={` bg-primary text-white flex px-2 gap-1 ${style}`}>
+     <span className={iconStyle}>{icon}</span>
      <span>{children}</span>
     </button>
    );
