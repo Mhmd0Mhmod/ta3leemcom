@@ -7,16 +7,18 @@ import gRect from "../assets/about_imgs/Rectangle 110.svg";
 
 export default function About() {
   return (
-    <div className="bg-white mx-4 font-cairo">
+    <div className="bg-white mx-4 font-cairo ">
+      <div className="absolute w-[180px] top-[40px]">
+        <img src="../../public/Icons/Ellipse 89.svg" alt="Ellipse"/>
+      </div>
       <div className="flex">
         <h2
-          className="w-40 h-36 flex items-center justify-center text-2xl text-white rounded-full font-almaria-bold"
-          style={{ backgroundColor: `#0884A2` }}
+          className="w-[170px]  flex items-center justify-center z-10 text-[2rem] text-white font-cairo-bold mt-[0.813rem] "
         >
           من نحن
         </h2>
         <div
-          className="flex items-center p-8 w-full text-xl"
+          className="flex items-center pr-8 pl-4 w-fit text-[20px] leading-[50px] rounded-[15px] h-[180px]"
           style={{ backgroundColor: `#F5F7F9` }}
         >
           <div>
@@ -32,6 +34,12 @@ export default function About() {
           </div>
         </div>
       </div>
+
+
+
+
+
+      
       <div className="grid grid-cols-3">
         <AboutFetures
           rect={rect}
