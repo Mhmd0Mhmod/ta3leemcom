@@ -8,9 +8,9 @@ export default function InstructionItem({ title, desc, icon }) {
    <div className="bg-primary w-fit p-2 rounded-full">
     <span>{icon}</span>
    </div>
-   <div className="font-almaria-light flex flex-col justify-between px-12">
+   <div className="font-almaria flex flex-col gap-2 justify-between px-12">
        <Heading as={"h5"} className="text-primary">{title}</Heading>
-    <p className="text-sm">{desc}</p>
+    <p className="text-sm font-almaria-light">{desc}</p>
    </div>
   </div>
  );
