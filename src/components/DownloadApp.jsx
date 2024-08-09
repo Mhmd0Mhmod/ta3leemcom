@@ -1,3 +1,4 @@
+import Button from "./ui/Button";
 import Heading from "./ui/Heading";
 
 export default function DownloadApp() {
@@ -8,13 +9,22 @@ export default function DownloadApp() {
      <Heading as={"h1"} className={"font-almaria-bold"}>
       حمل تطبيق ولي الأمر الآن
      </Heading>
-     <Heading as={"h4"} className={"font-almaria-light mt-12 mb-24"}>
+     <Heading as={"h4"} className={"font-almaria mt-12 mb-24 text-[#605E5E]"}>
       تابع أداء وتقدم ابنك الدراسي بكل سهولة.
      </Heading>
-     <img src="imgs/store2.png" alt="store" />
+     <div className="flex gap-[45px]">
+      <Button type="store" icon="Icons/google.svg">
+       <p>قم بالتنزيل من </p>
+       <p>جوجل بلاي</p>
+      </Button>
+      <Button type="store" icon="Icons/apple.svg">
+       <p>قم بالتنزيل من </p>
+       <p>متجر ابل</p>
+      </Button>
+     </div>
     </div>
     <div className="col-span-3">
-     <img src="imgs/mobiles.png" alt="" />
+     <img src="imgs/mobiles.svg" alt="" />
     </div>
    </div>
   </div>

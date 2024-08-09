@@ -19,8 +19,8 @@ function App() {
             <Router>
                 <Routes>
                     <Route element={<AppLayout/>}>
-                        <Route path="home" element={<Home/>}/>
                         <Route index element={<Navigate replace to="home"/>}/>
+                        <Route path="home" element={<Home/>}/>
                         <Route path="about" element={<About/>}/>
                         <Route path={"signup"} element={<MainRegister rightHandeSide={<SingUpForm/>}/>}/>
                         <Route path="services" element={<Services/>}/>

@@ -5,7 +5,7 @@ function Subscription({title, price, support, notSupport}) {
         <div className={"border-2 rounded-lg p-3 flex flex-col items-center gap-5 "}>
             <div className={"flex justify-between p-5 font-almaria-bold bg-gray-300 rounded-lg w-full"}>
                 <h1 className={"text-2xl"}>{title}</h1>
-                <p className={"text-2xl w-24"}><span className={"text-blue-400 "}> {price} جنيه </span> / شهريا</p>
+                <p className={"text-2xl w-24"}><span className={"text-[#0884A2] "}> {price} جنيه </span> / شهريا</p>
             </div>
             <div className={"w-full relative"}>
                 <hr/>
