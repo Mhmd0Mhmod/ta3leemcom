@@ -23,7 +23,7 @@ export default function Header() {
                 </ul>
             </div>
             <div className={"flex items-center gap-[10px]"}>
-                <Button type={"ghost"} className={"border-0"}>تسجيل الدخول</Button>
+                <Button type={"ghost"} className={"border-0 "}>تسجيل الدخول</Button>
                 <Button type={"primary"} className={"flex items-center gap-2"}>
                     انضم إلينا
                     <Icon src={'../../public/Icons/leftArrow.svg'} className={"w-7"} />

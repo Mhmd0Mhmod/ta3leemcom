@@ -5,7 +5,7 @@ export default function Button({
  icon = false,
  circle = false,
 }) {
- let style = `rounded-lg font-almaria-light px-6 py-2 text-2xl min-w-40 border border-primary ${className}`;
+ let style = `rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria`;
  if (type === "primary") {
   if (icon) {
    return (
@@ -29,7 +29,7 @@ export default function Button({
   );
  }
  if (type === "ghost") {
-  return <button className={` text-primary ${style}`}>{children}</button>;
+  return <button className={` text-primary ${style} `}>{children}</button>;
  }
  if (type === "normal") {
   return (
