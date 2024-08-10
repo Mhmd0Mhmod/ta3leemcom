@@ -6,10 +6,10 @@ import Button from "./ui/Button.jsx";
 
 function AddStudent() {
     return (
-        <>
-            <Heading as={"h1"} className={"text-center"}>بيانات الطالب</Heading>
+        <div className={"font-almaria"}>
+            <Heading as={"h1"} className={"text-center  font-almaria-bold"}>بيانات الطالب</Heading>
             <div className={"flex gap-10 flex-col mt-10 font-cairo-bold"}>
-                <Heading as={"h4"}>الاسم الرباعي</Heading>
+                <Heading as={"h4"} className={"text-[24px]"}>الإسم رباعي</Heading>
                 <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={profile}
                            divClassName={'bg-white w-3/4 justify-around'}/>
                 <div className={"grid grid-cols-3"}>
@@ -26,9 +26,9 @@ function AddStudent() {
                         <DropList title={"اختر المجموعة"} options={["الابتدائيه", "الاعداديه", "الثانويه"]}/>
                     </div>
                 </div>
-                <Button type={"outline"} className={"w-1/4 mt-40 self-center"}>اضافة</Button>
+                <Button type={"outline"} className={"w-fit mt-40 self-center"}>اضافة</Button>
             </div>
-        </>
+        </div>
     );
 }
 

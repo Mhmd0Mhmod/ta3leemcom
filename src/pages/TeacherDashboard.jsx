@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import menu from "../../public/Icons/menu.svg";
-import profile from "../../public/Icons/profile.svg";
+import profile from "../../public/Icons/blackProfile.svg";
 import group from "../../public/Icons/group.svg";
 import Icon from "../components/ui/Icon.jsx";
 import Test from "../../public/Icons/test.svg";
@@ -24,8 +24,8 @@ function TeacherDashboard() {
     };
 
     return (
-        <div className={"flex gap-5 font-cairo dashboard"}>
-            <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-1/6" : "w-fit"} self-start`}>
+        <div className={"flex gap-5 font-cairo"}>
+            <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"}  self-start`}>
                 <div className={"flex justify-end"}>
                     <Icon src={menu} className={`w-9 ${opened ? "" : "rotate-180"}`} onClick={() => setOpened((open) => !open)} />
                 </div>
@@ -52,7 +52,7 @@ function TeacherDashboard() {
                     </li>
                 </ul>
             </div>
-            <div className={"w-1 self-stretch bg-gray-100"}></div>
+            <div className={"w-[1px] self-stretch bg-gray-100"}></div>
             <div className={"p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
                 <div className={"w-32    absolute top-0 left-0"}>
                     <img src={threeCirlce} alt={"threeCirlce"} />
