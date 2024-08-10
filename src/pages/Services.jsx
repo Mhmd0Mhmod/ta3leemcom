@@ -1,16 +1,20 @@
 import ServicesFeatures from "../components/ServicesFeatures";
 import img from "../../public/Icons/Group 117.svg";
+import circle from "../../public/Icons/Ellipse 90.svg";
 export default function Services() {
   return (
     <>
       <div className="relative">
-        <h2 className="text-center text-4xl font-almaria-bold mt-10">الخدمات</h2>
-        <div className="absolute left-10 top-0">
+        <h2 className="text-center text-[46px] font-cairo font-cairo-bold ">الخدمات</h2>
+        <div className="absolute left-0 top-0">
           <img src={img} alt="" />
         </div>
         {/* معلم */}
         <div className="border-b-2 p-4 mx-6">
-          <h2 className="text-3xl font-almaria-bold mt-8">معلم</h2>
+          <div className="flex relative">
+            <img src={circle} alt=""  className="absolute top-10 -right-5"/>
+            <h2 className="text-[2.5rem] font-cairo-bold mt-8 z-10">معلم</h2>
+          </div>
 
           <div className="grid grid-cols-2">
             <ServicesFeatures
@@ -63,8 +67,10 @@ export default function Services() {
 
         {/* طالب */}
         <div className="border-b-2 p-4 mx-6">
-          <h2 className="text-3xl font-almaria-bold mt-8">طالب</h2>
-
+          <div className="flex relative">
+            <img src={circle} alt="" className="absolute top-10 -right-5"/>
+              <h2 className="text-[2.5rem] font-cairo-bold mt-8 z-10">طالب</h2>
+          </div>
           <div className="grid grid-cols-2">
             <ServicesFeatures
               name={"متابعة شاملة"}
@@ -79,7 +85,10 @@ export default function Services() {
 
         {/* ولي الامر */}
         <div className="p-4 mx-6">
-          <h2 className="text-3xl font-almaria-bold mt-8">ولي الأمر </h2>
+          <div className="flex relative">
+            <img src={circle} alt="" className="absolute top-10 -right-5"/>
+            <h2 className="text-[2.5rem] font-cairo-bold mt-8 z-10">ولي الامر</h2>
+          </div>
 
           <div className="grid grid-cols-2">
             <ServicesFeatures
@@ -91,8 +100,8 @@ export default function Services() {
               arr={["تواصل مع المدرسين عبر التطبيق لمتابعة تقدم الأبناء"]}
             />
           </div>
+          </div>
         </div>
-      </div>
     </>
   );
 }

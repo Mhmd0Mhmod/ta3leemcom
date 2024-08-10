@@ -3,14 +3,18 @@ export default function Button({
  type = "primary",
  className,
  icon = false,
+    iconStyle,
  circle = false,
 }) {
- let style = `rounded-lg font-almaria-light px-6 py-2 text-2xl min-w-40 border border-primary ${className}`;
+
+    let style=`rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria `;
+
+
  if (type === "primary") {
   if (icon) {
    return (
     <button className={` bg-primary text-white flex px-2 gap-1 ${style}`}>
-     <span>{icon}</span>
+     <span className={iconStyle}>{icon}</span>
      <span>{children}</span>
     </button>
    );
@@ -29,7 +33,7 @@ export default function Button({
   );
  }
  if (type === "ghost") {
-  return <button className={` text-primary ${style}`}>{children}</button>;
+  return <button className={` text-primary ${style} `}>{children}</button>;
  }
  if (type === "normal") {
   return (
@@ -39,6 +43,16 @@ export default function Button({
     } ${style} font-almaria `}
    >
     {children}
+   </button>
+  );
+ }
+ if (type === "store") {
+  return (
+   <button
+    className={` bg-[#F4F4F4] flex rounded-[7px] border-[1px] border-[#CCCCCC] items-center justify-center gap-12 py-[14px] px-[10px] shadow-xl w-[239px] h-[83px] font-cairo text-[15px]  `}
+   >
+    <span>{children}</span>
+    <img src={icon} alt="" />
    </button>
   );
  }

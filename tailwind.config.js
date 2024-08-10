@@ -2,6 +2,17 @@
 export default {
  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
  theme: {
+  container: {
+   center: true,
+   padding: "0",
+   screens: {
+    sm: "100%",
+    md: "100%",
+    lg: "100%",
+    xl: "100%",
+    "2xl": "1862px",
+   },
+  },
   extend: {
    fontFamily: {
     almaria: ["Almarai-Regular", "sans-serif"], // Add your custom font here
@@ -24,20 +35,11 @@ export default {
      400: "#908C91",
      500: "#FAFBFC",
      600: "#ECECEC",
+     700: "#525252",
     },
    },
    backgroundImage: {
     "sign-up&login": "url('/Icons/Bg.svg')",
-   },
-   container: {
-    center: true,
-    padding: "2rem",
-    screens: {
-     sm: "100%",
-     md: "100%",
-     lg: "100%",
-     xl: "1862px",
-    },
    },
   },
  },
