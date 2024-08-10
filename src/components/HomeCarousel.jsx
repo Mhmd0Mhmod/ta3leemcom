@@ -44,10 +44,10 @@ export default function Carousel({ slides }) {
       </Heading>
      </span>
      <div className="flex gap-12 mt-[8%] ">
-      <Button className={"text-3xl "}>انضم الينا</Button>
+      <Button className={"text-3xl rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"}>انضم الينا</Button>
       <Button
        type="outline"
-       className={"text-3xl  border-white text-white hover:bg-transparent"}
+       className={"text-3xl  border-white text-white hover:bg-transparent rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"}
       >
        تعرف اكثر
       </Button>

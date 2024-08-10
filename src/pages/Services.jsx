@@ -5,8 +5,8 @@ export default function Services() {
   return (
     <>
       <div className="relative">
-        <h2 className="text-center text-[3rem] font-cairo font-cairo-extrabold mt-10">الخدمات</h2>
-        <div className="absolute -left-10 top-0">
+        <h2 className="text-center text-[46px] font-cairo font-cairo-bold ">الخدمات</h2>
+        <div className="absolute left-0 top-0">
           <img src={img} alt="" />
         </div>
         {/* معلم */}

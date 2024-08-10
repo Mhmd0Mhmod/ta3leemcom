@@ -9,7 +9,7 @@ export default function Instructions() {
    <div className="relative">
     <Heading
      as={"h1"}
-     className="font-almaria-bold text-4xl text-center pt-14 pb-10"
+     className="font-almaria-bold text-[46px] text-center pb-10 pt-2"
     >
      تعليمات
     </Heading>

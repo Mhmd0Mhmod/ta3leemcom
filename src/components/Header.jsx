@@ -9,7 +9,7 @@ export default function Header() {
     const currentPath = location.pathname;
 
     return (
-        <nav className={"flex justify-between font-almaria "}>
+        <nav className={"relative flex justify-between font-almaria ml-10 my-3"}>
             <div className={"flex"}>
                 <img src={logo} alt={"Icon"} />
                 <ul className={"w-[922px] flex items-center justify-between gap-[12px] text-[32px]"}>
