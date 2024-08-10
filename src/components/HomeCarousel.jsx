@@ -23,7 +23,7 @@ export default function Carousel({ slides }) {
      clickable: true,
     }}
     modules={[EffectFade, Pagination, Autoplay]}
-    className="mySwiper "
+    className="mySwiper"
    >
     <div className="absolute top-0 z-10  h-full w-full mt-[5%] mx-16">
      <span>

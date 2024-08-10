@@ -29,7 +29,9 @@ export default function Home() {
  return (
   <>
    {/* <Outlet /> */}
-   {/* <Header /> */}
+   <div className="container mx-auto">
+    <Header />
+   </div>
    <div className="container mx-auto mb-8">
     <Carousel slides={images} />
     <Brief />
