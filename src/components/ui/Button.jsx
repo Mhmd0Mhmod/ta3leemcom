@@ -37,7 +37,7 @@ export default function Button({
   return (
    <button
     onClick={onClick}
-    className={` border border-[#0562CF] text-[#0462CF] hover:bg-[#0462CF] hover:text-white transition-all duration-500 ${style}`}
+    className={` transition-all duration-500 rounded-lg  px-6 py-2 text-2xl min-w-40 ${className}`}
    >
     {children}
    </button>

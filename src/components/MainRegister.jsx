@@ -45,17 +45,17 @@ export default function MainRegister() {
                             <p className="w-[15.625rem] text-[#A6A6A6]">يرجى اختيار نوع الحساب الذي ترغب في تسجيل الدخول به</p>
                         </div>
 
-                        <div className="flex items-center content-center h-full m-auto">
-                            <div className="flex flex-col gap-20">
+                        <div className="flex items-center content-center h-full  w-full">
+                            <div className="flex flex-col gap-20 m-auto w-[70%] ">
                                 <div>
-                                    <Button className={"w-[16rem] h-[3.75rem]"} type={"outlineSecondary"} onClick={(e) => {
+                                    <Button className={"rounded w-full py-3 border border-[#0562CF] text-[#0462CF] hover:bg-[#0462CF] hover:text-white"} type={"outlineSecondary"} onClick={(e) => {
                                         e.preventDefault();
                                         handleButtonClick("student")
                                     }}>طالب</Button>
                                 </div>
                                 
                                 <div>
-                                    <Button className={"w-[16rem] h-[3.75rem]"} type={"outlineSecondary"} onClick={() => handleButtonClick("teacher")}>معلم</Button>
+                                    <Button className={"w-full py-3 border border-[#0562CF] text-[#0462CF] hover:bg-[#0462CF] hover:text-white"} type={"outlineSecondary"} onClick={() => handleButtonClick("teacher")}>معلم</Button>
                                 </div>
                             </div>
                         </div>
