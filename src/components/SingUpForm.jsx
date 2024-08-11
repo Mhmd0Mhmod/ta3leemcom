@@ -6,13 +6,18 @@ import phone from "../../public/Icons/call.svg";
 import mail from "../../public/Icons/mail.svg";
 import lock from "../../public/Icons/Vector.svg";
 import Button from "./ui/Button.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 
 function SingUpForm() {
+    const navigate = useNavigate();
+    const [searchParams,setSearchParams]=useSearchParams();
     return (
-        <form className={"p-9 flex flex-col font-almaria" }>
+        <form className={"p-9 flex flex-col font-almaria"}>
             <div>
-                <img src={exit} alt={"exitIcon"} className={"cursor-pointer"}/>
+                <img src={exit} alt={"exitIcon"} className={"cursor-pointer"} onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/");
+                }}/>
             </div>
             <Heading as={"h1"} className={"font-almaria-bold text-3xl text-black text-center"}>
                 انشئ حسابك

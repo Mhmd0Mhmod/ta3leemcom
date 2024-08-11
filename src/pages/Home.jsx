@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import { usePrevNextButtons } from "../components/EmblaCarouselArrowButtons";
+import MainRegister from "../components/MainRegister.jsx";
 
 // const slides = [
 //     "https://via.placeholder.com/800x400?text=Slide+1",
@@ -28,6 +29,7 @@ export default function Home() {
 
  return (
   <>
+   <MainRegister/>
    {/* <Outlet /> */}
    <div className="container mx-auto">
     <Header />

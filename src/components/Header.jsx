@@ -7,22 +7,13 @@ import { useState } from "react";
 export default function Header() {
     const location = useLocation();
     const currentPath = location.pathname;
-
-    const [searchParam, setSearchParam] = useSearchParams()
-    const [login,setLogin] = useState(false)
-    const [signUp,setSignUp] = useState(false)
-    const mainRegisteration = searchParam.get("mr")
-    function handleRegisteration(){
-        
-    }
+    const [searchParam, setSearchParam] = useSearchParams();
 
 
 
     return (
-        
+
         <>
-            {login && <MainRegister/>}
-            {signUp && <MainRegister/>}
             <nav className={"relative flex justify-between font-almaria ml-10 my-3"}>
                 <div className={"flex"}>
                     <img src={logo} alt={"Icon"} />
@@ -37,8 +28,8 @@ export default function Header() {
                     </ul>
                 </div>
                 <div className={"flex items-center gap-[10px]"}>
-                    <Button type={"ghost"} className={"border-0 "}>تسجيل الدخول</Button>
-                    <Button type={"primary"} className={"flex items-center gap-2"}>
+                    <Button type={"ghost"} className={"border-0 "} onClick={()=>setSearchParam({mr:"login"})}>تسجيل الدخول</Button>
+                    <Button type={"primary"} className={"flex items-center gap-2"} onClick={()=>setSearchParam({mr:"signUp"})}>
                         انضم إلينا
                         <Icon src={'../../public/Icons/leftArrow.svg'} className={"w-7"} />
                     </Button>
