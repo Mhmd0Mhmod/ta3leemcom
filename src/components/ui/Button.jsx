@@ -33,6 +33,26 @@ export default function Button({
    </button>
   );
  }
+ if (type === "outlineSecondary") {
+  return (
+   <button
+    onClick={onClick}
+    className={` border border-[#0562CF] text-[#0462CF] hover:bg-[#0462CF] hover:text-white transition-all duration-500 ${style}`}
+   >
+    {children}
+   </button>
+  );
+ }
+ if (type === "Secondary") {
+  return (
+   <button
+    onClick={onClick}
+    className={`border-0 bg-[#0462CF] text-white ${style}`}
+   >
+    {children}
+   </button>
+  );
+ }
  if (type === "ghost") {
   return <button onClick={onClick} className={` text-primary ${style} `}>{children}</button>;
  }

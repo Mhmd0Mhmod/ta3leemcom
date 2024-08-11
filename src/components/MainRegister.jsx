@@ -1,12 +1,11 @@
 import Heading from "./ui/Heading.jsx";
 import Button from "./ui/Button.jsx";
 import circles from "../../public/Icons/circles1.svg";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import SingUpForm from "./SingUpForm.jsx";
 import exit from "../../public/Icons/exit.svg";
 import StudentLoginForm from "./StudentLoginForm.jsx";
 import TeacherLoginForm from "./TeacherLoginForm.jsx";
-
 export default function MainRegister() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -29,7 +28,7 @@ export default function MainRegister() {
                     }
                 }}>
                 {/* Right Form */}
-                <div className={"grid grid-cols-2 bg-white  w-1/2 rounded-3xl"}>
+                <div className={"grid grid-cols-2 bg-white  w-1/2 rounded-3xl h-[45.908rem] "}>
                     {formType === "login" && !loginType && <div className={"p-9 flex flex-col font-almaria"}>
                         <div>
                             <img src={exit} alt={"exitIcon"} className={"cursor-pointer"} onClick={(e) => {
@@ -38,16 +37,34 @@ export default function MainRegister() {
                             }}/>
                         </div>
 
-                        <Button type={"normal"} onClick={(e) => {
-                            e.preventDefault();
-                            handleButtonClick("student")
-                        }}>طالب</Button>
-                        <Button type={"normal"} onClick={() => handleButtonClick("teacher")}>معلم</Button>
+                        <div className="ms-[1.875rem] flex flex-col gap-[1.875rem]"> 
+                            <div className="flex mt-8">
+                                <h2 className="text-4xl font-almaria-bold">مرحبا بك   </h2>
+                                {/* <img src={hi} alt="Hi" /> */}
+                            </div>
+                            <p className="w-[15.625rem] text-[#A6A6A6]">يرجى اختيار نوع الحساب الذي ترغب في تسجيل الدخول به</p>
+                        </div>
+
+                        <div className="flex items-center content-center h-full m-auto">
+                            <div className="flex flex-col gap-20">
+                                <div>
+                                    <Button className={"w-[16rem] h-[3.75rem]"} type={"outlineSecondary"} onClick={(e) => {
+                                        e.preventDefault();
+                                        handleButtonClick("student")
+                                    }}>طالب</Button>
+                                </div>
+                                
+                                <div>
+                                    <Button className={"w-[16rem] h-[3.75rem]"} type={"outlineSecondary"} onClick={() => handleButtonClick("teacher")}>معلم</Button>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>}
                     {formType === "login" && loginType === "student" && <StudentLoginForm/>}
                     {formType === "login" && loginType === "teacher" && <TeacherLoginForm/>}
                     {formType === "signUp" && <SingUpForm/>}
+                    
                     {/*Left constant Content  */}
                     <div
                         className={"bg-sign-up&login w-full h-full bg-cover bg-center rounded-3xl flex justify-center items-center relative "}>

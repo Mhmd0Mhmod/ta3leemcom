@@ -42,8 +42,8 @@ function SingUpForm() {
             <Heading as={"h4"} className={"text-secondary my-4"}>
                 البريد الالكتروني
             </Heading>
-            <FormInput type={"email"} name={"email"} placeholder={"البريد الالكتروني"} icon={mail}
-                       className={'w-full'}/>
+            <FormInput type={"email"} name={"email"} placeholder={"example@example.com"} icon={mail}
+                       className={'w-full text-end'}/>
             <Heading as={"h4"} className={"text-secondary my-4"}>
                 كلمة المرور
             </Heading>
