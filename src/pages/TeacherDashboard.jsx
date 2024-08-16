@@ -10,6 +10,7 @@ import AddStudent from "../components/AddStudent.jsx";
 import meeting from "../../public/Icons/meeting.svg";
 import threeCirlce from "../../public/Icons/threeCirlceDashboard.svg";
 import Details from "../components/ui/Details.jsx";
+import AddGroup from "../components/AddGroup.jsx";
 
 function TeacherDashboard() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -45,7 +46,7 @@ function TeacherDashboard() {
                     </li>
                     <li className={`rounded p-2.5  cursor-pointer ${activeTab === "addTest" ? "active" : ""}`}>
                         <Details summary={"اضافة اختبار"} icon={Test}
-                                 listItems={["اونلاين", "اوفلاين"]} tabName={["online", "offline"]} opend={opened}/>
+                                 listItems={["اونلاين", "اوفلاين"]} tabName={["onlineTest", "offlineTest"]} opend={opened}/>
                     </li>
                     <li className={`rounded p-2.5 cursor-pointer ${activeTab === "StudyLevels" ? "active" : ""}`}>
                         <Details summary={"المراحل الدراسية"} icon={graduted} opend={opened}
@@ -65,9 +66,12 @@ function TeacherDashboard() {
                     <img src={threeCirlce} alt={"threeCirlce"}/>
                 </div>
                 {activeTab === "addStudent" && <AddStudent/>}
-                {activeTab === "addGroup" && <h1>اضافة مجموعة</h1>}
-                {activeTab === "addTest" && <h1>اضافة اختبار</h1>}
-                {activeTab === "StudyLevels" && <h1>المراحل الدراسية</h1>}
+                {activeTab === "addGroup" && <AddGroup/>}
+                {activeTab === "onlineTest" && <h1>اضافة اختبار اونلاين</h1>}
+                {activeTab === "offlineTest" && <h1>اضافة اختبار اوفلاين</h1>}
+                {activeTab === "primary" && <h1>المراحل الابتدائيه</h1>}
+                {activeTab === "middle" && <h1>المراحل الاعداديه</h1>}
+                {activeTab === "high" && <h1>المراحل الثانويه</h1>}
                 {activeTab === "meeting" && <h1>عقد اجتماع</h1>}
             </div>
         </div>);
