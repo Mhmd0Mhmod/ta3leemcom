@@ -159,7 +159,6 @@ body {
  opacity: 1;
  background: white;
 }
-
 .swiper-pagination-bullet-active {
  color: #fff;
  background: #0884a2;
@@ -184,7 +183,9 @@ nav::after {
  left: 50%;
  transform: translateX(-50%);
 }
-
+details summary{
+ list-style: none;
+}
 /* src/index.css */
 ::-webkit-scrollbar {
  width: 10px;

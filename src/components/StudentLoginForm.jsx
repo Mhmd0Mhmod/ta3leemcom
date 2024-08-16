@@ -1,7 +1,7 @@
 import React from 'react'
 import exit from "../../public/Icons/exit.svg";
 import Card from "../../public/Icons/card.svg"
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import { useNavigate, useSearchParams} from 'react-router-dom';
 import Button from "./ui/Button.jsx";
 import FormInput from "./ui/FormInput.jsx";
 export default function StudentLoginForm() {

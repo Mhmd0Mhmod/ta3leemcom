@@ -29,8 +29,9 @@ export default function Home() {
 
  return (
   <>
-   <MainRegister/>
+
    {/* <Outlet /> */}
+   <MainRegister/>
    <div className="container mx-auto">
     <Header />
    </div>
