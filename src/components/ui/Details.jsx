@@ -1,9 +1,9 @@
 import Icon from "./Icon.jsx";
 import {useSearchParams} from "react-router-dom";
 
-function Details({summary, icon, listIcon = true, listItems = [], tabName = [], opend, children}) {
+function Details({summary, icon, listIcon = true, listItems = [], tabName = [], param, opend, children}) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const activeTab = searchParams.get("tab");
+    const activeTab = searchParams.get(param);
 
     function handleOpen(e) {
         if (!opend) {
@@ -21,8 +21,9 @@ function Details({summary, icon, listIcon = true, listItems = [], tabName = [], 
                 <ul className={"flex flex-col gap-2 "}>
                     {listItems.map((item, index) =>
 
-                        <li onClick={() => setSearchParams({tab: tabName[index]})} key={tabName[index]}
+                        <li onClick={() => setSearchParams({tab: param,[param] : tabName[index]} )} key={tabName[index]}
                             className={`rounded p-2.5 pr-7 cursor-pointer flex gap-2 items-center text-[#757474] ${activeTab === tabName[index] ? "active" : ""}`}>
+
                             {listIcon && <span className={"inline-block w-1 h-1 bg-[#757474]"}></span>}
                             <span className={`${!opend ? "hidden" : ""}`}>{item}</span>
                         </li>
