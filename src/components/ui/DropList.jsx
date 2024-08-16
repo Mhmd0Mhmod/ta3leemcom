@@ -6,14 +6,14 @@ DropList.propTypes = {
     options: PropTypes.array.isRequired
 }
 
-function DropList({title, options}) {
-    const [selectedOption, setSelectedOption] = useState("");
+function DropList({title, options, value, setValue, optionsValue}) {
+    const [selected, setSelected] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
     const handleOptionClick = (option) => {
-        setSelectedOption(option);
+        setValue(option);
         setIsOpen(false);
     };
 
@@ -23,15 +23,18 @@ function DropList({title, options}) {
                 onClick={toggleDropdown}
                 className="w-full bg-[#EFEFEF] border rounded-[8px] shadow px-4 py-2 text-right"
             >
-                {selectedOption || title}
+                {selected || title}
                 <span className={`float-left ${isOpen ? "rotate-180" : ""}`}>&#9662;</span>
             </button>
             {isOpen && (
                 <ul className="absolute z-10 w-full bg-white rounded  mt-2">
-                    {options?.map((option) => (
+                    {options?.map((option, index) => (
                         <li
                             key={option}
-                            onClick={() => handleOptionClick(option)}
+                            onClick={() => {
+                                handleOptionClick(optionsValue[index]);
+                                setSelected(option);
+                            }}
                             className="px-4 py-2 hover:bg-[#b4d3e0] cursor-pointer border-b-[0.5px] boder-[#CACACA]"
                         >
                             {option}

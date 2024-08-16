@@ -4,7 +4,7 @@ import MiddleLevel from "./MiddleLevel.jsx";
 import HighLevel from "./HighLevel.jsx";
 
 function Test() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const level = searchParams.get("level");
     switch (level) {
         case "primary":
