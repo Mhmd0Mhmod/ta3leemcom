@@ -36,6 +36,9 @@ export default {
      500: "#FAFBFC",
      600: "#ECECEC",
      700: "#525252",
+     800: "#F5F7F9",
+     900: "#B4D3E0",
+     1000: "#E6E8E9",
     },
    },
    backgroundImage: {

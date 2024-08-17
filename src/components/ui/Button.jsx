@@ -3,25 +3,28 @@ export default function Button({
  type = "primary",
  className,
  icon = false,
-                                iconStyle,
+ iconStyle,
  circle = false,
-    onClick
+ onClick,
 }) {
-
-    let style=`rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria `;
-
+ let style = `rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria `;
 
  if (type === "primary") {
   if (icon) {
    return (
-    <button onClick={onClick} className={` bg-primary text-white flex px-2 gap-1 ${style}`}>
+    <button
+     onClick={onClick}
+     className={` bg-primary text-white flex px-2 gap-1 ${style}`}
+    >
      <span className={iconStyle}>{icon}</span>
      <span>{children}</span>
     </button>
    );
   }
   return (
-   <button onClick={onClick} className={` bg-primary text-white ${style}`}>{children}</button>
+   <button onClick={onClick} className={` bg-primary text-white ${style}`}>
+    {children}
+   </button>
   );
  }
  if (type === "outline") {
@@ -44,6 +47,17 @@ export default function Button({
   );
  }
  if (type === "Secondary") {
+  if (icon) {
+   return (
+    <button
+     onClick={onClick}
+     className={` bg-secondary border-none text-white flex px-[12px] gap-4 items-center justify-between ${style}`}
+    >
+     <span className={iconStyle}>{icon}</span>
+     <span className="mx-2">{children}</span>
+    </button>
+   );
+  }
   return (
    <button
     onClick={onClick}
@@ -54,11 +68,16 @@ export default function Button({
   );
  }
  if (type === "ghost") {
-  return <button onClick={onClick} className={` text-primary ${style} `}>{children}</button>;
+  return (
+   <button onClick={onClick} className={` text-primary ${style} `}>
+    {children}
+   </button>
+  );
  }
  if (type === "normal") {
   return (
-   <button onClick={onClick}
+   <button
+    onClick={onClick}
     className={` text-secondary border-secondary  ${
      circle ? "rounded-[50px]" : "rounded-xl"
     } ${style} font-almaria `}
@@ -69,7 +88,8 @@ export default function Button({
  }
  if (type === "store") {
   return (
-   <button onClick={onClick}
+   <button
+    onClick={onClick}
     className={` bg-[#F4F4F4] flex rounded-[7px] border-[1px] border-[#CCCCCC] items-center justify-center gap-12 py-[14px] px-[10px] shadow-xl w-[239px] h-[83px] font-cairo text-[15px]  `}
    >
     <span>{children}</span>
