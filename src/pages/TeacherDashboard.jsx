@@ -1,4 +1,4 @@
-import { Outlet, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import menu from "../../public/Icons/menu.svg";
 import profile from "../../public/Icons/blackProfile.svg";
 import group from "../../public/Icons/group.svg";
@@ -14,6 +14,7 @@ import AddGroup from "../components/AddGroup.jsx";
 import StudentDetails from "../components/StudentDetailes.jsx";
 import Test from "../components/Test.jsx";
 import Level from "../components/Level.jsx";
+import { LEVELS } from "../config.js";
 
 function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,31 +60,12 @@ function TeacherDashboard() {
             <span className={`${!opened ? "hidden" : ""}`}>اضافة مجموعة</span>
           </li>
           <li className={`rounded p-2.5  cursor-pointer ${activeTab === "addTest" ? "active" : ""}`}>
-            <Details
-              summary={"اضافة اختبار"}
-              icon={TestIcon}
-              listItems={["اونلاين", "اوفلاين"]}
-              tabName={["online", "offline"]}
-              param={"test"}
-              opend={opened}
-            />
+            <Details summary={"اضافة اختبار"} icon={TestIcon} listItems={["اونلاين", "اوفلاين"]} tabName={["online", "offline"]} param={"test"} opend={opened} />
           </li>
           <li className={`rounded p-2.5 cursor-pointer ${activeTab === "StudyLevels" ? "active" : ""}`}>
-            <Details
-              summary={"المراحل الدراسية"}
-              icon={graduted}
-              opend={opened}
-              listItems={["المرحلة الابتدائية", "المرحلة الاعدادية", "المرحلة الثانوية"]}
-              tabName={["primary", "middle", "high"]}
-              param={"level"}
-            />
+            <Details summary={"المراحل الدراسية"} icon={graduted} opend={opened} listItems={LEVELS.levels} tabName={Object.keys(LEVELS).slice(1)} param={"level"} />
           </li>
-          <li
-            onClick={() => handleTabClick("meeting")}
-            className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${
-              activeTab === "meeting" ? "active" : ""
-            }`}
-          >
+          <li onClick={() => handleTabClick("meeting")} className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${activeTab === "meeting" ? "active" : ""}`}>
             <Icon src={meeting} />
             <span className={`${!opened ? "hidden" : ""}`}>عقد اجتماع</span>
           </li>
@@ -94,7 +76,6 @@ function TeacherDashboard() {
         <div className={"w-32    absolute top-0 left-0"}>
           <img src={threeCirlce} alt={"threeCirlce"} />
         </div>
-
         {activeTab === "addStudent" && <AddStudent />}
         {activeTab === "addGroup" && <AddGroup />}
         {activeTab === "test" && <Test />}

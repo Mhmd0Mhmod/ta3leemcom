@@ -4,6 +4,7 @@ import profile from "../../public/Icons/profile.svg";
 import DropList from "./ui/DropList.jsx";
 import Button from "./ui/Button.jsx";
 import { useState } from "react";
+
 import { useSearchParams } from "react-router-dom";
 import StudentDetailes from "./StudentDetailes.jsx";
 
@@ -12,6 +13,8 @@ function AddStudent() {
   const [level, setLevel] = useState("");
   const [levelNumber, setLevelNumber] = useState("");
   if (searchParam.get("studentId")) return <StudentDetailes />;
+
+
 
   return (
     <div className={"font-almaria"}>
@@ -22,61 +25,26 @@ function AddStudent() {
         <Heading as={"h4"} className={"text-[24px]"}>
           الإسم رباعي
         </Heading>
-        <FormInput
-          type={"text"}
-          name={"name"}
-          className={"w-11/12"}
-          icon={profile}
-          divClassName={"bg-white w-3/4 justify-around"}
-        />
+        <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={profile} divClassName={"bg-white w-3/4 justify-around"} />
         <div className={"grid grid-cols-3"}>
           <div className={"flex flex-col gap-5"}>
             <Heading as={"h4"}>المرحلة الدراسية</Heading>
-            <DropList
-              title={"اختر المرحلة الدراسية"}
-              options={["الابتدائيه", "الاعداديه", "الثانويه"]}
-              value={level}
-              setValue={setLevel}
-              optionsValue={["primary", "middle", "high"]}
-            />
+            <DropList title={"اختر المرحلة الدراسية"} options={LEVELS.levels} value={level} setValue={setLevel} optionsValue={Object.keys(LEVELS).slice(1)} />
           </div>
           <div className={"flex flex-col gap-5"}>
             <Heading as={"h4"}>الصف الدراسي</Heading>
-            {level === "primary" && (
+
+            {level === "" ? (
+              <DropList title={"اختر الصف الدراسي"} options={[]} />
+            ) : (
               <DropList
                 title={"اختر الصف الدراسي"}
-                options={[
-                  "الصف الاول",
-                  "الصف الثاني",
-                  "الصف الثالث",
-                  "الصف الرابع",
-                  "الصف الخامس",
-                  "الصف السادس",
-                ]}
+                options={LEVELS[level]}
                 value={levelNumber}
                 setValue={setLevelNumber}
-                optionsValue={[1, 2, 3, 4, 5, 6]}
+                optionsValue={LEVELS[level].map((_, i) => i + 1)}
               />
             )}
-            {level === "middle" && (
-              <DropList
-                title={"اختر الصف الدراسي"}
-                options={["الصف الاول", "الصف الثاني", "الصف الثالث"]}
-                value={levelNumber}
-                setValue={setLevelNumber}
-                optionsValue={[1, 2, 3]}
-              />
-            )}
-            {level === "high" && (
-              <DropList
-                title={"اختر الصف الدراسي"}
-                options={["الصف الاول", "الصف الثاني", "الصف الثالث"]}
-                value={levelNumber}
-                setValue={setLevelNumber}
-                optionsValue={[1, 2, 3]}
-              />
-            )}
-            {level === "" && <DropList title={"اختر الصف الدراسي"} options={[]} />}
           </div>
           <div className={"flex flex-col gap-5"}>
             <Heading as={"h4"}>المجموعة</Heading>
