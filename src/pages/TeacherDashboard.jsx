@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { Outlet, useParams, useSearchParams } from "react-router-dom";
 import menu from "../../public/Icons/menu.svg";
 import profile from "../../public/Icons/blackProfile.svg";
 import group from "../../public/Icons/group.svg";
@@ -19,7 +19,6 @@ function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "addStudent";
   const [opened, setOpened] = useState(true);
-
   useEffect(() => {
     if (!searchParams.get("tab")) {
       setSearchParams({ tab: "addStudent" });
@@ -95,6 +94,7 @@ function TeacherDashboard() {
         <div className={"w-32    absolute top-0 left-0"}>
           <img src={threeCirlce} alt={"threeCirlce"} />
         </div>
+
         {activeTab === "addStudent" && <AddStudent />}
         {activeTab === "addGroup" && <AddGroup />}
         {activeTab === "test" && <Test />}

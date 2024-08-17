@@ -1,8 +1,13 @@
 import { useSearchParams } from "react-router-dom";
 function StudentDetailes() {
-  const [searchParam] = useSearchParams();
-  const studentId = searchParam.get("studentId");
-  return <div></div>;
+  const [searchParams] = useSearchParams();
+  const studentId = searchParams.get("studentId");
+  return (
+    <div>
+      <h1>Student Detailes</h1>
+      <p>Student ID: {studentId}</p>
+    </div>
+  );
 }
 
 export default StudentDetailes;
