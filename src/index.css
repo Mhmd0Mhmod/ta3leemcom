@@ -191,7 +191,16 @@ details summary{
  width: 10px;
  background-color: inherit;
 }
-
+.halfunderline::after{
+ content: "";
+ position: absolute;
+ width: 50%;
+ height: 1px;
+ background-color: black;
+ bottom: 0;
+ left: 50%;
+ transform: translateX(-50%);
+}
 ::-webkit-scrollbar-thumb {
  background-color: rgba(0, 0, 0, 0.5); /* Dark and semi-transparent */
  border-radius: 5px;
