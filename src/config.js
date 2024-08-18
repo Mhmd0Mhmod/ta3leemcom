@@ -173,5 +173,5 @@ export const FakeGroups = [
                 status: "active"
             }
         ]
-    }
+    },
 ];

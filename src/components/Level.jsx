@@ -31,6 +31,7 @@ function Test() {
     const subLevels = searchParams.get("subLevel");
     useEffect(() => {
         //will Fetch groups from the server
+        setSelectedGroups([FakeGroups[0]]);
     }, [levels, subLevels]);
 
     const handleGroupClick = (group) => {
@@ -60,7 +61,7 @@ function Test() {
                         <Heading as={"h1"} className={"text-[24px] font-almaria-bold"}>المجموعات</Heading>
                         <img src={arrow} alt={"arrow"}/>
                     </div>
-                    <div className={"bg-white p-5 rounded-xl"}>
+                    <div className={"bg-white p-5 rounded-xl h-fit max-h-64 overflow-y-auto"}>
                         <ul className={"flex flex-col gap-5"}>
                             {FakeGroups.map(group => (
                                 <li key={group.id}
@@ -75,7 +76,7 @@ function Test() {
                         </ul>
                     </div>
                 </div>
-                <div className={"flex-1 grid grid-cols-2 grid-rows-2"}>
+                <div className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}>
                     {[{name: "الاختبارات", icon: tests}, {name: "الطلاب", icon: students}, {name: "الاشهور", icon: monthes}, {name: "الاوائل", icon: toppers}].map((item, i) => (
                         <div key={i}
                              className={"flex flex-col items-center gap-5 cursor-pointer"}>
