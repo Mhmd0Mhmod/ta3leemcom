@@ -43,7 +43,7 @@ function Test() {
 
     return (
         <div className={"font-almaria flex flex-col gap-10"}>
-            <div className={"bg-white p-5 w-fit shadow-[9px_5px_9.1px_4px_#0884A23D]"}>
+            <div className={"bg-white p-5 w-fit shadow-[9px_5px_9.1px_4px_#0884A23D] rounded"}>
                 <ul className={"flex gap-10 "}>
                     {levels?.map((level, i) => (
                         <li key={i}
