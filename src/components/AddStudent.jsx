@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
 import StudentDetailes from "./StudentDetailes.jsx";
+import { LEVELS } from "../config.js";
 
 function AddStudent() {
   const [searchParam, setSearchParmas] = useSearchParams();
