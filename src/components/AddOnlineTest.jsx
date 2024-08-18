@@ -1,9 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import Heading from "./ui/Heading";
 import Button from "./ui/Button";
+import { constraints } from "../config";
 
 function AddOnlineTest() {
- const [serchParams, setSearchParams] = useSearchParams();
+ const [searchParams, setSearchParams] = useSearchParams();
+ console.log(constraints[searchParams.get("level")].text);
 
  const backToLevel = () => {
   setSearchParams({ tab: "level" });
@@ -33,11 +35,17 @@ function AddOnlineTest() {
      className="flex gap-1"
      onClick={() => setSearchParams({ tab: "level", level: "primary" })}
     >
-     <span>الابتدائي</span>
+     <span>{constraints[searchParams.get("level")].text}</span>
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <button className="flex gap-1">
-     <span>الصف الاول الابتدائي </span>
+     <span>
+      {
+       constraints[searchParams.get("level")].content[
+        +searchParams.get("subLevel") - 1
+       ]
+      }
+     </span>
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <button className="flex gap-1">
