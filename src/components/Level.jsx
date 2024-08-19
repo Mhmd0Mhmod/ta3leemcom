@@ -112,21 +112,21 @@ function Test() {
      className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}
     >
      {[
-      { name: "الاختبارات", icon: tests },
-      { name: "الطلاب", icon: students },
-      { name: "الاشهور", icon: monthes },
-      { name: "الاوائل", icon: toppers },
+      { name: "الاختبارات", icon: tests , onClick: moveToTests},
+      { name: "الطلاب", icon: students , onClick: null},
+      { name: "الاشهور", icon: monthes , onClick: null},
+      { name: "الاوائل", icon: toppers , onClick: null},
      ].map((item, i) => (
       <button
        key={i}
-       onClick={item.name === "الاختبارات" ? moveToTests : null}
+       onClick={item.onClick}
        className={"flex flex-col items-center gap-5 cursor-pointer"}
       >
        <div className={"relative"}>
         <img src={item.icon} alt={item.name} />
         <span
          className={
-          "w-full h-full absolute top-0 rounded-full hover:bg-[#00000033]"
+          "w-full h-full absolute top-0 left-0 rounded-full hover:bg-[#00000033]"
          }
         ></span>
        </div>
