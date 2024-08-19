@@ -1,8 +1,7 @@
-import { Form, useSearchParams } from "react-router-dom";
+import { Form, Link, useSearchParams } from "react-router-dom";
 import { FakeStudent, LEVELS } from "../config";
 import Button from "./ui/Button";
 import { FormInput } from "lucide-react";
-
 function StudentDetailes() {
   const [searchParams] = useSearchParams();
   const studentId = searchParams.get("studentId");
@@ -39,8 +38,11 @@ function StudentDetailes() {
             {/* ------------- */}
             <div>
               <div >
-                <img src="../../public/imgs/id.svg" alt="" />
-                <div className="border-2 rounded-md border-t-0 p-4">
+                <img src="../../public/imgs/id.svg" alt="Id" />
+                <div className="border-2 rounded-b-md border-t-0 p-4 bg-[#EEEEEE] mt-4 relative">
+                  <div className="w-[90px] h-[90px] bg-[#D9D9D9] absolute left-10 top-[-45px] rounded-full border-[5px] border-white flex justify-center ">
+                    <img src="../../public/imgs/profile.svg" alt="profile"  className="w-[50%]" />
+                  </div>
                   <h2 className="text-center text-lg font-almaria-bold ">كود الطالب</h2>
                   <p className="text-center text-[#979797] text-lg mt-4 mb-6">{student.code}</p>
                   <div>
@@ -71,7 +73,7 @@ function StudentDetailes() {
           <div>
             <div className="flex gap-2 text-lg text-[#0884A2]">
               <img src="../../public/imgs/download.svg" alt="" />
-              <p>تنزيل</p>
+              <p><Link>تنزيل</Link></p>
             </div>
           </div>
         </div>
