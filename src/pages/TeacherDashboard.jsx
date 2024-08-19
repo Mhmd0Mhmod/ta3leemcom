@@ -33,9 +33,9 @@ function TeacherDashboard() {
   };
 
   return (
-    <div className={"flex dashboard gap-5 font-cairo"}>
+    <div className={"flex dashboard gap-5 font-cairo mb-4"}>
       <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"}  self-start`}>
-        <div className={"flex justify-end"}>
+        <div className={`flex  ${opened?"justify-end": "justify-center"}`}>
           <Icon src={menu} className={`w-9 ${opened ? "" : "rotate-180"}`} onClick={() => setOpened((open) => !open)} />
         </div>
         <ul className={"flex gap-2 flex-col font-cairo-bold"}>

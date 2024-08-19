@@ -1,9 +1,4 @@
-import {
- BrowserRouter as Router,
- Routes,
- Route,
- Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -19,31 +14,28 @@ import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
 
 function App() {
- return (
-  <>
-   <Router>
-    <Routes>
-     <Route index element={<Navigate replace to="home" />} />
-     <Route path="home" element={<Home />} />
-     <Route element={<AppLayout />}>
-      <Route path="about" element={<About />} />
-      <Route
-       path={"signup"}
-       element={<MainRegister rightHandeSide={<SingUpForm />} />}
-      />
-      <Route path="services" element={<Services />} />
-      <Route path="instructions" element={<Instructions />} />
-      <Route path="subscriptions" element={<Subscriptions />} />
-      <Route path="opinion" element={<Opinion />} />
-      <Route path="contact-with-us" element={<ContactWithUs />} />
-      <Route path="dashboard" element={<TeacherDashboard />} />
-     </Route>
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route index element={<Navigate replace to="home" />} />
+          <Route element={<AppLayout />}>
+            <Route path="home" element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path={"signup"} element={<MainRegister rightHandeSide={<SingUpForm />} />} />
+            <Route path="services" element={<Services />} />
+            <Route path="instructions" element={<Instructions />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="opinion" element={<Opinion />} />
+            <Route path="contact-with-us" element={<ContactWithUs />} />
+            <Route path="dashboard" element={<TeacherDashboard />} />
+          </Route>
 
-     <Route path="*" element={<PageNotFound />} />
-    </Routes>
-   </Router>
-  </>
- );
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;
