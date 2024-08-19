@@ -2,10 +2,16 @@ import { Form, Link, useSearchParams } from "react-router-dom";
 import { FakeStudent, LEVELS } from "../config";
 import Button from "./ui/Button";
 import { FormInput } from "lucide-react";
+import { useState } from "react";
 function StudentDetailes() {
   const [searchParams] = useSearchParams();
   const studentId = searchParams.get("studentId");
-  const student = FakeStudent
+  const student = FakeStudent.find(el => el.code == studentId)
+  const [studentName,setStudentName] = useState(student.name)
+  const [studentMainLevel,setStudentMainLevel] = useState(student.mainLevel)
+  const [studentSubLevel,setStudentSubLevel] = useState(student.subLevel)
+  const [studentGroup,setStudentGroup] = useState(student.group)
+  if (!student) return null;
   return (
     <>
         <div className="flex justify-between">
@@ -17,19 +23,19 @@ function StudentDetailes() {
               </div>
               <form action="">
                 <h3 className="text-lg font-almaria-bold mb-4">الاسم بالكامل</h3>
-                <input type="text" className="bg-[#EFEFEF] w-[43.75rem] h-10 p-2"/>
+                <input type="text" className="bg-[#EFEFEF] w-[43.75rem] h-10 p-2" value={studentName} onChange={(e)=>setStudentName(e.target.value)}/>
                 <div className="flex gap-10 mt-10">
                   <div>
                     <h3 className="text-lg font-almaria-bold mt-8 mb-4">المرحلة الدراسية</h3>
-                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2"/>
+                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2" value={studentMainLevel} onChange={(e)=>setStudentMainLevel(e.target.value)}/>
                   </div>
                   <div>
                     <h3 className="text-lg font-almaria-bold mt-8 mb-4"> الصف الدراسي</h3>
-                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2"/>
+                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2" value={studentSubLevel} onChange={(e)=>setStudentSubLevel(e.target.value)}/>
                   </div>
                   <div>
                     <h3 className="text-lg font-almaria-bold mt-8 mb-4"> المجموعة</h3>
-                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2"/>
+                    <input type="text" className="bg-[#EFEFEF] w-52 h-10 p-2" value={studentGroup} onChange={(e)=>setStudentGroup(e.target.value)}/>
                   </div>
                 </div>
               </form>
