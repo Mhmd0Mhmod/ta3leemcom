@@ -28,6 +28,17 @@ export default function Button({
   );
  }
  if (type === "outline") {
+  if (icon) {
+   return (
+    <button
+     onClick={onClick}
+     className={`  text-accent-400 flex gap-2 items-center rounded-lg px-2 py- border border-accent-400 ${className} `}
+    >
+     <span>{children}</span>
+     <span className={iconStyle}>{icon}</span>
+    </button>
+   );
+  }
   return (
    <button
     className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}
