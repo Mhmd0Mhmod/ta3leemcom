@@ -4,7 +4,7 @@ import Heading from "./ui/Heading";
 import Tab from "./ui/Tab";
 import { constraints } from "../config";
 import Button from "./ui/Button";
-import Icon from "./ui/Icon";
+import TextEditor, { MenuBar } from "./TextEditor";
 
 const QUESTIONS = [];
 
@@ -37,6 +37,7 @@ function AddOnlineTest() {
   { text: "20 درجة", path: "Icons/flag_icon.svg" },
   { text: "2 بونص", path: "Icons/bouns_icon.svg" },
  ];
+
  return (
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
@@ -151,8 +152,12 @@ function AddOnlineTest() {
       </div>
      </div>
     </div>
-       <div className="bg-white h-12 mt-8 rounded-xl">soon</div>
-       
+    <div className="bg-white  mt-8  rounded-xl">
+     <TextEditor />
+     <div>amr</div>
+     <div>amr</div>
+     <div>amr</div>
+    </div>
    </div>
   </div>
  );

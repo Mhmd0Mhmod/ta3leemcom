@@ -216,3 +216,8 @@ rtl {
 ltr {
  direction: ltr;
 }
+
+strong {
+ margin: 0;
+ padding: 0;
+}
