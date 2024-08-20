@@ -45,14 +45,21 @@ function Test() {
  };
 
  const moveToTests = () => {
+  const groups = selectedGroups
+   .map((group) => group.name)
+   .join(",")
+   .replaceAll(",", "_");
   setSearchParams({
    tab: "test",
    level: searchParams.get("level"),
    subLevel: subLevels,
-   group: selectedGroups[0].name,
+   group: groups,
   });
  };
- console.log(selectedGroups);
+ //  console.log(
+ //   selectedGroups.map((group) => group.name.split(" ")[1]).join("+")
+ //   //  .replaceAll(" ", "+")
+ //  );
 
  return (
   <div className={"font-almaria flex flex-col gap-10"}>
@@ -112,10 +119,10 @@ function Test() {
      className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}
     >
      {[
-      { name: "الاختبارات", icon: tests , onClick: moveToTests},
-      { name: "الطلاب", icon: students , onClick: null},
-      { name: "الاشهور", icon: monthes , onClick: null},
-      { name: "الاوائل", icon: toppers , onClick: null},
+      { name: "الاختبارات", icon: tests, onClick: moveToTests },
+      { name: "الطلاب", icon: students, onClick: null },
+      { name: "الاشهور", icon: monthes, onClick: null },
+      { name: "الاوائل", icon: toppers, onClick: null },
      ].map((item, i) => (
       <button
        key={i}

@@ -25,8 +25,10 @@ function Tests() {
  const [tests, setTests] = useState(TESTS);
  const [search, setSearch] = useState("");
  const backToLevel = () => {
-  setSearchParams({ tab: "level" });
+  setSearchParams({ tab: "level", level: "primary" });
  };
+
+ console.log(searchParams.get("group"));
 
  const formatDate = (date) => {
   const month = date.getMonth() + 1; // Months are zero-based
@@ -59,7 +61,6 @@ function Tests() {
   setTests(TESTS.filter((test) => regex.test(test.title)));
  };
 
-
  return (
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
@@ -82,7 +83,9 @@ function Tests() {
     </button>
     <button
      className="flex gap-1"
-     onClick={() => setSearchParams({ tab: "level", level: "primary" })}
+     onClick={() =>
+      setSearchParams({ tab: "level", level: searchParams.get("level") })
+     }
     >
      <span>{constraints[searchParams.get("level")].text}</span>
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
@@ -98,7 +101,7 @@ function Tests() {
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <button className="flex gap-1">
-     <span>{searchParams.get("group")}</span>
+     <span>{searchParams.get("group").replaceAll("_", " / ")}</span>
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <div className="flex gap-1 font-almaria-bold">
@@ -114,7 +117,7 @@ function Tests() {
     اضافة اختبار
     <div
      className={`opacity-0 duration-300 transition-all absolute -left-36 top-2 w-32 mt-4 text-black ${
-      addTestUl ? "opacity-100" : ""
+      addTestUl ? "opacity-100" : "pointer-events-none"
      }`}
     >
      <ul
@@ -122,10 +125,26 @@ function Tests() {
       className="flex flex-col gap-2 text-lg font-almaria-bold text-start"
      >
       <li className="bg-white rounded-xl border px-2 py-1 hover:bg-gray-300 duration-300">
-       <button>اونلاين</button>
+       <button
+        className="w-full h-full"
+        onClick={() => {
+         searchParams.set("test", "online");
+         setSearchParams(searchParams);
+        }}
+       >
+        اونلاين
+       </button>
       </li>
       <li className="bg-white rounded-xl border px-2 py-1 hover:bg-gray-300 duration-300">
-       <button>اوفلاين</button>
+       <button
+        className="w-full h-full"
+        onClick={() => {
+         searchParams.set("test", "offline");
+         setSearchParams(searchParams);
+        }}
+       >
+        اوفلاين
+       </button>
       </li>
      </ul>
     </div>
@@ -171,7 +190,7 @@ function Tests() {
        e.stopPropagation();
       }}
       className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-lg border border-secondary mt-4 text-black ${
-       filterByDateUl ? "opacity-100" : ""
+       filterByDateUl ? "opacity-100" : "pointer-events-none"
       }`}
      >
       <div className="flex flex-col gap-2 p-4 text-lg font-almaria text-start">
@@ -263,7 +282,7 @@ function Tests() {
      </div>
      <div
       className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-lg border border-secondary mt-4 text-black ${
-       filterByTestTypeUl ? "opacity-100" : ""
+       filterByTestTypeUl ? "opacity-100" : "pointer-events-none"
       }`}
      >
       <div
@@ -308,7 +327,17 @@ function Tests() {
      </div>
     </Button>
 
-    <button className="text-secondary ">إلغاء الكل</button>
+    <button
+     className="text-secondary "
+     onClick={() => {
+      setTests(TESTS);
+      setSearch("");
+      setFilterByDateUl(false);
+      setFilterByTestTypeUl(false);
+     }}
+    >
+     إلغاء الكل
+    </button>
    </div>
    <div className="my-12">
     <table className="min-w-full bg-accent-1000  border-collapse border-spacing-2  rounded-lg text-center">
