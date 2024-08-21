@@ -39,6 +39,8 @@ export default {
      800: "#F5F7F9",
      900: "#B4D3E0",
      1000: "#E6E8E9",
+     1100: "#F7F7F7",
+     1200: "#D9D9D9",
     },
    },
    backgroundImage: {

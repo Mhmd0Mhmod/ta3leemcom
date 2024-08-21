@@ -4,7 +4,8 @@ import Heading from "./ui/Heading";
 import Tab from "./ui/Tab";
 import { constraints } from "../config";
 import Button from "./ui/Button";
-import TextEditor, { MenuBar } from "./TextEditor";
+import Editor from "./TextEditor2";
+import { Copy, GripIcon, Plus, Trash2, X } from "lucide-react";
 
 const QUESTIONS = [];
 
@@ -15,9 +16,21 @@ const tabs_2 = [
  { text: "31 / 7 /2024", path: "Icons/calender_icon_2.svg" },
 ];
 
+const DEFAULT_QUESTION = {
+ text: "",
+ bouns: 0,
+ answers: [
+  { text: "", isCorrect: false },
+  { text: "", isCorrect: false },
+ ],
+ explain: "",
+ required: false,
+};
+
 function AddOnlineTest() {
  const [searchParams, setSearchParams] = useSearchParams();
  const [questions, setQuestions] = useState(QUESTIONS);
+ const [newQuestion, setNewQuestion] = useState(DEFAULT_QUESTION);
 
  const backToLevel = () => {
   setSearchParams({ tab: "level", level: "primary" });
@@ -37,6 +50,51 @@ function AddOnlineTest() {
   { text: "20 درجة", path: "Icons/flag_icon.svg" },
   { text: "2 بونص", path: "Icons/bouns_icon.svg" },
  ];
+
+ const handelCheck = (event, i) => {
+  const updatedAnswers = newQuestion.answers.map((answer, index) => ({
+   ...answer,
+   isCorrect: index === i, // Set the clicked answer as correct and others as false
+  }));
+  setNewQuestion((prev) => ({
+   ...prev,
+   answers: updatedAnswers,
+  }));
+ };
+
+ const handelType = (event, i) => {
+  const updatedAnswers = newQuestion.answers.map((answer, index) =>
+   index === i ? { ...answer, text: event.target.value } : answer
+  );
+  setNewQuestion((prev) => ({
+   ...prev,
+   answers: updatedAnswers,
+  }));
+ };
+
+ const addAnswer = () => {
+  setNewQuestion((prev) => ({
+   ...prev,
+   answers: [...prev.answers, { text: "", isCorrect: false }],
+  }));
+ };
+
+ const deleteAnswer = (index) => {
+  setNewQuestion((prev) => ({
+   ...prev,
+   answers: prev.answers.filter((_, i) => i !== index),
+  }));
+ };
+
+ const handelBounsIncrease = () => {
+  setNewQuestion((prev) => ({ ...prev, bouns: prev.bouns + 1 }));
+ };
+ const handelBounsDecrease = () => {
+  if (newQuestion.bouns > 0)
+   setNewQuestion((prev) => ({ ...prev, bouns: prev.bouns - 1 }));
+ };
+
+ console.log(newQuestion);
 
  return (
   <div className="px-12 py-16">
@@ -78,7 +136,7 @@ function AddOnlineTest() {
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <button className="flex gap-1">
-     <span>{searchParams.get("group").replaceAll("_", " / ")}</span>
+     <span>{searchParams.get("group")?.replaceAll("_", " / ")}</span>
      <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
     </button>
     <div className="flex gap-1">
@@ -91,7 +149,7 @@ function AddOnlineTest() {
    </div>
    <div className="w-full md:w-[85%] lg:w-[70%] p-4 mx-auto">
     <div className="bg-white rounded-lg p-4">
-     <div className="flex  gap-1 items-end">
+     <div className="flex gap-1 items-end">
       <span className="text-secondary font-almaria-extrabold text-[1rem]">
        تعليم{" "}
       </span>
@@ -152,11 +210,136 @@ function AddOnlineTest() {
       </div>
      </div>
     </div>
-    <div className="bg-white  mt-8  rounded-xl">
-     <TextEditor />
-     <div>amr</div>
-     <div>amr</div>
-     <div>amr</div>
+    <div className="mt-8 ">
+     <Editor />
+     <div className=" border-l border-r border-accent-50 bg-accent-1100 pt-2">
+      <hr className="  mx-12 border-4 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0" />
+     </div>
+
+     <div className="px-8 bg-accent-1100 border-b border-l border-r border-accent-50 rounded-lg rounded-tr-none rounded-tl-none p-4">
+      <div className="flex items-start">
+       <form className="flex-grow ">
+        {newQuestion?.answers?.map((answer, index) => (
+         <div
+          key={index}
+          className="grid grid-cols-12 gap-3 items-center font-almaria-bold w-full mb-2"
+         >
+          <button type="button" onClick={() => deleteAnswer(index)}>
+           <X />
+          </button>
+          <input
+           type="radio"
+           className="h-5 w-5 "
+           name="correctAnswer" // Use a consistent name attribute for radio buttons
+           checked={answer.isCorrect} // Use the isCorrect flag to check the right option
+           onChange={(e) => handelCheck(e, index)}
+          />
+          <div className="col-span-10  ">
+           <div className="flex items-center gap-2  ">
+            <input
+             type="text"
+             placeholder={`خيار ${index + 1}`}
+             className="px-2 py-3 min-w-[50%] "
+             value={answer.text}
+             onChange={(e) => handelType(e, index)}
+            />
+            <GripIcon />
+           </div>
+          </div>
+          <div></div>
+          <div></div>
+          {index === newQuestion.answers.length - 1 && (
+           <button
+            type="button"
+            className="col-span-10 flex gap-1 items-end mt-4"
+            onClick={addAnswer}
+           >
+            <Plus className="text-secondary h-5" />
+            <span className="text-secondary font-almaria-bold">
+             اضافة اختبار
+            </span>
+           </button>
+          )}
+         </div>
+        ))}
+       </form>
+
+       <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
+         <div className="flex flex-col justify-between gap-1">
+          <button
+           className="hover:scale-110 duration-300 transition-all"
+           onClick={handelBounsIncrease}
+          >
+           <img src="Icons/arrow_rounded.svg" alt="up" />
+          </button>
+          <button
+           className="hover:scale-110 duration-300 transition-all"
+           onClick={handelBounsDecrease}
+          >
+           <img
+            src="Icons/arrow_rounded.svg"
+            alt="down"
+            className="rotate-180"
+           />
+          </button>
+         </div>
+         <span>{newQuestion.bouns}</span>
+        </div>
+        <span>بونص</span>
+       </div>
+      </div>
+      <div className="flex items-center  gap-4">
+       <Heading as={"h5"} className={" font-almaria-bold"}>
+        تفسير الاجابة
+       </Heading>
+       <input type="text" className="px-2 py-3 flex-grow rounded-lg" />
+       <span>( اختياري )</span>
+      </div>
+      <hr className="my-4" />
+      <div className="flex justify-between items-center">
+       <div className="flex gap-4 items-center">
+        <label
+         htmlFor="required"
+         className="relative inline-flex items-center cursor-pointer "
+        >
+         <div
+          className={`w-11 h-6 ${
+           newQuestion.required ? "bg-secondary" : "bg-white"
+          }  rounded-full shadow-inner border border-accent-50 `}
+         ></div>
+         <div
+          className={`dot absolute top-[50%] -translate-y-[50%] w-5 h-5 rounded-full transition-all duration-300 transform bg-white ${
+           newQuestion.required
+            ? "translate-x-full left-0"
+            : "bg-[#D9D9D9] left-1"
+          }`}
+         ></div>
+        </label>
+        <input
+         type="checkbox"
+         id="required"
+         className="hidden"
+         checked={newQuestion.required}
+         onChange={(e) =>
+          setNewQuestion((prev) => ({ ...prev, required: e.target.checked }))
+         }
+        />
+        <Heading as={"h5"} className={" font-almaria-bold"}>
+         {" "}
+         اجباري
+        </Heading>
+       </div>
+       <div className="flex gap-4 items-center">
+        <button className="hover:bg-accent-1000 transition-all p-2 rounded-lg">
+         <img src="Icons/trash_icon_gray.svg" alt="" />
+        </button>
+        <button className="hover:bg-accent-1000 transition-all p-2 rounded-lg">
+         <img src="Icons/copy_icon_gray.svg" alt="" />
+        </button>
+       </div>
+      </div>
+     </div>
     </div>
    </div>
   </div>
