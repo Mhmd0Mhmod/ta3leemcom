@@ -255,6 +255,7 @@ details summary {
  border-top-right-radius: 0.5rem;
  border-bottom: none !important;
  background-color: #f7f7f7;
+ border-right: 8px solid #0884a2 !important;
  padding: 15px 0 0 0;
 }
 

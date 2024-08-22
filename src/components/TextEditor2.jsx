@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Quill styles
 import "katex/dist/katex.min.css"; // KaTeX styles
@@ -36,7 +36,7 @@ const modules = {
    [{ list: "ordered" }, { list: "bullet" }],
    [{ align: [] }],
    [{ font: fontOptions }, { size: sizeOptions }], // Custom fonts and sizes
-   ["link", "image", "video"],
+   //  ["link", "image", "video"],
    ["clean"],
   ],
   handlers: {
@@ -52,15 +52,15 @@ const modules = {
  },
 };
 
-const Editor = () => {
- const [value, setValue] = useState("اكتب سوالك هنا ...");
+const Editor = ({ onType, value }) => {
+ // const [value, setValue] = useState("اكتب سوالك هنا ...");
 
  return (
   <div className="ltr ">
    <ReactQuill
     // placeholder="اكتب سوالك هنا ..."
     value={value}
-    onChange={setValue}
+    onChange={(val) => onType(val)}
     modules={modules}
     theme="snow"
    />
