@@ -19,7 +19,7 @@ export default function Answer({ value, check, onCheck, onType, index }) {
     value={value}
     onChange={(e, index) => onType(e, index)}
    />
-   <GripIcon />
+   <img src="Icons/grip_icon.svg" alt="drag" />
   </div>
  );
 }

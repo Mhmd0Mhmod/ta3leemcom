@@ -5,17 +5,14 @@ import Tab from "./ui/Tab";
 import { constraints } from "../config";
 import Button from "./ui/Button";
 import Editor from "./TextEditor2";
-import {
- Delete,
- Edit,
- GripIcon,
- Plus,
- SkipBack,
- Trash2,
- Undo2,
- X,
-} from "lucide-react";
+import { Edit, Grip, GripIcon, Plus, X } from "lucide-react";
 
+import { Reorder } from "framer-motion";
+import { useMotionValue, useDragControls } from "framer-motion";
+import { Draggable } from "react-beautiful-dnd";
+// import List from "./DraggableList";
+// import { useRaisedShadow } from "./use-raised-shadow";
+// import FormComponent from "./FormComponent";
 const QUESTIONS = [
  {
   text: "ما هو أكبر كوكب في المجموعة الشمسية؟",
@@ -60,8 +57,8 @@ const DEFAULT_QUESTION = {
  text: "",
  bouns: 0,
  answers: [
-  { text: "", isCorrect: false },
-  { text: "", isCorrect: false },
+  { text: "", isCorrect: false, id: "1" },
+  { text: "", isCorrect: false, id: "2" },
  ],
  explain: "",
  required: false,
@@ -227,6 +224,22 @@ function AddOnlineTest() {
  const deleteQuestion = (index) => {
   setQuestions((prev) => prev.filter((_, i) => i !== index));
  };
+
+ const handleReorder = (newAnswers, questionIndex) => {
+  if (typeof questionIndex === "number") {
+   setQuestions((prevQuestions) =>
+    prevQuestions.map((question, index) =>
+     index === questionIndex ? { ...question, answers: newAnswers } : question
+    )
+   );
+  } else {
+   setCurrentQuestion((prev) => ({
+    ...prev,
+    answers: newAnswers,
+   }));
+  }
+ };
+
  return (
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
@@ -350,49 +363,60 @@ function AddOnlineTest() {
      <div className="px-8 bg-accent-1100 border-b border-l border-r-8 border-accent-50 border-r-secondary rounded-lg rounded-tr-none rounded-tl-none p-4">
       <div className="flex items-start">
        <form className="flex-grow ">
-        {currentQuestion?.answers?.map((answer, index) => (
-         <div
-          key={index}
-          className="grid grid-cols-12 gap-3 items-center font-almaria-bold w-full mb-2"
-         >
-          <button type="button" onClick={() => deleteAnswer(index)}>
-           <X />
-          </button>
-          <input
-           type="radio"
-           className="h-5 w-5 "
-           name="correctAnswer" // Use a consistent name attribute for radio buttons
-           checked={answer.isCorrect} // Use the isCorrect flag to check the right option
-           onChange={(e) => handelCheck(e, index)}
-          />
-          <div className="col-span-10  ">
-           <div className="flex items-center gap-2  ">
-            <input
-             type="text"
-             placeholder={`خيار ${index + 1}`}
-             className="px-2 py-3 min-w-[50%] "
-             value={answer.text}
-             onChange={(e) => handelType(e, index)}
-            />
-            <GripIcon />
-           </div>
-          </div>
-          <div></div>
-          <div></div>
-          {index === currentQuestion.answers.length - 1 && (
-           <button
-            type="button"
-            className="col-span-10 flex gap-1 items-end mt-4"
-            onClick={addAnswer}
-           >
-            <Plus className="text-secondary h-5" />
-            <span className="text-secondary font-almaria-bold">
-             اضافة اختبار
-            </span>
+        <Reorder.Group
+         values={currentQuestion.answers}
+         onReorder={(newAnswers) => handleReorder(newAnswers)}
+         className="grid grid-cols-12 gap-4"
+        >
+         {currentQuestion.answers.map((answer, index) => (
+          <Reorder.Item
+           key={answer.id}
+           value={answer}
+           className="col-span-12 grid grid-cols-12 gap-3 items-center font-almaria-bold w-full mb-2"
+          >
+           <button type="button" onClick={() => deleteAnswer(index)}>
+            <X />
            </button>
-          )}
+           <input
+            type="radio"
+            className="h-5 w-5"
+            name="correctAnswer" // Use a consistent name attribute for radio buttons
+            checked={answer.isCorrect} // Use the isCorrect flag to check the right option
+            onChange={(e) => handelCheck(e, index)}
+           />
+           <div className="col-span-10">
+            <div className="flex items-center gap-2">
+             <input
+              type="text"
+              placeholder={`خيار ${index + 1}`}
+              className="px-2 py-3 min-w-[50%]"
+              value={answer.text}
+              onChange={(e) => handelType(e, index)}
+             />
+             <img src="Icons/grip_icon.svg" alt="drag" />
+            </div>
+           </div>
+
+           {/* {index === currentQuestion.answers.length - 1 && ( */}
+
+           {/* )} */}
+          </Reorder.Item>
+         ))}
+         <div></div>
+         <div></div>
+         <div className="col-span-10 mb-8">
+          <button
+           type="button"
+           className="col-span-10 flex gap-1 items-end "
+           onClick={addAnswer}
+          >
+           <Plus className="text-secondary h-5" />
+           <span className="text-secondary font-almaria-bold">
+            اضافة اختبار
+           </span>
+          </button>
          </div>
-        ))}
+        </Reorder.Group>
        </form>
 
        <div className="flex gap-2 items-center">
@@ -484,7 +508,7 @@ function AddOnlineTest() {
        </div>
       </div>
      </div>
-     <div className="flex gap-3">
+     <div className="flex gap-3 mb-6">
       <Button
        type="Secondary"
        icon={<Plus />}
@@ -511,18 +535,28 @@ function AddOnlineTest() {
        </Button>
       )}
      </div>
-     <ul className="flex flex-col gap-4 ">
+     <Reorder.Group
+      values={questions}
+      onReorder={setQuestions}
+      className="flex flex-col gap-4"
+     >
       {questions.map((question, index) => (
-       <li key={index} className="bg-white px-3 pt-4 pb-8 rounded-lg">
+       <Reorder.Item
+        key={question.text} // Assuming each question has a unique 'id'
+        value={question}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="bg-white px-3 pt-4 pb-8 rounded-lg"
+       >
         <div className="flex items-center w-full">
          <span>{index + 1}.</span>
-         {/* <span className="mr-2 flex-grow">{question.text}</span> */}
          <div
           className="mr-2 flex-grow font-almaria-bold text-lg"
           dangerouslySetInnerHTML={{ __html: question?.text }}
          />
          <div className="flex gap-2 items-center">
-          <div className="flex gap-2 items-center px-3  py-1 rounded-lg bg-accent-1000">
+          <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
            <div className="flex flex-col justify-between gap-1">
             <button
              className="hover:scale-110 duration-300 transition-all"
@@ -544,60 +578,73 @@ function AddOnlineTest() {
            <span>{question.bouns}</span>
           </div>
           <span>بونص</span>
-         </div>{" "}
+         </div>
         </div>
-        <ul className="mr-12 flex flex-col gap-00">
-         {question?.answers?.map((answer, i) => (
-          <>
-           <div
-            key={index}
-            className="flex  gap-3 items-center font-almaria-bold w-full "
-           >
-            <input
-             type="radio"
-             className="h-5 w-5 "
-             name={answer.text}
-             checked={answer.isCorrect}
-            />
-            <div>
-             <div className="flex items-center gap-2  ">
-              <input
-               type="text"
-               placeholder={`خيار ${index + 1}`}
-               className="px-2 py-3 min-w-[30%] "
-               value={answer.text}
-              />
-             </div>
+        <Reorder.Group
+         values={question.answers}
+         onReorder={(newAnswers) => {
+          // Call function to update state with new answers order
+          handleReorder(newAnswers, index);
+         }}
+         className="mr-12 flex flex-col"
+        >
+         {question.answers.map((answer, i) => (
+          <Reorder.Item
+           key={answer.text}
+           value={answer}
+           className="flex gap-3 items-center font-almaria-bold w-full"
+          >
+           <input
+            type="radio"
+            className="h-5 w-5"
+            name={answer.text}
+            checked={answer.isCorrect}
+            // onChange={(e) => handelCheck(e, i)}
+           />
+           <div>
+            <div className="flex items-center gap-2">
+             <input
+              type="text"
+              placeholder={`خيار ${i + 1}`}
+              className="px-2 py-3 min-w-[30%]"
+              value={answer.text}
+              // onChange={(e) => handleType(e, i)}
+             />
+             <img src="Icons/grip_icon.svg" alt="drag" />
             </div>
            </div>
-           <div className="flex gap-4">
-            {i === question.answers.length - 1 && (
-             <>
-              <button
-               type="button"
-               className="col-span-10 flex gap-1 mt-4 items-center"
-               onClick={() => edit(index)}
-              >
-               <Edit className="text-secondary h-5" />
-               <span className="text-secondary font-almaria-bold">تعديل</span>
-              </button>
-              <button
-               type="button"
-               className="col-span-10 flex gap-1 mt-4 items-start"
-               onClick={() => deleteQuestion(index)}
-              >
-               <img src="Icons/trash_icon.svg" alt="delete" />
-               <span className="text-primary font-almaria-bold">حذف</span>
-              </button>
-             </>
-            )}
-           </div>
-          </>
+          </Reorder.Item>
          ))}
-        </ul>
-       </li>
+         {/* {i === question.answers.length - 1 && ( */}
+         <div className="flex items-end gap-4">
+          <img
+           src="Icons/grip_icon.svg"
+           alt="drag"
+           className="rotate-90 cursor-pointer hover:scale-110 transition-all duration-300"
+          />
+          <button
+           type="button"
+           className="col-span-10 flex gap-1 mt-4 items-center"
+           onClick={() => edit(index)}
+          >
+           <Edit className="text-secondary h-5" />
+           <span className="text-secondary font-almaria-bold">تعديل</span>
+          </button>
+          <button
+           type="button"
+           className="col-span-10 flex gap-1 mt-4 items-start"
+           onClick={() => deleteQuestion(index)}
+          >
+           <img src="Icons/trash_icon.svg" alt="delete" />
+           <span className="text-primary font-almaria-bold">حذف</span>
+          </button>
+         </div>
+         {/* )} */}
+        </Reorder.Group>
+       </Reorder.Item>
       ))}
-     </ul>
+     </Reorder.Group>
+     {/* <List /> */}
     </div>
    </div>
   </div>
