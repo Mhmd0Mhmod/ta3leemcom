@@ -48,7 +48,7 @@ function Test() {
                 <ul className={"flex gap-10 "}>
                     {levels?.map((level, i) => (
                         <li key={i}
-                            className={`relative  p-1 cursor-pointer ${Number(subLevels) === i ? "halfunderline" : ""}`}
+                            className={`relative  p-1 cursor-pointer  ${Number(subLevels) === i ? "halfunderline text-black" : "text-[#8b8b8b] hover:text-black duration-500"} `}
                             onClick={() => {
                                 setSearchParams({tab: "level", level: searchParams.get("level"), subLevel: i});
                             }}>{level}{" "}{mainLevel}</li>
