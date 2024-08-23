@@ -48,7 +48,7 @@ function Test() {
                 <ul className={"flex gap-10 "}>
                     {levels?.map((level, i) => (
                         <li key={i}
-                            className={`relative  p-1 cursor-pointer ${Number(subLevels) === i ? "halfunderline" : ""}`}
+                            className={`relative  p-1 cursor-pointer  ${Number(subLevels) === i ? "halfunderline text-black" : "text-[#8b8b8b] hover:text-black duration-500"} `}
                             onClick={() => {
                                 setSearchParams({tab: "level", level: searchParams.get("level"), subLevel: i});
                             }}>{level}{" "}{mainLevel}</li>
@@ -61,11 +61,11 @@ function Test() {
                         <Heading as={"h1"} className={"text-[24px] font-almaria-bold"}>المجموعات</Heading>
                         <img src={arrow} alt={"arrow"}/>
                     </div>
-                    <div className={"bg-white p-5 rounded-xl h-fit max-h-64 overflow-y-auto"}>
+                    <div className={"bg-white p-5 rounded-[23px] h-fit max-h-64 overflow-y-auto"}>
                         <ul className={"flex flex-col gap-5"}>
                             {FakeGroups.map(group => (
                                 <li key={group.id}
-                                    className={`border border-[#0884A24D] flex gap-2 p-2 rounded-xl overflow-hidden font-almaria-bold cursor-pointer ${selectedGroups.includes(group) ? "bg-[#68ABBB]" : ""}`}
+                                    className={`border border-[#0884A24D] flex gap-2 p-2 rounded-[7px] overflow-hidden font-almaria-bold cursor-pointer hover:bg-[#b4d3e0] transition duration-500 ${selectedGroups.includes(group) ? "bg-[#68ABBB]" : ""}`}
                                     onClick={() => handleGroupClick(group)}>
                                     <img src={trash} alt={"trash"}/>
                                     <img src={edit} alt={"edit"}/>
@@ -76,8 +76,8 @@ function Test() {
                         </ul>
                     </div>
                 </div>
-                <div className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}>
-                    {[{name: "الاختبارات", icon: tests}, {name: "الطلاب", icon: students}, {name: "الاشهور", icon: monthes}, {name: "الاوائل", icon: toppers}].map((item, i) => (
+                <div className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-[74px]"}>
+                    {[{name: "الاختبارات", icon: tests}, {name: "الطلاب", icon: students}, {name: "الاشهور", icon: monthes}, {name: "المتفوقون", icon: toppers}].map((item, i) => (
                         <div key={i}
                              className={"flex flex-col items-center gap-5 cursor-pointer"}>
                             <div className={"relative"}>
