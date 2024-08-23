@@ -45,7 +45,7 @@ function StudentDetailes() {
             <div>
               <div >
                 <img src="../../public/imgs/id.svg" alt="Id" />
-                <div className="border-2 rounded-b-md border-t-0 p-4 bg-[#EEEEEE] mt-4 relative">
+                <div className="border-2 rounded-b-md border-t-0 p-4 bg-[#EEEEEE]  relative">
                   <div className="w-[5.625rem] h-[5.625rem] bg-[#D9D9D9] absolute left-10 top-[-2.813rem] rounded-full border-[0.313rem] border-white flex justify-center ">
                     <img src="../../public/imgs/profile.svg" alt="profile"  className="w-[50%]" />
                   </div>
