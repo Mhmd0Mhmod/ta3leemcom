@@ -8,7 +8,6 @@ import Subscriptions from "./pages/Subscriptions";
 import Opinion from "./pages/Opinion";
 import ContactWithUs from "./pages/ContactWithUs";
 import PageNotFound from "./pages/PageNotFound";
-import Dashboard from "./pages/Dashboard";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";

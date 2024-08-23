@@ -9,12 +9,12 @@ export default function Footer() {
           <div className="w-64">
             <img src="Icons/logo.svg" alt="logo" />
           </div>
-          <p className="text-[16px] ">نحن منصة تعليمية متكاملة تهدف إلى تسهيل العملية التعليمية من خلال تقديم أدوات فعالة للمعلمين، الطلاب، وأولياء الأمور.</p>
-          <div className="flex gap-5 justify-center">
-            <img src="Icons/gmail.svg" alt="twitter" />
-            <img src="Icons/facebook.svg" alt="facebook" />
-            <img src="Icons/instagram.svg" alt="instagram" />
-            <img src="Icons/linkedIn.svg" alt="linkedin" />
+          <p className="text-[16px]">نحن منصة تعليمية متكاملة تهدف إلى تسهيل العملية التعليمية من خلال تقديم أدوات فعالة للمعلمين، الطلاب، وأولياء الأمور.</p>
+          <div className="flex gap-10 justify-center">
+            <img className={"cursor-pointer"} src="Icons/gmail.svg" alt="twitter" />
+            <img className={"cursor-pointer"} src="Icons/facebook.svg" alt="facebook" />
+            <img className={"cursor-pointer"} src="Icons/instagram.svg" alt="instagram" />
+            <img className={"cursor-pointer"} src="Icons/linkedIn.svg" alt="linkedin" />
           </div>
         </div>
         <div className="flex flex-1 justify-between pt-10">
