@@ -357,7 +357,7 @@ function AddOnlineTest() {
     <div className="mt-8 " id="editSection">
      <Editor onType={handelQuestionText} value={currentQuestion.text} />
      <div className=" border-l border-r-8 border-accent-50 border-r-secondary bg-accent-1100 pt-2 ">
-      <hr className="  mx-12 border-4 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0 " />
+      <hr className="  mx-12 border-2 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0 " />
      </div>
 
      <div className="px-8 bg-accent-1100 border-b border-l border-r-8 border-accent-50 border-r-secondary rounded-lg rounded-tr-none rounded-tl-none p-4">
