@@ -8,7 +8,6 @@ import Subscriptions from "./pages/Subscriptions";
 import Opinion from "./pages/Opinion";
 import ContactWithUs from "./pages/ContactWithUs";
 import PageNotFound from "./pages/PageNotFound";
-import Dashboard from "./pages/Dashboard";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
@@ -20,8 +19,8 @@ function App() {
       <Router>
         <Routes>
           <Route index element={<Navigate replace to="home" />} />
-          <Route path="home" element={<Home />} />
           <Route element={<AppLayout />}>
+            <Route path="home" element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path={"signup"} element={<MainRegister rightHandeSide={<SingUpForm />} />} />
             <Route path="services" element={<Services />} />

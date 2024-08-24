@@ -44,9 +44,10 @@ function StudentDetailes() {
             {/* ------------- */}
             <div>
               <div >
-                <img src="../../public/imgs/id.svg" alt="Id"/>
+               <img src="../../public/imgs/id.svg" alt="Id"/>
                 <div>
                   <div className="border-2 border-[#B0B0B0] rounded-b-md border-t-0 p-4 bg-[#EEEEEE]   relative   bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('../../public/imgs/id-bg.svg')" }}>
+
                   <div className="w-[5.625rem] h-[5.625rem] bg-[#D9D9D9] absolute left-10 top-[-2.813rem] rounded-full border-[0.313rem] border-white flex justify-center ">
                     <img src="../../public/imgs/profile.svg" alt="profile"  className="w-[50%]" />
                   </div>
@@ -54,7 +55,7 @@ function StudentDetailes() {
                   <p className="text-center text-[#979797] text-lg mt-4 mb-6">{student.code}</p>
                   <div>
                       <div className="flex text-lg">
-                        <div className="w-40 mt-2 font-almaria-bold">الاسم</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.name}</div>
+                       <div className="w-40 mt-2 font-almaria-bold">الاسم</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.name}</div>
                       </div>
                       
                       <div className="flex  text-lg">
@@ -67,10 +68,12 @@ function StudentDetailes() {
                       
                       <div className="flex  text-lg">
                         <div className="w-40 mt-2 font-almaria-bold">الصف الدراسي</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.subLevel}</div>
+
                       </div>
                       
                   </div>
                 </div>
+
                 </div>
               </div>
             </div>

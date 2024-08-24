@@ -5,10 +5,14 @@ import DropList from "./ui/DropList.jsx";
 import Button from "./ui/Button.jsx";
 import { useState } from "react";
 import { LEVELS } from "../config.js";
+import { useSearchParams } from "react-router-dom";
+import GroupDetails from "./GroupDetails.jsx";
 
 function AddGroup() {
+  const [searchParmas, setSearchParmas] = useSearchParams();
   const [level, setLevel] = useState("");
   const [levelNumber, setLevelNumber] = useState("");
+  if (searchParmas.get("groupID")) return <GroupDetails />;
   const { levels, primary, middle, high } = LEVELS;
   return (
     <div className={"font-almaria"}>
@@ -41,7 +45,13 @@ function AddGroup() {
             )}
           </div>
         </div>
-        <Button type={"outline"} className={"w-fit mt-40 self-center"}>
+        <Button
+          type={"outline"}
+          className={"w-fit mt-40 self-center"}
+          onClick={() => {
+            setSearchParmas({ tab: "addGroup", groupID: 1 });
+          }}
+        >
           اضافة
         </Button>
       </div>

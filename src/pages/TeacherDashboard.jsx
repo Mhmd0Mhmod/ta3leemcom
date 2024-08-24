@@ -31,7 +31,7 @@ function TeacherDashboard() {
   };
 
   return (
-    <div className={"flex dashboard gap-5 font-cairo"}>
+    <div className={"flex dashboard gap-5 font-cairo mb-4"}>
       <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"}  self-start`}>
         <div className={"flex justify-end"}>
           <Icon
