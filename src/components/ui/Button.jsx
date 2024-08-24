@@ -41,6 +41,7 @@ export default function Button({
   }
   return (
    <button
+    onClick={onClick}
     className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}
    >
     {children}

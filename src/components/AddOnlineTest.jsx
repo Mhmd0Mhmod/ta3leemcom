@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Heading from "./ui/Heading";
 import Tab from "./ui/Tab";
 import { constraints } from "../config";
@@ -10,6 +10,7 @@ import { Edit, Grip, GripIcon, Plus, X } from "lucide-react";
 import { Reorder } from "framer-motion";
 import { useMotionValue, useDragControls } from "framer-motion";
 import { Draggable } from "react-beautiful-dnd";
+import Toolbar from "./Toolbar";
 // import List from "./DraggableList";
 // import { useRaisedShadow } from "./use-raised-shadow";
 // import FormComponent from "./FormComponent";
@@ -240,6 +241,12 @@ function AddOnlineTest() {
   }
  };
 
+ const [editors, setEditors] = useState(["", "", "", "", ""]);
+
+ const handleEditorChange = (newEditors) => {
+  setEditors(newEditors);
+ };
+
  return (
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
@@ -355,159 +362,8 @@ function AddOnlineTest() {
      </div>
     </div>
     <div className="mt-8 " id="editSection">
-     <Editor onType={handelQuestionText} value={currentQuestion.text} />
-     <div className=" border-l border-r-8 border-accent-50 border-r-secondary bg-accent-1100 pt-2 ">
-      <hr className="  mx-12 border-4 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0 " />
-     </div>
+     <Editor editors={editors} onChange={handleEditorChange} />
 
-     <div className="px-8 bg-accent-1100 border-b border-l border-r-8 border-accent-50 border-r-secondary rounded-lg rounded-tr-none rounded-tl-none p-4">
-      <div className="flex items-start">
-       <form className="flex-grow ">
-        <Reorder.Group
-         values={currentQuestion.answers}
-         onReorder={(newAnswers) => handleReorder(newAnswers)}
-         className="grid grid-cols-12 gap-4"
-        >
-         {currentQuestion.answers.map((answer, index) => (
-          <Reorder.Item
-           key={answer.id}
-           value={answer}
-           className="col-span-12 grid grid-cols-12 gap-3 items-center font-almaria-bold w-full mb-2"
-          >
-           <button type="button" onClick={() => deleteAnswer(index)}>
-            <X />
-           </button>
-           <input
-            type="radio"
-            className="h-5 w-5"
-            name="correctAnswer" // Use a consistent name attribute for radio buttons
-            checked={answer.isCorrect} // Use the isCorrect flag to check the right option
-            onChange={(e) => handelCheck(e, index)}
-           />
-           <div className="col-span-10">
-            <div className="flex items-center gap-2">
-             <input
-              type="text"
-              placeholder={`خيار ${index + 1}`}
-              className="px-2 py-3 min-w-[50%]"
-              value={answer.text}
-              onChange={(e) => handelType(e, index)}
-             />
-             <img src="Icons/grip_icon.svg" alt="drag" />
-            </div>
-           </div>
-
-           {/* {index === currentQuestion.answers.length - 1 && ( */}
-
-           {/* )} */}
-          </Reorder.Item>
-         ))}
-         <div></div>
-         <div></div>
-         <div className="col-span-10 mb-8">
-          <button
-           type="button"
-           className="col-span-10 flex gap-1 items-end "
-           onClick={addAnswer}
-          >
-           <Plus className="text-secondary h-5" />
-           <span className="text-secondary font-almaria-bold">
-            اضافة اختبار
-           </span>
-          </button>
-         </div>
-        </Reorder.Group>
-       </form>
-
-       <div className="flex gap-2 items-center">
-        <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
-         <div className="flex flex-col justify-between gap-1">
-          <button
-           className="hover:scale-110 duration-300 transition-all"
-           onClick={() => handelBounsIncrease()}
-          >
-           <img src="Icons/arrow_rounded.svg" alt="up" />
-          </button>
-          <button
-           className="hover:scale-110 duration-300 transition-all"
-           onClick={() => handelBounsDecrease()}
-          >
-           <img
-            src="Icons/arrow_rounded.svg"
-            alt="down"
-            className="rotate-180"
-           />
-          </button>
-         </div>
-         <span>{currentQuestion.bouns}</span>
-        </div>
-        <span>بونص</span>
-       </div>
-      </div>
-      <div className="flex items-center  gap-4">
-       <Heading as={"h5"} className={" font-almaria-bold"}>
-        تفسير الاجابة
-       </Heading>
-       <input type="text" className="px-2 py-3 flex-grow rounded-lg" />
-       <span>( اختياري )</span>
-      </div>
-      <hr className="my-4" />
-      <div className="flex justify-between items-center">
-       <div className="flex gap-4 items-center">
-        <label
-         htmlFor="required"
-         className="relative inline-flex items-center cursor-pointer "
-        >
-         <div
-          className={`w-11 h-6 ${
-           currentQuestion.required ? "bg-secondary" : "bg-white"
-          }  rounded-full shadow-inner border border-accent-50 `}
-         ></div>
-         <div
-          className={`dot absolute top-[50%] -translate-y-[50%] w-5 h-5 rounded-full transition-all duration-300 transform bg-white ${
-           currentQuestion.required
-            ? "translate-x-full left-0"
-            : "!bg-[#D9D9D9] left-1"
-          }`}
-         ></div>
-        </label>
-        <input
-         type="checkbox"
-         id="required"
-         className="hidden"
-         checked={currentQuestion.required}
-         onChange={(e) =>
-          setCurrentQuestion((prev) => ({
-           ...prev,
-           required: e.target.checked,
-          }))
-         }
-        />
-        <Heading as={"h5"} className={" font-almaria-bold"}>
-         {" "}
-         اجباري
-        </Heading>
-       </div>
-       <div className="flex gap-4 items-center">
-        <button
-         className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
-         onClick={() => {
-          setCurrentQuestion(DEFAULT_QUESTION);
-         }}
-        >
-         <img src="Icons/trash_icon_gray.svg" alt="" />
-        </button>
-        <button
-         className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
-         onClick={() => {
-          setQuestions((prev) => [...prev, currentQuestion]);
-         }}
-        >
-         <img src="Icons/copy_icon_gray.svg" alt="" />
-        </button>
-       </div>
-      </div>
-     </div>
      <div className="flex gap-3 mb-6">
       <Button
        type="Secondary"
