@@ -4,11 +4,19 @@ import profile from "../../public/Icons/profile.svg";
 import DropList from "./ui/DropList.jsx";
 import Button from "./ui/Button.jsx";
 import { useState } from "react";
+
+import { useSearchParams } from "react-router-dom";
+import StudentDetailes from "./StudentDetailes.jsx";
 import { LEVELS } from "../config.js";
 
 function AddStudent() {
+  const [searchParam, setSearchParmas] = useSearchParams();
   const [level, setLevel] = useState("");
   const [levelNumber, setLevelNumber] = useState("");
+  if (searchParam.get("studentId")) return <StudentDetailes />;
+
+
+
   return (
     <div className={"font-almaria"}>
       <Heading as={"h1"} className={"text-center  font-almaria-bold"}>
@@ -44,7 +52,13 @@ function AddStudent() {
             <DropList title={"اختر المجموعة"} options={[]} />
           </div>
         </div>
-        <Button type={"outline"} className={"w-fit mt-40 self-center"}>
+        <Button
+          type={"outline"}
+          className={"w-fit mt-40 self-center"}
+          onClick={() => {
+            setSearchParmas({ tab: "addStudent", studentId: 1 });
+          }}
+        >
           اضافة
         </Button>
       </div>

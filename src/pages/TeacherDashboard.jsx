@@ -11,8 +11,7 @@ import meeting from "../../public/Icons/meeting.svg";
 import threeCirlce from "../../public/Icons/threeCirlceDashboard.svg";
 import Details from "../components/ui/Details.jsx";
 import AddGroup from "../components/AddGroup.jsx";
-import AddOnlineTest from "../components/AddOnlineTest.jsx";
-import AddOfflineTest from "../components/AddOfflineTest.jsx";
+import StudentDetails from "../components/StudentDetailes.jsx";
 import Test from "../components/Test.jsx";
 import Level from "../components/Level.jsx";
 import { LEVELS } from "../config.js";
@@ -21,7 +20,6 @@ function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "addStudent";
   const [opened, setOpened] = useState(true);
-
   useEffect(() => {
     if (!searchParams.get("tab")) {
       setSearchParams({ tab: "addStudent" });
@@ -35,18 +33,29 @@ function TeacherDashboard() {
   return (
     <div className={"flex dashboard gap-5 font-cairo mb-4"}>
       <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"}  self-start`}>
-        <div className={`flex  ${opened?"justify-end": "justify-center"}`}>
-          <Icon src={menu} className={`w-9 ${opened ? "" : "rotate-180"}`} onClick={() => setOpened((open) => !open)} />
+        <div className={"flex justify-end"}>
+          <Icon
+            src={menu}
+            className={`w-9 ${opened ? "" : "rotate-180"}`}
+            onClick={() => setOpened((open) => !open)}
+          />
         </div>
         <ul className={"flex gap-2 flex-col font-cairo-bold"}>
           <li
             onClick={() => handleTabClick("addStudent")}
-            className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${activeTab === "addStudent" ? "active" : ""}`}
+            className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${
+              activeTab === "addStudent" ? "active" : ""
+            }`}
           >
             <Icon src={profile} />
             <span className={`${!opened ? "hidden" : ""}`}>اضافة طالب</span>
           </li>
-          <li onClick={() => handleTabClick("addGroup")} className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${activeTab === "addGroup" ? "active" : ""}`}>
+          <li
+            onClick={() => handleTabClick("addGroup")}
+            className={`rounded p-2.5 flex items-center gap-1 cursor-pointer ${
+              activeTab === "addGroup" ? "active" : ""
+            }`}
+          >
             <Icon src={group} />
             <span className={`${!opened ? "hidden" : ""}`}>اضافة مجموعة</span>
           </li>

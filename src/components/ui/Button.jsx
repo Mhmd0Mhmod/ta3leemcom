@@ -1,4 +1,6 @@
+
 export default function Button({ children, type = "primary", className, icon = false, iconStyle, circle = false, onClick }) {
+
   let style = `rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria `;
 
   if (type === "primary") {
@@ -18,6 +20,7 @@ export default function Button({ children, type = "primary", className, icon = f
   }
   if (type === "outline") {
     return (
+
       <button onClick={onClick} className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}>
         {children}
       </button>
@@ -25,6 +28,7 @@ export default function Button({ children, type = "primary", className, icon = f
   }
   if (type === "outlineSecondary") {
     return (
+
       <button onClick={onClick} className={` transition-all duration-500 rounded-lg  px-6 py-2 text-2xl min-w-40 ${className}`}>
         {children}
       </button>
@@ -47,6 +51,7 @@ export default function Button({ children, type = "primary", className, icon = f
   if (type === "normal") {
     return (
       <button onClick={onClick} className={` text-secondary border-secondary  ${circle ? "rounded-[50px]" : "rounded-xl"} ${style} font-almaria `}>
+
         {children}
       </button>
     );

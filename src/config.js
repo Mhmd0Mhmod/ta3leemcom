@@ -5,6 +5,38 @@ export const LEVELS = {
     high: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
 };
 
+export const FakeStudent = [{
+    code: 1 ,
+    name: "ابراهيم محمد مشرف محمد",
+    mainLevel : LEVELS.levels[0] , 
+    subLevel : LEVELS.primary[0],
+    group : "مجموعه 1"
+    },
+    {
+    code: 2 ,
+    name: "ابراهيم محمد مشرف محمد",
+    mainLevel : LEVELS.levels[0] , 
+    subLevel : LEVELS.primary[0],
+    group : "مجموعه 1"
+    },
+    {
+    code: 3 ,
+    name: "ابراهيم محمد مشرف محمد",
+    mainLevel : LEVELS.levels[0] , 
+    subLevel : LEVELS.primary[0],
+    group : "مجموعه 1"
+    },
+    {
+        code: 4 ,
+        name: "ابراهيم محمد مشرف محمد",
+        mainLevel : LEVELS.levels[0] , 
+        subLevel : LEVELS.primary[0],
+        group : "مجموعه 1"
+    },
+
+
+
+]
 export const FakeGroups = [
     {
         id: 1,
