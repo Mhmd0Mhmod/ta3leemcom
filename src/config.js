@@ -15,7 +15,7 @@ export const FakeGroups = [
                 name: "محمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الاولى",
                 status: "active"
@@ -25,7 +25,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الاولى",
                 status: "active"
@@ -35,7 +35,7 @@ export const FakeGroups = [
                 name: "علي",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الاولى",
                 status: "active"
@@ -45,7 +45,7 @@ export const FakeGroups = [
                 name: "محمود",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الاولى",
                 status: "active"
@@ -55,7 +55,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الاولى",
                 status: "active"
@@ -71,7 +71,7 @@ export const FakeGroups = [
                 name: "محمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثانية",
                 status: "active"
@@ -81,7 +81,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثانية",
                 status: "active"
@@ -91,7 +91,7 @@ export const FakeGroups = [
                 name: "علي",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثانية",
                 status: "active"
@@ -101,7 +101,7 @@ export const FakeGroups = [
                 name: "محمود",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level:0,
                 subLevel: 0,
                 group: "المجموعة الثانية",
                 status: "active"
@@ -111,7 +111,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثانية",
                 status: "active"
@@ -127,7 +127,7 @@ export const FakeGroups = [
                 name: "محمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثالثة",
                 status: "active"
@@ -137,7 +137,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثالثة",
                 status: "active"
@@ -147,7 +147,7 @@ export const FakeGroups = [
                 name: "علي",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثالثة",
                 status: "active"
@@ -157,7 +157,7 @@ export const FakeGroups = [
                 name: "محمود",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثالثة",
                 status: "active"
@@ -167,7 +167,7 @@ export const FakeGroups = [
                 name: "احمد",
                 phone: "01000000000",
                 email: "",
-                level: "الصف الاول",
+                level: 0,
                 subLevel: 0,
                 group: "المجموعة الثالثة",
                 status: "active"

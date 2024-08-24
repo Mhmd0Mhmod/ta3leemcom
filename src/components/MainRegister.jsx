@@ -12,9 +12,7 @@ export default function MainRegister() {
   const formType = searchParams.get("mr");
   const loginType = searchParams.get("login");
   const loction = useLocation();
-  console.log(loction);
   if (!formType) return null;
-
   const handleButtonClick = (login) => {
     setSearchParams({ mr: formType, login });
   };
