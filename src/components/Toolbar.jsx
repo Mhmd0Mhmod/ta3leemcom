@@ -1,30 +1,30 @@
+import { color } from "framer-motion";
 import {
- FaBold,
- FaItalic,
- FaUnderline,
- FaListOl,
- FaListUl,
- FaSuperscript,
- FaSubscript,
-} from "react-icons/fa";
-import {
- MdFormatAlignLeft,
- MdFormatAlignCenter,
- MdFormatAlignRight,
-} from "react-icons/md";
-import { HiOutlineCode } from "react-icons/hi";
-import { Baseline, Sigma } from "lucide-react";
+ AlignCenter,
+ AlignLeft,
+ AlignRight,
+ Baseline,
+ Bold,
+ Italic,
+ List,
+ ListOrdered,
+ Sigma,
+ Subscript,
+ Superscript,
+ Underline,
+} from "lucide-react";
+import { useState } from "react";
 
 const Toolbar = ({
  formatText,
  setFont,
  setSize,
  setColor,
- openMathModal,
+ color,
  insertMath,
 }) => {
  const fontOptions = ["sans-serif", "serif", "monospace"];
- const sizeOptions = ["small", "normal", "large", "huge"];
+ const sizeOptions = ["small", "large", "huge"];
  const commonColors = [
   "#000000", // Black
   "#FFFFFF", // White
@@ -34,16 +34,80 @@ const Toolbar = ({
   "#808080", // Gray
   "#FFFF00", // Yellow
  ];
+
+ const [showColorPicker, setShowColorPicker] = useState(false);
+
  return (
   <div
    id="toolbar"
-   className="ltr flex gap-4  mb-10 bg-white rounded-xl px-6 py-2"
+   className="ltr flex gap-4  mb-10 bg-white rounded-xl px-6 py-2 relative"
   >
    {/* Math Equation Button */}
    {/* <button className="px-2 py-1 bg-gray-300 rounded-md" onClick={openMathModal}>
     Math
    </button> */}
 
+   <div
+    className={`absolute flex gap-2  bg-white px-3 py-2 rounded-lg  left-0 border transition-all duration-300  ${
+     showColorPicker ? "-top-12 opacity-100" : "-top-8 opacity-0"
+    }`}
+   >
+    {commonColors.map((c, index) => (
+     <button
+      onClick={() => {
+       setColor(c);
+       setShowColorPicker(false);
+      }}
+      key={index}
+      className={`h-6 w-6 rounded-full cursor-pointer ring-2 ring-gray-300 borcer-2 border-transparent ${
+       c === color ? "ring-blue-500 ring-3 ring-offset-1" : ""
+      }`}
+      style={{
+       backgroundColor: c,
+      }}
+     ></button>
+    ))}
+   </div>
+
+   <button
+    className="px-1 py-1  rounded-md flex items-center justify-center"
+    onClick={() => setShowColorPicker(!showColorPicker)}
+   >
+    <Baseline />
+   </button>
+   <button
+    className="px-2 py-1  rounded-md flex items-center justify-center"
+    onClick={() => formatText("bold")}
+   >
+    <Bold />
+   </button>
+   {/* Italic */}
+   <button
+    className="px-2 py-1  rounded-md flex items-center justify-center"
+    onClick={() => formatText("italic")}
+   >
+    <Italic />
+   </button>
+   {/* Underline */}
+   <button
+    className="px-2 py-1  rounded-md flex items-center justify-center"
+    onClick={() => formatText("underline")}
+   >
+    <Underline />
+   </button>
+   <button
+    className="px-2 py-1  rounded-md flex items-center justify-center"
+    onClick={() => formatText("script", "super")}
+   >
+    <Superscript />
+   </button>
+   {/* Subscript */}
+   <button
+    className="px-2 py-1  rounded-md flex items-center justify-center"
+    onClick={() => formatText("script", "sub")}
+   >
+    <Subscript />
+   </button>
    <button
     className="px-1 py-1  rounded-md"
     onClick={() => {
@@ -54,33 +118,6 @@ const Toolbar = ({
     }}
    >
     <Sigma />
-   </button>
-
-   <button
-    className="px-1 py-1  rounded-md flex items-center justify-center"
-    onClick={() => setColor("#FBC84B")}
-   >
-    <Baseline />
-   </button>
-   <button
-    className="px-2 py-1  rounded-md flex items-center justify-center"
-    onClick={() => formatText("bold")}
-   >
-    <FaBold />
-   </button>
-   {/* Italic */}
-   <button
-    className="px-2 py-1  rounded-md flex items-center justify-center"
-    onClick={() => formatText("italic")}
-   >
-    <FaItalic />
-   </button>
-   {/* Underline */}
-   <button
-    className="px-2 py-1  rounded-md flex items-center justify-center"
-    onClick={() => formatText("underline")}
-   >
-    <FaUnderline />
    </button>
    {/*
    Header 1
@@ -100,63 +137,50 @@ const Toolbar = ({
      </button>
      */}
    {/* Ordered List */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("list", "ordered")}
    >
-    <FaListOl />
-   </button>
+    <ListOrdered />
+   </button> */}
    {/* Bullet List */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("list", "bullet")}
    >
-    <FaListUl />
-   </button>
+    <List />
+   </button> */}
    {/* Align Left */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("align", "left")}
    >
-    <MdFormatAlignLeft />
-   </button>
+    <AlignLeft />
+   </button> */}
    {/* Align Center */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("align", "center")}
    >
-    <MdFormatAlignCenter />
-   </button>
+    <AlignCenter />
+   </button> */}
    {/* Align Right */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("align", "right")}
    >
-    <MdFormatAlignRight />
-   </button>
+    <AlignRight />
+   </button> */}
    {/* Code Block */}
-   <button
+   {/* <button
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("code")}
    >
     <HiOutlineCode />
-   </button>
+   </button> */}
    {/* Superscript */}
-   <button
-    className="px-2 py-1  rounded-md flex items-center justify-center"
-    onClick={() => formatText("script", "super")}
-   >
-    <FaSuperscript />
-   </button>
-   {/* Subscript */}
-   <button
-    className="px-2 py-1  rounded-md flex items-center justify-center"
-    onClick={() => formatText("script", "sub")}
-   >
-    <FaSubscript />
-   </button>
    {/* Font Family */}
-   <select
+   {/* <select
     className="px-2 py-1  rounded-md"
     onChange={(e) => setFont(e.target.value)}
    >
@@ -165,10 +189,10 @@ const Toolbar = ({
       {font}
      </option>
     ))}
-   </select>
+   </select> */}
    {/* Font Size */}
    <select
-    className="px-2 py-1  rounded-md"
+    className="px-2 py-1  rounded-md border border-gray-300"
     onChange={(e) => setSize(e.target.value)}
    >
     {sizeOptions.map((size, index) => (

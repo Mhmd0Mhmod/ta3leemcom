@@ -243,20 +243,21 @@ details summary {
 
 /** Editor container **/
 .ql-container {
- /* border: 1px solid #ddd; */
+ /* border: 1px solid #ddd;
  border: 1px solid #ddd;
- border-top: 1px solid #ddd !important;
- margin-top: 20px;
+ border-top: 1px solid #ddd !important; */
+ border: none !important;
+ /* margin-top: 20px; */
  background-color: transparent;
  direction: rtl;
  display: flex;
  width: 100%;
  border-top-left-radius: 0.5rem;
  border-top-right-radius: 0.5rem;
- border-bottom: none !important;
- background-color: #f7f7f7;
- border-right: 8px solid #0884a2 !important;
- padding: 15px 0 0 0;
+ /* border-bottom: none !important; */
+ /* background-color: #f7f7f7; */
+ /* border-right: 8px solid #0884a2 !important; */
+ /* padding: 15px 0 0 0; */
 }
 
 /* Editor input area */
@@ -264,12 +265,12 @@ details summary {
  font-family: Arial, sans-serif;
  font-size: 16px;
  color: #333;
- padding: 15px;
+ /* padding: 15px; */
  line-height: 1.5;
  width: 100%;
  text-align: start;
  max-width: 100%;
- margin: 0 3rem;
+ /* margin: 0 3rem; */
  background: white;
 }
 

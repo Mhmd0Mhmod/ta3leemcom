@@ -62,7 +62,7 @@ const FormComponent = ({
             />
             {/* Handle for dragging */}
             <div {...provided.dragHandleProps}>
-             <img src="Icons/grip_icon.svg" alt="drag" />
+             <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
             </div>
            </div>
           </div>

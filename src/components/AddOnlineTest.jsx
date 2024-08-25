@@ -1,49 +1,47 @@
 import { useSearchParams } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Heading from "./ui/Heading";
 import Tab from "./ui/Tab";
 import { constraints } from "../config";
 import Button from "./ui/Button";
 import Editor from "./TextEditor2";
-import { Edit, Grip, GripIcon, Plus, X } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
 
 import { Reorder } from "framer-motion";
-import { useMotionValue, useDragControls } from "framer-motion";
-import { Draggable } from "react-beautiful-dnd";
-import Toolbar from "./Toolbar";
-// import List from "./DraggableList";
-// import { useRaisedShadow } from "./use-raised-shadow";
-// import FormComponent from "./FormComponent";
+
 const QUESTIONS = [
  {
   text: "ما هو أكبر كوكب في المجموعة الشمسية؟",
   bouns: 5,
   answers: [
-   { text: "المشتري", isCorrect: true },
-   { text: "المريخ", isCorrect: false },
+   { text: "المشتري", isCorrect: true, id: "1" },
+   { text: "المريخ", isCorrect: false, id: "2" },
   ],
   explain: "المشتري هو أكبر كوكب في المجموعة الشمسية.",
   required: true,
+  id: "1",
  },
  {
   text: "ما هي عاصمة فرنسا؟",
   bouns: 3,
   answers: [
-   { text: "باريس", isCorrect: true },
-   { text: "برلين", isCorrect: false },
+   { text: "باريس", isCorrect: true, id: "1" },
+   { text: "برلين", isCorrect: false, id: "2" },
   ],
   explain: "باريس هي عاصمة فرنسا.",
   required: false,
+  id: "2",
  },
  {
   text: "ما هو الحيوان الأسرع في العالم؟",
   bouns: 4,
   answers: [
-   { text: "الفهد", isCorrect: true },
-   { text: "الأسد", isCorrect: false },
+   { text: "الفهد", isCorrect: true, id: "1" },
+   { text: "الأسد", isCorrect: false, id: "2" },
   ],
   explain: "الفهد هو الحيوان الأسرع في العالم.",
   required: true,
+  id: "3",
  },
 ];
 
@@ -54,7 +52,7 @@ const tabs_2 = [
  { text: "31 / 7 /2024", path: "Icons/calender_icon_2.svg" },
 ];
 
-const DEFAULT_QUESTION = {
+export const DEFAULT_QUESTION = {
  text: "",
  bouns: 0,
  answers: [
@@ -63,6 +61,7 @@ const DEFAULT_QUESTION = {
  ],
  explain: "",
  required: false,
+ id: "",
 };
 
 function AddOnlineTest() {
@@ -72,6 +71,7 @@ function AddOnlineTest() {
  const [onEdit, setOnEdit] = useState(false);
  const [onEditIndex, setOnEditIndex] = useState(null);
 
+ console.log(questions.map((question) => question.id));
  const backToLevel = () => {
   setSearchParams({ tab: "level", level: "primary" });
  };
@@ -84,7 +84,10 @@ function AddOnlineTest() {
     ],
    path: "Icons/level_icon.svg",
   },
-  { text: searchParams.get("group"), path: "Icons/group_icon.svg" },
+  {
+   text: searchParams.get("group").split("_").length,
+   path: "Icons/group_icon.svg",
+  },
   { text: "12 طالب", path: "Icons/students_icon.svg" },
   { text: questions.length, path: "Icons/question_icon.svg" },
   { text: "20 درجة", path: "Icons/flag_icon.svg" },
@@ -200,6 +203,7 @@ function AddOnlineTest() {
  };
 
  const addQuestion = () => {
+  currentQuestion.id = questions.length + 1;
   setQuestions((prev) => [...prev, currentQuestion]);
   setCurrentQuestion(DEFAULT_QUESTION);
  };
@@ -209,7 +213,14 @@ function AddOnlineTest() {
    prev.map((question, i) => (i === onEditIndex ? currentQuestion : question))
   );
   setOnEdit(false);
+  document.getElementById(`q-${currentQuestion.id}`).scrollIntoView({
+   behavior: "smooth",
+   block: "end",
+  });
   setCurrentQuestion(DEFAULT_QUESTION);
+ };
+ const deleteQuestion = (index) => {
+  setQuestions((prev) => prev.filter((_, i) => i !== index));
  };
  const edit = (index) => {
   document.querySelector("#editSection").scrollIntoView({
@@ -220,10 +231,6 @@ function AddOnlineTest() {
   setOnEdit(true);
   setOnEditIndex(index);
   setCurrentQuestion(questions[index]);
- };
-
- const deleteQuestion = (index) => {
-  setQuestions((prev) => prev.filter((_, i) => i !== index));
  };
 
  const handleReorder = (newAnswers, questionIndex) => {
@@ -362,7 +369,14 @@ function AddOnlineTest() {
      </div>
     </div>
     <div className="mt-8 " id="editSection">
-     <Editor editors={editors} onChange={handleEditorChange} />
+     <Editor
+      editors={editors}
+      onChange={handleEditorChange}
+      currentQuestion={currentQuestion}
+      setCurrentQuestion={setCurrentQuestion}
+      questions={questions}
+      setQuestions={setQuestions}
+     />
 
      <div className="flex gap-3 mb-6">
       <Button
@@ -393,11 +407,13 @@ function AddOnlineTest() {
      </div>
      <Reorder.Group
       values={questions}
+      // dragConstraints={parentRef}
       onReorder={setQuestions}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 overflow-clip"
      >
       {questions.map((question, index) => (
        <Reorder.Item
+        id={`q-${question.id}`}
         key={question.text} // Assuming each question has a unique 'id'
         value={question}
         initial={{ opacity: 0 }}
@@ -438,11 +454,12 @@ function AddOnlineTest() {
         </div>
         <Reorder.Group
          values={question.answers}
+         //  dragConstraints={parentRef}
          onReorder={(newAnswers) => {
           // Call function to update state with new answers order
           handleReorder(newAnswers, index);
          }}
-         className="mr-12 flex flex-col"
+         className="mr-12 mt-3 gap-3 flex flex-col overflow-clip"
         >
          {question.answers.map((answer, i) => (
           <Reorder.Item
@@ -455,18 +472,15 @@ function AddOnlineTest() {
             className="h-5 w-5"
             name={answer.text}
             checked={answer.isCorrect}
-            // onChange={(e) => handelCheck(e, i)}
+            onChange={(e) => {}}
            />
-           <div>
-            <div className="flex items-center gap-2">
-             <input
-              type="text"
-              placeholder={`خيار ${i + 1}`}
-              className="px-2 py-3 min-w-[30%]"
-              value={answer.text}
-              // onChange={(e) => handleType(e, i)}
-             />
-             <img src="Icons/grip_icon.svg" alt="drag" />
+           <div className="w-full">
+            <div className="flex w-full  items-center gap-2 ">
+             <div
+              className="min-w-[25%]"
+              dangerouslySetInnerHTML={{ __html: answer.text }}
+             ></div>
+             <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
             </div>
            </div>
           </Reorder.Item>
@@ -476,6 +490,7 @@ function AddOnlineTest() {
           <img
            src="Icons/grip_icon.svg"
            alt="drag"
+           draggable={false}
            className="rotate-90 cursor-pointer hover:scale-110 transition-all duration-300"
           />
           <button

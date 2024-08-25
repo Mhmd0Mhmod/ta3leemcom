@@ -12,7 +12,9 @@ export default function Tab({ type = "primary", text, path, className = "" }) {
   return (
    <div className="flex items-center gap-2">
     <img src={path} alt={"icon"} />
-    <span className="font-almaria-light text-accent-400">{text}</span>
+    <span className="font-almaria-light text-accent-400 ">
+     {text}
+    </span>
    </div>
   );
 }

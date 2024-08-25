@@ -49,14 +49,26 @@ export default function Button({
   );
  }
  if (type === "outlineSecondary") {
-  return (
-   <button
-    onClick={onClick}
-    className={` transition-all duration-500 rounded-lg  px-6 py-2 text-2xl min-w-40 ${className}`}
-   >
-    {children}
-   </button>
-  );
+  if (icon) {
+   return (
+    <button
+     onClick={onClick}
+     className={`  border-none text-secondary font-almaria-bold text-[16px]   flex items-center justify-between ${style} `}
+    >
+     <span className={iconStyle}>{icon}</span>
+     <span className="">{children}</span>
+    </button>
+   );
+  } else {
+   return (
+    <button
+     onClick={onClick}
+     className={` transition-all duration-500 rounded-lg  px-6 py-2 text-2xl min-w-40 ${className}`}
+    >
+     {children}
+    </button>
+   );
+  }
  }
  if (type === "Secondary") {
   if (icon) {
