@@ -6,9 +6,10 @@ function Details({className, summary, icon, listIcon = true, listItems = [], tab
     const [searchParams, setSearchParams] = useSearchParams();
     const activeTab = searchParams.get(param);
     const [showList, setShowList] = useState(false);
+
     useEffect(() => {
-        if (opend) setShowList(false);
-    }, [opend]);
+        setShowList(false);
+    }, [opend, activeTab]);
 
     function handleOpen(e) {
         if (!opend) {
@@ -46,7 +47,10 @@ function Details({className, summary, icon, listIcon = true, listItems = [], tab
                 <ul className={"absolute top-0 w-[110px] -left-[120px] bg-white rounded-[7px] shadow-lg z-10 text-[14px]"}>
                     {listItems.map((item, index) => (
                         <li
-                            onClick={() => setSearchParams({tab: param, [param]: tabName[index]})}
+                            onClick={() => {
+                                setSearchParams({tab: param, [param]: tabName[index]});
+                                setShowList(false);
+                            }}
                             key={tabName[index]}
                             className={`rounded p-1 pl-4  cursor-pointer  hover:bg-[#D7D7D7] duration-300 ${
                                 activeTab === tabName[index] ? "active" : ""
