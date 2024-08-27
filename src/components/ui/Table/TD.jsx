@@ -1,4 +1,4 @@
-function Td({children = null, className = "", onClick = null}) {
+function TD({children = null, className = "", onClick = null}) {
     return (
         <div className={"w-full" + className} onClick={onClick}>
             {children}
@@ -6,4 +6,4 @@ function Td({children = null, className = "", onClick = null}) {
     );
 }
 
-export default Td;
+export default TD;

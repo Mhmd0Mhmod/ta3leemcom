@@ -1,4 +1,4 @@
-function Th({children = null, className = "", onClick = null}) {
+function TH({children = null, className = "", onClick = null}) {
     return (
         <div className={"w-full font-almaria-bold text-center" + className} onClick={onClick}>
             {children}
@@ -6,4 +6,4 @@ function Th({children = null, className = "", onClick = null}) {
     );
 }
 
-export default Th;
+export default TH;
