@@ -6,6 +6,7 @@ import {useState} from "react";
 import Table from "./ui/Table/Table.jsx";
 import THead from "./ui/Table/THead.jsx";
 import TR from "./ui/Table/TR.jsx";
+import TH from "./ui/Table/TH.jsx";
 
 function Students() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -90,10 +91,12 @@ function Students() {
                         </span>
                     </div>
                 </div>
-                <Table>
+                <Table className={"!w-1/2"}>
                     <THead>
-                        <TR>
-
+                        <TR className={"p-2 bg-[#A8A8A833] rounded "}>
+                            <TH>
+                                اسم الطالب
+                            </TH>
                         </TR>
                     </THead>
                 </Table>
