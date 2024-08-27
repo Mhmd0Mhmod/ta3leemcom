@@ -1,6 +1,6 @@
-function Table({children, className, onClick}) {
+function Table({children = null, className = "", onClick = null}) {
     return (
-        <div className={"w-full"+className} onClick={onClick}>
+        <div className={"w-full" + className} onClick={onClick}>
             {children}
         </div>
     );
