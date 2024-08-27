@@ -1,5 +1,5 @@
 
-function Tr({children , onClick , className}) {
+function Tr({children = null, className = "", onClick = null}) {
  return (
      <div className={"w-full" + className} onClick={onClick}>
          {children}

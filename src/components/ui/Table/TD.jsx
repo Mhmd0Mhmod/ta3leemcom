@@ -1,4 +1,4 @@
-function Td({children, onClick, className}) {
+function Td({children = null, className = "", onClick = null}) {
     return (
         <div className={"w-full" + className} onClick={onClick}>
             {children}
