@@ -77,7 +77,7 @@ function Test() {
                     </div>
                 </div>
                 <div className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-[74px]"}>
-                    {[{name: "الاختبارات", icon: tests}, {name: "الطلاب", icon: students}, {name: "الاشهور", icon: monthes}, {name: "المتفوقون", icon: toppers}].map((item, i) => (
+                    {[{name: "الاختبارات", icon: tests}, {name: "الطلاب", icon: students }, {name: "الاشهور", icon: monthes}, {name: "المتفوقون", icon: toppers}].map((item, i) => (
                         <div key={i}
                              className={"flex flex-col items-center gap-5 cursor-pointer"}>
                             <div className={"relative"}>
