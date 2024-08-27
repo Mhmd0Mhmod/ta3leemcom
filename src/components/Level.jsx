@@ -42,13 +42,13 @@ function Test() {
     setSelectedGroups((prevGroups) => [...prevGroups, group]);
   };
 
-  const moveToTests = () => {
+  const moveTo = (tab) => {
     const groups = selectedGroups
       .map((group) => group.name)
       .join(",")
       .replaceAll(",", "_");
     setSearchParams({
-      tab: "test",
+      tab,
       level: searchParams.get("level"),
       subLevel: subLevels,
       group: groups,
@@ -109,12 +109,12 @@ function Test() {
         </div>
         <div className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}>
           {[
-            { name: "الاختبارات", icon: tests, onClick: moveToTests },
-            { name: "الطلاب", icon: students, onClick: null },
-            { name: "الاشهور", icon: monthes, onClick: null },
-            { name: "الاوائل", icon: toppers, onClick: null },
+            { name: "الاختبارات", icon: tests , tab : "test" },
+            { name: "الطلاب", icon: students , tab : "students" },
+            { name: "الاشهور", icon: monthes , tab : "monthes" },
+            { name: "الاوائل", icon: toppers , tab : "toppers" },
           ].map((item, i) => (
-            <button key={i} onClick={item.onClick} className={"flex flex-col items-center gap-5 cursor-pointer"}>
+            <button key={i} onClick={()=>moveTo(item.tab)} className={"flex flex-col items-center gap-5 cursor-pointer"}>
               <div className={"relative"}>
                 <img src={item.icon} alt={item.name} />
                 <span className={"w-full h-full absolute top-0 left-0 rounded-full hover:bg-[#00000033]"}></span>
