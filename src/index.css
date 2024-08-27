@@ -3,213 +3,299 @@
 @tailwind utilities;
 
 @font-face {
- font-family: "Almarai-Regular";
- src: url("fonts/Almarai-Regular.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Regular";
+  src: url("fonts/Almarai-Regular.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Almarai-Bold";
- src: url("fonts/Almarai-Bold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Bold";
+  src: url("fonts/Almarai-Bold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Almarai-ExtraBold";
- src: url("fonts/Almarai-ExtraBold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-ExtraBold";
+  src: url("fonts/Almarai-ExtraBold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Almarai-Light";
- src: url("fonts/Almarai-Light.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Almarai-Light";
+  src: url("fonts/Almarai-Light.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Cairo-Regular";
- src: url("fonts/Cairo-Regular.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Regular";
+  src: url("fonts/Cairo-Regular.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Cairo-Bold";
- src: url("fonts/Cairo-Bold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Bold";
+  src: url("fonts/Cairo-Bold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Cairo-ExtraBold";
- src: url("fonts/Cairo-ExtraBold.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-ExtraBold";
+  src: url("fonts/Cairo-ExtraBold.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 @font-face {
- font-family: "Cairo-Light";
- src: url("fonts/Cairo-Light.ttf") format("truetype");
- font-weight: bold; /* Adjust based on the actual font weight */
- font-style: normal;
+  font-family: "Cairo-Light";
+  src: url("fonts/Cairo-Light.ttf") format("truetype");
+  font-weight: bold; /* Adjust based on the actual font weight */
+  font-style: normal;
 }
 
 * {
- box-sizing: border-box;
- margin: 0;
- padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
- font-family: "Almarai-Regular";
- direction: rtl;
+  font-family: "Almarai-Regular";
+  direction: rtl;
 }
 
 input:focus,
 textarea:focus {
- outline: none;
+  outline: none;
 }
 
 body {
- direction: rtl;
- scroll-behavior: smooth;
+  direction: rtl;
+  scroll-behavior: smooth;
 }
 
 /* App.css or carousel.css */
 #app {
- height: 100%;
+  height: 100%;
 }
 
 html,
 body {
- position: relative;
- height: 100%;
+  position: relative;
+  height: 100%;
 }
 
 body {
- /* background: #eee; */
- /* font-family: Helvetica Neue, Helvetica, Arial, sans-serif; */
- font-size: 14px;
- color: #000;
- margin: 0;
- padding: 0;
+  /* background: #eee; */
+  /* font-family: Helvetica Neue, Helvetica, Arial, sans-serif; */
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
 }
 
 .swiper {
- width: 100%;
- height: 100%;
- position: relative;
- z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .swiper::after {
- content: "";
- position: absolute;
- top: 0;
- width: 100%;
- height: 100%;
- z-index: 2;
- background: linear-gradient(
-  to left,
-  rgba(0, 0, 0, 1) 0%,
-  rgba(0, 0, 0, 0.9) 10%,
-  rgba(0, 0, 0, 0.8) 20%,
-  rgba(0, 0, 0, 0.7) 30%,
-  rgba(0, 0, 0, 0.6) 40%,
-  rgba(0, 0, 0, 0.5) 50%, 
-  rgba(0, 0, 0, 0.4) 60%,
-  rgba(0, 0, 0, 0.3) 70%,
-  rgba(0, 0, 0, 0.2) 80%,
-  rgba(0, 0, 0, 0.1) 90%,
-  transparent 100%
- );
- mix-blend-mode: multiply;
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 10%,
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0.7) 30%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.4) 60%,
+    rgba(0, 0, 0, 0.3) 70%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.1) 90%,
+    transparent 100%
+  );
+  mix-blend-mode: multiply;
 }
 
 .swiper-slide {
- background-position: center;
- background-size: cover;
+  background-position: center;
+  background-size: cover;
 }
 
 .swiper-slide img {
- display: block;
- width: 100%;
- transform-origin: top;
+  display: block;
+  width: 100%;
+  transform-origin: top;
 }
 
 .swiper-pagination {
- margin-bottom: 20%;
- padding: 10px;
- display: flex;
- flex-direction: column;
- gap: 8px;
+  margin-bottom: 20%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .swiper-pagination-bullet {
- width: 15px;
- height: 15px;
- text-align: center;
- line-height: 20px;
- font-size: 12px;
- color: #000;
- opacity: 1;
- background: white;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  color: #000;
+  opacity: 1;
+  background: white;
 }
 .swiper-pagination-bullet-active {
- color: #fff;
- background: #0884a2;
+  color: #fff;
+  background: #0884a2;
 }
 
 .dashboard ul li.active {
- background-color: #b4d3e0;
+  background-color: #b4d3e0;
 }
 
 nav ul li.active {
- border-bottom: 4px solid #0884a2;
- color: #0884a2;
+  border-bottom: 4px solid #0884a2;
+  color: #0884a2;
 }
 
 nav::after {
- content: "";
- position: absolute;
- width: 80%;
- height: 1px;
- background-color: #c4c4c4;
- bottom: 0;
- left: 50%;
- transform: translateX(-50%);
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 1px;
+  background-color: #c4c4c4;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
-details summary{
- list-style: none;
+details summary {
+  list-style: none;
 }
 /* src/index.css */
 ::-webkit-scrollbar {
- width: 10px;
- background-color: inherit;
+  width: 10px;
+  background-color: inherit;
 }
-.halfunderline::after{
- content: "";
- position: absolute;
- width: 50%;
- height: 1px;
- background-color: black;
- bottom: 0;
- left: 50%;
- transform: translateX(-50%);
+.halfunderline::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 1px;
+  background-color: black;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 ::-webkit-scrollbar-thumb {
- background-color: rgba(0, 0, 0, 0.5); /* Dark and semi-transparent */
- border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark and semi-transparent */
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
- background-color: rgba(0, 0, 0, 0.7); /* Slightly darker on hover */
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly darker on hover */
 }
 
 .rotate-Y-180 {
- transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.rtl {
+  direction: rtl;
+}
+.ltr {
+  direction: ltr;
+}
+
+/** Toolbar container **/
+.ql-toolbar {
+  background-color: #ffffff;
+  /* border: 1px solid #c6c6c6; */
+  border: 1px solid transparent;
+  border-radius: 12px;
+  border: none !important;
+}
+
+/* .ql-toolbar button:hover {
+ background-color: #ccc;
+} */
+
+/* Dropdown menus in the toolbar */
+.ql-toolbar .ql-picker-options {
+  background-color: #fff; /* Dropdown background color */
+  border: 0px solid transparent !important; /* Dropdown border */
+  border: none !important;
+}
+
+.ql-toolbar .ql-picker-item:hover {
+  background-color: #f0f0f0; /* Change dropdown item color on hover */
+}
+
+/** Editor container **/
+.ql-container {
+  /* border: 1px solid #ddd; */
+  border: 1px solid #ddd;
+  border-top: 1px solid #ddd !important;
+  margin-top: 20px;
+  background-color: transparent;
+  direction: rtl;
+  display: flex;
+  width: 100%;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom: none !important;
+  background-color: #f7f7f7;
+  border-right: 8px solid #0884a2 !important;
+  padding: 15px 0 0 0;
+}
+
+/* Editor input area */
+.ql-editor {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  padding: 15px;
+  line-height: 1.5;
+  width: 100%;
+  text-align: start;
+  max-width: 100%;
+  margin: 0 3rem;
+  background: white;
+}
+
+/* Placeholder text */
+.ql-editor.ql-blank::before {
+  color: #999; /* Placeholder text color */
+  font-style: italic; /* Italicize placeholder text */
+}
+
+/* is not working */
+
+.ql-font-serif {
+  font-family: "Times New Roman", serif;
+}
+
+.ql-font-monospace {
+  font-family: "Courier New", monospace;
+}
+
+.ql-font-cursive {
+  font-family: "Comic Sans MS", cursive;
+}
+
+.ql-font-fantasy {
+  font-family: "Impact", fantasy;
 }
