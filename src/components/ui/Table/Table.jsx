@@ -1,9 +1,7 @@
 function Table({children = null, className = "", onClick = null}) {
-    return (
-        <div className={"w-full relative" + className} onClick={onClick}>
+    return (<div className={`w-full relative ${className}`} onClick={onClick}>
             {children}
-        </div>
-    );
+        </div>);
 }
 
 export default Table;
