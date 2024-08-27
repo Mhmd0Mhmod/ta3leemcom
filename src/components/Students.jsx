@@ -4,6 +4,8 @@ import Heading from "./ui/Heading.jsx";
 import Button from "./ui/Button.jsx";
 import {useState} from "react";
 import Table from "./ui/Table/Table.jsx";
+import THead from "./ui/Table/THead.jsx";
+import TR from "./ui/Table/TR.jsx";
 
 function Students() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -89,7 +91,11 @@ function Students() {
                     </div>
                 </div>
                 <Table>
-                    
+                    <THead>
+                        <TR>
+
+                        </TR>
+                    </THead>
                 </Table>
             </div>
         </>
