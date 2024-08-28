@@ -369,6 +369,7 @@ function AddOnlineTest() {
      </div>
     </div>
     <div className="mt-8 " id="editSection">
+<<<<<<< HEAD
      <Editor
       editors={editors}
       onChange={handleEditorChange}
@@ -377,6 +378,12 @@ function AddOnlineTest() {
       questions={questions}
       setQuestions={setQuestions}
      />
+=======
+     <Editor onType={handelQuestionText} value={currentQuestion.text} />
+     <div className=" border-l border-r-8 border-accent-50 border-r-secondary bg-accent-1100 pt-2 ">
+      <hr className="  mx-12 border-2 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0 " />
+     </div>
+>>>>>>> main
 
      <div className="flex gap-3 mb-6">
       <Button

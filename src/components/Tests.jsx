@@ -162,18 +162,19 @@ function Tests() {
     </div>
     <Button
      type="Secondary"
-     className={"bg-accent-900 !text-black  font-almaria-light"}
+     className={" bg-accent-900 !text-black h- font-almaria-light text-xl  "}
     >
      بحث
     </Button>
 
     <Button
      type="Secondary"
-     className={"!bg-accent-900 relative"}
-     icon={<img src="Icons/calender.svg" alt="date" className="h-8" />}
+     className={" !bg-accent-900 relative  "}
+     iconStyle={"h-5 flex items-center"}
+     icon={<img src="Icons/calender.svg" alt="date" />}
      onClick={() => setFilterByDateUl((prev) => !prev)}
     >
-     <div className="flex gap-2 !text-black font-almaria-light ">
+     <div className="flex gap-2 !text-black font-almaria-light text-xl ">
       <span> تصفية بالتاريخ</span>
       <img
        src="Icons/breadcrumb_arrow.svg"
@@ -189,7 +190,7 @@ function Tests() {
       onClick={(e) => {
        e.stopPropagation();
       }}
-      className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-lg border border-secondary mt-4 text-black ${
+      className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-[7px] border border-[#b4d3e0] mt-4 text-black ${
        filterByDateUl ? "opacity-100" : "pointer-events-none"
       }`}
      >
@@ -203,7 +204,7 @@ function Tests() {
          <input
           type="date"
           id="fromDate"
-          className="rounded-l border border-secondary px-2 py-1"
+          className="rounded-[7px] border border-[#b4d3e0] px-2 py-1"
          />
         </div>
         <div>
@@ -211,7 +212,7 @@ function Tests() {
          <input
           type="date"
           id="fromDate"
-          className="rounded-l border border-secondary px-2 py-1"
+          className="rounded-[7px] border border-[#b4d3e0] px-2 py-1"
          />
         </div>
        </div>
@@ -222,7 +223,7 @@ function Tests() {
          setTests(TESTS.filter((test) => test.date === formatDate(today)));
          setFilterByDateUl(false);
         }}
-        className="rounded-xl duration-500 transition-all hover:bg-accent-900 border border-secondary text-start p-3"
+        className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
        >
         اليوم
        </button>
@@ -234,7 +235,7 @@ function Tests() {
 
          setFilterByDateUl(false);
         }}
-        className="rounded-xl duration-500 transition-all hover:bg-accent-900 border border-secondary text-start p-3"
+        className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
        >
         امس
        </button>
@@ -246,7 +247,7 @@ function Tests() {
 
          setFilterByDateUl(false);
         }}
-        className="rounded-xl duration-500 transition-all hover:bg-accent-900 border border-secondary text-start p-3"
+        className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
        >
         اسبوع
        </button>
@@ -265,10 +266,10 @@ function Tests() {
     </Button>
     <Button
      type="Secondary"
-     className={"!bg-accent-900 relative"}
+     className={" !bg-accent-900 relative"}
      onClick={() => setFilterByTestTypeUl((prev) => !prev)}
     >
-     <div className="flex gap-2 !text-black font-almaria-light">
+     <div className="flex gap-2 !text-black font-almaria-light text-xl">
       <span> نوع الاختبار</span>
       <img
        src="Icons/breadcrumb_arrow.svg"
@@ -281,7 +282,7 @@ function Tests() {
       />
      </div>
      <div
-      className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-lg border border-secondary mt-4 text-black ${
+      className={`opacity-0  duration-300 transition-all absolute bottom-20 left-0 bg-white rounded-[7px] border border-[#b4d3e0] mt-4 text-black ${
        filterByTestTypeUl ? "opacity-100" : "pointer-events-none"
       }`}
      >
@@ -296,7 +297,7 @@ function Tests() {
          setTests(TESTS.filter((test) => test.type === "اونلاين"));
          setFilterByTestTypeUl(false);
         }}
-        className="rounded-xl duration-500 transition-all hover:bg-accent-900 border border-secondary text-start p-3"
+        className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
        >
         اونلاين
        </button>
@@ -308,7 +309,7 @@ function Tests() {
 
          setFilterByTestTypeUl(false);
         }}
-        className="rounded-xl duration-500 transition-all hover:bg-accent-900 border border-secondary text-start p-3"
+        className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
        >
         اوفلاين
        </button>
@@ -340,7 +341,7 @@ function Tests() {
     </button>
    </div>
    <div className="my-12">
-    <table className="min-w-full bg-accent-1000  border-collapse border-spacing-2  rounded-lg text-center">
+    <table className="min-w-full bg-accent-1000  border-collapse border-spacing-2  rounded-lg text-center h-20">
      <thead>
       <tr>
        <th className="px-6 py-3 text-center text-black bg-accent-1000 rounded-tr-lg border-l border-[#D9D9D9]">
