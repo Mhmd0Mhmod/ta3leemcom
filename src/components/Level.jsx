@@ -111,7 +111,7 @@ function Test() {
           {[
             { name: "الاختبارات", icon: tests , tab : "test" },
             { name: "الطلاب", icon: students , tab : "students" },
-            { name: "الاشهور", icon: monthes , tab : "monthes" },
+            { name: "الاشهور", icon: monthes , tab : "months" },
             { name: "الاوائل", icon: toppers , tab : "toppers" },
           ].map((item, i) => (
             <button key={i} onClick={()=>moveTo(item.tab)} className={"flex flex-col items-center gap-5 cursor-pointer"}>
