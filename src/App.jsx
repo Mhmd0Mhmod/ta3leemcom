@@ -11,7 +11,6 @@ import PageNotFound from "./pages/PageNotFound";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
-import StudentDetailes from "./components/StudentDetailes.jsx";
 
 function App() {
   return (

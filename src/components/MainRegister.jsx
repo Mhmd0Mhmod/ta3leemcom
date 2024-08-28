@@ -1,7 +1,7 @@
 import Heading from "./ui/Heading.jsx";
 import Button from "./ui/Button.jsx";
 import circles from "../../public/Icons/circles1.svg";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SingUpForm from "./SingUpForm.jsx";
 import exit from "../../public/Icons/exit.svg";
 import StudentLoginForm from "./StudentLoginForm.jsx";
