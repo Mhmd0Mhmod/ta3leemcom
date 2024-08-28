@@ -15,6 +15,7 @@ import StudentDetails from "../components/StudentDetailes.jsx";
 import Test from "../components/Test.jsx";
 import Level from "../components/Level.jsx";
 import { LEVELS } from "../config.js";
+import Students from "../components/Students.jsx";
 
 function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -80,6 +81,7 @@ function TeacherDashboard() {
         {activeTab === "addGroup" && <AddGroup />}
         {activeTab === "test" && <Test />}
         {activeTab === "level" && <Level />}
+        {activeTab === "students" && <Students />}
         {activeTab === "meeting" && <h1>عقد اجتماع</h1>}
       </div>
     </div>
