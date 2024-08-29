@@ -1,8 +1,8 @@
 // src/components/Header.jsx
 import { useLocation, Link, useSearchParams } from "react-router-dom";
-import logo from "../../public/Icons/ta3leemComLogo.svg";
-import Button from "./ui/Button.jsx";
-import Icon from "./ui/Icon.jsx";
+import Logo from "../../public/Icons/ta3leemComLogo.svg";
+import Button from "./ui-local/Button.jsx";
+import Icon from "./ui-local/Icon.jsx";
 import { useState } from "react";
 export default function Header() {
  const location = useLocation();
@@ -13,7 +13,8 @@ export default function Header() {
   <>
    <nav className={"relative flex justify-between font-almaria ml-10 mb-3"}>
     <div className={"flex"}>
-     <img src={logo} alt={"Icon"} />
+     {/* <img src={logo} alt={"Icon"} /> */}
+     <Logo width />
      <ul className={"flex items-center justify-between gap-5 text-3xl "}>
       <li
        className={`pb-2 hover:text-[#0884A2] duration-500 ${

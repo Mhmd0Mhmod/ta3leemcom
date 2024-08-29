@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
-import Heading from "./ui/Heading";
-import Button from "./ui/Button";
+import Heading from "./ui-local/Heading";
+import Button from "./ui-local/Button";
 import { constraints } from "../config";
 import { useState } from "react";
 
@@ -65,7 +65,10 @@ function Tests() {
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
     <img src="Icons/rev_arrow.svg" alt="" />
-    <Heading as={"h3"} className={"text-secondary underline font-almaria-bold"}>
+    <Heading
+     as={"h3"}
+     className={"text-secondary-l underline font-almaria-bold"}
+    >
      العوده الي المراحل الدراسية
     </Heading>
    </button>
@@ -252,7 +255,7 @@ function Tests() {
         اسبوع
        </button>
        <button
-        className="mt-2 text-start underline text-secondary w-fit "
+        className="mt-2 text-start underline text-secondary-l w-fit "
         onClick={(e) => {
          e.stopPropagation();
 
@@ -314,7 +317,7 @@ function Tests() {
         اوفلاين
        </button>
        <button
-        className="mt-2 text-start underline text-secondary w-fit"
+        className="mt-2 text-start underline text-secondary-l w-fit"
         onClick={(e) => {
          e.stopPropagation();
          setTests(TESTS);
@@ -329,7 +332,7 @@ function Tests() {
     </Button>
 
     <button
-     className="text-secondary "
+     className="text-secondary-l "
      onClick={() => {
       setTests(TESTS);
       setSearch("");

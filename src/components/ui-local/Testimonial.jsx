@@ -56,7 +56,7 @@ export default function Testimonial({
           <div>
            <div className="shadow-2xl rounded-xl d-rtl">
             <div className="relative p-8">
-             <p className="text-accent-100 p-20 text-justify text-[18px] ">
+             <p className="text-accent-l-100 p-20 text-justify text-[18px] ">
               قد كانت تجربتي مع هذه المنصة رائعة ومثمرة للغاية. كمعلم، كانت
               إدارة الصفوف والمجموعات الدراسية سلسة ومنظمة بشكل كبير.ميزة
               التواصل المباشر مع أولياء الأمور عبر الشات ساعدتني في الحفاظ على

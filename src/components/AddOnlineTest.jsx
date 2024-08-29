@@ -1,13 +1,38 @@
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import Heading from "./ui/Heading";
-import Tab from "./ui/Tab";
+import { useEffect, useState } from "react";
+import Heading from "./ui-local/Heading";
+import Tab from "./ui-local/Tab";
 import { constraints } from "../config";
-import Button from "./ui/Button";
+import OldButton from "./ui-local/Button";
 import Editor from "./TextEditor2";
 import { Edit, Plus } from "lucide-react";
 
 import { Reorder } from "framer-motion";
+import {
+ Tooltip,
+ TooltipContent,
+ TooltipProvider,
+ TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+
+import { Button } from "./ui/button";
+
+import OnlineIcon from "../../public/Icons/online_icon.svg";
+import TimeIcon from "../../public/Icons/time_icon.svg";
+import TimeIcon2 from "../../public/Icons/time_icon_2.svg";
+import CalenderIcon from "../../public/Icons/calender_icon_2.svg";
+import CopyIcon from "../../public/Icons/copy_icon_gray.svg";
+import TrashIcon from "../../public/Icons/trash_icon_gray.svg";
+import PickTime from "./PickTime";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { convertTo12HourFormat } from "@/lib/time";
+import PickDuration from "./PickDuration";
 
 const QUESTIONS = [
  {
@@ -45,13 +70,6 @@ const QUESTIONS = [
  },
 ];
 
-const tabs_2 = [
- { text: "أونلاين", path: "Icons/online_icon.svg" },
- { text: "4:45 PM", path: "Icons/time_icon.svg" },
- { text: "30 دقيقة", path: "Icons/time_icon_2.svg" },
- { text: "31 / 7 /2024", path: "Icons/calender_icon_2.svg" },
-];
-
 export const DEFAULT_QUESTION = {
  text: "",
  bouns: 0,
@@ -63,6 +81,34 @@ export const DEFAULT_QUESTION = {
  required: false,
  id: "",
 };
+const MINS = [
+ { value: 0, label: "00" },
+ { value: 5, label: "05" },
+ { value: 10, label: "10" },
+ { value: 15, label: "15" },
+ { value: 20, label: "20" },
+ { value: 25, label: "25" },
+ { value: 30, label: "30" },
+ { value: 35, label: "35" },
+ { value: 40, label: "40" },
+ { value: 45, label: "45" },
+ { value: 50, label: "50" },
+ { value: 55, label: "55" },
+];
+const HOURS = [
+ { value: 1, label: "01" },
+ { value: 2, label: "02" },
+ { value: 3, label: "03" },
+ { value: 4, label: "04" },
+ { value: 5, label: "05" },
+ { value: 6, label: "06" },
+ { value: 7, label: "07" },
+ { value: 8, label: "08" },
+ { value: 9, label: "09" },
+ { value: 10, label: "10" },
+ { value: 11, label: "11" },
+ { value: 12, label: "12" },
+];
 
 function AddOnlineTest() {
  const [searchParams, setSearchParams] = useSearchParams();
@@ -70,10 +116,32 @@ function AddOnlineTest() {
  const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
  const [onEdit, setOnEdit] = useState(false);
  const [onEditIndex, setOnEditIndex] = useState(null);
+ const [date, setDate] = useState(new Date());
 
- console.log(questions.map((question) => question.id));
+ const [timeStart, setTimeStart] = useState({
+  hour: 1,
+  minute: 15,
+  mode: "AM",
+ });
+ const [timeDuration, setTimeDuration] = useState({
+  hour: 1,
+  minute: 15,
+  mode: "AM",
+  day: 0,
+ });
+ let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
+ let timeDurationString = convertTo12HourFormat(
+  timeDuration.hour,
+  timeDuration.minute,
+  timeDuration.day
+ );
+
  const backToLevel = () => {
   setSearchParams({ tab: "level", level: "primary" });
+ };
+ const setAsOfflineTest = () => {
+  searchParams.set("test", "offline");
+  setSearchParams(searchParams);
  };
 
  const tabs_1 = [
@@ -96,87 +164,6 @@ function AddOnlineTest() {
    path: "Icons/bouns_icon.svg",
   },
  ];
-
- const handelCheck = (event, i, index) => {
-  if (typeof index === "number") {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index
-      ? {
-         ...question,
-         answers: questions[index].answers.map((answer, index) => ({
-          ...answer,
-          isCorrect: index === i,
-         })),
-        }
-      : question.answers
-    )
-   );
-  } else {
-   const updatedAnswers = currentQuestion.answers.map((answer, index) => ({
-    ...answer,
-    isCorrect: index === i, // Set the clicked answer as correct and others as false
-   }));
-   setCurrentQuestion((prev) => ({
-    ...prev,
-    answers: updatedAnswers,
-   }));
-  }
- };
-
- const handelType = (event, i, index) => {
-  if (typeof index === "number") {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index
-      ? {
-         ...question,
-         text: event.target.value,
-        }
-      : question
-    )
-   );
-  } else {
-   const updatedAnswers = currentQuestion.answers.map((answer, index) =>
-    index === i ? { ...answer, text: event.target.value } : answer
-   );
-   setCurrentQuestion((prev) => ({
-    ...prev,
-    answers: updatedAnswers,
-   }));
-  }
- };
-
- const handelQuestionText = (text) => {
-  setCurrentQuestion((prev) => ({ ...prev, text }));
- };
-
- const addAnswer = (index) => {
-  if (typeof index === "number") {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index
-      ? {
-         ...question,
-         answers: [...question.answers, { text: "", isCorrect: false }],
-        }
-      : question
-    )
-   );
-  } else {
-   setCurrentQuestion((prev) => ({
-    ...prev,
-    answers: [...prev.answers, { text: "", isCorrect: false }],
-   }));
-  }
- };
-
- const deleteAnswer = (index) => {
-  setCurrentQuestion((prev) => ({
-   ...prev,
-   answers: prev.answers.filter((_, i) => i !== index),
-  }));
- };
 
  const handelBounsIncrease = (index) => {
   if (typeof index === "number") {
@@ -258,7 +245,10 @@ function AddOnlineTest() {
   <div className="px-12 py-16">
    <button className="flex gap-1" onClick={backToLevel}>
     <img src="Icons/rev_arrow.svg" alt="" />
-    <Heading as={"h3"} className={"text-secondary underline font-almaria-bold"}>
+    <Heading
+     as={"h3"}
+     className={"text-secondary-l underline font-almaria-bold"}
+    >
      العوده الي المراحل الدراسية
     </Heading>
    </button>
@@ -307,12 +297,41 @@ function AddOnlineTest() {
    </div>
    <div className="w-full md:w-[85%] lg:w-[70%] p-4 mx-auto">
     <div className="bg-white rounded-lg p-4">
-     <div className="flex gap-1 items-end">
-      <span className="text-secondary font-almaria-extrabold text-[1rem]">
-       تعليم{" "}
-      </span>
-      <span className="text-primary font-almaria-bold">كوم </span>
-      <img src="Icons/logo_solid.svg" alt="logo" />
+     <div className="flex items-center justify-between mb-6">
+      <div className="flex gap-1 items-end">
+       <span className="text-secondary-l font-almaria-extrabold text-[1rem]">
+        تعليم{" "}
+       </span>
+       <span className="text-primary-l font-almaria-bold">كوم </span>
+       <img src="Icons/logo_solid.svg" alt="logo" />
+      </div>
+      <div className="flex gap-2">
+       <TooltipProvider delayDuration={100}>
+        <Tooltip>
+         <TooltipTrigger>
+          <Button variant="outline" size="icon">
+           <CopyIcon />
+          </Button>
+         </TooltipTrigger>
+         <TooltipContent side="bottom" align="center" sideOffset={10}>
+          <p>انشاء نسخة</p>
+         </TooltipContent>
+        </Tooltip>
+       </TooltipProvider>
+
+       <TooltipProvider delayDuration={100}>
+        <Tooltip>
+         <TooltipTrigger>
+          <Button variant="outline" size="icon">
+           <TrashIcon />{" "}
+          </Button>
+         </TooltipTrigger>
+         <TooltipContent side="bottom" align="center" sideOffset={10}>
+          <p>حذف</p>
+         </TooltipContent>
+        </Tooltip>
+       </TooltipProvider>
+      </div>
      </div>
      <div className="flex my-4 ">
       <div className="mr-8">
@@ -336,9 +355,135 @@ function AddOnlineTest() {
          </div>
         </div>
         <div className="my-auto flex flex-col gap-3  ">
-         {tabs_2.map((item) => (
-          <Tab key={item.text} text={item.text} path={item.path} />
-         ))}
+         <Popover>
+          <PopoverTrigger>
+           <TooltipProvider>
+            <Tooltip delayDuration={100}>
+             <TooltipTrigger className="w-full">
+              <Button
+               variant="secondary"
+               className="pr-1 w-full justify-start gap-2"
+              >
+               <OnlineIcon />
+               <span>اونلاين</span>
+              </Button>
+             </TooltipTrigger>
+             <TooltipContent side="right" align="center" sideOffset={10}>
+              <p>نوع الاختبار</p>
+             </TooltipContent>
+            </Tooltip>
+           </TooltipProvider>
+          </PopoverTrigger>
+          <PopoverContent
+           side={"right"}
+           align="start"
+           alignOffset={10}
+           sideOffset={10}
+           className="w-fit p-0 m-0 rounded-lg shadow-none  border-0"
+          >
+           <Button
+            variant="outline"
+            className="pl-10"
+            onClick={setAsOfflineTest}
+           >
+            اوفلاين
+           </Button>
+          </PopoverContent>
+         </Popover>
+
+         <Popover>
+          <PopoverTrigger>
+           <TooltipProvider>
+            <Tooltip delayDuration={100}>
+             <TooltipTrigger className="w-full">
+              <Button
+               variant="secondary"
+               className="pr-1 w-full justify-start gap-2"
+              >
+               <TimeIcon />
+               <span className="ltr">
+                {timeStartString.hour}:{timeStartString.minute}{" "}
+                {timeStartString.mode}
+               </span>
+              </Button>
+             </TooltipTrigger>
+             <TooltipContent side="right" align="center" sideOffset={10}>
+              <p>يبدا الاختبار</p>
+             </TooltipContent>
+            </Tooltip>
+           </TooltipProvider>
+          </PopoverTrigger>
+          <PopoverContent className="w-[96]">
+           <PickTime
+            PopoverClose={PopoverClose}
+            timeStartString={timeStartString}
+            timeStart={timeStart}
+            setTimeStart={setTimeStart}
+            MINS={MINS}
+            HOURS={HOURS}
+           />
+          </PopoverContent>
+         </Popover>
+
+         <Popover>
+          <PopoverTrigger>
+           <TooltipProvider>
+            <Tooltip delayDuration={100}>
+             <TooltipTrigger>
+              <Button
+               variant="secondary"
+               className="pr-1 w-full justify-start gap-2"
+              >
+               <TimeIcon2 />
+               <span>{timeDurationString.duration}</span>
+              </Button>
+             </TooltipTrigger>
+             <TooltipContent side="right" align="center" sideOffset={10}>
+              <p>مدة الاختبار</p>
+             </TooltipContent>
+            </Tooltip>
+           </TooltipProvider>
+          </PopoverTrigger>
+          <PopoverContent className="w-[96]">
+           <PickDuration
+            PopoverClose={PopoverClose}
+            timeDurationString={timeDurationString}
+            timeDuration={timeDuration}
+            setTimeDuration={setTimeDuration}
+            MINS={MINS}
+            HOURS={HOURS}
+           />
+          </PopoverContent>
+         </Popover>
+
+         <Popover>
+          <PopoverTrigger>
+           <TooltipProvider>
+            <Tooltip delayDuration={100}>
+             <TooltipTrigger className="w-full">
+              <Button
+               variant="secondary"
+               className="pr-1 w-full justify-start gap-2"
+              >
+               <CalenderIcon />
+               <span>{date.toLocaleDateString()}</span>
+              </Button>
+             </TooltipTrigger>
+             <TooltipContent side="right" align="center" sideOffset={10}>
+              <p>تاريخ الاختبار</p>
+             </TooltipContent>
+            </Tooltip>
+           </TooltipProvider>
+          </PopoverTrigger>
+          <PopoverContent className="p-0 ltr">
+           <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md border "
+           />
+          </PopoverContent>
+         </Popover>
         </div>
        </div>
        <div className="flex gap-4 justify-between mt-6">
@@ -351,25 +496,24 @@ function AddOnlineTest() {
          <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" />
         </div>
         <div className="flex gap-6">
-         <Button
+         <OldButton
           type={"outline"}
           icon={<img src={"../../public/Icons/share_icon_2.svg"} />}
          >
           مشاركة مع المجموعة
-         </Button>
-         <Button
+         </OldButton>
+         <OldButton
           type={"outline"}
           icon={<img src={"../../public/Icons/share_icon.svg"} />}
          >
           مشاركة
-         </Button>
+         </OldButton>
         </div>
        </div>
       </div>
      </div>
     </div>
     <div className="mt-8 " id="editSection">
-<<<<<<< HEAD
      <Editor
       editors={editors}
       onChange={handleEditorChange}
@@ -378,15 +522,9 @@ function AddOnlineTest() {
       questions={questions}
       setQuestions={setQuestions}
      />
-=======
-     <Editor onType={handelQuestionText} value={currentQuestion.text} />
-     <div className=" border-l border-r-8 border-accent-50 border-r-secondary bg-accent-1100 pt-2 ">
-      <hr className="  mx-12 border-2 border-secondary rounded-bl-lg rounded-br-lg bg-white h-0 " />
-     </div>
->>>>>>> main
 
      <div className="flex gap-3 mb-6">
-      <Button
+      <OldButton
        type="Secondary"
        icon={<Plus />}
        className={"gap-0 my-4"}
@@ -397,11 +535,11 @@ function AddOnlineTest() {
        <span className="font-almaria-light text-xl">
         {onEdit ? "نطبيق التعديل" : "اضافة جديد"}
        </span>
-      </Button>
+      </OldButton>
       {onEdit && (
-       <Button
+       <OldButton
         type="outlineSecondary"
-        className={"gap-0 my-4 bg-white border border-accent-1000"}
+        className={"gap-0 my-4 bg-white border border-accent-l-1000"}
         onClick={() => {
          setOnEdit(false);
          setOnEditIndex(null);
@@ -409,7 +547,7 @@ function AddOnlineTest() {
         }}
        >
         <span className="font-almaria text-xl text-black">تخطي</span>
-       </Button>
+       </OldButton>
       )}
      </div>
      <Reorder.Group
@@ -468,7 +606,7 @@ function AddOnlineTest() {
          }}
          className="mr-12 mt-3 gap-3 flex flex-col overflow-clip"
         >
-         {question.answers.map((answer, i) => (
+         {question.answers.map((answer) => (
           <Reorder.Item
            key={answer.text}
            value={answer}
@@ -479,7 +617,7 @@ function AddOnlineTest() {
             className="h-5 w-5"
             name={answer.text}
             checked={answer.isCorrect}
-            onChange={(e) => {}}
+            onChange={() => {}}
            />
            <div className="w-full">
             <div className="flex w-full  items-center gap-2 ">
@@ -505,8 +643,8 @@ function AddOnlineTest() {
            className="col-span-10 flex gap-1 mt-4 items-center"
            onClick={() => edit(index)}
           >
-           <Edit className="text-secondary h-5" />
-           <span className="text-secondary font-almaria-bold">تعديل</span>
+           <Edit className="text-secondary-l h-5" />
+           <span className="text-secondary-l font-almaria-bold">تعديل</span>
           </button>
           <button
            type="button"
@@ -514,7 +652,7 @@ function AddOnlineTest() {
            onClick={() => deleteQuestion(index)}
           >
            <img src="Icons/trash_icon.svg" alt="delete" />
-           <span className="text-primary font-almaria-bold">حذف</span>
+           <span className="text-primary-l font-almaria-bold">حذف</span>
           </button>
          </div>
          {/* )} */}

@@ -104,8 +104,10 @@ const QuestionList = ({
                 className="col-span-10 flex gap-1 mt-4 items-center"
                 onClick={() => edit(index)}
                >
-                <Edit className="text-secondary h-5" />
-                <span className="text-secondary font-almaria-bold">تعديل</span>
+                <Edit className="text-secondary-l h-5" />
+                <span className="text-secondary-l font-almaria-bold">
+                 تعديل
+                </span>
                </button>
                <button
                 type="button"
@@ -113,7 +115,7 @@ const QuestionList = ({
                 onClick={() => deleteQuestion(index)}
                >
                 <img src="Icons/trash_icon.svg" alt="delete" />
-                <span className="text-primary font-almaria-bold">حذف</span>
+                <span className="text-primary-l font-almaria-bold">حذف</span>
                </button>
               </div>
              )}

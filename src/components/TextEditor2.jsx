@@ -9,9 +9,9 @@ import "katex/dist/katex.min.css";
 // Define custom blots if needed (e.g., MathBlot)
 const Inline = Quill.import("blots/inline");
 import "katex/dist/katex.min.css"; // Import KaTeX styles
-import Button from "./ui/Button";
+import Button from "./ui-local/Button";
 import { Plus, X } from "lucide-react";
-import Heading from "./ui/Heading";
+import Heading from "./ui-local/Heading";
 import { DEFAULT_QUESTION } from "./AddOnlineTest";
 import { Reorder } from "framer-motion";
 
@@ -241,10 +241,10 @@ const Editor = ({
     insertMath={insertMath}
    />
    {/*  Question Text Editor */}
-   <div className="px-4 py-6 flex flex-col gap-2 border border-accent-50 rounded-md border-r-8 border-r-secondary">
+   <div className="px-4 py-6 flex flex-col gap-2 border border-accent-l-50 rounded-md border-r-8 border-r-secondary">
     <div className="flex gap-12 items-start ">
      <div
-      className="flex-grow border-b-4 border-secondary rounded-lg "
+      className="flex-grow border-b-4 border-secondary-l rounded-lg "
       onClick={() => (activeEditorRef.current = questionTextRef.current)}
      >
       <ReactQuill
@@ -370,7 +370,7 @@ const Editor = ({
        <div
         className={`w-11 h-6 ${
          currentQuestion.required ? "bg-secondary" : "bg-white"
-        }  rounded-full shadow-inner border border-accent-50 `}
+        }  rounded-full shadow-inner border border-accent-l-50 `}
        ></div>
        <div
         className={`dot absolute top-[50%] -translate-y-[50%] w-5 h-5 rounded-full transition-all duration-300 transform bg-white ${
