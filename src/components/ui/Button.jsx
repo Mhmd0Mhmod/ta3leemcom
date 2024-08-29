@@ -37,7 +37,7 @@ export default function Button({ children, type = "primary", className, icon = f
   if (type === "Secondary") {
     if (icon) {
       return (
-        <button onClick={onClick} className={` bg-secondary border-none text-white flex px-[12px] gap-4 items-center justify-between ${style}`}>
+        <button onClick={onClick} className={`bg-secondary border-none text-white flex px-[12px] gap-4 items-center justify-between ${style}`}>
           <span className={iconStyle}>{icon}</span>
           <span className="mx-2">{children}</span>
         </button>
