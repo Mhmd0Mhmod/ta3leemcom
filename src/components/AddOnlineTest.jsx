@@ -5,7 +5,7 @@ import Tab from "./ui-local/Tab";
 import { constraints } from "../config";
 import OldButton from "./ui-local/Button";
 import Editor from "./TextEditor2";
-import { Edit, Plus } from "lucide-react";
+import { Edit, Grip, Plus, Trash2Icon } from "lucide-react";
 
 import { Reorder } from "framer-motion";
 import {
@@ -42,6 +42,7 @@ const QUESTIONS = [
    { text: "المشتري", isCorrect: true, id: "1" },
    { text: "المريخ", isCorrect: false, id: "2" },
   ],
+  images: [],
   explain: "المشتري هو أكبر كوكب في المجموعة الشمسية.",
   required: true,
   id: "1",
@@ -53,6 +54,7 @@ const QUESTIONS = [
    { text: "باريس", isCorrect: true, id: "1" },
    { text: "برلين", isCorrect: false, id: "2" },
   ],
+  images: [],
   explain: "باريس هي عاصمة فرنسا.",
   required: false,
   id: "2",
@@ -64,12 +66,31 @@ const QUESTIONS = [
    { text: "الفهد", isCorrect: true, id: "1" },
    { text: "الأسد", isCorrect: false, id: "2" },
   ],
+  images: [],
   explain: "الفهد هو الحيوان الأسرع في العالم.",
   required: true,
   id: "3",
  },
+ {
+  text: "ما هو الحيوان الأسرع في العالم؟",
+  bouns: 4,
+  answers: [
+   { text: "الفهد", isCorrect: true, id: "1" },
+   { text: "الأسد", isCorrect: false, id: "2" },
+   { text: "الأسد", isCorrect: false, id: "3" },
+   { text: "الأسد", isCorrect: false, id: "4" },
+  ],
+  images: [
+   "../../public/imgs/test_image.svg",
+   "../../public/imgs/test_image.svg",
+   "../../public/imgs/test_image.svg",
+   "../../public/imgs/test_image.svg",
+  ],
+  explain: "الفهد هو الحيوان الأسرع في العالم.",
+  required: true,
+  id: "4",
+ },
 ];
-
 export const DEFAULT_QUESTION = {
  text: "",
  bouns: 0,
@@ -77,6 +98,7 @@ export const DEFAULT_QUESTION = {
   { text: "", isCorrect: false, id: "1" },
   { text: "", isCorrect: false, id: "2" },
  ],
+ images: [],
  explain: "",
  required: false,
  id: "",
@@ -466,7 +488,7 @@ function AddOnlineTest() {
                className="pr-1 w-full justify-start gap-2"
               >
                <CalenderIcon />
-               <span>{date.toLocaleDateString()}</span>
+               <span>{date?.toLocaleDateString()}</span>
               </Button>
              </TooltipTrigger>
              <TooltipContent side="right" align="center" sideOffset={10}>
@@ -480,7 +502,14 @@ function AddOnlineTest() {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md border "
+            className="rounded-md border"
+            footer={
+             <PopoverClose className=" w-full mt-2">
+              <Button variant="outline" className="w-full  ">
+               حفظ
+              </Button>
+             </PopoverClose>
+            }
            />
           </PopoverContent>
          </Popover>
@@ -513,7 +542,7 @@ function AddOnlineTest() {
       </div>
      </div>
     </div>
-    <div className="mt-8 " id="editSection">
+    <div className="mt-8" id="editSection">
      <Editor
       editors={editors}
       onChange={handleEditorChange}
@@ -550,6 +579,7 @@ function AddOnlineTest() {
        </OldButton>
       )}
      </div>
+
      <Reorder.Group
       values={questions}
       // dragConstraints={parentRef}
@@ -606,30 +636,45 @@ function AddOnlineTest() {
          }}
          className="mr-12 mt-3 gap-3 flex flex-col overflow-clip"
         >
-         {question.answers.map((answer) => (
-          <Reorder.Item
-           key={answer.text}
-           value={answer}
-           className="flex gap-3 items-center font-almaria-bold w-full"
-          >
-           <input
-            type="radio"
-            className="h-5 w-5"
-            name={answer.text}
-            checked={answer.isCorrect}
-            onChange={() => {}}
-           />
-           <div className="w-full">
-            <div className="flex w-full  items-center gap-2 ">
-             <div
-              className="min-w-[25%]"
-              dangerouslySetInnerHTML={{ __html: answer.text }}
-             ></div>
-             <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
+         <div className="grid grid-cols-12">
+          <div className="flex flex-col gap-4 col-span-6  ">
+           {question.answers.map((answer) => (
+            <Reorder.Item
+             key={answer.text}
+             value={answer}
+             className="flex gap-3 items-center font-almaria-bold w-full"
+            >
+             <input
+              type="radio"
+              className="h-5 w-5"
+              name={answer.text}
+              checked={answer.isCorrect}
+              onChange={() => {}}
+              disabled
+             />
+             <div className="w-full">
+              <div className="flex w-full  items-center gap-2 ">
+               <div
+                className="min-w-[25%]"
+                dangerouslySetInnerHTML={{ __html: answer.text }}
+               ></div>
+               <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
+              </div>
+             </div>
+            </Reorder.Item>
+           ))}
+          </div>
+          <div className="grid grid-cols-4 col-span-6 ">
+           {question?.images?.map((image, i) => (
+            <div key={image} className="col-span-1">
+             <div className="relative">
+              <img draggable={false} src={image} alt={`image-${i}`} />
+             </div>
             </div>
-           </div>
-          </Reorder.Item>
-         ))}
+           ))}
+          </div>
+         </div>
+
          {/* {i === question.answers.length - 1 && ( */}
          <div className="flex items-end gap-4">
           <img
@@ -660,6 +705,7 @@ function AddOnlineTest() {
        </Reorder.Item>
       ))}
      </Reorder.Group>
+
      {/* <List /> */}
     </div>
    </div>

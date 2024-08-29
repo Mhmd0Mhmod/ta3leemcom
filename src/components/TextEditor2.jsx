@@ -9,11 +9,13 @@ import "katex/dist/katex.min.css";
 // Define custom blots if needed (e.g., MathBlot)
 const Inline = Quill.import("blots/inline");
 import "katex/dist/katex.min.css"; // Import KaTeX styles
-import Button from "./ui-local/Button";
-import { Plus, X } from "lucide-react";
+import OldButton from "./ui-local/Button";
+import { Grip, Plus, Trash, Trash2, Trash2Icon, X } from "lucide-react";
 import Heading from "./ui-local/Heading";
 import { DEFAULT_QUESTION } from "./AddOnlineTest";
 import { Reorder } from "framer-motion";
+import { set } from "date-fns";
+import { Button } from "./ui/button";
 
 class MathBlot extends Inline {
  static create(value) {
@@ -221,6 +223,16 @@ const Editor = ({
   setQuestions((prev) => [...prev, currentQuestion]);
  };
 
+ const handelQuestionImages = (newImages) => {
+  let fakeImages = ["./../../public/imgs/test_image.svg"];
+  setCurrentQuestion((prev) => ({
+   ...prev,
+   images: [...prev.images, ...fakeImages],
+  }));
+ };
+
+ console.log(currentQuestion);
+
  //  const addAnswer = () => {
  //   setAnswers([
  //    ...answers,
@@ -239,10 +251,11 @@ const Editor = ({
     color={color}
     // openMathModal={() => setIsModalOpen(true)}
     insertMath={insertMath}
+    handelQuestionImages={handelQuestionImages}
    />
    {/*  Question Text Editor */}
-   <div className="px-4 py-6 flex flex-col gap-2 border border-accent-l-50 rounded-md border-r-8 border-r-secondary">
-    <div className="flex gap-12 items-start ">
+   <div className="px-4 py-6 flex flex-col gap-2 border border-accent-l-50 rounded-md border-r-8 border-r-secondary-l">
+    <div className="flex gap-12 items-start  ">
      <div
       className="flex-grow border-b-4 border-secondary-l rounded-lg "
       onClick={() => (activeEditorRef.current = questionTextRef.current)}
@@ -293,52 +306,79 @@ const Editor = ({
      }}
      className="grid grid-cols-12 overflow-clip  "
     >
-     {currentQuestion?.answers?.map((answer, i) => (
-      <Reorder.Item
-       value={answer}
-       key={answer.id}
-       className="col-span-12 grid grid-cols-12 items-center"
-      >
-       <div key={i} className="col-span-12 grid grid-cols-12 items-center">
-        <div className="flex items-center col-span-1 justify-around">
-         <X onClick={() => deleteAnswer(i)} />
-         <input
-          className="h-5 w-5"
-          type="radio"
-          name="current-answers"
-          checked={answer.isCorrect}
-          onChange={(e) => handelCheck(e, i)}
-         />
-        </div>
+     <div className="col-span-8">
+      {currentQuestion?.answers?.map((answer, i) => (
+       <Reorder.Item
+        value={answer}
+        key={answer.id}
+        className=" grid grid-cols-12 items-center"
+       >
+        <div key={i} className="col-span-12 grid grid-cols-12 items-center">
+         <div className="flex items-center col-span-1 justify-around">
+          <X onClick={() => deleteAnswer(i)} />
+          <input
+           className="h-5 w-5"
+           type="radio"
+           name="current-answers"
+           checked={answer.isCorrect}
+           onChange={(e) => handelCheck(e, i)}
+          />
+         </div>
 
-        <div
-         className=" min-w-[50%] col-span-6"
-         onClick={() => (activeEditorRef.current = answerRefs.current[i])}
-        >
-         <ReactQuill
-          ref={(el) => (answerRefs.current[i] = el)}
-          theme="snow"
-          value={answer.text}
-          placeholder={`خيار ${i + 1}`}
-          className="px-2 py-3  "
-          onChange={(value) => handelType(value, i)}
-          modules={{ toolbar: false }} // Disable default toolbar
-         />
+         <div
+          className=" min-w-[50%] col-span-9"
+          onClick={() => (activeEditorRef.current = answerRefs.current[i])}
+         >
+          <ReactQuill
+           ref={(el) => (answerRefs.current[i] = el)}
+           theme="snow"
+           value={answer.text}
+           placeholder={`خيار ${i + 1}`}
+           className="px-2 py-3  "
+           onChange={(value) => handelType(value, i)}
+           modules={{ toolbar: false }} // Disable default toolbar
+          />
+         </div>
+         <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
         </div>
-        <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
-       </div>
-      </Reorder.Item>
-     ))}
-     <div></div>
+       </Reorder.Item>
+      ))}
+     </div>
+     <Reorder.Group
+      values={currentQuestion?.images}
+      onReorder={(newValues) =>
+       setCurrentQuestion((prev) => ({
+        ...prev,
+        images: newValues,
+       }))
+      }
+      className="col-span-4 grid grid-cols-2 "
+     >
+      {currentQuestion?.images?.map((image, i) => (
+       <Reorder.Item drag value={image} key={image} className="col-span-1">
+        <div className="relative">
+         <img draggable={false} src={image} alt={`image-${i}`} />
+         <div className="absolute top-0 right-1 ">
+          <Button variant="ghost" size="icon">
+           <Grip />
+          </Button>
+          <Button variant="ghost" size="icon">
+           <Trash2Icon />
+          </Button>
+         </div>
+        </div>
+       </Reorder.Item>
+      ))}
+     </Reorder.Group>
      {/* <div></div> */}
-     <Button
+     <OldButton
       type="outlineSecondary"
       className="col-span-2 "
       onClick={addAnswer}
       icon={<Plus />}
      >
       <span>اضافة اختيار</span>
-     </Button>
+     </OldButton>
     </Reorder.Group>
     {/* </Reorder.Group> */}
 

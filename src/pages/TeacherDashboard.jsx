@@ -17,11 +17,14 @@ import Level from "../components/Level.jsx";
 import { LEVELS } from "../config.js";
 import Students from "../components/Students.jsx";
 import Months from "../components/Months.jsx";
+import ScrollTop from "./../../public/Icons/scroll_top_icon.svg";
 
 function TeacherDashboard() {
  const [searchParams, setSearchParams] = useSearchParams();
  const activeTab = searchParams.get("tab") || "addStudent";
  const [opened, setOpened] = useState(true);
+ const [showScrollTop, setShowScrollTop] = useState(false);
+
  useEffect(() => {
   if (!searchParams.get("tab")) {
    setSearchParams({ tab: "addStudent" });
@@ -30,6 +33,25 @@ function TeacherDashboard() {
 
  const handleTabClick = (tab) => {
   setSearchParams({ tab });
+ };
+
+ useEffect(() => {
+  const handleScroll = () => {
+   if (window.scrollY > 400) {
+    setShowScrollTop(true);
+   } else {
+    setShowScrollTop(false);
+   }
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => {
+   window.removeEventListener("scroll", handleScroll);
+  };
+ }, []);
+ const scrollToTop = () => {
+  document
+   .getElementById("innerContent")
+   .scrollIntoView({ behavior: "smooth" });
  };
 
  return (
@@ -107,8 +129,8 @@ function TeacherDashboard() {
     </ul>
    </div>
    <div className={"w-[1px] self-stretch bg-gray-100"}></div>
-   <div className={"p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
-    <div className={"w-32    absolute top-0 left-0"}>
+   <div className={" p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
+    <div id="innerContent" className={"w-32    absolute top-0 left-0"}>
      <img src={threeCirlce} alt={"threeCirlce"} />
     </div>
     {activeTab === "addStudent" && <AddStudent />}
@@ -118,6 +140,14 @@ function TeacherDashboard() {
     {activeTab === "students" && <Students />}
     {activeTab === "months" && <Months />}
     {activeTab === "meeting" && <h1>عقد اجتماع</h1>}
+    {showScrollTop && (
+     <button
+      onClick={scrollToTop}
+      className="absolute left-12 bottom-12 hover:-translate-y-1 transition-all duration-300"
+     >
+      <ScrollTop />
+     </button>
+    )}
    </div>
   </div>
  );

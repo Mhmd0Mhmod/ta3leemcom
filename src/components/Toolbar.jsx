@@ -14,6 +14,8 @@ import {
  Underline,
 } from "lucide-react";
 import { useState } from "react";
+import PicIcon from "./../../public/Icons/pic_icon.svg";
+import { Button } from "./ui/button";
 
 const Toolbar = ({
  formatText,
@@ -22,6 +24,7 @@ const Toolbar = ({
  setColor,
  color,
  insertMath,
+ handelQuestionImages,
 }) => {
  const fontOptions = ["sans-serif", "serif", "monospace"];
  const sizeOptions = ["small", "large", "huge"];
@@ -201,6 +204,21 @@ const Toolbar = ({
      </option>
     ))}
    </select>
+   <input
+    type="file"
+    hidden
+    id="q_pic"
+    onChange={(e) => {
+     // handel images with cloud service
+     handelQuestionImages(e.target.files);
+    }}
+    multiple
+   />
+   <label htmlFor="q_pic">
+    <Button variant="outline" size="icon" className="p-1" asChild>
+     <PicIcon />
+    </Button>
+   </label>
   </div>
  );
 };
