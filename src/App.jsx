@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
+import EdiStudenDetails from "./components/EdiStudenDetails.jsx";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="opinion" element={<Opinion />} />
             <Route path="contact-with-us" element={<ContactWithUs />} />
             <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="edit-student" element={<EdiStudenDetails />} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />
