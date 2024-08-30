@@ -3,8 +3,9 @@ import { FakeStudent, LEVELS } from "../config";
 import Button from "./ui/Button";
 import { FormInput } from "lucide-react";
 import { useState } from "react";
+import log from "eslint-plugin-react/lib/util/log.js";
 function StudentDetailes() {
-  const [searchParams] = useSearchParams();
+  const [searchParams,setSearchParams] = useSearchParams();
   const studentId = searchParams.get("studentId");
   const student = FakeStudent.find(el => el.code == studentId)
   const [studentName,setStudentName] = useState(student.name)
@@ -18,7 +19,10 @@ function StudentDetailes() {
             <div>
               <h3 className="text-3xl font-almaria-bold mt-6">بيانات الطالب</h3>
               <div className="flex gap-6 mt-6 mb-8">
-                <button className={`bg-[#0884A2] text-white rounded-lg w-28 h-10 text-xl font-almaria-bold`}>تعديل</button>
+                <button className={`bg-[#0884A2] text-white rounded-lg w-28 h-10 text-xl font-almaria-bold`}
+                        onClick={()=>setSearchParams({tab:"editStudent" ,studentId})}>تعديل
+
+                    </button>
                 <button className={`bg-[#F54547] text-white rounded-lg w-28 h-10 text-xl font-almaria-bold`}>حذف</button>
               </div>
               <form>
@@ -57,20 +61,20 @@ function StudentDetailes() {
                       <div className="flex text-lg">
                        <div className="w-40 mt-2 font-almaria-bold">الاسم</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.name}</div>
                       </div>
-                      
+
                       <div className="flex  text-lg">
                         <div className="w-40 mt-2 font-almaria-bold">المجموعة</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.group}</div>
                       </div>
-                      
+
                       <div className="flex  text-lg">
                         <div className="w-40 mt-2 font-almaria-bold">المرحلة الدراسية</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.mainLevel}</div>
                       </div>
-                      
+
                       <div className="flex  text-lg">
                         <div className="w-40 mt-2 font-almaria-bold">الصف الدراسي</div> <span className="mt-2">:</span> <div className="mt-3 mr-3 text-sm text-[#979797]">{student.subLevel}</div>
 
                       </div>
-                      
+
                   </div>
                 </div>
 
