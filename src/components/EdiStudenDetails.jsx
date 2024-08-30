@@ -15,15 +15,9 @@ export default function EdiStudenDetails() {
         <h2 className="text-center text-3xl font-almaria-bold mt-6">
             تعديل بيانات الطالب
         </h2>
-        <div className="w-[45%]">
+        <div className="w-[77%] mb-20">
             <h3 className="text-2xl font-almaria-bold mb-4">الإسم رباعي</h3>
-            <FormInput
-            type={"text"}
-            name={"name"}
-            icon={profile}
-            className={ "text-xl "}
-            value={studentName} onChange={(e)=>setStudentName(e.target.value)}
-            />
+            <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={profile} divClassName={"bg-white w-3/4 justify-around"} />
         </div>
         <div className="flex gap-40 mt-4 mb-40">
             <div>
@@ -55,7 +49,7 @@ export default function EdiStudenDetails() {
                 <DropList title={"اختر المجموعة"} options={[student[0].group , student[1].group]} />
             </div>
         </div>
-        <div className="w-[100%] text-center mb-40">
+        <div className="w-[100%] text-center">
             <Button
                     type={"outline"}
                     className={"w-fit  self-center"}
