@@ -4,10 +4,14 @@ import FormInput from "./ui/FormInput.jsx";
 import DropList from "./ui/DropList.jsx";
 import { FakeStudent, LEVELS } from "../config";
 import Button from "./ui/Button.jsx";
+import { useNavigate } from 'react-router-dom';
 export default function EdiStudenDetails() {
     const student = FakeStudent
     const [studentName,setStudentName] = useState(student.name)
-
+    const navigate = useNavigate();
+    const handleButtonClick = () => {
+        navigate(-1); 
+    };
     const [level, setLevel] = useState("");
     const [levelNumber, setLevelNumber] = useState("");
     return (
@@ -53,6 +57,7 @@ export default function EdiStudenDetails() {
             <Button
                     type={"outline"}
                     className={"w-fit  self-center"}
+                    onClick={handleButtonClick}
                 >
                 حفظ
             </Button>
