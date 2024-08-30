@@ -1,5 +1,6 @@
 import {useState} from "react";
 import PropTypes from "prop-types";
+import drop from '../../../public/Icons/drop2.svg'
 
 DropList.propTypes = {
     title: PropTypes.string.isRequired,
@@ -21,10 +22,15 @@ function DropList({title, options, value, setValue, optionsValue}) {
         <div className="relative inline-block w-64 font-almaria">
             <button
                 onClick={toggleDropdown}
-                className="w-full bg-[#EFEFEF] border rounded-[8px] shadow px-4 py-2 text-right"
+                className="w-full bg-[#EFEFEF] border border-[#C2C2C2] rounded-[8px] shadow px-4 py-2 text-right"
             >
                 {selected || title}
-                <span className={`float-left ${isOpen ? "rotate-180" : ""}`}>&#9662;</span>
+                <span className={`float-left ${isOpen ? "rotate-180" : ""} mt-2`}><img
+                    src={drop}
+                    class="img-fluid rounded-top"
+                    alt=""
+                />
+                </span>
             </button>
             {isOpen && (
                 <ul className="absolute z-10 w-full bg-white rounded  mt-2">
