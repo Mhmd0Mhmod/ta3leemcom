@@ -25,7 +25,7 @@ export default function Button({ children, type = "primary", className, icon = f
         </button>
       );
     }
-    return <button className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}>{children}</button>;
+    return <button onClick={onClick} className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}>{children}</button>;
   }
   if (type === "outlineSecondary") {
     return (
