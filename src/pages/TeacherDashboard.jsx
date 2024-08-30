@@ -17,6 +17,8 @@ import Level from "../components/Level.jsx";
 import { LEVELS } from "../config.js";
 import Students from "../components/Students.jsx";
 import Months from "../components/Months.jsx";
+import EditGroupDetails from "../components/EditGroupDetails.jsx";
+
 
 function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -84,6 +86,7 @@ function TeacherDashboard() {
         {activeTab === "level" && <Level />}
         {activeTab === "students" && <Students />}
         {activeTab === "months" && <Months />}
+        {activeTab === "editGroup" && <EditGroupDetails />}
         {activeTab === "meeting" && <h1>عقد اجتماع</h1>}
       </div>
     </div>
