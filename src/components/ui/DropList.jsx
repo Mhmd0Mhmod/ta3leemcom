@@ -22,7 +22,7 @@ function DropList({title, options, value, setValue, optionsValue}) {
         <div className="relative inline-block w-64 font-almaria">
             <button
                 onClick={toggleDropdown}
-                className="w-full bg-[#EFEFEF] border border-[#C2C2C2] rounded-[8px] shadow px-4 py-2 text-right"
+                className="w-full bg-[#EFEFEF] border border-[#C2C2C2] rounded-[8px] shadow px-4 py-2 text-right h-[2.875rem]"
             >
                 {selected || title}
                 <span className={`float-left ${isOpen ? "rotate-180" : ""} mt-2`}><img
