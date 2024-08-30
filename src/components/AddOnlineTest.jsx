@@ -5,7 +5,7 @@ import Tab from "./ui-local/Tab";
 import { constraints } from "../config";
 import OldButton from "./ui-local/Button";
 import Editor from "./TextEditor2";
-import { Edit, Grip, Plus, Trash2Icon } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
 
 import { Reorder } from "framer-motion";
 import {
@@ -33,6 +33,7 @@ import PickTime from "./PickTime";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { convertTo12HourFormat } from "@/lib/time";
 import PickDuration from "./PickDuration";
+import { ShowTest } from "./ShowTest";
 
 const QUESTIONS = [
  {
@@ -517,10 +518,12 @@ function AddOnlineTest() {
        </div>
        <div className="flex gap-4 justify-between mt-6">
         <div className="flex gap-6">
-         <Tab
-          text={"عرض الاختبار"}
-          path={"Icons/show_icon.svg"}
-          className="pr-4"
+         <ShowTest
+          test={{
+           title: "اختبار بدون عنوان",
+           questions: questions,
+          }}
+          timeStartString={timeStartString}
          />
          <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" />
         </div>
