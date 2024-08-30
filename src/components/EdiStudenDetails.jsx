@@ -19,13 +19,13 @@ export default function EdiStudenDetails() {
         <h2 className="text-center text-3xl font-almaria-bold mt-6">
             تعديل بيانات الطالب
         </h2>
-        <div className="w-[77%] mb-20">
+        <div className="w-[77%] mt-16">
             <h3 className="text-2xl font-almaria-bold mb-4">الإسم رباعي</h3>
             <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={profile} divClassName={"bg-white w-3/4 justify-around"} />
         </div>
-        <div className="flex gap-40 mt-4 mb-40">
+        <div className="flex gap-40 mt-14 mb-40">
             <div>
-            <h3 className="text-xl font-almaria-bold mb-4"> المرحلة الدراسية</h3>
+            <h3 className="text-xl font-almaria-bold mb-6"> المرحلة الدراسية</h3>
             <DropList
                 title={"اختر المرحلة الدراسية"}
                 options={LEVELS.levels}
@@ -35,7 +35,7 @@ export default function EdiStudenDetails() {
             />
             </div>
             <div>
-                <h3 className="text-xl font-almaria-bold mb-4"> الصف الدراسي</h3>
+                <h3 className="text-xl font-almaria-bold mb-6"> الصف الدراسي</h3>
                 {level === "" ? (
                     <DropList title={"اختر الصف الدراسي"} options={[LEVELS.middle[0] , LEVELS.middle[1] , LEVELS.middle[2]]} />
                 ) : (
@@ -49,18 +49,19 @@ export default function EdiStudenDetails() {
                 )}
             </div>
             <div>
-                <h3 className="text-xl font-almaria-bold mb-4"> المجموعة</h3>
+                <h3 className="text-xl font-almaria-bold mb-6"> المجموعة</h3>
                 <DropList title={"اختر المجموعة"} options={[student[0].group , student[1].group]} />
             </div>
         </div>
         <div className="w-[100%] text-center">
-            <Button
-                    type={"outline"}
-                    className={"w-fit  self-center"}
-                    onClick={handleButtonClick}
-                >
-                حفظ
-            </Button>
+                <Button
+                        type={"outline"}
+                        className={"min-w-[8.75rem]  self-center h-[4.063rem]"}
+                        onClick={handleButtonClick}
+
+                    >
+                    حفظ
+                </Button>
         </div>
         </>
     );
