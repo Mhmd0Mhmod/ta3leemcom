@@ -3,7 +3,7 @@ import password from "../../../public/Icons/password.svg";
 function FormInput({type, name, placeholder, value, onChange, className, icon, flag ,divClassName}) {
 
     return (
-        <div className={`border-2 rounded-2xl flex gap-2 p-5 items-center ${divClassName}`}>
+        <div className={`border-2 border-[#D0D0D0] rounded-2xl flex gap-2 p-5 items-center ${divClassName}`}>
             {icon &&
                 <div className={"w-5"}>
                     <img src={icon} className={"w-full"} alt={"icon"}/>

@@ -11,6 +11,8 @@ import PageNotFound from "./pages/PageNotFound";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
+import EditGroupDetails from "./components/EditGroupDetails.jsx";
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
             <Route path="opinion" element={<Opinion />} />
             <Route path="contact-with-us" element={<ContactWithUs />} />
             <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="edit-group" element={<EditGroupDetails />} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />
