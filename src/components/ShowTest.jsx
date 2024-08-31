@@ -1,16 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
- Drawer,
- DrawerClose,
- DrawerContent,
- DrawerDescription,
- DrawerFooter,
- DrawerHeader,
- DrawerTitle,
- DrawerTrigger,
-} from "@/components/ui/drawer";
+
 import Eye from "../../public/Icons/show_icon.svg";
 import Heading from "./ui-local/Heading";
 import {
@@ -19,19 +10,24 @@ import {
  TooltipProvider,
  TooltipTrigger,
 } from "./ui/tooltip";
+import {
+ AlertDialog,
+ AlertDialogContent,
+ AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import TimeIcon from "../../public/Icons/time_icon.svg";
-import SolidLogo from "../../public/Icons/logo_solid.svg";
-import { useState } from "react";
+import { SolidLogo } from "./ui-local/SolidLogo";
 
-export function ShowTest({ test, timeStartString }) {
- const [dummyQuestions, setDummyQuestions] = useState(
-  test.questions.map((question) => ({
-   ...question,
-   answers: question.answers.map((answer) => ({ ...answer, isCorrect: false })),
-  }))
- );
-
+export function ShowTest({
+ test,
+ timeStartString,
+ setShowTestAlert,
+ openModel,
+ setOpenModel,
+ dummyQuestions,
+ setDummyQuestions,
+}) {
  const handelAnswerCheck = (e, i, questionIndex) => {
   setDummyQuestions((prev) =>
    prev.map((question, qIndex) => {
@@ -50,17 +46,15 @@ export function ShowTest({ test, timeStartString }) {
   );
  };
 
- console.log(dummyQuestions);
-
  return (
-  <Drawer direction="bottom" open>
-   <DrawerTrigger asChild>
-    <Button variant="ghost" className="bg-accent-l-1100">
+  <AlertDialog open={openModel}>
+   <AlertDialogTrigger>
+    <Button variant="ghost" className="bg-accent-l-1100" onClick={setOpenModel}>
      <Eye className="h-6 w-6 ml-2" />
      <span>عرض الاختبار</span>
     </Button>
-   </DrawerTrigger>
-   <DrawerContent className=" min-h-full rounded-none show_test_bg pt-4 pb-32">
+   </AlertDialogTrigger>
+   <AlertDialogContent className="pb-32  show_test_bg !max-w-screen h-full overflow-auto">
     <div className="mx-auto container text-center  rounded-lg -mt-5 w-full md:w-[85%] lg:w-[70%] p-4 ">
      <div className="bg-secondary-l text-white py-20 rounded-md">
       <Heading as={"h1"}>{test?.title}</Heading>
@@ -93,10 +87,12 @@ export function ShowTest({ test, timeStartString }) {
          <Heading as={"h3"}>
           {" "}
           <span className="text-accent-l-700 ml-2">{index + 1}.</span>{" "}
-          {question.text}
+          {question.text}{" "}
+          {question.required && <span className="text-red-500 mr-1">*</span>}
          </Heading>
          <p className="text-accent-l-100">
-          {question.bouns} <span className="mr-1">بونص</span>
+          {question.required ? question.deg : question.bouns}
+          <span className="mr-1">{question.required ? "درجة" : "بونص"}</span>
          </p>
         </div>
         <div className="grid grid-cols-12">
@@ -124,17 +120,21 @@ export function ShowTest({ test, timeStartString }) {
       ))}
      </ul>
      <div className="flex justify-between items-center mt-12">
-      <Button variant="ghost" className="bg-secondary-l text-white px-10 py-6">
+      <Button
+       variant="ghost"
+       className=" bg-secondary-l text-white px-10 py-6"
+       onClick={() => {
+        setShowTestAlert(true);
+        setOpenModel(false);
+       }}
+      >
        ارسال
       </Button>
-      <div className="flex items-center gap-1 font-almaria-bold ">
-       <p className="text-secondary-l text-xl">تعليم</p>
-       <span className="text-primary-l">كوم</span>
-       <SolidLogo />
-      </div>
+
+      <SolidLogo />
      </div>
     </div>
-   </DrawerContent>
-  </Drawer>
+   </AlertDialogContent>
+  </AlertDialog>
  );
 }

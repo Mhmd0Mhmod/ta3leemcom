@@ -194,27 +194,22 @@ const Editor = ({
   }));
  };
 
- const handelBounsIncrease = (index) => {
-  if (typeof index === "number") {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index ? { ...question, bouns: question.bouns + 1 } : question
-    )
-   );
+ const handelIncrease = () => {
+  if (currentQuestion.required) {
+   setCurrentQuestion((prev) => ({ ...prev, deg: prev.deg + 1, bouns: 0 }));
   } else {
-   setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns + 1 }));
+   setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns + 1, deg: 1 }));
   }
  };
- const handelBounsDecrease = (index) => {
-  if (typeof index === "number" && questions[index].bouns > 0) {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index ? { ...question, bouns: question.bouns - 1 } : question
-    )
-   );
+ const handelDecrease = () => {
+  if (currentQuestion.required && currentQuestion.deg > 0) {
+   setCurrentQuestion((prev) => ({ ...prev, deg: prev.deg - 1 }));
   } else {
    if (currentQuestion.bouns > 0)
-    setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns - 1 }));
+    setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns - 1, deg: 0 }));
+  }
+  if (currentQuestion.required) {
+   setCurrentQuestion((prev) => ({ ...prev, bouns: 0 }));
   }
  };
 
@@ -269,25 +264,27 @@ const Editor = ({
        modules={{ toolbar: false }} // Disable default toolbar
       />
      </div>
-     <div className="flex gap-2 items-center">
+     <div className="flex  items-center">
       <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
        <div className="flex flex-col justify-between gap-1">
         <button
          className="hover:scale-110 duration-300 transition-all"
-         onClick={() => handelBounsIncrease()}
+         onClick={() => handelIncrease()}
         >
          <img src="Icons/arrow_rounded.svg" alt="up" />
         </button>
         <button
          className="hover:scale-110 duration-300 transition-all"
-         onClick={() => handelBounsDecrease()}
+         onClick={() => handelDecrease()}
         >
          <img src="Icons/arrow_rounded.svg" alt="down" className="rotate-180" />
         </button>
        </div>
-       <span>{currentQuestion.bouns}</span>
+       <span>
+        {currentQuestion.required ? currentQuestion.deg : currentQuestion.bouns}
+       </span>
       </div>
-      <span>بونص</span>
+      <span> {currentQuestion.required ? "درجة" : "بونص"}</span>
      </div>
     </div>
 
@@ -430,7 +427,7 @@ const Editor = ({
          ...prev,
          required: e.target.checked,
         }));
-        e.target.checked ? handelBounsIncrease() : handelBounsDecrease();
+        e.target.checked ? handelIncrease() : handelDecrease();
        }}
       />
       <Heading as={"h5"} className={" font-almaria-bold"}>
