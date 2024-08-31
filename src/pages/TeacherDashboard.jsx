@@ -89,7 +89,7 @@ function TeacherDashboard() {
         {activeTab === "editStudent" && <EditStudenDetails />}
         {activeTab === "editGroup" && <EditGroupDetails />}
         {activeTab === "months" && <Months />}
-        {activeTab === "meeting" && <Heading as={"h1"} className={"text-center self-center"}>Comming Soon</Heading>}
+        {activeTab === "meeting" && <Heading as={"h1"} className={" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  "}>Comming Soon</Heading>}
       </div>
     </div>
   );
