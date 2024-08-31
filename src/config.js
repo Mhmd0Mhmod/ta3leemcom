@@ -18,7 +18,7 @@ export const FakeStudent = [
         name: "ابراهيم محمد مشرف محمد",
         mainLevel: LEVELS.levels[0],
         subLevel: LEVELS.primary[0],
-        group: "مجموعه 1",
+        group: "مجموعه 2",
     },
     {
         code: 3,
