@@ -20,7 +20,7 @@ import Months from "../components/Months.jsx";
 import EditStudenDetails from "../components/EdiStudenDetails.jsx";
 import Heading from "../components/ui/Heading.jsx";
 import EditGroupDetails from "../components/EditGroupDetails.jsx";
-
+import Toppers from "../components/Toppers.jsx";
 function TeacherDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "addStudent";
@@ -36,7 +36,7 @@ function TeacherDashboard() {
   };
 
   return (
-    <div className={"flex dashboard gap-5 font-cairo mb-4   "}>
+    <div className={"flex dashboard gap-5 font-cairo mb-4 overflow-hidden  "}>
       <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"} self-start`}>
         <div className={`flex ${opened ? " justify-end" : "justify-center"}`}>
           <Icon
@@ -89,6 +89,7 @@ function TeacherDashboard() {
         {activeTab === "editStudent" && <EditStudenDetails />}
         {activeTab === "editGroup" && <EditGroupDetails />}
         {activeTab === "months" && <Months />}
+        {activeTab === "toppers" && <Toppers />}
         {activeTab === "meeting" && <Heading as={"h1"} className={" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  "}>Comming Soon</Heading>}
       </div>
     </div>

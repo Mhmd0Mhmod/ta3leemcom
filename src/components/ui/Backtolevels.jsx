@@ -9,7 +9,7 @@ function Backtolevels() {
     };
 
     return (
-        <button className="flex gap-1" onClick={backToLevel}>
+        <button className="flex gap-1 self-start" onClick={backToLevel}>
             <img src="Icons/rev_arrow.svg" alt=""/>
             <Heading as={"h3"} className={"text-secondary underline font-almaria-bold"}>
                 العوده الي المراحل الدراسية
