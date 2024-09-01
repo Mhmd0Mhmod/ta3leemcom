@@ -80,7 +80,7 @@ export function ShowTest({
      <ul className="flex flex-col gap-4  ">
       {dummyQuestions.map((question, index) => (
        <li
-        key={index}
+        key={question.text}
         className="w-full rounded-md bg-white text-black px-3 py-5"
        >
         <div className="flex justify-between items-center">
@@ -98,7 +98,7 @@ export function ShowTest({
         <div className="grid grid-cols-12">
          <div className="text-start mt-6 mr-16 col-span-6 ">
           {question?.answers.map((answer, i) => (
-           <div key={i} className="flex gap-4 mb-3">
+           <div key={answer.text} className="flex gap-4 mb-3">
             <input
              type="radio"
              name={question.id}
@@ -112,7 +112,7 @@ export function ShowTest({
          </div>
          <div className="col-span-6 grid grid-cols-4">
           {question?.images.map((image, i) => (
-           <img src={image} alt={`image-${i}`} key={i} />
+           <img src={image} alt={`image-${i}`} key={image} />
           ))}
          </div>
         </div>

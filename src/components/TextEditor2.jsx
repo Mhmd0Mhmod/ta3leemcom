@@ -16,6 +16,8 @@ import { DEFAULT_QUESTION } from "./AddOnlineTest";
 import { Reorder } from "framer-motion";
 import { set } from "date-fns";
 import { Button } from "./ui/button";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
 
 class MathBlot extends Inline {
  static create(value) {
@@ -264,8 +266,8 @@ const Editor = ({
        modules={{ toolbar: false }} // Disable default toolbar
       />
      </div>
-     <div className="flex  items-center">
-      <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
+     <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center px-4 py-2 rounded-lg bg-accent-l-1000  ">
        <div className="flex flex-col justify-between gap-1">
         <button
          className="hover:scale-110 duration-300 transition-all"
@@ -310,7 +312,7 @@ const Editor = ({
         key={answer.id}
         className=" grid grid-cols-12 items-center"
        >
-        <div key={i} className="col-span-12 grid grid-cols-12 items-center">
+        <div className="col-span-12 grid grid-cols-12 items-center">
          <div className="flex items-center  col-span-2 justify-around">
           <X onClick={() => deleteAnswer(i)} />
           <input
@@ -399,41 +401,21 @@ const Editor = ({
     </div>
     <hr className="mt-2" />
     <div className="flex justify-between items-center">
-     <div className="flex gap-4 items-center">
-      
-           {/* <label
-       htmlFor="required"
-       className="relative inline-flex items-center cursor-pointer "
-      >
-       <div
-        className={`w-11 h-6 ${
-         currentQuestion.required ? "bg-secondary-l" : "bg-white"
-        }  rounded-full shadow-inner border border-accent-l-50 `}
-       ></div>
-       <div
-        className={`dot absolute top-[50%] -translate-y-[50%] w-5 h-5 rounded-full transition-all duration-300 transform bg-white ${
-         currentQuestion.required
-          ? "translate-x-full left-0 "
-          : "!bg-[#D9D9D9] left-1"
-        }`}
-       ></div>
-      </label>
-      <input
-       type="checkbox"
-       id="required"
-       className="hidden"
+     <div className="flex items-center space-x-2 ltr ">
+      <Label htmlFor="airplane-mode" className={" font-almaria-bold"}>
+       اجباري
+      </Label>
+      <Switch
+       id="airplane-mode"
        checked={currentQuestion.required}
-       onChange={(e) => {
+       onCheckedChange={(val) => {
         setCurrentQuestion((prev) => ({
          ...prev,
-         required: e.target.checked,
+         required: val,
         }));
         e.target.checked ? handelIncrease() : handelDecrease();
        }}
-      /> */}
-      <Heading as={"h5"} className={" font-almaria-bold"}>
-       اجباري
-      </Heading>
+      />
      </div>
      <div className="flex gap-4 items-center">
       <button

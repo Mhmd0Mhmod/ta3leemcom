@@ -1,18 +1,22 @@
 import { color } from "framer-motion";
 import {
- AlignCenter,
- AlignLeft,
- AlignRight,
  Baseline,
  Bold,
  Italic,
- List,
- ListOrdered,
  Sigma,
  Subscript,
  Superscript,
  Underline,
 } from "lucide-react";
+import {
+ Select,
+ SelectContent,
+ SelectGroup,
+ SelectItem,
+ SelectLabel,
+ SelectTrigger,
+ SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import PicIcon from "./../../public/Icons/pic_icon.svg";
 import { Button } from "./ui/button";
@@ -72,46 +76,60 @@ const Toolbar = ({
     ))}
    </div>
 
-   <button
+   <Button
+    variant="outline"
+    size="icon"
     className="px-1 py-1  rounded-md flex items-center justify-center"
     onClick={() => setShowColorPicker(!showColorPicker)}
    >
     <Baseline />
-   </button>
-   <button
+   </Button>
+   <Button
+    variant="outline"
+    size="icon"
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("bold")}
    >
     <Bold />
-   </button>
+   </Button>
    {/* Italic */}
-   <button
+   <Button
+    variant="outline"
+    size="icon"
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("italic")}
    >
     <Italic />
-   </button>
+   </Button>
    {/* Underline */}
-   <button
+   <Button
+    variant="outline"
+    size="icon"
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("underline")}
    >
     <Underline />
-   </button>
-   <button
+   </Button>
+   <Button
+    variant="outline"
+    size="icon"
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("script", "super")}
    >
     <Superscript />
-   </button>
+   </Button>
    {/* Subscript */}
-   <button
+   <Button
+    variant="outline"
+    size="icon"
     className="px-2 py-1  rounded-md flex items-center justify-center"
     onClick={() => formatText("script", "sub")}
    >
     <Subscript />
-   </button>
-   <button
+   </Button>
+   <Button
+    variant="outline"
+    size="icon"
     className="px-1 py-1  rounded-md"
     onClick={() => {
      const value = prompt("Enter math formula in LaTeX format:");
@@ -121,7 +139,7 @@ const Toolbar = ({
     }}
    >
     <Sigma />
-   </button>
+   </Button>
    {/*
    Header 1
    <button
@@ -194,16 +212,20 @@ const Toolbar = ({
     ))}
    </select> */}
    {/* Font Size */}
-   <select
-    className="px-2 py-1  rounded-md border border-gray-300"
-    onChange={(e) => setSize(e.target.value)}
-   >
-    {sizeOptions.map((size, index) => (
-     <option key={index} value={size}>
-      {size}
-     </option>
-    ))}
-   </select>
+   <Select onValueChange={(val) => setSize(val)}>
+    <SelectTrigger className="w-fit gap-2">
+     <SelectValue placeholder="Select a size" />
+    </SelectTrigger>
+    <SelectContent>
+     <SelectGroup>
+      {sizeOptions.map((size, index) => (
+       <SelectItem key={index} value={size}>
+        {size}
+       </SelectItem>
+      ))}
+     </SelectGroup>
+    </SelectContent>
+   </Select>
    <input
     type="file"
     hidden
@@ -214,7 +236,7 @@ const Toolbar = ({
     }}
     multiple
    />
-   <label htmlFor="q_pic">
+   <label htmlFor="q_pic" className="ml-auto">
     <Button variant="outline" size="icon" className="p-1" asChild>
      <PicIcon />
     </Button>

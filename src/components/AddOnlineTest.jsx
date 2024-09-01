@@ -79,26 +79,26 @@ const QUESTIONS = [
   required: true,
   id: "3",
  },
- {
-  text: "ما هو الحيوان الأسرع في العالم؟",
-  bouns: 0,
-  deg: 1,
-  answers: [
-   { text: "الفهد", isCorrect: true, id: "1" },
-   { text: "الأسد", isCorrect: false, id: "2" },
-   { text: "الأسد", isCorrect: false, id: "3" },
-   { text: "الأسد", isCorrect: false, id: "4" },
-  ],
-  images: [
-   "../../public/imgs/test_image.svg",
-   "../../public/imgs/test_image.svg",
-   "../../public/imgs/test_image.svg",
-   "../../public/imgs/test_image.svg",
-  ],
-  explain: "الفهد هو الحيوان الأسرع في العالم.",
-  required: true,
-  id: "4",
- },
+ //  {
+ //   text: "ما هو الحيوان الأسرع في العالم 2؟",
+ //   bouns: 0,
+ //   deg: 1,
+ //   answers: [
+ //    { text: "الفهد", isCorrect: true, id: "1" },
+ //    { text: "الأسد", isCorrect: false, id: "2" },
+ //    { text: "الثعلب", isCorrect: false, id: "3" },
+ //    { text: "القطة", isCorrect: false, id: "4" },
+ //   ],
+ //   images: [
+ //    "../../public/imgs/test_image.svg",
+ //    "../../public/imgs/video.svg",
+ //    "../../public/imgs/home-bg-1.png",
+ //    "../../public/imgs/home-bg-2.png",
+ //   ],
+ //   explain: "الفهد هو الحيوان الأسرع في العالم.",
+ //   required: true,
+ //   id: "4",
+ //  },
 ];
 export const DEFAULT_QUESTION = {
  text: "",
@@ -170,12 +170,14 @@ function AddOnlineTest({ test }) {
    mode: "AM",
   }
  );
- const [timeDuration, setTimeDuration] = useState(test?.timeDuration || {
-  hour: 1,
-  minute: 15,
-  mode: "AM",
-  day: 0,
- });
+ const [timeDuration, setTimeDuration] = useState(
+  test?.timeDuration || {
+   hour: 1,
+   minute: 15,
+   mode: "AM",
+   day: 0,
+  }
+ );
  let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
  let timeDurationString = convertTo12HourFormat(
   timeDuration.hour,
@@ -212,24 +214,40 @@ function AddOnlineTest({ test }) {
   },
  ];
 
- const handelBounsIncrease = (index) => {
+ const handelIncrease = (index) => {
   if (typeof index === "number") {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index ? { ...question, bouns: question.bouns + 1 } : question
-    )
-   );
+   if (questions[index].required) {
+    setQuestions((prev) =>
+     prev.map((question, i) =>
+      i === index ? { ...question, deg: question.deg + 1 } : question
+     )
+    );
+   } else {
+    setQuestions((prev) =>
+     prev.map((question, i) =>
+      i === index ? { ...question, bouns: question.bouns + 1 } : question
+     )
+    );
+   }
   } else {
    setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns + 1 }));
   }
  };
- const handelBounsDecrease = (index) => {
-  if (typeof index === "number" && questions[index].bouns > 0) {
-   setQuestions((prev) =>
-    prev.map((question, i) =>
-     i === index ? { ...question, bouns: question.bouns - 1 } : question
-    )
-   );
+ const handelDecrease = (index) => {
+  if (typeof index === "number") {
+   if (questions[index].required && questions[index].deg > 0) {
+    setQuestions((prev) =>
+     prev.map((question, i) =>
+      i === index ? { ...question, deg: question.deg - 1 } : question
+     )
+    );
+   } else if (!questions[index].required && questions[index].bouns > 0) {
+    setQuestions((prev) =>
+     prev.map((question, i) =>
+      i === index ? { ...question, bouns: question.bouns - 1 } : question
+     )
+    );
+   }
   } else {
    if (currentQuestion.bouns > 0)
     setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns - 1 }));
@@ -249,7 +267,7 @@ function AddOnlineTest({ test }) {
   setOnEdit(false);
   document.getElementById(`q-${currentQuestion.id}`).scrollIntoView({
    behavior: "smooth",
-   block: "end",
+   //  block: "end",
   });
   setCurrentQuestion(DEFAULT_QUESTION);
  };
@@ -384,11 +402,8 @@ function AddOnlineTest({ test }) {
        </div>
        <ul className="flex flex-col gap-4  ">
         {dummyQuestions.map((question, index) => (
-         <>
-          <li
-           key={index}
-           className="w-full rounded-md bg-white text-black px-3 py-5"
-          >
+         <div key={question.id}>
+          <li className="w-full rounded-md bg-white text-black px-3 py-5">
            <div className="flex justify-between items-center">
             <Heading as={"h3"}>
              {" "}
@@ -404,7 +419,7 @@ function AddOnlineTest({ test }) {
             <div className="text-start mt-6 mr-16 col-span-6 ">
              {question?.answers.map((answer, i) => (
               <div
-               key={i}
+               key={answer.text}
                className={`flex gap-4 mb-3 py-1 px-2 ${
                 highlight(answer.isCorrect, i, index) === "true"
                  ? "bg-[#bae3cd]"
@@ -438,7 +453,7 @@ function AddOnlineTest({ test }) {
             </div>
             <div className="col-span-6 grid grid-cols-4">
              {question?.images.map((image, i) => (
-              <img src={image} alt={`image-${i}`} key={i} />
+              <img src={image} alt={`image-${i}`} key={image} />
              ))}
             </div>
            </div>
@@ -448,7 +463,7 @@ function AddOnlineTest({ test }) {
            <span className="font-almaria-bold">التفسير : </span>
            {question.explain}
           </p>
-         </>
+         </div>
         ))}
        </ul>
        {/* <div className="flex justify-between items-center mt-12">
@@ -820,21 +835,21 @@ function AddOnlineTest({ test }) {
        />
 
        <div className="flex gap-3 mb-6">
-        <OldButton
-         type="Secondary"
-         icon={<Plus />}
-         className={"gap-0 my-4"}
+        <Button
+         variant="ghost"
+         className={
+          "hover:bg-secondary-l hover:text-white font-almaria text-lg gap-2 my-4 pr-2 pl-6 bg-secondary-l text-white"
+         }
          onClick={() => {
           onEdit ? editQuestion() : addQuestion();
          }}
         >
-         <span className="font-almaria-light text-xl">
-          {onEdit ? "نطبيق التعديل" : "اضافة جديد"}
-         </span>
-        </OldButton>
+         <Plus />
+         <span>{onEdit ? "نطبيق التعديل" : "اضافة جديد"}</span>
+        </Button>
         {onEdit && (
-         <OldButton
-          type="outlineSecondary"
+         <Button
+          variant="outline"
           className={"gap-0 my-4 bg-white border border-accent-l-1000"}
           onClick={() => {
            setOnEdit(false);
@@ -843,7 +858,7 @@ function AddOnlineTest({ test }) {
           }}
          >
           <span className="font-almaria text-xl text-black">تخطي</span>
-         </OldButton>
+         </Button>
         )}
        </div>
 
@@ -870,17 +885,17 @@ function AddOnlineTest({ test }) {
             dangerouslySetInnerHTML={{ __html: question?.text }}
            />
            <div className="flex gap-2 items-center">
-            <div className="flex gap-2 items-center px-3 py-1 rounded-lg bg-accent-1000">
-             <div className="flex flex-col justify-between gap-1">
+            <div className="flex gap-2 items-center px-4 py-2  rounded-lg bg-accent-l-1100  ">
+             <div className="flex flex-col justify-between gap-1  ">
               <button
                className="hover:scale-110 duration-300 transition-all"
-               onClick={() => handelBounsIncrease(index)}
+               onClick={() => handelIncrease(index)}
               >
                <img src="Icons/arrow_rounded.svg" alt="up" />
               </button>
               <button
                className="hover:scale-110 duration-300 transition-all"
-               onClick={() => handelBounsDecrease(index)}
+               onClick={() => handelDecrease(index)}
               >
                <img
                 src="Icons/arrow_rounded.svg"
@@ -889,9 +904,11 @@ function AddOnlineTest({ test }) {
                />
               </button>
              </div>
-             <span>{question.bouns}</span>
+             <span className="mr-1">
+              {question.required ? question.deg : question.bouns}
+             </span>
             </div>
-            <span>بونص</span>
+            <span className="mr-1">{question.required ? "درجة" : "بونص"}</span>
            </div>
           </div>
           <Reorder.Group
