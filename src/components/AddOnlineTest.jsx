@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Heading from "./ui-local/Heading";
 import Tab from "./ui-local/Tab";
 import { constraints } from "../config";
@@ -38,7 +38,6 @@ import TestSent from "../../public/Icons/test_sent_icon.svg";
 import Trash from "../../public/Icons/trash_icon_gray.svg";
 import Print from "../../public/Icons/print_icon.svg";
 import { SolidLogo } from "./ui-local/SolidLogo";
-import { set } from "date-fns";
 
 const QUESTIONS = [
  {
@@ -143,10 +142,11 @@ const HOURS = [
  { value: 12, label: "12" },
 ];
 
-function AddOnlineTest() {
+function AddOnlineTest({ test }) {
  const [searchParams, setSearchParams] = useSearchParams();
- const [questions, setQuestions] = useState(QUESTIONS);
+ const [questions, setQuestions] = useState(test?.questions || QUESTIONS);
  const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
+ const [title, setTitle] = useState(test?.title || "اختبار بدون عنوان");
  const [onEdit, setOnEdit] = useState(false);
  const [onEditIndex, setOnEditIndex] = useState(null);
  const [date, setDate] = useState(new Date());
@@ -163,12 +163,14 @@ function AddOnlineTest() {
   }))
  );
 
- const [timeStart, setTimeStart] = useState({
-  hour: 1,
-  minute: 15,
-  mode: "AM",
- });
- const [timeDuration, setTimeDuration] = useState({
+ const [timeStart, setTimeStart] = useState(
+  test?.timeStart || {
+   hour: 1,
+   minute: 15,
+   mode: "AM",
+  }
+ );
+ const [timeDuration, setTimeDuration] = useState(test?.timeDuration || {
   hour: 1,
   minute: 15,
   mode: "AM",
@@ -321,7 +323,7 @@ function AddOnlineTest() {
      <div className=" rounded-lg mx-auto container w-full md:w-[85%] lg:w-[80%] p-4">
       <div className="mx-auto container text-center  rounded-lg -mt-5 w-full md:w-[85%] lg:w-[70%] p-4 ">
        <div className="bg-secondary-l text-white py-20 rounded-md">
-        <Heading as={"h1"}> اختبار بدون عنوان</Heading>
+        <Heading as={"h1"}>{title}</Heading>
        </div>
        <div className="flex justify-between my-4  text-xl font-almaria-bold">
         <div className="flex gap-4">
@@ -618,7 +620,7 @@ function AddOnlineTest() {
          <div className="flex flex-grow gap-3 items-center mr-6 ">
           <div className=" flex-grow  ">
            <Heading as={"h3"} className={"font-almaria-bold mb-12"}>
-            اختبار بدون عنوان
+            {title}
            </Heading>
            <div className="grid grid-cols-3 gap-4 max-w-[500px] ">
             {tabs_1.map((item) => (
@@ -776,7 +778,7 @@ function AddOnlineTest() {
             openModel={openModel}
             setOpenModel={setOpenModel}
             test={{
-             title: "اختبار بدون عنوان",
+             title,
              questions: questions,
              timeStart,
              timeDuration,
@@ -787,7 +789,7 @@ function AddOnlineTest() {
             timeStartString={timeStartString}
             setShowTestAlert={setShowTestAlert}
            />
-           <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" />
+           {/* <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" /> */}
           </div>
           <div className="flex gap-6">
            <OldButton

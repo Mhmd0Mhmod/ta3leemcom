@@ -311,7 +311,7 @@ const Editor = ({
         className=" grid grid-cols-12 items-center"
        >
         <div key={i} className="col-span-12 grid grid-cols-12 items-center">
-         <div className="flex items-center col-span-1 justify-around">
+         <div className="flex items-center  col-span-2 justify-around">
           <X onClick={() => deleteAnswer(i)} />
           <input
            className="h-5 w-5"
@@ -367,20 +367,20 @@ const Editor = ({
        </Reorder.Item>
       ))}
      </Reorder.Group>
-     {/* <div></div> */}
-     <OldButton
-      type="outlineSecondary"
-      className="col-span-2 "
+     <div></div>
+     <Button
+      variant="ghost"
+      className="col-span-2 text-secondary-l flex items-center gap-2 font-almaria text-lg hover:text-secondary-l "
       onClick={addAnswer}
-      icon={<Plus />}
      >
+      <Plus />
       <span>اضافة اختيار</span>
-     </OldButton>
+     </Button>
     </Reorder.Group>
     {/* </Reorder.Group> */}
 
     {/* Explanation Editor */}
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4 items-center mt-6">
      <span className="font-almaria-bold">تفسير الاجابة</span>
      <div
       className="flex-grow"
@@ -400,19 +400,20 @@ const Editor = ({
     <hr className="mt-2" />
     <div className="flex justify-between items-center">
      <div className="flex gap-4 items-center">
-      <label
+      
+           {/* <label
        htmlFor="required"
        className="relative inline-flex items-center cursor-pointer "
       >
        <div
         className={`w-11 h-6 ${
-         currentQuestion.required ? "bg-secondary" : "bg-white"
+         currentQuestion.required ? "bg-secondary-l" : "bg-white"
         }  rounded-full shadow-inner border border-accent-l-50 `}
        ></div>
        <div
         className={`dot absolute top-[50%] -translate-y-[50%] w-5 h-5 rounded-full transition-all duration-300 transform bg-white ${
          currentQuestion.required
-          ? "translate-x-full left-0"
+          ? "translate-x-full left-0 "
           : "!bg-[#D9D9D9] left-1"
         }`}
        ></div>
@@ -429,7 +430,7 @@ const Editor = ({
         }));
         e.target.checked ? handelIncrease() : handelDecrease();
        }}
-      />
+      /> */}
       <Heading as={"h5"} className={" font-almaria-bold"}>
        اجباري
       </Heading>
