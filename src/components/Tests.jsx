@@ -23,6 +23,9 @@ import TBody from "./ui-local/Table/TBody";
 import TD from "./ui-local/Table/TD";
 import AddOnlineTest from "./AddOnlineTest";
 
+import TrashIcon from "../../public/Icons/trash_icon.svg";
+import EditIcon from "../../public/Icons/edit_icon.svg";
+
 const TESTS = [
  {
   title: "Math Test",
@@ -595,7 +598,7 @@ function Tests() {
         <span> نوع الاختبار</span>
         <Arrow
          className={`${
-          filterByDateUl
+          filterByTestTypeUl
            ? "rotate-90 duration-300 transition-all"
            : "-rotate-90  duration-300 transition-all"
          } `}
@@ -680,14 +683,14 @@ function Tests() {
        <TBody className="max-h-[500px] overflow-auto px-2 ">
         {tests.map((test) => (
          <TR key={test.title} className="mb-1 group">
-          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-4 bg-white flex gap-4 border-l  rounded-tr-xl rounded-br-xl ">
+          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white  border-l flex  gap-4 rounded-tr-xl rounded-br-xl ">
            <button
             onClick={() => {
              setTestToEdit(test);
              setShowEditModal(true);
             }}
            >
-            <img src="Icons/edit_icon.svg" alt="" />
+            <EditIcon className="h-5  " />
            </button>
            <span>{test.title}</span>
            <button
@@ -696,13 +699,13 @@ function Tests() {
              setTests(tests.filter((item) => item.title !== test.title))
             }
            >
-            <img src="Icons/trash_icon.svg" alt="delete" />
+            <TrashIcon className="h-5  " />
            </button>
           </TD>
-          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-4 bg-white border-l ">
+          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white border-l ">
            {test.type}
           </TD>
-          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-4 bg-white   rounded-tl-xl rounded-bl-xl ">
+          <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white   rounded-tl-xl rounded-bl-xl ">
            {test.date}
           </TD>
          </TR>

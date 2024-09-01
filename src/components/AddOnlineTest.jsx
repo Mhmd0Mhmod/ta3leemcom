@@ -592,13 +592,14 @@ function AddOnlineTest({ test }) {
      <div className="w-full md:w-[85%] lg:w-[70%] p-4 mx-auto">
       <div className="bg-white rounded-lg p-4">
        <div className="flex items-center justify-between mb-6">
-        <div className="flex gap-1 items-end">
+        {/* <div className="flex gap-1 items-end">
          <span className="text-secondary-l font-almaria-extrabold text-[1rem]">
           تعليم{" "}
          </span>
          <span className="text-primary-l font-almaria-bold">كوم </span>
          <img src="Icons/logo_solid.svg" alt="logo" />
-        </div>
+        </div> */}
+        <SolidLogo />
         <div className="flex gap-2">
          <TooltipProvider delayDuration={100}>
           <Tooltip>
