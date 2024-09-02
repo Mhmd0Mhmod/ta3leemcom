@@ -547,7 +547,7 @@ function AddOnlineTest({ test }) {
       </Heading>
      </button>
      <Heading as={"h1"} className={"my-6 text-black font-almaria-bold"}>
-      الاختبارات
+      اختبار جديد
      </Heading>
      <hr className="w-[70%]" />
      <div className="flex gap-2 mt-4 mb-12 font-almaria-light">

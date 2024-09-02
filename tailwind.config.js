@@ -49,6 +49,11 @@ export default {
      1100: "#F7F7F7",
      1200: "#D9D9D9",
     },
+    note: {
+     100: "#09d8db",
+     200: "#004fa8",
+     300: "#db090c",
+    },
     border: "hsl(var(--border))",
     input: "hsl(var(--input))",
     ring: "hsl(var(--ring))",
