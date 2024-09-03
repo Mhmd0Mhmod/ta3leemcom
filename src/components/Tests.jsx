@@ -25,6 +25,7 @@ import AddOnlineTest from "./AddOnlineTest";
 
 import TrashIcon from "../../public/Icons/trash_icon.svg";
 import EditIcon from "../../public/Icons/edit_icon.svg";
+import AddOfflineTest from "./AddOfflineTest";
 
 const TESTS = [
  {
@@ -332,6 +333,9 @@ function Tests() {
   <>
    {showEditModal && TestToEdit.type === "اونلاين" && (
     <AddOnlineTest test={TestToEdit} />
+   )}
+   {showEditModal && TestToEdit.type === "اوفلاين" && (
+    <AddOfflineTest test={TestToEdit} />
    )}
    {!showEditModal && (
     <div className="px-12 py-16">

@@ -724,7 +724,7 @@ function AddOnlineTest({ test }) {
             <PopoverTrigger>
              <TooltipProvider>
               <Tooltip delayDuration={100}>
-               <TooltipTrigger>
+               <TooltipTrigger className="w-full">
                 <Button
                  variant="secondary"
                  className="pr-1 w-full justify-start gap-2"
