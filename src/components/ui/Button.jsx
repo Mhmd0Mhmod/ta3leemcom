@@ -1,77 +1,47 @@
-export default function Button({ children, type = "primary", className, icon = false, iconStyle, circle = false, onClick }) {
-  let style = `rounded-lg  px-6 py-2 text-2xl min-w-40 border border-primary ${className} font-almaria `;
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority";
 
-  if (type === "primary") {
-    if (icon) {
-      return (
-        <button onClick={onClick} className={` bg-primary text-white flex px-2 gap-1 ${style}`}>
-          <span className={iconStyle}>{icon}</span>
-          <span>{children}</span>
-        </button>
-      );
-    }
-    return (
-      <button onClick={onClick} className={` bg-primary text-white ${style}`}>
-        {children}
-      </button>
-    );
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   }
-  if (type === "outline") {
-    if (icon) {
-      return (
-        <button onClick={onClick} className={`  text-accent-400 flex gap-2 items-center rounded-lg px-2 py- border border-accent-400 ${className} `}>
-          <span>{children}</span>
-          <span className={iconStyle}>{icon}</span>
-        </button>
-      );
-    }
-    return <button onClick={onClick} className={` border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-500 ${style}`}>{children}</button>;
-  }
-  if (type === "outlineSecondary") {
-    return (
-      <button onClick={onClick} className={` transition-all duration-500 rounded-lg  px-6 py-2 text-2xl min-w-40 ${className}`}>
-        {children}
-      </button>
-    );
-  }
-  if (type === "Secondary") {
-    if (icon) {
-      return (
-        <button onClick={onClick} className={` bg-secondary border-none text-white flex px-[12px] gap-4 items-center justify-between ${style}`}>
-          <span className={iconStyle}>{icon}</span>
-          <span className="mx-2">{children}</span>
-        </button>
-      );
-    }
-    return (
-      <button onClick={onClick} className={`border-0 bg-[#0462CF] text-white ${style}`}>
-        {children}
-      </button>
-    );
-  }
-  if (type === "ghost") {
-    return (
-      <button onClick={onClick} className={` text-primary ${style} `}>
-        {children}
-      </button>
-    );
-  }
-  if (type === "normal") {
-    return (
-      <button onClick={onClick} className={` text-secondary border-secondary  ${circle ? "rounded-[50px]" : "rounded-xl"} ${style} font-almaria `}>
-        {children}
-      </button>
-    );
-  }
-  if (type === "store") {
-    return (
-      <button
-        onClick={onClick}
-        className={` bg-[#F4F4F4] flex rounded-[7px] border-[1px] border-[#CCCCCC] items-center justify-center gap-12 py-[14px] px-[10px] shadow-xl w-[239px] h-[83px] font-cairo text-[15px]  `}
-      >
-        <span>{children}</span>
-        <img src={icon} alt="" />
-      </button>
-    );
-  }
-}
+)
+
+const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+  return (
+    (<Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props} />)
+  );
+})
+Button.displayName = "Button"
+
+export { Button, buttonVariants }

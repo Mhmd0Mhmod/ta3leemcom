@@ -1,4 +1,4 @@
-import Button from "./../components/ui/Button";
+import Button from "./ui-local/Button";
 Button;
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -18,7 +18,6 @@ export default function Carousel({ slides }) {
     effect={"fade"}
     navigation={true}
     autoplay={true}
-  
     modules={[EffectFade, Autoplay, Navigation]}
     className="mySwiper"
    >

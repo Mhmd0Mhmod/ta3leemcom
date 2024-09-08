@@ -1,6 +1,6 @@
 import { Form, Link, useSearchParams } from "react-router-dom";
 import { FakeStudent, LEVELS } from "../config";
-import Button from "./ui/Button";
+import Button from "./ui-local/Button";
 import { FormInput } from "lucide-react";
 import { useState } from "react";
 import log from "eslint-plugin-react/lib/util/log.js";

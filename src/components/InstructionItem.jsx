@@ -1,6 +1,6 @@
 // import { User } from "lucide-react";
 
-import Heading from "./ui/Heading";
+import Heading from "./ui-local/Heading";
 
 export default function InstructionItem({ title, desc, icon }) {
  return (
@@ -9,7 +9,9 @@ export default function InstructionItem({ title, desc, icon }) {
     <span>{icon}</span>
    </div>
    <div className="font-almaria flex flex-col gap-2 justify-between px-12">
-       <Heading as={"h5"} className="text-primary">{title}</Heading>
+    <Heading as={"h5"} className="text-primary-l">
+     {title}
+    </Heading>
     <p className="text-sm font-almaria-light">{desc}</p>
    </div>
   </div>
