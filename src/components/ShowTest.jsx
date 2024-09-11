@@ -1,6 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 import Eye from "../../public/Icons/show_icon.svg";
 import Heading from "./ui-local/Heading";
