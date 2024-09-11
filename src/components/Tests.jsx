@@ -716,7 +716,14 @@ function Tests() {
        </THead>
        <TBody className="max-h-[500px] overflow-y-scroll px-2 ">
         {tests.map((test) => (
-         <TR key={test.title} className="mb-1 group">
+         <TR
+          key={test.title}
+          className="mb-1 group cursor-pointer"
+          onClick={() => {
+           setCurrentTest(test);
+           setShowDataModal(true);
+          }}
+         >
           <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white  border-l flex  gap-4 rounded-tr-xl rounded-br-xl ">
            <button
             onClick={() => {
@@ -726,15 +733,7 @@ function Tests() {
            >
             <EditIcon className="h-5  " />
            </button>
-           <span
-            className="cursor-pointer"
-            onClick={() => {
-             setCurrentTest(test);
-             setShowDataModal(true);
-            }}
-           >
-            {test.title}
-           </span>
+           <span>{test.title}</span>
            <button
             className="mr-auto"
             onClick={() =>
