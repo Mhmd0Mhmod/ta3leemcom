@@ -26,6 +26,8 @@ import AddOnlineTest from "./AddOnlineTest";
 import TrashIcon from "../../public/Icons/trash_icon.svg";
 import EditIcon from "../../public/Icons/edit_icon.svg";
 import AddOfflineTest from "./AddOfflineTest";
+import OnlineTestData from "./OnlineTestData";
+import OfflineTestData from "./OfflineTestData";
 
 const TESTS = [
  {
@@ -293,6 +295,8 @@ function Tests() {
  const [dateFrom, setDateFrom] = useState(new Date());
  const [dateTo, setDateTo] = useState(new Date());
  const [showEditModal, setShowEditModal] = useState(false);
+ const [showDataModal, setShowDataModal] = useState(false);
+ const [currentTest, setCurrentTest] = useState(null);
  const [TestToEdit, setTestToEdit] = useState(null);
  const backToLevel = () => {
   setSearchParams({ tab: "level", level: "primary" });
@@ -337,7 +341,13 @@ function Tests() {
    {showEditModal && TestToEdit.type === "اوفلاين" && (
     <AddOfflineTest test={TestToEdit} />
    )}
-   {!showEditModal && (
+   {showDataModal && currentTest.type === "اونلاين" && (
+    <OnlineTestData test={currentTest} />
+   )}
+   {showDataModal && currentTest.type === "اوفلاين" && (
+    <OfflineTestData test={currentTest} />
+   )}
+   {!showEditModal && !showDataModal && (
     <div className="px-12 py-16">
      <button className="flex gap-1" onClick={backToLevel}>
       <img src="Icons/rev_arrow.svg" alt="" />
@@ -696,7 +706,15 @@ function Tests() {
            >
             <EditIcon className="h-5  " />
            </button>
-           <span>{test.title}</span>
+           <span
+            className="cursor-pointer"
+            onClick={() => {
+             setCurrentTest(test);
+             setShowDataModal(true);
+            }}
+           >
+            {test.title}
+           </span>
            <button
             className="mr-auto"
             onClick={() =>
