@@ -3,10 +3,12 @@ import {FakeGroups, FakeStudent} from "../config.js";
 import Confetti from "react-confetti";
 import HeadingLevelsPages from "./ui/HeadingLevelsPages.jsx";
 import {useWindowSize} from "react-use";
+import {useEffect, useState} from "react";
 
 
 function Toppers() {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const[animation,setAnimation]=useState(true)
+    const [searchParams] = useSearchParams();
     const groups = searchParams.get("group").split("_");
     const students = FakeGroups.filter((el) => groups.includes(el.name)).map((el) => el.students).flat().slice(10);
     const style={
@@ -23,9 +25,15 @@ function Toppers() {
             number:"bg-[#B46300] text-white !border-[#EE943C]"
         }
     }
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setAnimation(false)
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <>
-            <Confetti height={useWindowSize().height}/>
+            <Confetti height={useWindowSize().height} numberOfPieces={2000} tweenDuration={5000} recycle={animation} />
             <div className={"flex flex-col gap-6 w-[687px] m-auto text-center"}>
             <HeadingLevelsPages title={"المتفوقون"}/>
             </div>
