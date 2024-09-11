@@ -1,9 +1,9 @@
 import {useSearchParams} from "react-router-dom";
-import {FakeGroups, FakeStudent} from "../config.js";
+import {FakeGroups} from "../config.js";
 import Confetti from "react-confetti";
-import HeadingLevelsPages from "./ui/HeadingLevelsPages.jsx";
-import {useWindowSize} from "react-use";
+import HeadingLevelsPages from "./ui-local/HeadingLevelsPages.jsx";
 import {useEffect, useState} from "react";
+import { useWindowSize } from "react-use";
 
 
 function Toppers() {
@@ -18,11 +18,11 @@ function Toppers() {
         },
         1:{
             text:"!bg-[#616E7C] text-white",
-            number:"bg-[#869DB5] text-white !border-[#616E7C]"
+            number:"!bg-[#869DB5] text-white !border-[#616E7C]"
         },
         2:{
             text:"!bg-[#EE943C] text-white",
-            number:"bg-[#B46300] text-white !border-[#EE943C]"
+            number:"!bg-[#B46300] text-white !border-[#EE943C]"
         }
     }
     useEffect(() => {
