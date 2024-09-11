@@ -1,9 +1,6 @@
-import { Form, Link, useSearchParams } from "react-router-dom";
-import { FakeStudent, LEVELS } from "../config";
-import Button from "./ui-local/Button";
-import { FormInput } from "lucide-react";
+import {  Link, useSearchParams } from "react-router-dom";
+import { FakeStudent } from "../config";
 import { useState } from "react";
-import log from "eslint-plugin-react/lib/util/log.js";
 function StudentDetailes() {
   const [searchParams,setSearchParams] = useSearchParams();
   const studentId = searchParams.get("studentId");

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import PicIcon from "./../../public/Icons/pic_icon.svg";
-import { Button } from "./ui/button";
+import { Button } from "./ui/Button";
 
 const Toolbar = ({
  formatText,

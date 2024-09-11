@@ -2,14 +2,14 @@ import { useSearchParams } from "react-router-dom";
 import { FakeGroups, LEVELS } from "../config.js";
 import { useEffect, useState } from "react";
 import Heading from "./ui-local/Heading.jsx";
-import arrow from "../../public/Icons/arrow_in_levels.svg";
-import eye from "../../public/Icons/eye.svg";
-import edit from "../../public/Icons/editPen.svg";
-import trash from "../../public/Icons/recyclePin.svg";
-import tests from "../../public/Icons/tests.svg";
-import students from "../../public/Icons/students.svg";
-import toppers from "../../public/Icons/toppers.svg";
-import monthes from "../../public/Icons/monthes.svg";
+import Arrow from "../../public/Icons/arrow_in_levels.svg";
+import Eye from "../../public/Icons/eye.svg";
+import Edit from "../../public/Icons/editPen.svg";
+import Trash from "../../public/Icons/recyclePin.svg";
+import Tests from "../../public/Icons/tests.svg";
+import Students from "../../public/Icons/students.svg";
+import Toppers from "../../public/Icons/toppers.svg";
+import Monthes from "../../public/Icons/monthes.svg";
 
 function Test() {
  const [searchParams, setSearchParams] = useSearchParams();
@@ -94,7 +94,7 @@ function Test() {
       <Heading as={"h1"} className={"text-[24px] font-almaria-bold"}>
        المجموعات
       </Heading>
-      <img src={arrow} alt={"arrow"} />
+      <Arrow />
      </div>
      <div className={"bg-white p-5 rounded-xl h-fit max-h-64 overflow-y-auto"}>
       <ul className={"flex flex-col gap-5"}>
@@ -106,10 +106,10 @@ function Test() {
          }`}
          onClick={() => handleGroupClick(group)}
         >
-         <img src={trash} alt={"trash"} />
-         <img src={edit} alt={"edit"} />
+         <Trash/>
+         <Edit />
          <span className={"flex-1 text-center"}>{group.name}</span>
-         <img src={eye} alt={"eye"} />
+         <Eye />
         </li>
        ))}
       </ul>
@@ -119,10 +119,10 @@ function Test() {
      className={"flex-1 self-center mt-16 grid grid-cols-2 grid-rows-2 gap-7"}
     >
      {[
-      { name: "الاختبارات", icon: tests, tab: "test" },
-      { name: "الطلاب", icon: students, tab: "students" },
-      { name: "الاشهور", icon: monthes, tab: "months" },
-      { name: "الاوائل", icon: toppers, tab: "toppers" },
+      { name: "الاختبارات", Icon: Tests, tab: "test" },
+      { name: "الطلاب", Icon: Students, tab: "students" },
+      { name: "الاشهور", Icon: Monthes, tab: "months" },
+      { name: "الاوائل", Icon: Toppers, tab: "toppers" },
      ].map((item, i) => (
       <button
        key={i}
@@ -130,7 +130,7 @@ function Test() {
        className={"flex flex-col items-center gap-5 cursor-pointer"}
       >
        <div className={"relative"}>
-        <img src={item.icon} alt={item.name} />
+        <item.Icon />
         <span
          className={
           "w-full h-full absolute top-0 left-0 rounded-full hover:bg-[#00000033]"

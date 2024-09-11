@@ -1,10 +1,10 @@
 import exit from "../../public/Icons/exit.svg";
 import Heading from "./ui-local/Heading.jsx";
 import FormInput from "./ui-local/FormInput.jsx";
-import profile from "../../public/Icons/profile.svg";
-import phone from "../../public/Icons/call.svg";
-import mail from "../../public/Icons/mail.svg";
-import lock from "../../public/Icons/Vector.svg";
+import Profile from "../../public/Icons/profile.svg";
+import Phone from "../../public/Icons/call.svg";
+import Mail from "../../public/Icons/mail.svg";
+import Lock from "../../public/Icons/Vector.svg";
 import Button from "./ui-local/Button.jsx";
 import {
  Link,
@@ -45,7 +45,7 @@ function SingUpForm() {
      type={"text"}
      name={"name"}
      placeholder={"الاسم الأول"}
-     icon={profile}
+     Icon={Profile}
      className={"w-[70px] "}
     />
     <FormInput
@@ -68,7 +68,7 @@ function SingUpForm() {
     type={"Number"}
     name={"phone"}
     placeholder={"رقم الهاتف"}
-    icon={phone}
+    Icon={Phone}
     className={"w-full"}
    />
    <Heading as={"h4"} className={"text-secondary-l my-4"}>
@@ -78,7 +78,7 @@ function SingUpForm() {
     type={"email"}
     name={"email"}
     placeholder={"example@example.com"}
-    icon={mail}
+    Icon={Mail}
     className={"w-full text-end"}
    />
    <Heading as={"h4"} className={"text-secondary-l my-4"}>
@@ -88,7 +88,7 @@ function SingUpForm() {
     type={"password"}
     name={"password"}
     placeholder={"كلمة المرور"}
-    icon={lock}
+    Icon={Lock}
     className={"w-full"}
    />
    <Heading

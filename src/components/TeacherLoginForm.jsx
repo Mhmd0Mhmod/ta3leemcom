@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 import Button from "./ui-local/Button.jsx";
 import FormInput from "./ui-local/FormInput.jsx";
-import mail from "../../public/Icons/mail.svg";
-import lock from "../../public/Icons/Vector.svg";
+import Mail from "../../public/Icons/mail.svg";
+import Lock from "../../public/Icons/Vector.svg";
 import Heading from "./ui-local/Heading.jsx";
 
 export default function TeacherLoginForm() {
@@ -43,7 +43,7 @@ export default function TeacherLoginForm() {
        type={"email"}
        name={"email"}
        placeholder={"example@example.com"}
-       icon={mail}
+       Icon={Mail}
        className={"w-full text-end"}
       />
      </div>
@@ -55,7 +55,7 @@ export default function TeacherLoginForm() {
        type={"password"}
        name={"password"}
        placeholder={"كلمة المرور"}
-       icon={lock}
+       Icon={Lock}
        className={"w-full"}
       />
      </div>

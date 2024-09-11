@@ -27,7 +27,7 @@ function AddGroup() {
      type={"text"}
      name={"name"}
      className={"w-11/12"}
-     icon={Group}
+     Icon={Group}
      divClassName={"bg-white w-3/4 justify-around"}
     />
     <div className={"grid grid-cols-3"}>

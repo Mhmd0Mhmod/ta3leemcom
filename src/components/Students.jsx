@@ -9,12 +9,11 @@ import TR from "./ui-local/Table/TR.jsx";
 import TH from "./ui-local/Table/TH.jsx";
 import TBody from "./ui-local/Table/TBody.jsx";
 import TD from "./ui-local/Table/TD.jsx";
-import sort from "/public/Icons/sort.svg";
-import edit from "/public/Icons/edit_icon.svg";
-import trash from "/public/Icons/trash_icon.svg";
-import Icon from "./ui-local/Icon.jsx";
-import Breadcrumb from "./ui-local/Breadcrumb.jsx";
-import Backtolevels from "./ui-local/Backtolevels.jsx";
+import Sort from "/public/Icons/sort.svg";
+import Edit from "/public/Icons/edit_icon.svg";
+import Trash from "/public/Icons/trash_icon.svg";
+import Search from "/public/Icons/search_icon.svg";
+import RemoveSearched from "/public/Icons/removeSeach.svg";
 import HeadingLevelsPages from "./ui-local/HeadingLevelsPages.jsx";
 
 function Students() {
@@ -64,7 +63,7 @@ function Students() {
    <div className={"flex justify-between items-center"}>
     <div className={"flex gap-4"}>
      <div className="flex gap-5 bg-white p-3 w-[30rem] border-2 rounded-lg ">
-      <img src="Icons/search_icon.svg" alt="search" />
+      <Search />
       <input
        type="text"
        placeholder="اسم الطالب"
@@ -72,7 +71,7 @@ function Students() {
        value={search}
        onChange={handleSearch}
       />
-      {search && <img src="Icons/removeSeach.svg" alt="search" />}
+      {search && <RemoveSearched />}
      </div>
      <Button
       type="Secondary"
@@ -100,7 +99,7 @@ function Students() {
        onClick={handleSort}
       >
        <span>اسم الطالب</span>
-       <img src={sort} />
+       <Sort />
       </TH>
      </TR>
     </THead>
@@ -112,11 +111,11 @@ function Students() {
          <div
           className={"flex gap-4 p-2 bg-white border-b-4 items-center rounded"}
          >
-          <Icon src={edit} alt={"edit"} className={"!w-5"} />
+          <Edit alt={"edit"} className={"!w-5"} />
           <span>
            {i + 1}.{el.name}
           </span>
-          <Icon src={trash} alt={"delete"} className={"mr-auto !w-5"} />
+          <Trash alt={"delete"} className={"mr-auto !w-5"} />
          </div>
         </TD>
        </TR>

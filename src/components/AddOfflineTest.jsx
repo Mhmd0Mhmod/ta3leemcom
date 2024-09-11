@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
-import { Button } from "./ui/button";
+import { Button } from "./ui/Button";
 
 import OnlineIcon from "../../public/Icons/online_icon.svg";
 import TimeIcon from "../../public/Icons/time_icon.svg";

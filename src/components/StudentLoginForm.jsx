@@ -35,7 +35,7 @@ export default function StudentLoginForm() {
         type={"text"}
         placeholder={"       XX   XXX  XXX"}
         className={"w-[330px]"}
-        icon={Card}
+        Icon={Card}
        />
        <div>
         <input type="checkbox" className="me-2" />

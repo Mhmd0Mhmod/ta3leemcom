@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Upload from "../../public/Icons/upload_icon.svg";
-import { Button } from "./ui/button";
+import { Button } from "./ui/Button";
 
 const StyledDropzone = ({ onDrop }) => {
  const onDropHandler = useCallback(

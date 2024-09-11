@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import profile from "../../public/Icons/profile.svg";
+import Profile from "../../public/Icons/profile.svg";
 import FormInput from "./ui/FormInput.jsx";
 import DropList from "./ui/DropList.jsx";
 import { FakeStudent, LEVELS } from "../config";
@@ -21,7 +21,7 @@ export default function EdiStudenDetails() {
         </h2>
         <div className="w-[77%] mt-16">
             <h3 className="text-2xl font-almaria-bold mb-4">الإسم رباعي</h3>
-            <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={profile} divClassName={"bg-white w-3/4 justify-around"} />
+            <FormInput type={"text"} name={"name"} className={"w-11/12"} Icon={Profile} divClassName={"bg-white w-3/4 justify-around"} />
         </div>
         <div className="flex gap-40 mt-14 mb-40">
             <div>

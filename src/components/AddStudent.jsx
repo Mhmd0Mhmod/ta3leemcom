@@ -1,6 +1,6 @@
 import Heading from "./ui-local/Heading.jsx";
 import FormInput from "./ui-local/FormInput.jsx";
-import profile from "../../public/Icons/profile.svg";
+import Profile from "../../public/Icons/profile.svg";
 import DropList from "./ui-local/DropList.jsx";
 import Button from "./ui-local/Button.jsx";
 import { useState } from "react";
@@ -28,7 +28,7 @@ function AddStudent() {
      type={"text"}
      name={"name"}
      className={"w-11/12"}
-     icon={profile}
+     Icon={Profile}
      divClassName={"bg-white w-3/4 justify-around"}
     />
     <div className={"grid grid-cols-3"}>

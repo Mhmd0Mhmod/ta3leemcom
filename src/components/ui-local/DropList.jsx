@@ -1,6 +1,6 @@
 import {useState} from "react";
 import PropTypes from "prop-types";
-import drop from '../../../public/Icons/drop2.svg'
+import Drop from '../../../public/Icons/drop2.svg'
 
 DropList.propTypes = {
     title: PropTypes.string.isRequired,
@@ -25,11 +25,7 @@ function DropList({title, options, value, setValue, optionsValue}) {
                 className="w-full bg-[#EFEFEF] border border-[#C2C2C2] rounded-[8px] shadow px-4 py-2 text-right h-[2.875rem]"
             >
                 {selected || title}
-                <span className={`float-left ${isOpen ? "rotate-180" : ""} mt-2`}><img
-                    src={drop}
-                    class="img-fluid rounded-top"
-                    alt=""
-                />
+                <span className={`float-left ${isOpen ? "rotate-180" : ""} mt-2`}><Drop/>
                 </span>
             </button>
             {isOpen && (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import group from "../../public/Icons/group.svg";
+import Group from "../../public/Icons/group.svg";
 import FormInput from "./ui/FormInput.jsx";
 import DropList from "./ui/DropList.jsx";
 import { FakeStudent, LEVELS } from "../config";
@@ -21,7 +21,7 @@ export default function EditGroupDetails() {
             </h2>
             <div className="w-[75%] mt-16">
                 <h3 className="text-2xl font-almaria-bold mb-4">اسم المجموعة </h3>
-                <FormInput type={"text"} name={"name"} className={"w-11/12"} icon={group} divClassName={"bg-white w-3/4 justify-around"} />
+                <FormInput type={"text"} name={"name"} className={"w-11/12"} Icon={Group} divClassName={"bg-white w-3/4 justify-around"} />
             </div>
             <div className="flex gap-40 mt-14 mb-40">
                 <div>

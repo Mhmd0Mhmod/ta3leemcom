@@ -1,23 +1,21 @@
-import { useSearchParams } from "react-router-dom";
-import menu from "../../public/Icons/menu.svg";
-import profile from "../../public/Icons/blackProfile.svg";
-import group from "../../public/Icons/group.svg";
-import Icon from "../components/ui-local/Icon.jsx";
+import Graduted from "../../public/Icons/graduted.svg";
+import Profile from "../../public/Icons/blackProfile.svg";
+import Group from "../../public/Icons/group.svg";
+import Meeting from "../../public/Icons/meeting.svg";
+import ThreeCirlce from "../../public/Icons/threeCirlceDashboard.svg";
+import Menu from "../../public/Icons/menu.svg";
+import ScrollTop from "./../../public/Icons/scroll_top_icon.svg";
 import TestIcon from "../../public/Icons/test.svg";
-import graduted from "../../public/Icons/graduted.svg";
+import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AddStudent from "../components/AddStudent.jsx";
-import meeting from "../../public/Icons/meeting.svg";
-import threeCirlce from "../../public/Icons/threeCirlceDashboard.svg";
 import Details from "../components/ui-local/Details.jsx";
 import AddGroup from "../components/AddGroup.jsx";
-import StudentDetails from "../components/StudentDetailes.jsx";
 import Test from "../components/Test.jsx";
 import Level from "../components/Level.jsx";
 import { LEVELS } from "../config.js";
 import Students from "../components/Students.jsx";
 import Months from "../components/Months.jsx";
-import ScrollTop from "./../../public/Icons/scroll_top_icon.svg";
 
 function TeacherDashboard() {
  const [searchParams, setSearchParams] = useSearchParams();
@@ -62,8 +60,7 @@ function TeacherDashboard() {
     } self-start`}
    >
     <div className={`flex ${opened ? " justify-end" : "justify-center"}`}>
-     <Icon
-      src={menu}
+     <Menu
       className={`w-9 ${opened ? "" : "rotate-Y-180"} transition duration-100 `}
       onClick={() => setOpened((open) => !open)}
      />
@@ -75,7 +72,7 @@ function TeacherDashboard() {
        activeTab === "addStudent" ? "active" : ""
       }`}
      >
-      <Icon src={profile} />
+      <Profile />
       <span className={`${!opened ? "hidden" : ""}`}>اضافة طالب</span>
      </li>
      <li
@@ -84,7 +81,7 @@ function TeacherDashboard() {
        activeTab === "addGroup" ? "active" : ""
       }`}
      >
-      <Icon src={group} />
+      <Group />
       <span className={`${!opened ? "hidden" : ""}`}>اضافة مجموعة</span>
      </li>
      <li
@@ -95,7 +92,7 @@ function TeacherDashboard() {
       <Details
        className={"gap-[18px]"}
        summary={"اضافة اختبار"}
-       icon={TestIcon}
+       Icon={TestIcon}
        listItems={["اونلاين", "اوفلاين"]}
        tabName={["online", "offline"]}
        param={"test"}
@@ -110,7 +107,7 @@ function TeacherDashboard() {
       <Details
        className={"gap-[18px]"}
        summary={"المراحل الدراسية"}
-       icon={graduted}
+       Icon={Graduted}
        opend={opened}
        listItems={LEVELS.levels.map((el) => el.split(" ").at(1))}
        tabName={Object.keys(LEVELS).slice(1)}
@@ -123,7 +120,7 @@ function TeacherDashboard() {
        activeTab === "meeting" ? "active" : ""
       }`}
      >
-      <Icon src={meeting} />
+      <Meeting />
       <span className={`${!opened ? "hidden" : ""}`}>عقد اجتماع</span>
      </li>
     </ul>
@@ -131,7 +128,7 @@ function TeacherDashboard() {
    <div className={"w-[1px] self-stretch bg-gray-100"}></div>
    <div className={" p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
     <div id="innerContent" className={"w-32    absolute top-0 left-0"}>
-     <img src={threeCirlce} alt={"threeCirlce"} />
+     <ThreeCirlce />
     </div>
     {activeTab === "addStudent" && <AddStudent />}
     {activeTab === "addGroup" && <AddGroup />}

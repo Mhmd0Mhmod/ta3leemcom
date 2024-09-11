@@ -2,7 +2,7 @@
 import { useLocation, Link, useSearchParams } from "react-router-dom";
 import Logo from "../../public/Icons/ta3leemComLogo.svg";
 import Button from "./ui-local/Button.jsx";
-import Icon from "./ui-local/Icon.jsx";
+import ArrowLeft from "../../public/Icons/leftArrow.svg";
 import { useState } from "react";
 export default function Header() {
  const location = useLocation();
@@ -81,7 +81,7 @@ export default function Header() {
       onClick={() => setSearchParam({ mr: "signUp" })}
      >
       انضم إلينا
-      <Icon src={"../../public/Icons/leftArrow.svg"} className={"w-7"} />
+      <ArrowLeft className={"w-7"} />
      </Button>
     </div>
    </nav>
