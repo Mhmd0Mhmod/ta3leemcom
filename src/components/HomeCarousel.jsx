@@ -1,5 +1,5 @@
-import Heading from "./../components/ui/Heading";
-import Button from "./../components/ui/Button";
+import Heading from "./ui-local/Heading";
+import Button from "./ui-local/Button";
 Button;
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -27,8 +27,11 @@ export default function Carousel({ slides }) {
    >
     <div className="absolute top-0 z-10  h-full w-full mt-[5%] mx-16">
      <span>
-      <Heading as={"h1"} className={"text-white font-almaria-bold leading-[2] text-[64px] "}>
-       <span className="font-almaria-extrabold text-secondary ml-2 text-[96px]">
+      <Heading
+       as={"h1"}
+       className={"text-white font-almaria-bold leading-[2] text-[64px] "}
+      >
+       <span className="font-almaria-extrabold text-secondary-l ml-2 text-[96px]">
         مرحباً بكم
        </span>{" "}
        في منصتكم <br />
@@ -36,18 +39,29 @@ export default function Carousel({ slides }) {
       </Heading>
      </span>
      <span>
-      <Heading as={"h4"} className={"text-white font-almaria-bold leading-[3] mt-10"}>
-       <span className="font-almaria-light text-accent-50 text-[32px] leading-[2] ">
+      <Heading
+       as={"h4"}
+       className={"text-white font-almaria-bold leading-[3] mt-10"}
+      >
+       <span className="font-almaria-light text-accent-l-50 text-[32px] leading-[2] ">
         انضموا إلينا واستمتعوا بتعليم افضل وإدارة اسهل
         <br /> للدروس الخصوصية
        </span>
       </Heading>
      </span>
      <div className="flex gap-12 mt-[8%] ">
-      <Button className={"text-3xl rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"}>انضم الينا</Button>
+      <Button
+       className={
+        "text-3xl rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"
+       }
+      >
+       انضم الينا
+      </Button>
       <Button
        type="outline"
-       className={"text-3xl  border-white text-white hover:bg-transparent rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"}
+       className={
+        "text-3xl  border-white text-white hover:bg-transparent rounded-[15px]  px-[39px]   min-w-[209px] min-h-[86px]"
+       }
       >
        تعرف اكثر
       </Button>

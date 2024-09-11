@@ -9,8 +9,8 @@ import {
 } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
 import "./../embla.css";
-import Button from "./ui/Button";
-import Heading from "./ui/Heading";
+import Button from "./ui-local/Button";
+import Heading from "./ui-local/Heading";
 
 const data = [
  { text: "إدارة شاملة للطلاب", icon: "Icons/circle sec-1.svg" },
@@ -60,7 +60,12 @@ const EmblaCarousel = ({ slides, options }) => {
       ))}
      </div>
     </div>
-    <Button type="normal" className={"mt-8 font-almaria-bold px-[0.9rem] py-[0.4rem] min-h-[fit-content] min-w-fit text-[20px] bg-[#B4D3E01A]"}>
+    <Button
+     type="normal"
+     className={
+      "mt-8 font-almaria-bold px-[0.9rem] py-[0.4rem] min-h-[fit-content] min-w-fit text-[20px] bg-[#B4D3E01A]"
+     }
+    >
      عرض التفاصيل
     </Button>
     <div className="embla__controls w-full flex   justify-end mt-0">

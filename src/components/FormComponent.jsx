@@ -62,7 +62,7 @@ const FormComponent = ({
             />
             {/* Handle for dragging */}
             <div {...provided.dragHandleProps}>
-             <img src="Icons/grip_icon.svg" alt="drag" />
+             <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
             </div>
            </div>
           </div>
@@ -72,8 +72,8 @@ const FormComponent = ({
             className="col-span-10 flex gap-1 items-end mt-4"
             onClick={addAnswer}
            >
-            <Plus className="text-secondary h-5" />
-            <span className="text-secondary font-almaria-bold">
+            <Plus className="text-secondary-l h-5" />
+            <span className="text-secondary-l font-almaria-bold">
              اضافة اختبار
             </span>
            </button>

@@ -1,5 +1,5 @@
-import Button from "./ui/Button";
-import Heading from "./ui/Heading";
+import Button from "./ui-local/Button";
+import Heading from "./ui-local/Heading";
 import EmblaCarousel from "./EmblaCarousel";
 
 const slides = [
@@ -22,7 +22,13 @@ export default function Brief() {
       إلى توفير بيئة تعليمية شاملة ومتكاملة تسهل العملية التعليمية والتواصل
       <br /> بين جميع الأطراف المعنية.
      </Heading>
-     <Button type="normal" circle className={"mt-8 font-almaria-extrabold px-[3rem] py-[0.4rem] min-h-[fit-content] min-w-fit text-[20px] bg-[#B4D3E01A]"}>
+     <Button
+      type="normal"
+      circle
+      className={
+       "mt-8 font-almaria-extrabold px-[3rem] py-[0.4rem] min-h-[fit-content] min-w-fit text-[20px] bg-[#B4D3E01A]"
+      }
+     >
       اعرف اكثر
      </Button>
     </div>

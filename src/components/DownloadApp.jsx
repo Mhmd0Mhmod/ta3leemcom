@@ -1,5 +1,5 @@
-import Button from "./ui/Button";
-import Heading from "./ui/Heading";
+import Button from "./ui-local/Button";
+import Heading from "./ui-local/Heading";
 
 export default function DownloadApp() {
  return (
