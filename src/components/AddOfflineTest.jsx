@@ -446,7 +446,7 @@ function AddOfflineTest({ test }) {
    </div>
    <div className="w-full md:w-[85%] lg:w-[70%] p-4 mx-auto">
     <Heading as={"h2"} className={"mt-12 text-black font-almaria-bold"}>
-     رفع نموذج لالسالة
+     رفع نموذج الاسئلة
     </Heading>
     <div className=" ">
      {/* <div className="">

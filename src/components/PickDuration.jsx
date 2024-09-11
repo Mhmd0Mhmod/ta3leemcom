@@ -24,28 +24,40 @@ export default function PickDuration({
  return (
   <div className="flex flex-col gap-2 rounded-lg">
    <div className="text-center text-black font-almaria-bold text-2xl bg-accent-l-200 rounded-lg py-4">
-    <div className="flex items-center gap-2 justify-center">
-     <div className="self-start">
+    <div className="flex items-center gap-2 justify-center ">
+     <div>
       <p className="text-4xl">{timeDurationString.mode}</p>
      </div>
      <div>
-      <p className="text-3xl">{timeDuration.minute}</p>
-      <p className="text-sm">دقيقة</p>
+      <p className="text-3xl flex items-start justify-center gap-4">
+       <div>
+        <p>{timeDuration.minute}</p>
+        <p className="text-sm">دقيقة</p>
+       </div>
+       <p className="text-5xl">:</p>
+      </p>
      </div>
      <div>
-      <p className="text-3xl">{timeDuration.hour}</p>
-      <p className="text-sm">
-       {timeDuration.hour === 1
-        ? "ساعة "
-        : timeDuration.hour === 2
-        ? "ساعتان"
-        : `ساعات`}
-      </p>
+      <div>
+       <p className="text-3xl ">{timeDuration.hour}</p>
+       <p className="text-sm">
+        {timeDuration.hour === 1
+         ? "ساعة "
+         : timeDuration.hour === 2
+         ? "ساعتان"
+         : `ساعات`}
+       </p>
+      </div>
      </div>
 
      <div>
-      <p className="text-3xl">{timeDuration.day}</p>
-      <p className="text-sm">يوم</p>
+      <p className="text-3xl flex items-start justify-center gap-4">
+       <p className="text-5xl">:</p>
+       <div>
+        <p>{timeDuration.day}</p>
+        <p className="text-sm">يوم</p>
+       </div>
+      </p>
      </div>
     </div>
    </div>
