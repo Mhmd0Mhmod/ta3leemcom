@@ -356,7 +356,7 @@ export default function OnlineTestData() {
        </div>
       </div>
       {type === types[0] && (
-       <div className="my-4 bg-accent-l-1000 px-2  overflow-y-auto h-[80vh]">
+       <div className="my-4 bg-accent-l-1000 px-2  overflow-y-auto max-h-[80vh]">
         <div className="grid grid-cols-11 items-center mb-3 px-4  ">
          <div>الوقت</div>
          <div className="col-span-2 text-center">اسم الطالب</div>
@@ -416,9 +416,24 @@ export default function OnlineTestData() {
         ))}
        </div>
       )}
+      {type === types[1] && <></>}
+      {type === types[2] && (
+       <>
+        <div className="flex text-center flex-col gap-3 mt-12">
+         <div className="text-white bg-primary-l py-3 rounded-lg">
+          اسم الطالب
+         </div>
+         <div className="flex flex-col gap-3  overflow-y-auto max-h-[40vh]">
+          {Array.from({ length: 40 }).map((_, index) => (
+           <div key={index} className=" bg-white py-3 rounded-lg">
+            المعلم سامي برهومة
+           </div>
+          ))}
+         </div>
+        </div>
+       </>
+      )}
      </div>
-     {type === types[1] && <></>}
-     {type === types[2] && <></>}
     </>
    )}
   </div>

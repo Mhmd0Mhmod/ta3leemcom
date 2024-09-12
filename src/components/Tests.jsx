@@ -338,10 +338,10 @@ function Tests() {
 
  return (
   <>
-   {showEditModal && TestToEdit.type === "اونلاين" && (
+   {showEditModal && !showDataModal && TestToEdit.type === "اونلاين" && (
     <AddOnlineTest test={TestToEdit} />
    )}
-   {showEditModal && TestToEdit.type === "اوفلاين" && (
+   {showEditModal && !showDataModal && TestToEdit.type === "اوفلاين" && (
     <AddOfflineTest test={TestToEdit} />
    )}
    {showDataModal && currentTest.type === "اونلاين" && (
@@ -351,7 +351,7 @@ function Tests() {
     <OfflineTestData test={currentTest} />
    )}
    {!showEditModal && !showDataModal && (
-    <div className="px-12 py-16">
+    <div className="px-12 py-16  ">
      <button className="flex gap-1" onClick={backToLevel}>
       <img src="Icons/rev_arrow.svg" alt="" />
       <Heading
@@ -716,14 +716,7 @@ function Tests() {
        </THead>
        <TBody className="max-h-[500px] overflow-y-scroll px-2 ">
         {tests.map((test) => (
-         <TR
-          key={test.title}
-          className="mb-1 group cursor-pointer"
-          onClick={() => {
-           setCurrentTest(test);
-           setShowDataModal(true);
-          }}
-         >
+         <TR key={test.title} className="mb-1 group cursor-pointer">
           <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white  border-l flex  gap-4 rounded-tr-xl rounded-br-xl ">
            <button
             onClick={() => {
@@ -733,7 +726,14 @@ function Tests() {
            >
             <EditIcon className="h-5  " />
            </button>
-           <span>{test.title}</span>
+           <span
+            onClick={() => {
+             setCurrentTest(test);
+             setShowDataModal(true);
+            }}
+           >
+            {test.title}
+           </span>
            <button
             className="mr-auto"
             onClick={() =>
