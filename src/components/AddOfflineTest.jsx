@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 
 import OnlineIcon from "../../public/Icons/online_icon.svg";
 import TimeIcon from "../../public/Icons/time_icon.svg";
@@ -446,7 +446,7 @@ function AddOfflineTest({ test }) {
    </div>
    <div className="w-full md:w-[85%] lg:w-[70%] p-4 mx-auto">
     <Heading as={"h2"} className={"mt-12 text-black font-almaria-bold"}>
-     رفع نموذج لالسالة
+     رفع نموذج الاسئلة
     </Heading>
     <div className=" ">
      {/* <div className="">

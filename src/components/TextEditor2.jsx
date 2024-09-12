@@ -14,10 +14,17 @@ import { Grip, Plus, Trash, Trash2, Trash2Icon, X } from "lucide-react";
 import Heading from "./ui-local/Heading";
 import { DEFAULT_QUESTION } from "./AddOnlineTest";
 import { Reorder } from "framer-motion";
-import { set } from "date-fns";
-import { Button } from "./ui/Button";
+
+import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
+
+import {
+ TooltipContent,
+ TooltipProvider,
+ TooltipTrigger,
+ Tooltip,
+} from "./ui/tooltip";
 
 class MathBlot extends Inline {
  static create(value) {
@@ -418,20 +425,38 @@ const Editor = ({
       />
      </div>
      <div className="flex gap-4 items-center">
-      <button
-       className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
-       onClick={() => {
-        setCurrentQuestion(DEFAULT_QUESTION);
-       }}
-      >
-       <img src="Icons/trash_icon_gray.svg" alt="" />
-      </button>
-      <button
-       className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
-       onClick={dubblicateQuestion}
-      >
-       <img src="Icons/copy_icon_gray.svg" alt="" />
-      </button>
+      <TooltipProvider delayDuration={100}>
+       <Tooltip>
+        <TooltipTrigger>
+         <button
+          className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
+          onClick={() => {
+           setCurrentQuestion(DEFAULT_QUESTION);
+          }}
+         >
+          <img src="Icons/trash_icon_gray.svg" alt="" />
+         </button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" align="center" sideOffset={10}>
+         <p>حذف</p>
+        </TooltipContent>
+       </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider delayDuration={100}>
+       <Tooltip>
+        <TooltipTrigger>
+         <button
+          className="hover:bg-accent-1000 transition-all p-2 rounded-lg"
+          onClick={dubblicateQuestion}
+         >
+          <img src="Icons/copy_icon_gray.svg" alt="" />
+         </button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" align="center" sideOffset={10}>
+         <p>نسخ</p>
+        </TooltipContent>
+       </Tooltip>
+      </TooltipProvider>
      </div>
     </div>
    </div>

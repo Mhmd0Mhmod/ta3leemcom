@@ -1,6 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 import Eye from "../../public/Icons/show_icon.svg";
 import Heading from "./ui-local/Heading";
@@ -122,7 +122,7 @@ export function ShowTest({
      <div className="flex justify-between items-center mt-12">
       <Button
        variant="ghost"
-       className=" bg-secondary-l text-white px-10 py-6"
+       className=" bg-secondary-l text-2xl font-almaria-light text-white px-10 py-6"
        onClick={() => {
         setShowTestAlert(true);
         setOpenModel(false);

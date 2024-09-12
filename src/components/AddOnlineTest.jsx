@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 
 import OnlineIcon from "../../public/Icons/online_icon.svg";
 import TimeIcon from "../../public/Icons/time_icon.svg";
@@ -352,6 +352,18 @@ function AddOnlineTest({ test }) {
            {trueRatio}
           </div>
          </div>
+         <div className="flex gap-3 items-center ">
+          <span>الوقت</span>
+          <span>:</span>
+          <div className="bg-white px-10 text-secondary-l py-2">
+           {timeStartString.hour}:{timeStartString.minute}{" "}
+          </div>
+         </div>
+         <div className="flex gap-3 items-center ">
+          <span>الترتيب</span>
+          <span>:</span>
+          <div className="bg-white px-10 text-secondary-l py-2">{1}</div>
+         </div>
         </div>
         <div className="flex gap-4 items-start">
          <TooltipProvider>
@@ -458,9 +470,9 @@ function AddOnlineTest({ test }) {
             </div>
            </div>
           </li>
-          <p className="text-start">
+          <p className="text-start mt-2 ">
            {" "}
-           <span className="font-almaria-bold">التفسير : </span>
+           <span className="font-almaria-bold ">التفسير : </span>
            {question.explain}
           </p>
          </div>

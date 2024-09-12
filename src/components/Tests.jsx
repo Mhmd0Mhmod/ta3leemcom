@@ -2,7 +2,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import Heading from "./ui-local/Heading";
 import { constraints } from "../config";
 import { useState } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
  Popover,
@@ -14,7 +14,7 @@ import CalendarIcon from "../../public/Icons/calender.svg";
 import Arrow from "../../public/Icons/breadcrumb_arrow.svg";
 import ArrowFilled from "../../public/Icons/arrow_list_icon.svg";
 import { cn } from "@/lib/utils";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import Table from "./ui-local/Table/Table";
 import THead from "./ui-local/Table/THead";
 import TR from "./ui-local/Table/TR";
@@ -26,6 +26,7 @@ import AddOnlineTest from "./AddOnlineTest";
 import TrashIcon from "../../public/Icons/trash_icon.svg";
 import EditIcon from "../../public/Icons/edit_icon.svg";
 import AddOfflineTest from "./AddOfflineTest";
+import { X } from "lucide-react";
 
 const TESTS = [
  {
@@ -287,7 +288,9 @@ function Tests() {
  const [searchParams, setSearchParams] = useSearchParams();
  const [addTestUl, setAddTestUl] = useState(false);
  const [filterByDateUl, setFilterByDateUl] = useState(false);
+ const [filterByDateType, setFilterByDateType] = useState("");
  const [filterByTestTypeUl, setFilterByTestTypeUl] = useState(false);
+ const [filterByTestType, setFilterByTestType] = useState("");
  const [tests, setTests] = useState(TESTS);
  const [search, setSearch] = useState("");
  const [dateFrom, setDateFrom] = useState(new Date());
@@ -406,9 +409,9 @@ function Tests() {
         onClick={(event) => event.stopPropagation()} // Prevent click event from propagating
         className="flex flex-col gap-1 text-lg font-almaria "
        >
-        <li className="bg-white rounded-xl border px-2 py-1 hover:bg-gray-300 duration-300">
+        <li className="bg-white rounded-xl border px-2 py-1 hover:bg-gray-300 duration-300  ">
          <button
-          className="w-full h-full text-start"
+          className="w-full h-full text-start "
           onClick={() => {
            searchParams.set("test", "online");
            setSearchParams(searchParams);
@@ -432,36 +435,46 @@ function Tests() {
       </div>
      </Button>
      <div className="flex gap-4 mt-16 mb-6 font-almaria-bold items-center">
-      <div className="flex gap-5 bg-white p-3 w-[30rem] border-2 rounded-lg ">
-       <img src="Icons/search_icon.svg" alt="search" />
+      <div className="flex gap-5 bg-white p-3 w-[30rem] border-2 border-accent-l-50  rounded-lg  ">
+       {search ? (
+        <X
+         onClick={() => {
+          setSearch("");
+          setTests(TESTS);
+         }}
+         className="cursor-pointer"
+        />
+       ) : (
+        <img src="Icons/search_icon.svg" alt="search" />
+       )}
        <input
         type="text"
         placeholder="اسم الاختبار"
-        className="w-full"
+        className="w-full "
         value={search}
         onChange={handleSearch}
        />
       </div>
-      <Button
+      {/* <Button
        type="ghost"
        size="lg"
        className={
-        " bg-accent-l-900 text-black hover:bg-accent-l-900  font-almaria-light text-xl  "
+        " bg-accent-l-900 text-black hover:bg-accent-l-900  font-almaria-light text-lg  py-6 "
        }
       >
        بحث
-      </Button>
+      </Button> */}
 
       <Button
        type="ghost"
        className={
-        "bg-accent-l-900 text-black hover:bg-accent-l-900 font-almaria-light text-xl relative "
+        "bg-accent-l-900 text-black hover:bg-accent-l-900 font-almaria text-xl relative py-6 "
        }
        onClick={() => setFilterByDateUl((prev) => !prev)}
       >
-       <div className="flex items-center gap-2 !text-black font-almaria-light text-xl ">
+       <div className="flex items-center gap-2 !text-black font-almaria-light text-lg  ">
         <CalendarIcon />
-        <span> تصفية بالتاريخ</span>
+        <span> {filterByDateType ? filterByDateType : "تصفية بالتاريخ"}</span>
         <Arrow
          className={`${
           filterByDateUl
@@ -491,7 +504,7 @@ function Tests() {
              <Button
               variant={"outline"}
               className={cn(
-               "justify-start text-left font-normal text-xl pl-4 pr-1 border-secondary-l",
+               "justify-start text-left font-normal text-xl pl-4 pr-1 border-secondary-l rounded-sm  ",
                !dateFrom && "text-muted-foreground"
               )}
              >
@@ -520,7 +533,7 @@ function Tests() {
              <Button
               variant={"outline"}
               className={cn(
-               "justify-start text-left font-normal text-xl pl-4 pr-1 border-secondary-l",
+               "justify-start text-left font-normal text-xl pl-4 pr-1 border-secondary-l rounded-sm ",
                !dateTo && "text-muted-foreground"
               )}
              >
@@ -550,7 +563,7 @@ function Tests() {
            setTests(TESTS.filter((test) => test.date === formatDate(today)));
            setFilterByDateUl(false);
           }}
-          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
+          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3 hover:bg-accent-l-900 "
          >
           اليوم
          </button>
@@ -559,10 +572,10 @@ function Tests() {
           onClick={(e) => {
            e.stopPropagation();
            setTests(TESTS.filter((test) => test.date >= formatDate(yesterday)));
-
+           setFilterByDateType("اليوم");
            setFilterByDateUl(false);
           }}
-          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
+          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3 hover:bg-accent-l-900 "
          >
           امس
          </button>
@@ -571,10 +584,10 @@ function Tests() {
           onClick={(e) => {
            e.stopPropagation();
            setTests(TESTS.filter((test) => test.date >= formatDate(aWeekAgo)));
-
+           setFilterByDateType("امس");
            setFilterByDateUl(false);
           }}
-          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
+          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3 hover:bg-accent-l-900 "
          >
           اسبوع
          </button>
@@ -582,8 +595,9 @@ function Tests() {
           className="mt-2 text-start underline text-secondary-l w-fit "
           onClick={(e) => {
            e.stopPropagation();
-
+           setFilterByDateType("اسبوع");
            setFilterByDateUl(false);
+           setFilterByDateType("");
           }}
          >
           الغاء
@@ -594,12 +608,14 @@ function Tests() {
       <Button
        type="ghost"
        className={
-        "bg-accent-l-900 text-black hover:bg-accent-l-900 font-almaria-light text-xl relative "
+        "bg-accent-l-900 text-black hover:bg-accent-l-900 font-almaria  text-lg  relative py-6 "
        }
        onClick={() => setFilterByTestTypeUl((prev) => !prev)}
       >
-       <div className="flex gap-2 !text-black font-almaria-light text-xl ">
-        <span> نوع الاختبار</span>
+       <div className="flex gap-2 !text-black font-almaria-light text-lg   items-center ">
+        <span>
+         {filterByTestType ? filterByTestType : "تصفية بنوع الاختبار"}
+        </span>
         <Arrow
          className={`${
           filterByTestTypeUl
@@ -625,8 +641,9 @@ function Tests() {
            e.stopPropagation();
            setTests(TESTS.filter((test) => test.type === "اونلاين"));
            setFilterByTestTypeUl(false);
+           setFilterByTestType("اونلاين");
           }}
-          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
+          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3 hover:bg-accent-l-900 "
          >
           اونلاين
          </button>
@@ -636,9 +653,10 @@ function Tests() {
            e.stopPropagation();
            setTests(TESTS.filter((test) => test.type === "اوفلاين"));
 
+           setFilterByTestType("اوفلاين");
            setFilterByTestTypeUl(false);
           }}
-          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3"
+          className="rounded-[7px] duration-500 transition-all hover:bg-accent-900 border border-[#b4d3e0] text-start p-3 hover:bg-accent-l-900 "
          >
           اوفلاين
          </button>
@@ -647,7 +665,7 @@ function Tests() {
           onClick={(e) => {
            e.stopPropagation();
            setTests(TESTS);
-
+           setFilterByTestType("");
            setFilterByTestTypeUl(false);
           }}
          >
@@ -664,6 +682,8 @@ function Tests() {
         setSearch("");
         setFilterByDateUl(false);
         setFilterByTestTypeUl(false);
+        setFilterByDateType("");
+        setFilterByTestType("");
        }}
       >
        إلغاء الكل
@@ -684,7 +704,7 @@ function Tests() {
          </TH>
         </TR>
        </THead>
-       <TBody className="max-h-[500px] overflow-auto px-2 ">
+       <TBody className="max-h-[500px] overflow-y-scroll px-2 ">
         {tests.map((test) => (
          <TR key={test.title} className="mb-1 group">
           <TD className="group-hover:bg-accent-l-900 transition-all  px-6 py-2 bg-white  border-l flex  gap-4 rounded-tr-xl rounded-br-xl ">

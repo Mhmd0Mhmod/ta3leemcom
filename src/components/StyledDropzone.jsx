@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Upload from "../../public/Icons/upload_icon.svg";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 
 const StyledDropzone = ({ onDrop }) => {
  const onDropHandler = useCallback(
@@ -22,7 +22,7 @@ const StyledDropzone = ({ onDrop }) => {
  return (
   <div
    {...getRootProps()}
-   className={`flex-1 bg-white border-[4px] border-secondary-l border-dashed rounded-lg p-6 text-center transition-colors duration-300 ${
+   className={`flex-1 bg-white border-[4px] border-secondary-l border-dashed rounded-lg px-6 py-12 text-center transition-colors duration-300 ${
     isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"
    }`}
   >
@@ -39,6 +39,13 @@ const StyledDropzone = ({ onDrop }) => {
     >
      استعراض الملفات
     </Button>
+    <p className="text-sm text-gray-400 mb-2">
+     الحجم الاقصى للملف :{" "}
+     <span className="text-gray-700">
+      <span className="mr-1">5</span>
+      <span>MB</span>
+     </span>
+    </p>
     <p className="text-sm text-gray-400">
      أنواع الملفات المدعومة :{" "}
      <span className="text-gray-700">PDF,PNG ,JPG ,JPEG</span>
