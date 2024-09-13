@@ -3,7 +3,7 @@ import Button from "./ui-local/Button.jsx";
 import circles from "../../public/Icons/circles1.svg";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SingUpForm from "./SingUpForm.jsx";
-import exit from "../../public/Icons/exit.svg";
+import Exit from "../../public/Icons/exit.svg";
 import StudentLoginForm from "./StudentLoginForm.jsx";
 import TeacherLoginForm from "./TeacherLoginForm.jsx";
 export default function MainRegister() {
@@ -37,13 +37,12 @@ export default function MainRegister() {
      {formType === "login" && !loginType && (
       <div className={"p-9 flex flex-col font-almaria"}>
        <div>
-        <img
-         src={exit}
+        <Exit
          alt={"exitIcon"}
          className={"cursor-pointer"}
          onClick={(e) => {
           e.preventDefault();
-          navigate(location.pathname);
+          navigate(loction.pathname);
          }}
         />
        </div>
