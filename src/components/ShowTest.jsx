@@ -111,7 +111,7 @@ export function ShowTest({
           ))}
          </div>
          <div className="col-span-6 grid grid-cols-4">
-          {question?.images.map((image, i) => (
+          {question?.images?.map((image, i) => (
            <img src={image} alt={`image-${i}`} key={image} />
           ))}
          </div>
