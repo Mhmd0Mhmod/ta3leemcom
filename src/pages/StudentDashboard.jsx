@@ -8,6 +8,7 @@ import Toppers from "./../components/Toppers.jsx";
 import {Student} from "@/config.js";
 import StudentMonths from "@/components/StudentMonths.jsx";
 import StudentTest from "@/StudentTest.jsx";
+import Menu from "../../public/Icons/menu.svg";
 
 function StudentDashboard() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -16,22 +17,27 @@ function StudentDashboard() {
     const mainStudent = Student;
     return (
         <div className={"flex dashboard gap-5 font-almaria mb-4 "}>
-            <AsideDashboard
-                opened={opened} setOpened={setOpened}
-                tabs={[
-                    {name: "الاختبارات", tab: "tests", icon: StudentTests},
-                    {name: "الاوائل", tab: "toppers", icon: StudentToppers},
-                    {name: "الشهور", tab: "months", icon: Money},
-                ]}/>
-
-            <div className={"w-[1px] self-stretch bg-gray-100"}/>
-            <div className={" p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
-                {activeTab === "tests" &&  <StudentTest/>}
-                {activeTab === "toppers" && <Toppers groupsId={[mainStudent.groupId]} backToLevels={false}/>}
-                {activeTab === "months" && <StudentMonths/>}
+            <div className={`p-2.5 bg-gray-100 rounded ${opened ? "w-[320px]" : "w-fit"} self-start `}>
+                <div className={`flex ${opened ? " justify-end" : "justify-center"}`}>
+                    <Menu className={`w-9 ${opened ? "" : "rotate-Y-180"} transition duration-100 `}
+                          onClick={() => setOpened((open) => !open)}/>
+                </div>
+                <AsideDashboard
+                    opened={opened}
+                    tabs={[
+                        {name: "الاختبارات", tab: "tests", icon: StudentTests},
+                        {name: "الاوائل", tab: "toppers", icon: StudentToppers},
+                        {name: "الشهور", tab: "months", icon: Money},
+                    ]}/>
             </div>
-        </div>
-    );
-}
+                <div className={"w-[1px] self-stretch bg-gray-100"}/>
+                <div className={" p-10 bg-gray-100 self-stretch flex-grow rounded relative"}>
+                    {activeTab === "tests" && <StudentTest/>}
+                    {activeTab === "toppers" && <Toppers groupsId={[mainStudent.groupId]} backToLevels={false}/>}
+                    {activeTab === "months" && <StudentMonths/>}
+                </div>
+            </div>
+            );
+            }
 
-export default StudentDashboard;
+            export default StudentDashboard;
