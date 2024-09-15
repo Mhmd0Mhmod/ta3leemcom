@@ -28,9 +28,8 @@ function App() {
             <Route path="subscriptions" element={<Subscriptions />} />
             <Route path="opinion" element={<Opinion />} />
             <Route path="contact-with-us" element={<ContactWithUs />} />
-            <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="dashboard" element={<TeacherDashboard /> } />
           </Route>
-
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

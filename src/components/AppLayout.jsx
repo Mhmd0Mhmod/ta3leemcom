@@ -9,7 +9,8 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen flex flex-col container mx-auto ">
       <Profile>
-        <TeacherProfileSide/>
+        {/*<TeacherProfileSide/>*/}
+
       </Profile>
       <MainRegister />
       <Header />

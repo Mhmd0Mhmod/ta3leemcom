@@ -26,6 +26,7 @@ export const Student = {
     level: "المرحلة الابتدائية",
     subLevel: "الصف الاول",
     groupId: 1,
+
     status: "active",
 }
 

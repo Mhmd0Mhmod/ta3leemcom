@@ -4,6 +4,7 @@ import Exit from "../../public/Icons/exitt.svg";
 import PersonalProfile from "./PersonalProfile";
 import ProfileSubscription from "./ProfileSubscription";
 import NotificationSide from "./NotificationSide";
+import StudentProfile from "@/components/StudentProfile.jsx";
 
 function Profile({children}) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,7 +16,7 @@ function Profile({children}) {
     if(e.target.id === "all" || e.target.id === "exit")
     navigate(location.pathname);
   };
-  
+
   if (!searchParams.get("Profile")) return;
   return (
     <>
@@ -37,6 +38,7 @@ function Profile({children}) {
             {activeTab === "PersonalProfile" && <PersonalProfile />}
             {activeTab === "Subscription" && <ProfileSubscription />}
             {activeTab === "Notification" && <NotificationSide />}
+            {!activeTab && <StudentProfile/>}
           </div>
         </div>
       </div>
