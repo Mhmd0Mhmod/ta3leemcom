@@ -7,7 +7,7 @@ import NotificationSide from "./NotificationSide";
 
 function Profile({children}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeTab = searchParams.get("tab");
+  const activeTab = searchParams.get("tab")||"PersonalProfile";
   const navigate = useNavigate();
   const location = useLocation();
   const handleButtonClick = (e) => {
@@ -23,7 +23,7 @@ function Profile({children}) {
         <div className="w-[88.188rem] bg-[white] border-2 h-[46.25rem] absolute z-[999] right-[15.625rem] top-[6.25rem] rounded-xl flex">
           <div className="h-[100%]">
             <div className="w-full border-b-2 border-l-2  h-[4.375rem] flex p-4 items-center">
-                <Exit alt="exit" width={30} onClick={handleButtonClick} id="exit"/>
+                <Exit alt="exit" width={30} onClick={handleButtonClick} id="exit" className={'cursor-pointer'}/>
             </div>
             <div className="h-[41.563rem] border-l-2">
               {children}

@@ -14,7 +14,7 @@ export default function PersonalProfile() {
           </div>
         </div>
         <div>
-          <button className="bg-[#0884A2] text-white w-[100px] h-[40px] ml-20 rounded-lg
+          <button className="bg-[#0884A2] text-white w-[6.25rem] h-[2.5rem] ml-20 rounded-lg
           font-cairo-bold">تعديل</button>
         </div>
       </div>
@@ -24,7 +24,7 @@ export default function PersonalProfile() {
           <h2 className="font-cairo-bold text-xl">
           الاسم الكامل
           </h2>
-          <div className="w-[65%] h-[40px] bg-[#EFEFEF] rounded-sm text-lg flex items-center p-6 mt-3">
+          <div className="w-[65%] h-[2.5rem] bg-[#EFEFEF] rounded-sm text-lg flex items-center p-6 mt-3">
             {teacher.name}
           </div>
         </div>
@@ -34,7 +34,7 @@ export default function PersonalProfile() {
             <h2 className="font-cairo-bold text-xl">
             رقم الهاتف
             </h2>
-            <div className="bg-[#EFEFEF] h-[40px]  rounded-sm text-lg flex items-center p-6 mt-3 w-[320px]">
+            <div className="bg-[#EFEFEF] h-[2.5rem]  rounded-sm text-lg flex items-center p-6 mt-3 w-[20rem]">
               {teacher.phone}
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function PersonalProfile() {
             <h2 className="font-cairo-bold text-xl">
             البريد الالكتروني
             </h2>
-            <div className="bg-[#EFEFEF] h-[40px] rounded-sm text-lg flex items-center p-6 mt-3 w-[365px]">
+            <div className="bg-[#EFEFEF] h-[2.5rem] rounded-sm text-lg flex items-center p-6 mt-3 w-[22.813rem]">
               {teacher.email}
             </div>
           </div>
