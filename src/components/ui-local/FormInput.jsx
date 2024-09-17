@@ -1,12 +1,13 @@
-import password from "../../../public/Icons/password.svg";
+import Password from "../../../public/Icons/password.svg";
 
-function FormInput({type, name, placeholder, value, onChange, className, icon, flag ,divClassName}) {
+function FormInput({type, name, placeholder, value, onChange, className, Icon, flag ,divClassName}) {
+    
 
     return (
-        <div className={`border-2 rounded-2xl flex gap-2 p-5 items-center ${divClassName}`}>
-            {icon &&
+        <div className={`border-2 border-[#D0D0D0] rounded-2xl flex gap-2 p-5 items-center ${divClassName}`}>
+            {Icon &&
                 <div className={"w-5"}>
-                    <img src={icon} className={"w-full"} alt={"icon"}/>
+                    <Icon/>
                 </div>}
             <input
                 type={type}
@@ -17,7 +18,7 @@ function FormInput({type, name, placeholder, value, onChange, className, icon, f
                 className={className}
             />
             {type === "password" && <div className={"w-5 "}>
-                <img src={password} alt={"icon"} className={"w-full cursor-pointer"}/>
+                <Password className={"w-full cursor-pointer"}/>
             </div>}
 
         </div>

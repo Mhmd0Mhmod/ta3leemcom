@@ -1,4 +1,13 @@
 import Button from "./Button.jsx";
+import PropTypes from 'prop-types';
+
+Subscription.propTypes = {
+    title: PropTypes.string,
+    price: PropTypes.number,
+    support: PropTypes.array,
+    notSupport: PropTypes.array
+}
+
 
 function Subscription({title, price, support, notSupport}) {
     return (
@@ -14,14 +23,14 @@ function Subscription({title, price, support, notSupport}) {
                 </div>
             </div>
             <ul className={"flex flex-col p-5 gap-5 w-full"}>
-                {support?.map((el) => {
-                    return <li className={"flex gap-5"}>
+                {support?.map((el,idx) => {
+                    return <li className={"flex gap-5"} key={idx}>
                         <span className={"text-blue-400"}><img src="../../../public/Icons/true.svg"/></span>
                         <p>{el}</p>
                     </li>
                 })}
-                {notSupport?.map((el) => {
-                    return <li className={"flex gap-5"}>
+                {notSupport?.map((el,idx) => {
+                    return <li className={"flex gap-5"} key={idx}>
                         <span className={"text-blue-400"}><img src="../../../public/Icons/false.svg"/></span>
                         <p>{el}</p>
                     </li>

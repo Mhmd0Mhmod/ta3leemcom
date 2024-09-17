@@ -1,7 +1,7 @@
 import { CirclePlay, User } from "lucide-react";
-import Button from "../components/ui/Button";
+import Button from "../components/ui-local/Button";
 import InstructionItem from "../components/InstructionItem";
-import Heading from "../components/ui/Heading";
+import Heading from "../components/ui-local/Heading";
 
 export default function Instructions() {
  return (

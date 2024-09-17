@@ -1,8 +1,21 @@
-import Icon from "./Icon.jsx";
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import PropTypes from 'prop-types';
 
-function Details({className, summary, icon, listIcon = true, listItems = [], tabName = [], param, opend, children}) {
+Details.propTypes = {
+    className: PropTypes.string,
+    summary: PropTypes.string,
+    Icon: PropTypes.elementType,
+    listIcon: PropTypes.bool,
+    listItems: PropTypes.array,
+    tabName: PropTypes.array,
+    param: PropTypes.string,
+    opend: PropTypes.bool,
+    children: PropTypes.element
+}
+
+
+function Details({className, summary, Icon, listIcon = true, listItems = [], tabName = [], param, opend, children}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const activeTab = searchParams.get(param);
     const [showList, setShowList] = useState(false);
@@ -22,7 +35,7 @@ function Details({className, summary, icon, listIcon = true, listItems = [], tab
         <div className="relative">
             <details open={opend ? "" : false} onClick={handleOpen}>
                 <summary className={"flex items-center gap-1 mb-2 " + className}>
-                    <Icon src={icon}/>
+                    <Icon/>
                     <span className={`${!opend ? "hidden" : ""}`}>{summary}</span>
                 </summary>
                 {!showList && (
