@@ -1,7 +1,10 @@
 import React from "react";
-import Profile from '../../public/imgs/Profile (2).svg'
 import { Teacher } from "@/config";
+import Profile from "../../public/imgs/Profile (2).svg";
+import { useSearchParams } from "react-router-dom";
 export default function PersonalProfile() {
+const [searchParams, setSearchParams] = useSearchParams();
+if (!searchParams.get("Profile")) return;
   const teacher = Teacher
   return (
     <>
@@ -15,7 +18,10 @@ export default function PersonalProfile() {
         </div>
         <div>
           <button className="bg-[#0884A2] text-white w-[6.25rem] h-[2.5rem] ml-20 rounded-lg
-          font-cairo-bold">تعديل</button>
+          font-cairo-bold"
+          onClick={() =>
+            setSearchParams({ tab: "EditTeacherProfile", Profile: true })}
+          >تعديل</button>
         </div>
       </div>
 
