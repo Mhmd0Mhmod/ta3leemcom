@@ -1,9 +1,28 @@
-export const MonthsInArabic = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
-
+export const MonthsInArabic = [
+  "يناير",
+  "فبراير",
+  "مارس",
+  "أبريل",
+  "مايو",
+  "يونيو",
+  "يوليو",
+  "أغسطس",
+  "سبتمبر",
+  "أكتوبر",
+  "نوفمبر",
+  "ديسمبر",
+];
 
 export const LEVELS = {
   levels: ["المرحلة الابتدائية", "المرحلة الاعدادية", "المرحلة الثانوية"],
-  primary: ["الصف الاول", "الصف الثاني", "الصف الثالث", "الصف الرابع", "الصف الخامس", "الصف السادس"],
+  primary: [
+    "الصف الاول",
+    "الصف الثاني",
+    "الصف الثالث",
+    "الصف الرابع",
+    "الصف الخامس",
+    "الصف السادس",
+  ],
   middle: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   high: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
 };
@@ -18,7 +37,6 @@ export const Teacher = {
   status: "active",
   login: true,
 };
-
 export const FakeStudent = [
   {
     code: 1,
@@ -26,6 +44,7 @@ export const FakeStudent = [
     mainLevel: LEVELS.levels[0],
     subLevel: LEVELS.primary[0],
     group: "مجموعه 1",
+    paid: Math.random() > 0.5, // Randomly assign paid value
   },
   {
     code: 2,
@@ -33,6 +52,7 @@ export const FakeStudent = [
     mainLevel: LEVELS.levels[0],
     subLevel: LEVELS.primary[0],
     group: "مجموعه 2",
+    paid: Math.random() > 0.5, // Randomly assign paid value
   },
   {
     code: 3,
@@ -40,6 +60,7 @@ export const FakeStudent = [
     mainLevel: LEVELS.levels[0],
     subLevel: LEVELS.primary[0],
     group: "مجموعه 1",
+    paid: Math.random() > 0.5, // Randomly assign paid value
   },
   {
     code: 4,
@@ -47,6 +68,7 @@ export const FakeStudent = [
     mainLevel: LEVELS.levels[0],
     subLevel: LEVELS.primary[0],
     group: "مجموعه 1",
+    paid: Math.random() > 0.5, // Randomly assign paid value
   },
 ];
 export const FakeGroups = [
@@ -62,6 +84,7 @@ export const FakeGroups = [
       subLevel: 0,
       group: "المجموعة الاولى",
       status: "active",
+      paid: Math.random() > 0.5, // Randomly assign paid value
     })),
   },
   {
@@ -76,6 +99,7 @@ export const FakeGroups = [
       subLevel: 1,
       group: "المجموعة الثانية",
       status: "active",
+      paid: Math.random() > 0.5, // Randomly assign paid value
     })),
   },
   {
@@ -90,6 +114,7 @@ export const FakeGroups = [
       subLevel: 2,
       group: "المجموعة الثالثة",
       status: "active",
+      paid: Math.random() > 0.5, // Randomly assign paid value
     })),
   },
   {
@@ -104,6 +129,7 @@ export const FakeGroups = [
       subLevel: 3,
       group: "المجموعة الرابعة",
       status: "active",
+      paid: Math.random() > 0.5, // Randomly assign paid value
     })),
   },
   {
@@ -118,13 +144,25 @@ export const FakeGroups = [
       subLevel: 4,
       group: "المجموعة الخامسة",
       status: "active",
+      paid: Math.random() > 0.5, // Randomly assign paid value
     })),
   },
 ];
+export const AllStudent = FakeGroups.reduce(
+  (acc, group) => acc.concat(group.students),
+  [],
+);
 export const constraints = {
   primary: {
     text: "المرحلة الابتدائية",
-    content: ["الصف الاول", "الصف الثاني", "الصف الثالث", "الصف الرابع", "الصف الخامس", "الصف السادس"],
+    content: [
+      "الصف الاول",
+      "الصف الثاني",
+      "الصف الثالث",
+      "الصف الرابع",
+      "الصف الخامس",
+      "الصف السادس",
+    ],
   },
   middle: {
     text: "المرحلة الاعدادية",
@@ -135,4 +173,3 @@ export const constraints = {
     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   },
 };
-
