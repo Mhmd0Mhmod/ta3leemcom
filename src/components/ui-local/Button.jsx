@@ -14,7 +14,7 @@ export default function Button({
    return (
     <button
      onClick={onClick}
-     className={` bg-primary text-white flex px-2 gap-1 ${style}`}
+     className={` bg-primary-l text-white flex px-2 gap-1 ${style}`}
     >
      <span className={iconStyle}>{icon}</span>
      <span>{children}</span>
@@ -22,7 +22,7 @@ export default function Button({
    );
   }
   return (
-   <button onClick={onClick} className={` bg-primary text-white ${style}`}>
+   <button onClick={onClick} className={` bg-primary-l  text-white ${style}`}>
     {children}
    </button>
   );
