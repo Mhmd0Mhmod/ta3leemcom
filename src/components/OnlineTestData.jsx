@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Heading from "./ui-local/Heading";
-import { Check, X } from "lucide-react";
+import { ChartPie, Check, NotepadText, UserRoundX, X } from "lucide-react";
 import Trash from "../../public/Icons/trash_icon_gray.svg";
 import Print from "../../public/Icons/print_icon.svg";
 import { Button } from "./ui/button";
@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 import Arrow from "../../public/Icons/arrow-small.svg";
 import CorrectIcon from "../../public/Icons/correct_icon.svg";
 import InCorrectIcon from "../../public/Icons/incorrect_icon.svg";
+
 import StudentsIcon from "../../public/Icons/students_white_icon.svg";
-import DidntShareIcon from "../../public/Icons/didnt_share_icon.svg";
 import QuestionsIcon from "../../public/Icons/question_white_icon.svg";
 import Bouns from "../../public/Icons/bouns_white_icon.svg";
 import Flag from "../../public/Icons/flag_white_icon.svg";
@@ -299,13 +299,13 @@ export default function OnlineTestData() {
         className="absolute h-full right-0 top-0 opacity-25  "
        />
        <Heading as={"h4"}>اختبار بدون عنوان</Heading>
-       <div className="flex justify-between w-[55%] text-accent-l-50 font-almaria-light">
+       <div className="flex justify-between w-[55%] text-white  font-almaria-light">
         <div className="flex items-end gap-1">
          <StudentsIcon className="ml-2" />
          <span>{12} طالب</span>
         </div>
         <div className="flex items-end gap-1">
-         <DidntShareIcon className="ml-2" />
+         <UserRoundX className="ml-2" />
          <span>{5} طلاب لم يشاركوا</span>
         </div>
         <div className="flex items-end gap-1">
@@ -330,7 +330,7 @@ export default function OnlineTestData() {
           type === types[2] ? "bg-black text-white" : ""
          )}
         >
-         <X />
+         <UserRoundX className="ml-2" />
          <span>الطلاب غير المشاركين</span>
         </Button>
         <Button
@@ -340,7 +340,7 @@ export default function OnlineTestData() {
           type === types[0] ? "bg-black text-white" : ""
          )}
         >
-         <X />
+         <NotepadText className="ml-2" />
          <span>النتائج</span>
         </Button>
         <Button
@@ -350,16 +350,16 @@ export default function OnlineTestData() {
           type === types[1] ? "bg-black text-white" : ""
          )}
         >
-         <X />
+         <ChartPie className="ml-2" />
          <span>الاحصائيات</span>
         </Button>
        </div>
       </div>
       {type === types[0] && (
-       <div className="my-4 bg-accent-l-1000 px-2  overflow-y-auto max-h-[80vh]">
-        <div className="grid grid-cols-11 items-center mb-3 px-4  ">
+       <div className="my-4 bg-accent-l-1000 px-2 font-almaria-bold overflow-y-auto max-h-[80vh]">
+        <div className="grid grid-cols-11 items-center  text-center mb-3 px-4 ">
          <div>الوقت</div>
-         <div className="col-span-2 text-center">اسم الطالب</div>
+         <div className="col-span-2">اسم الطالب</div>
          <div>ترتيب</div>
          <div>درجة</div>
          <div>بونص</div>
@@ -389,16 +389,24 @@ export default function OnlineTestData() {
            setShowTestResult(true);
            setCurrentTestResult({});
           }}
-          className="grid grid-cols-11  gap-4 bg-white rounded-xl px-4 py-3  items-center mb-4 hover:bg-accent-l-900/70 cursor-pointer"
+          className="grid grid-cols-11 text-center   gap-4 bg-white rounded-xl px-4 py-3  items-center mb-4 hover:bg-accent-l-900/70 cursor-pointer"
          >
-          <div>10:15</div>
-          <div className="col-span-2 line-clamp-1">عمرو مصطفي محمد درويش</div>
+          <div className="font-almaria">10:15</div>
+          <div className="col-span-2 line-clamp-1 font-almaria">
+           عمرو مصطفي محمد درويش
+          </div>
           <div>{index + 1}</div>
-          <div>100%{" (10/10)"}</div>
+          <div>
+           100% <span className="font-almaria">(10</span> /10)
+          </div>
 
-          <div>50%{" (1/2)"}</div>
+          <div>
+           50% <span className="font-almaria">(2</span> /1)
+          </div>
 
-          <div>125%{" (11/10)"}</div>
+          <div>
+           125% <span className="font-almaria">(10</span> /11)
+          </div>
           <div></div>
           <div className="col-span-3 w-full text-xl font-cairo  flex items-center justify-between ">
            <div></div>
@@ -419,14 +427,14 @@ export default function OnlineTestData() {
       {type === types[1] && <></>}
       {type === types[2] && (
        <>
-        <div className="flex text-center flex-col gap-3 mt-12">
-         <div className="text-white bg-primary-l py-3 rounded-lg">
+        <div className="flex text-center flex-col gap-3 mt-12 ">
+         <div className="text-white bg-[#E0232E] py-3 rounded-lg font-almaria-bold">
           اسم الطالب
          </div>
          <div className="flex flex-col gap-3  overflow-y-auto max-h-[40vh]">
           {Array.from({ length: 40 }).map((_, index) => (
            <div key={index} className=" bg-white py-3 rounded-lg">
-            المعلم سامي برهومة
+            عمرو مصطفي محمد درويش
            </div>
           ))}
          </div>

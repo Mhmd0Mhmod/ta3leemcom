@@ -58,8 +58,8 @@ export default function OfflineTestData({ test }) {
     <div className="grid grid-cols-12 gap-2">
      {res.map((item, index) => (
       <>
-       <div className="bg-white px-4 py-3 rounded-lg col-span-10">
-        {index}
+       <div className="bg-white px-4 py-3 rounded-lg col-span-10 hover:bg-accent-l-900 cursor-pointer ">
+        {index+1}
         {". "}
         {item.name}
        </div>
