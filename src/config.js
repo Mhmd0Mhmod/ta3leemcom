@@ -9,7 +9,7 @@ export const LEVELS = {
 };
 export const Teacher = {
   id: 1,
-  name: "محمد أحمد",
+  name: "ابراهيم محمد مشرف",
   phone: "01000000000",
   email: "mohamed@example.com",
   level: "المرحلة الابتدائية",
@@ -26,6 +26,7 @@ export const Student = {
     level: "المرحلة الابتدائية",
     subLevel: "الصف الاول",
     groupId: 1,
+
     status: "active",
 }
 

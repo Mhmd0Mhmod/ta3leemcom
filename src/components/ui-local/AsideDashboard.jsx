@@ -1,24 +1,31 @@
 import PropTypes from 'prop-types';
 import Menu from "../../../public/Icons/menu.svg";
 import {Fragment, useEffect, useState} from "react";
-import {useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 
-function AsideDashboard({tabs, opened , setOpened}) {
+function AsideDashboard({tabs, opened, setOpened, className}) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const activeTab = searchParams.get("tab") || tabs[0]?.tab;
+    const location = useLocation();
+    const navigate = useNavigate();
+    const activeTab = searchParams.get("tab") || "";
     const handleTabClick = (tab) => {
-        setSearchParams({tab});
+        if (location.pathname !== "/dashboard") {
+            navigate("/dashboard?tab=" + tab);
+        } else {
+            setSearchParams({tab});
+        }
     };
     useEffect(() => {
+        if (location.pathname !== "/dashboard") return;
         if (!searchParams.get("tab")) {
             setSearchParams({tab: tabs[0]?.tab});
         }
-    }, [searchParams, setSearchParams, tabs]);
+    }, [searchParams, setSearchParams, tabs, location.pathname]);
 
     return (
 
-        <ul className={"flex gap-2 flex-col font-cairo text-xl mt-2 "}>
+        <ul className={`flex gap-2 flex-col font-cairo text-xl mt-2 ${className}`}>
             {tabs?.map((tab, idx) => (
                 <Fragment key={idx + tabs.length}>
                     <TooltipProvider delayDuration={100}>
