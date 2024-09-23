@@ -26,7 +26,7 @@ function StudentDashboard() {
                     opened={opened}
                     tabs={[
                         {name: "الاختبارات", tab: "tests", icon: StudentTests},
-                        {name: "الاوائل", tab: "toppers", icon: StudentToppers},
+                        {name: "المتفوقون", tab: "toppers", icon: StudentToppers},
                         {name: "الشهور", tab: "months", icon: Money},
                     ]}/>
             </div>

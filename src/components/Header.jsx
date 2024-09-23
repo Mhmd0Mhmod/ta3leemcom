@@ -34,7 +34,7 @@ export default function Header() {
     const [openTabsList, setOpenTabsList] = useState(false);
     const [openList, setOpenList] = useState(false);
     const [showItems, setShowItems] = useState(true);
-    const role = "teacher";
+    const role = "student";
 
     function handleOpenProfile() {
         setSearchParam({...Object.fromEntries(searchParam.entries()), Profile: currentUser.id});
@@ -128,7 +128,7 @@ export default function Header() {
                                     setOpened={setOpenTabsList}
                                     tabs={[
                                         {name: "الاختبارات", tab: "tests", icon: StudentTests},
-                                        {name: "الاوائل", tab: "toppers", icon: StudentToppers},
+                                        {name: "المتفوقون", tab: "toppers", icon: StudentToppers},
                                         {name: "الشهور", tab: "months", icon: Money},
                                     ]}
                                 />}{
