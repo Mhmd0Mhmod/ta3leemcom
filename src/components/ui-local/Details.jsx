@@ -34,8 +34,8 @@ function Details({className, summary, Icon, listIcon = true, listItems = [], tab
     return (
         <div className="relative">
             <details open={opend ? "" : false} onClick={handleOpen}>
-                <summary className={"flex items-center gap-1 mb-2 " + className}>
-                    <Icon/>
+                <summary className={" mb-2 rounded p-2.5 flex items-center gap-[18px] cursor-pointer hover:bg-[#b4d3e0] duration-300  " + className}>
+                    <Icon className={`${!opend ? "m-auto" : ''}`}/>
                     <span className={`${!opend ? "hidden" : ""}`}>{summary}</span>
                 </summary>
                 {!showList && (

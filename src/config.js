@@ -18,6 +18,16 @@ export const Teacher = {
   status: "active",
   login: true,
 };
+export const Student = {
+    id: 1,
+    name: "محمد أحمد",
+    phone: "01000000000",
+    email: "",
+    level: "المرحلة الابتدائية",
+    subLevel: "الصف الاول",
+    groupId: 1,
+    status: "active",
+}
 
 export const FakeStudent = [
   {
