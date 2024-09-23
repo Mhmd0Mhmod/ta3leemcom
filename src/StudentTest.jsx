@@ -128,7 +128,7 @@ function StudentTest() {
                 <div className={" w-[90%] grid  grid-cols-2 justify-between py-10  px-5 rounded bg-white"}>
                   <div className={"w-[70%] flex flex-col justify-between"}>
                     <div className={"flex items-center justify-between"}>
-                      <span className={"font-almaria-bold"}>{test.name}</span>
+                      <span className={"font-almaria-bold text-xl" }>{test.name}</span>
                       <Button className={"bg-[#0884A2] hover:bg-[#0884A2]"} onClick={handleOpenTest}>
                         بدا الاختبار
                       </Button>

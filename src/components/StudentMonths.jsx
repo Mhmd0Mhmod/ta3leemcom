@@ -91,7 +91,7 @@ function StudentMonths() {
                                 {new Date().toLocaleDateString("ar-EG")}
                             </div>
                             <Done/>
-                            <span className={"text-[18px] font-almaria-bold "}>الشهر مدفوع</span>
+                            <span className={"text-[18px] font-almaria-bold "}>تم الحضور</span>
 
                         </div>
                     }
