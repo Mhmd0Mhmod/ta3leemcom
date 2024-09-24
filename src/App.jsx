@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import TeacherDashboard from "./pages/TeacherDashboard.jsx";
 import SingUpForm from "./components/SingUpForm.jsx";
 import MainRegister from "./components/MainRegister.jsx";
+import StudentDashboard from "@/pages/StudentDashboard.jsx";
 
 function App() {
   return (
@@ -27,9 +28,8 @@ function App() {
             <Route path="subscriptions" element={<Subscriptions />} />
             <Route path="opinion" element={<Opinion />} />
             <Route path="contact-with-us" element={<ContactWithUs />} />
-            <Route path="dashboard" element={<TeacherDashboard />} />
+            <Route path="dashboard" element={<StudentDashboard /> } />
           </Route>
-
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>

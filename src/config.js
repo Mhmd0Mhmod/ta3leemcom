@@ -28,7 +28,7 @@ export const LEVELS = {
 };
 export const Teacher = {
   id: 1,
-  name: "محمد أحمد",
+  name: "ابراهيم محمد مشرف",
   phone: "01000000000",
   email: "mohamed@example.com",
   level: "المرحلة الابتدائية",
@@ -37,6 +37,18 @@ export const Teacher = {
   status: "active",
   login: true,
 };
+export const Student = {
+    id: 1,
+    name: "محمد أحمد",
+    phone: "01000000000",
+    email: "",
+    level: "المرحلة الابتدائية",
+    subLevel: "الصف الاول",
+    groupId: 1,
+
+    status: "active",
+}
+
 export const FakeStudent = [
   {
     code: 1,

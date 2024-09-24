@@ -32,7 +32,7 @@ export default {
     "cairo-light": ["Cairo-Light", "sans-serif"], // Add your custom font here
    },
    colors: {
-    "primary-l": "#F54547",
+     "primary-l": "#F54547",
     "secondary-l": "#0884A2",
     "accent-l": {
      50: "#C2C2C2",

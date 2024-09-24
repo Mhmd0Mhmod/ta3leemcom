@@ -4,10 +4,10 @@ import Arrow from "../../../public/Icons/breadcrumb_arrow.svg";
 
 function Breadcrumb({page}) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const level = searchParams.get("level");
-    const subLevel = searchParams.get("subLevel");
-    const groups = searchParams.get("group").split("_");
-    return (
+    const level = searchParams.get("level") || "";
+    const subLevel = searchParams.get("subLevel") || ""
+    const groups = searchParams.get("group")?.split("_") || "";
+    if (level && subLevel && groups) return (
         <div className="flex gap-2 mb-12 font-almaria-light">
             <button className="flex gap-1" onClick={() => setSearchParams({tab: "level"})}>
                 <span>المراحل الدراسية</span>
@@ -30,6 +30,7 @@ function Breadcrumb({page}) {
                 <span>{page} </span>
             </div>
         </div>);
+    return null;
 }
 
 export default Breadcrumb;
