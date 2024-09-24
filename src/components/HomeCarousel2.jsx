@@ -1,4 +1,4 @@
-import Button from "./ui-local/Button";
+import Button from "../UI-Global/Button.jsx";
 Button;
 import { Swiper, SwiperSlide } from "swiper/react";
 

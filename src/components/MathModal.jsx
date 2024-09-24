@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import "katex/dist/katex.min.css"; // Import KaTeX styles
-import Button from "./ui-local/Button";
-import Heading from "./ui-local/Heading";
+import Button from "../UI-Global/Button.jsx";
+import Heading from "../UI-Global/Heading.jsx";
 
 Modal.setAppElement("#root"); // This should be the ID of your app root element
 
