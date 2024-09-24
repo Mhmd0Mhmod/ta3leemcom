@@ -3,7 +3,7 @@ import Group from "../../../public/Icons/group.svg";
 import FormInput from "./ui/FormInput.jsx";
 import DropList from "./ui/DropList.jsx";
 import { FakeStudent, LEVELS } from "../../config.js";
-import Button from "../../components/ui/Button.jsx";
+import Button from "../../components/ui/button.jsx";
 import { useNavigate } from "react-router-dom";
 export default function EditGroupDetails() {
  const student = FakeStudent;

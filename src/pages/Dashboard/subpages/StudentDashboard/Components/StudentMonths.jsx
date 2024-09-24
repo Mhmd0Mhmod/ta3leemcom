@@ -8,7 +8,7 @@ import HeadMonthsStudent from "@/pages/Dashboard/subpages/StudentDashboard/Compo
 import DropList from "@/UI-Global/DropList.jsx";
 import {MonthsInArabic} from "@/config.js";
 import {useState} from "react";
-import {Button} from "@/components/ui/Button.jsx";
+import {Button} from "@/components/ui/button.jsx";
 
 const FakeAttendance = [
     {date: "2022-09-09", present: true},

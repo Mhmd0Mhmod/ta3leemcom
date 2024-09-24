@@ -3,7 +3,7 @@ import Heading from "../../UI-Global/Heading.jsx";
 import { ChartPie, Check, NotepadText, UserRoundX, X } from "lucide-react";
 import Trash from "../../../public/Icons/trash_icon_gray.svg";
 import Print from "../../../public/Icons/print_icon.svg";
-import { Button } from "../../components/ui/Button.jsx";
+import { Button } from "../../components/ui/button.jsx";
 import { cn } from "@/lib/utils.js";
 
 import Arrow from "../../../public/Icons/arrow-small.svg";

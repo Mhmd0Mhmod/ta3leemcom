@@ -2,7 +2,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import Heading from "../../UI-Global/Heading.jsx";
 import { constraints } from "../../config.js";
 import { useState } from "react";
-import { Button } from "../../components/ui/Button.jsx";
+import { Button } from "../../components/ui/button.jsx";
 import { Calendar } from "@/components/ui/calendar.jsx";
 import {
  Popover,
