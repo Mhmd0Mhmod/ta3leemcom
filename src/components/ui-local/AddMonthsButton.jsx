@@ -31,7 +31,7 @@ function AddMonthsButton({ onClick }) {
                 {openSelectMonths && (
                     <div
                         className={
-                            "absolute w-fit bg-white p-5 rounded top-full right-0 flex flex-col gap-6 text-xl"
+                            "absolute w-fit bg-white p-5 rounded top-full right-0 flex flex-col gap-6 text-xl z-20"
                         }
                     >
                         <input

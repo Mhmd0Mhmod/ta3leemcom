@@ -33,6 +33,7 @@ function Months() {
   const groups = searchParams.get("group")?.split("_") || [];
   const [studentSearch, setStudentSearch] = useState("");
   const [students, setStudents] = useState(AllStudent);
+  
   useEffect(() => {
     if (selectedGroup) {
       setStudents(
@@ -156,6 +157,7 @@ function Months() {
             <div className={" overflow-x-scroll rotateX-180 "}>
               <div className={"rotateX-180"}>
                 <TableHeader className={"sticky top-0"}>
+                <th></th>
                   {Array.from({ length: 11 }).map((number, idx) => (
                     <th key={idx} className={""}>
                       <div className="flex justify-center gap-4">
@@ -169,7 +171,10 @@ function Months() {
                 </TableHeader>
                 <TableBody>
                   {students.map((student, idx) => (
-                    <TableRow key={idx} className=" rounded-2xl bg-white">
+                    <TableRow key={idx} className=" rounded-2xl bg-white ">
+                    <TableCell className="whitespace-nowrap sticky right-0 bg-[#e7e6e6] ">
+                        {idx + 1} .
+                    </TableCell>
                       {Array.from({ length: 11 }).map((month, idx) => (
                         <TableCell key={idx}>
                           {student.paid ? (
