@@ -110,6 +110,7 @@ export default {
    backgroundImage: {
     "sign-up&login": "url('/Icons/Bg.svg')",
    },
+
   },
  },
  plugins: [require("tailwindcss-animate")],
