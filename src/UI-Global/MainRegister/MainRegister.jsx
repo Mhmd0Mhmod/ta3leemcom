@@ -79,6 +79,20 @@ export default function MainRegister() {
           {formType === 'login' && loginType === 'student' && <StudentLoginForm />}
           {formType === 'login' && loginType === 'teacher' && <TeacherLoginForm />}
           {formType === 'signUp' && <SingUpForm />}
+          {formType === 'verify' && (
+            <p className="text-center text-5xl">
+              verify you email
+              <Button
+                onClick={() => {
+                  searchParams.set('mr', 'login');
+                  searchParams.set('login', 'teacher');
+                  setSearchParams(searchParams);
+                }}
+              >
+                login
+              </Button>
+            </p>
+          )}
 
           {/*Left constant Content  */}
           <div className={'relative flex h-full w-full items-center justify-center rounded-3xl bg-sign-up&login bg-cover bg-center'}>

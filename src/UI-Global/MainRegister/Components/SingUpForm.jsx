@@ -81,8 +81,7 @@ function SingUpForm() {
         if (res.status === 200) {
           toast.success('تم التسجيل بنجاح');
           console.log(res.data);
-          searchParams.set('mr', 'login');
-          searchParams.set('login', 'teacher');
+          searchParams.set('mr', 'verify');
           setSearchParams(searchParams);
         }
       } catch (error) {
