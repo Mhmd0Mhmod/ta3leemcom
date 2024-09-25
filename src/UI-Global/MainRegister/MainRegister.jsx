@@ -30,7 +30,7 @@ export default function MainRegister() {
         }}
       >
         {/* Right Form */}
-        <div className={'grid h-[45.908rem] w-1/2 grid-cols-2 rounded-3xl bg-white'}>
+        <div className={'grid min-h-[60vh] min-w-[70vw] grid-cols-2 rounded-3xl bg-white'}>
           {formType === 'login' && !loginType && (
             <div className={'flex flex-col p-9 font-almaria'}>
               <div>

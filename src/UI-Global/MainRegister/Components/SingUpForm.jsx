@@ -95,7 +95,7 @@ function SingUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={'flex flex-col p-9 font-almaria'}>
+    <form onSubmit={handleSubmit} className={'flex flex-col p-9 font-almari'}>
       <div>
         <Exit
           alt={'exitIcon'}
