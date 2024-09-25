@@ -30,7 +30,7 @@ export default function MainRegister() {
         }}
       >
         {/* Right Form */}
-        <div className={'grid min-h-[60vh] min-w-[70vw] grid-cols-2 rounded-3xl bg-white'}>
+        <div className={'grid items-center min-h-[60vh] min-w-[50vw] max-w-[80vw] grid-cols-1 rounded-3xl bg-white lg:grid-cols-2'}>
           {formType === 'login' && !loginType && (
             <div className={'flex flex-col p-9 font-almaria'}>
               <div>
@@ -95,7 +95,7 @@ export default function MainRegister() {
           )}
 
           {/*Left constant Content  */}
-          <div className={'relative flex h-full w-full items-center justify-center rounded-3xl bg-sign-up&login bg-cover bg-center'}>
+          <div className={'relative hidden h-full w-full items-center justify-center rounded-3xl bg-sign-up&login bg-cover bg-center lg:flex'}>
             <div className={'flex h-1/4 flex-col items-start justify-around text-white'}>
               <Heading as={'h1'}>تعليم كوم</Heading>
               <p>تجربة تعليمية ممتعة وسلسة لكافة مستخدمينا</p>

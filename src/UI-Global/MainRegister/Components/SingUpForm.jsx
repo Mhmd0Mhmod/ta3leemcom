@@ -94,7 +94,7 @@ function SingUpForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={'flex flex-col p-9 font-almari'}>
+    <form onSubmit={handleSubmit} className={'font-almari flex flex-col p-9'}>
       <div>
         <Exit
           alt={'exitIcon'}
@@ -140,9 +140,16 @@ function SingUpForm() {
       <Button disabled={isSubmitting} type={'normal'} className={'my-4 w-full bg-blue-600 text-white disabled:cursor-not-allowed disabled:bg-blue-500'}>
         {isSubmitting ? 'جاري التسجيل...' : 'تسجيل'}
       </Button>
-      <Link className={'text-accent-l-400 text-secondary-l underline'} to="/login">
+      <button
+        className={'text-accent-l-400 text-secondary-l underline'}
+        onClick={() => {
+          searchParams.set('mr', 'login');
+          searchParams.set('login', 'teacher');
+          setSearchParams(searchParams);
+        }}
+      >
         لديك حساب بالفعل؟
-      </Link>
+      </button>
     </form>
   );
 }
