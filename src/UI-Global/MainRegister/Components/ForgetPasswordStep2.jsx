@@ -21,7 +21,6 @@ function ForgetPasswordStep2({ email, setActive }) {
         if (res.status === 200) {
           toast.success(res.data);
           setActive((active) => active + 1);
-          setPin(value);
         }
       } catch (error) {
         toast.error(error.response.data);
@@ -54,7 +53,7 @@ function ForgetPasswordStep2({ email, setActive }) {
       <p className={'text-[18px] text-[#515151]'}>يرجى تفقّد بريدك الإلكتروني للعثور على الرسالة التي تحتوي على الرمز.</p>
       <form onSubmit={handleSubmission}>
         <div className={'ltr space-y-7'}>
-          <InputOTP  maxLength={6} value={value} onChange={(value) => setValue(value)}>
+          <InputOTP maxLength={6} value={value} onChange={(value) => setValue(value)}>
             <InputOTPGroup className={'ltr w-full'}>
               <InputOTPSlot index={0} className={'w-1/3'} />
               <InputOTPSlot index={1} className={'w-1/3'} />

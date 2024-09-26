@@ -7,8 +7,11 @@ import { useState } from 'react';
 import FormInput from '@/UI-Global/FormInput.jsx';
 import { ErrorMessage } from '@/components/ui/validationMessages.jsx';
 import Mail from '../../../../public/Icons/mail.svg';
+import { useSearchParams } from 'react-router-dom';
 function VerifyEmail({ newSignUpEmail }) {
-  const [email, setEmail] = useState(newSignUpEmail ? newSignUpEmail : '');
+  const [searchParams, setSearchParams] = useSearchParams();
+  let userEmail = newSignUpEmail ? newSignUpEmail : searchParams.get('email') ? searchParams.get('email') : '';
+  const [email, setEmail] = useState(userEmail);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   async function handleResendVerificationCode() {
@@ -39,7 +42,7 @@ function VerifyEmail({ newSignUpEmail }) {
       <div className={'mt-10 w-full'}>
         <EmailVerify alt={'verifyEmail'} className={'w-full'} />
       </div>
-      {newSignUpEmail ? (
+      {userEmail ? (
         <div className={'space-y-5 text-[#6D6C6C]'}>
           <p>
             لقد أرسلنا رسالة للبريد الإلكتروني <span className={'mx-3 text-[#0884A2]'}> {email} </span> للتأكيد من صحة عنوانك الإلكتروني.

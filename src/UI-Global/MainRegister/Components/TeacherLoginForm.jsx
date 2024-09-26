@@ -59,6 +59,7 @@ export default function TeacherLoginForm() {
           email,
           password,
         });
+        console.log(res.data);
         if (res.status === 200) {
           toast.success('تم تسجيل الدخول بنجاح');
           const { token, expiresOn, ...user } = res.data;
@@ -73,7 +74,9 @@ export default function TeacherLoginForm() {
         }
       } catch (error) {
         // toast.error('حدث خطأ أثناء التسجيل، يرجى المحاولة مرة أخرى');
-        toast.error(error.response.data);
+        if (error.response.data === 'Email not confirmed') {
+          setSearchParams({ mr: 'verify', email });
+        } else toast.error(error.response.data);
       } finally {
         setIsSubmitting(false);
       }
@@ -83,7 +86,7 @@ export default function TeacherLoginForm() {
     e.preventDefault();
     setSearchParams({ ...Object.fromEntries([...searchParams.entries()]), forgetPassword: true });
   };
-  if (searchParams.get('forgetPassword') === 'true') return <ForgetPassword  />;
+  if (searchParams.get('forgetPassword') === 'true') return <ForgetPassword />;
   return (
     <>
       <form onSubmit={handleSubmit} className="relative p-9 font-almaria">
@@ -119,7 +122,7 @@ export default function TeacherLoginForm() {
           </div>
           <div className="mt-8 text-center">
             <Button disabled={isSubmitting} type="Secondary" className={'px-[4rem] py-4 font-almaria-light disabled:cursor-not-allowed disabled:bg-blue-500'}>
-              سجل الدخول
+              {isSubmitting ? 'جاري التسجيل...' : 'سجل الدخول'}
             </Button>
           </div>
         </div>
