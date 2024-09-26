@@ -6,7 +6,7 @@ function ForgetPassword() {
  return (
   <div className={"p-9 flex flex-col gap-5"}>
    <ArrowBack/>
-   <ThreeStepsNewPassword />
+   <ThreeStepsNewPassword  />
   </div>
  );}
 

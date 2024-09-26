@@ -4,13 +4,31 @@ import Mail from '../../../../public/Icons/mail.svg';
 import { useState } from 'react';
 import Button from '@/UI-Global/Button.jsx';
 import { handleBack } from '@/lib/helpers.js';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 function ForgetPasswordStep1({ setEmail, setActive }) {
-  const [mail,setMail]=useState('');
-  function handleSubmission(e) {
+  const [mail, setMail] = useState('');
+  const [loading, setLoading] = useState(false);
+  async function handleSubmission(e) {
     e.preventDefault();
-    setActive((active) => active + 1);
-    setEmail(mail);
+    if (mail.trim()) {
+      setLoading(true);
+      try {
+        const res = await axios.post(import.meta.env.VITE_API_URL + '/Authentication/forget-password', { email: mail.trim() });
+        if (res.status === 200) {
+          toast.success(res.data);
+          setActive((active) => active + 1);
+          setEmail(mail.trim());
+        }
+      } catch (error) {
+        toast.error(error.response.data);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      toast.error('الرجاء ادخال البريد الالكتروني');
+    }
   }
   return (
     <div className={'mt-10 space-y-16 font-almaria-light'}>
@@ -26,8 +44,12 @@ function ForgetPasswordStep1({ setEmail, setActive }) {
           <FormInput type={'email'} name={'email'} placeholder={'example@example.com'} Icon={Mail} className={'w-full text-end'} onChange={(e) => setMail(e.target.value)} />
         </div>
         <div className={'mt-10 flex justify-between font-almaria-light'}>
-          <Button className={'border-none !bg-[#E4E6EB] !text-black'} onClick={handleBack}>الغاء</Button>
-          <Button type={'Secondary'}>إرسال</Button>
+          <Button className={'border-none !bg-[#E4E6EB] !text-black'} onClick={handleBack}>
+            الغاء
+          </Button>
+          <Button disabled={loading} type={'Secondary'}>
+            {loading ? 'جاري الارسال...' : 'ارسال'}
+          </Button>
         </div>
       </form>
     </div>

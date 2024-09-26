@@ -12,7 +12,7 @@ import { ErrorMessage, PasswordStrength } from '@/components/ui/validationMessag
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-function SingUpForm() {
+function SingUpForm({ setNewSignUpEmail }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [name, setName] = useState({ first: '', middle: '', last: '' });
@@ -126,7 +126,17 @@ function SingUpForm() {
       <Heading as={'h4'} className={'my-4 text-secondary-l'}>
         البريد الالكتروني
       </Heading>
-      <FormInput type={'email'} name={'email'} placeholder={'example@example.com'} Icon={Mail} className={'w-full text-end'} onChange={(e) => setEmail(e.target.value)} />
+      <FormInput
+        type={'email'}
+        name={'email'}
+        placeholder={'example@example.com'}
+        Icon={Mail}
+        className={'w-full text-end'}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setNewSignUpEmail(e.target.value);
+        }}
+      />
       {errors.email && <ErrorMessage message={errors.email} />}
       <Heading as={'h4'} className={'my-4 text-secondary-l'}>
         كلمة المرور
@@ -140,16 +150,26 @@ function SingUpForm() {
       <Button disabled={isSubmitting} type={'normal'} className={'my-4 w-full bg-blue-600 text-white disabled:cursor-not-allowed disabled:bg-blue-500'}>
         {isSubmitting ? 'جاري التسجيل...' : 'تسجيل'}
       </Button>
-      <button
-        className={'text-accent-l-400 text-secondary-l underline'}
-        onClick={() => {
-          searchParams.set('mr', 'login');
-          searchParams.set('login', 'teacher');
-          setSearchParams(searchParams);
-        }}
-      >
-        لديك حساب بالفعل؟
-      </button>
+      <div className="flex justify-between">
+        <button
+          className={'text-accent-l-400 text-secondary-l underline'}
+          onClick={() => {
+            searchParams.set('mr', 'login');
+            searchParams.set('login', 'teacher');
+            setSearchParams(searchParams);
+          }}
+        >
+          لديك حساب بالفعل؟
+        </button>
+        <button
+          className={'text-accent-l-400 text-secondary-l underline'}
+          onClick={() => {
+            setSearchParams({ mr: 'verify' });
+          }}
+        >
+          تفعيل الحساب
+        </button>
+      </div>
     </form>
   );
 }

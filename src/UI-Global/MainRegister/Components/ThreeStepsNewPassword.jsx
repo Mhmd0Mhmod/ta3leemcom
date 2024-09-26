@@ -4,29 +4,33 @@ import ForgetPasswordStep2 from '@/UI-Global/MainRegister/Components/ForgetPassw
 import ForgetPasswordStep3 from '@/UI-Global/MainRegister/Components/ForgetPasswordStep3.jsx';
 
 function ThreeStepsNewPassword() {
-  const [active,setActive]= useState(1);
-  const [email , setEmail ]=useState('');
-  const [pin,setPin]=useState();
+  const [active, setActive] = useState(1);
+  const [email, setEmail] = useState('');
+
   return (
-    <>
-      <div className={'flex items-center justify-between font-almaria w-9/12 mx-auto'}>
+    <div>
+      <div className={'mx-auto flex w-9/12 items-center justify-between font-almaria'}>
         {[1, 2, 3].map((idx) => (
-          <>
+          <div key={idx}>
             <div key={idx} className={`min-h-[37px] min-w-[37px] rounded-full border border-[#D9D9D9] p-[2px] ${active === idx ? 'border-[#F54547]' : ''}`}>
               <div className={`h-[31px] w-[31px] rounded-full ${active === idx ? 'bg-[#F54547]' : ''}`}></div>
             </div>
 
-            {idx !== 3&& <hr className={'w-full'} />}
-          </>
+            {idx !== 3 && <hr className={'w-full'} />}
+          </div>
         ))}
       </div>
-        <div className={"flex justify-between"}>
-        {['البريد الالكتروني', 'رمز التحقق','كلمة المرور الجديده'].map(step=><span key={step} className={"text-[15px] text-center font-almaria-bold w-32"}>{step}</span>)}
-        </div>
-      {active===1 && <ForgetPasswordStep1 setEmail={setEmail} setActive={setActive}/>}
-      {active===2 && <ForgetPasswordStep2 email={email} setPin={setPin} setActive={setActive}/>}
-      {active===3 && <ForgetPasswordStep3/>}
-    </>
+      <div className={'flex justify-between'}>
+        {['البريد الالكتروني', 'رمز التحقق', 'كلمة المرور الجديده'].map((step) => (
+          <span key={step} className={'w-32 text-center font-almaria-bold text-[15px]'}>
+            {step}
+          </span>
+        ))}
+      </div>
+      {active === 1 && <ForgetPasswordStep1 setEmail={setEmail} setActive={setActive} />}
+      {active === 2 && <ForgetPasswordStep2 email={email} setActive={setActive} />}
+      {active === 3 && <ForgetPasswordStep3 email={email} />}
+    </div>
   );
 }
 

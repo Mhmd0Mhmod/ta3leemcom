@@ -8,9 +8,11 @@ import StudentLoginForm from './Components/StudentLoginForm.jsx';
 import TeacherLoginForm from './Components/TeacherLoginForm.jsx';
 import LoginHome from '@/UI-Global/MainRegister/Components/LoginHome.jsx';
 import VerifyEmail from '@/UI-Global/MainRegister/Components/VerifyEmail.jsx';
+import { useState } from 'react';
 
 export default function MainRegister() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [newSignUpEmail, setNewSignUpEmail] = useState('');
   const navigate = useNavigate();
   const formType = searchParams.get('mr');
   const loginType = searchParams.get('login');
@@ -36,21 +38,8 @@ export default function MainRegister() {
           {formType === 'login' && !loginType && <LoginHome handleButtonClick={handleButtonClick} />}
           {formType === 'login' && loginType === 'student' && <StudentLoginForm />}
           {formType === 'login' && loginType === 'teacher' && <TeacherLoginForm />}
-          {formType === 'signUp' && <SingUpForm />}
-          {formType === 'verify' && (
-            <p className="text-center text-5xl">
-              verify you email
-              <Button
-                onClick={() => {
-                  searchParams.set('mr', 'login');
-                  searchParams.set('login', 'teacher');
-                  setSearchParams(searchParams);
-                }}
-              >
-                login
-              </Button>
-            </p>
-          )}
+          {formType === 'signUp' && <SingUpForm setNewSignUpEmail={setNewSignUpEmail} />}
+          {formType === 'verify' && <VerifyEmail newSignUpEmail={newSignUpEmail} />}
 
           {/*Left constant Content  */}
           <div className={'relative hidden h-full w-full items-center justify-center rounded-3xl bg-sign-up&login bg-cover bg-center lg:flex'}>
