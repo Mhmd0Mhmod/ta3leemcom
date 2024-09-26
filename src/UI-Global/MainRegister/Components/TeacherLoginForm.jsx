@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Exit from '../../../../public/Icons/exit.svg';
+import Exit from './Exit.jsx';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../Button.jsx';
 import FormInput from '../../FormInput.jsx';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { ErrorMessage } from '@/components/ui/validationMessages';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import ForgetPassword from '@/UI-Global/MainRegister/Components/ForgetPassword.jsx';
 
 export default function TeacherLoginForm() {
   const navigate = useNavigate();
@@ -78,18 +79,15 @@ export default function TeacherLoginForm() {
       }
     }
   };
-
+  const  handleOpenForgetPassword = (e)=>{
+    e.preventDefault();
+    setSearchParams({...Object.fromEntries([...searchParams.entries()]) , forgetPassword:true})
+  }
+  if(searchParams.get('forgetPassword')=== 'true')return <ForgetPassword/>
   return (
     <>
       <form onSubmit={handleSubmit} className="relative p-9 font-almaria">
-        <Exit
-          alt={'exitIcon'}
-          className={'cursor-pointer'}
-          onClick={(e) => {
-            e.preventDefault();
-            navigate(loaction.pathname);
-          }}
-        />
+        <Exit/>
 
         <h2 className="mt-16 text-center font-almaria-bold text-3xl">تسجيل الدخول</h2>
         {/* ----------- */}
@@ -114,7 +112,7 @@ export default function TeacherLoginForm() {
               <label>تذكرني</label>
             </div>
 
-            <p className="text-secondary-l">نسيت كلمة المرور ؟</p>
+            <Button  className="bg-transparent  text-lg  border-none !text-secondary-l" onClick={handleOpenForgetPassword}> نسيت كلمة المرور ؟</Button>
           </div>
           <div className="mt-8 text-center">
             <Button disabled={isSubmitting} type="Secondary" className={'px-[4rem] py-4 font-almaria-light disabled:cursor-not-allowed disabled:bg-blue-500'}>
