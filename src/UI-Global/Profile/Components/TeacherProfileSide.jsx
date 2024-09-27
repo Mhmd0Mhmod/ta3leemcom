@@ -9,12 +9,10 @@ import PersonalProfile from "./PersonalProfile.jsx";
 import Profile from "../Profile.jsx";
 export default function TeacherProfileSide() {
 const [searchParams, setSearchParams] = useSearchParams();
-const activeTab = searchParams.get("tab");
-const location = useLocation();
-const [activeDiv, setActiveDiv] = useState("");
+const [activeDiv, setActiveDiv] = useState("PersonalProfile");
 const handleDivClick = (tabName) => {
   setActiveDiv(tabName);
-  setSearchParams({ tab: tabName, Profile: true });
+  setSearchParams({...Object.fromEntries(searchParams.entries()), tab: tabName});
 };
   if (!searchParams.get("Profile")) return;
   return (
@@ -42,7 +40,7 @@ const handleDivClick = (tabName) => {
         <Pc alt="pc" />
         <p className="font-almaria-bold text-lg cursor-pointer"
         onClick={() =>
-          setSearchParams({ tab: "Subscription", Profile: true })
+          handleDivClick ("Subscription")
         }
         >الاشتراك</p>
       </div>

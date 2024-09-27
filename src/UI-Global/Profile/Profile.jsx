@@ -1,25 +1,22 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Logo from '../../../public/imgs/profileLogo.svg';
 import Exit from '../../../public/Icons/exitt.svg';
-import PersonalProfile from '@/UI-Global/Profile/Components/PersonalProfile.jsx';
-import ProfileSubscription from '@/UI-Global/Profile/Components/ProfileSubscription.jsx';
-import NotificationSide from '@/UI-Global/Profile/Components/NotificationSide.jsx';
-import StudentProfile from '@/UI-Global/Profile/Components/StudentProfile.jsx';
+import PersonalProfile from './Components/PersonalProfile.jsx';
+import ProfileSubscription from './Components/ProfileSubscription.jsx';
+import StudentProfile from './Components/StudentProfile.jsx';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import TeacherProfileSide from '@/UI-Global/Profile/Components/TeacherProfileSide.jsx';
-import { handleBack } from '@/lib/helpers.js';
+import TeacherProfileSide from './Components/TeacherProfileSide.jsx';
 
-import UpgradeSubscription from './UpgradeSubscription';
-import EditTeacherProfile from './EditTeacherProfile';
-function Profile({ children }) {
+import UpgradeSubscription from './Components/UpgradeSubscription.jsx';
+import EditTeacherProfile from './Components/EditTeacherProfile.jsx';
+function Profile() {
   const [searchParams, setSearchParams] = useSearchParams();
   const auth = useAuthUser();
   const activeTab = searchParams.get('tab');
   const handleButtonClick = (e) => {
     e.preventDefault();
-    if (e.target.id === 'all' || e.target.id === 'exit') handleBack();
+    if (e.target.id === 'all' || e.target.id === 'exit') setSearchParams({});
   };
-
   if (!searchParams.get('Profile')) return;
   return (
     <>
@@ -30,23 +27,18 @@ function Profile({ children }) {
               <Exit alt="exit" width={30} onClick={handleButtonClick} id="exit" />
             </div>
             <div className="h-[41.563rem] border-l-2">{auth.role === 'Teacher' && <TeacherProfileSide />}</div>
-            <div className="h-[41.563rem] border-l-2">{children}</div>
           </div>
 
           <div className="h-full w-[85%]">
             <div className="flex h-[4.375rem] w-full items-center justify-center border-b-2">
               <Logo alt="logo" width={135} />
             </div>
-            {activeTab === 'PersonalProfile' && <PersonalProfile />}
-            {activeTab === 'Subscription' && <ProfileSubscription />}
-            {activeTab === 'Notification' && <NotificationSide />}
-            {!activeTab && <StudentProfile />}
-            {activeTab === 'UpgradeSubscription' && <UpgradeSubscription />}
-            {activeTab === 'EditTeacherProfile' && <EditTeacherProfile />}
-            {auth.role === 'Teacher' && activeTab === 'PersonalProfile' && <PersonalProfile />}
+            {auth.role === 'Teacher' && activeTab === 'PersonalProfile' && <PersonalProfile teacher={auth} />}
             {auth.role === 'Teacher' && activeTab === 'Subscription' && <ProfileSubscription />}
-            {auth.role === 'Teacher' && activeTab === 'Notification' && <NotificationSide />}
+            {auth.role === 'Teacher' && activeTab === 'UpgradeSubscription' && <UpgradeSubscription />}
+            {auth.role === 'Teacher' && activeTab === 'EditTeacherProfile' && <EditTeacherProfile />}
             {auth.role === 'Student' && !activeTab && <StudentProfile />}
+            {/*{auth.role === 'Teacher' && activeTab === 'Notification' && <NotificationSide />}*/}
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import React from "react";
 import { Teacher } from "@/config.js";
 import Profile from "../../../../public/imgs/Profile (2).svg";
-import Heading from "./ui-local/Heading";
-import FormInput from "./ui-local/FormInput";
 import Back from "../../../../public/Icons/arrow_back.svg";
 import { Link, useNavigate } from "react-router-dom";
+import Heading from '@/UI-Global/Heading.jsx';
+import FormInput from '@/UI-Global/FormInput.jsx';
 export default function EditTeacherProfile() {
   const navigate = useNavigate();
   const goBack = () => {

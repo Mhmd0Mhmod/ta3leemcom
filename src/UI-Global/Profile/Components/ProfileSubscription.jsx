@@ -1,53 +1,54 @@
-import React from 'react'
-import Heading from './ui-local/Heading'
-import Poster from '../../public/imgs/ProfileSubscription.svg'
-import Button from './ui-local/Button'
-import SideImage from '../../public/imgs/SideImage.svg'
-import { useSearchParams } from 'react-router-dom'
+import React from 'react';
+import Heading from '@/UI-Global/Heading.jsx';
+import Poster from '/public/imgs/ProfileSubscription.svg';
+import SideImage from '/public/imgs/SideImage.svg';
+import { useSearchParams } from 'react-router-dom';
 export default function ProfileSubscription() {
-const [searchParams, setSearchParams] = useSearchParams();
-const activeTab = searchParams.get("tab");
-  if (!searchParams.get("Profile")) return;
+  const [searchParams, setSearchParams] = useSearchParams();
+  function handleUpdateSub() {
+    setSearchParams({ ...Object.fromEntries(searchParams.entries()), tab: 'UpgradeSubscription' });
+  }
+  if (!searchParams.get('Profile')) return;
   return (
-    <div className='mt-10 ms-6'>
-      <Heading as ={"h3"} className={"font-cairo-bold flex items-center"}>الاشتراك الحالي</Heading>
-      <div className='mt-12 flex gap-40'>
+    <div className="ms-6 mt-10">
+      <Heading as={'h3'} className={'flex items-center font-cairo-bold'}>
+        الاشتراك الحالي
+      </Heading>
+      <div className="mt-12 flex gap-40">
         <div>
-          <div className='flex gap-16'>
-            <Heading as={"h4"} className={"font-cairo-bold"} >الخطة الحالية</Heading>
-            <div className='w-[12.5rem] bg-[#EFEFEF] h-[2.5rem] flex items-center ps-2 rounded-md'>
-            الباقة الأساسية
-            </div>
+          <div className="flex gap-16">
+            <Heading as={'h4'} className={'font-cairo-bold'}>
+              الخطة الحالية
+            </Heading>
+            <div className="flex h-[2.5rem] w-[12.5rem] items-center rounded-md bg-[#EFEFEF] ps-2">الباقة الأساسية</div>
           </div>
-          <div className='flex'>
-            <SideImage className={'relative top-[5rem] right-[-0.625rem]'}/>
+          <div className="flex">
+            <SideImage className={'relative right-[-0.625rem] top-[5rem]'} />
             <div>
-              <div className='mt-20'>
-                <Heading as={"h4"} className={"font-cairo-bold"}>تاريخ بدء الاشتراك</Heading>
-                <div className='w-[12.5rem] bg-[#EFEFEF] h-[2.5rem] flex items-center ps-2 rounded-md mt-4'>
-                01/10/2024
-                </div>
+              <div className="mt-20">
+                <Heading as={'h4'} className={'font-cairo-bold'}>
+                  تاريخ بدء الاشتراك
+                </Heading>
+                <div className="mt-4 flex h-[2.5rem] w-[12.5rem] items-center rounded-md bg-[#EFEFEF] ps-2">01/10/2024</div>
               </div>
 
-              <div className='mt-20'>
-                <Heading as={"h4"} className={"font-cairo-bold"}>تاريخ الانتهاء</Heading>
-                <div className='w-[12.5rem] bg-[#EFEFEF] h-[2.5rem] flex items-center ps-2 rounded-md mt-4'>
-                1/11/2024
-                </div>
+              <div className="mt-20">
+                <Heading as={'h4'} className={'font-cairo-bold'}>
+                  تاريخ الانتهاء
+                </Heading>
+                <div className="mt-4 flex h-[2.5rem] w-[12.5rem] items-center rounded-md bg-[#EFEFEF] ps-2">1/11/2024</div>
               </div>
             </div>
           </div>
-          <button className="bg-[#0884A2] text-white w-[6.875rem] h-[2.5rem] ml-20 rounded-lg
-          font-cairo-bold mt-12"           
-          onClick={() =>
-            setSearchParams({ tab: "UpgradeSubscription", Profile: true })}>ترقية الاشتراك</button>
+          <button className="ml-20 mt-12 h-[2.5rem] w-[6.875rem] rounded-lg bg-[#0884A2] font-cairo-bold text-white" onClick={handleUpdateSub}>
+            ترقية الاشتراك
+          </button>
         </div>
 
-
-        <div className='flex'>
-          <Poster className={'relative top-[-4.375rem]'}/>
+        <div className="flex">
+          <Poster className={'relative top-[-4.375rem]'} />
         </div>
       </div>
     </div>
-  ) 
+  );
 }

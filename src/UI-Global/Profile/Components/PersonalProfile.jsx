@@ -1,13 +1,11 @@
 import React from 'react';
-import Profile from '../../../../public/imgs/Profile (2).svg';
-import { Teacher } from '@/config.js';
-import { Teacher } from '@/config';
-import Profile from '../../public/imgs/Profile (2).svg';
+import Profile from '/public/imgs/Profile (2).svg';
 import { useSearchParams } from 'react-router-dom';
-export default function PersonalProfile() {
+export default function PersonalProfile({teacher}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  if (!searchParams.get('Profile')) return;
-  const teacher = Teacher;
+  function  handleEditButton(e){
+    setSearchParams({...Object.fromEntries(searchParams.entries()),tab:'EditTeacherProfile'});
+  }
   return (
     <>
       <div className="mt-10 flex items-center justify-between px-10">
@@ -19,7 +17,7 @@ export default function PersonalProfile() {
           </div>
         </div>
         <div>
-          <button className="ml-20 h-[2.5rem] w-[6.25rem] rounded-lg bg-[#0884A2] font-cairo-bold text-white" onClick={() => setSearchParams({ tab: 'EditTeacherProfile', Profile: true })}>
+          <button className="ml-20 h-[2.5rem] w-[6.25rem] rounded-lg bg-[#0884A2] font-cairo-bold text-white" onClick={handleEditButton}>
             تعديل
           </button>
         </div>

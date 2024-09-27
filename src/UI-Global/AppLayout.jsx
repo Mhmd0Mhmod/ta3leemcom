@@ -4,7 +4,6 @@ import Footer from './Footer';
 import MainRegister from '@/UI-Global/MainRegister/MainRegister.jsx';
 import Profile from '@/UI-Global/Profile/Profile.jsx';
 import { Toaster } from 'react-hot-toast';
-import TeacherProfileSide from '@/UI-Global/Profile/Components/TeacherProfileSide.jsx';
 
 export default function AppLayout() {
   return (

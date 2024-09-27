@@ -1,6 +1,5 @@
-import React from "react";
-import Heading from "./ui-local/Heading";
-import Subscription from "./ui-local/Subscription";
+import Heading from '@/UI-Global/Heading.jsx';
+import Subscription from '@/pages/Subscriptions/Components/Subscription.jsx';
 import Back from "../../../../public/Icons/arrow_back.svg";
 import { useNavigate } from "react-router-dom";
 export default function UpgradeSubscription() {
@@ -17,13 +16,12 @@ export default function UpgradeSubscription() {
           ترقية الاشتراك
         </Heading>
         <p className="mt-8 text-lg">
-          {" "}
           اختر من بين خطط الاشتراك التالية لترقية أو تغيير خطتك
         </p>
         <div className={"grid grid-cols-3 gap-12 w-[90%] mt-8"}>
           <Subscription
             title={"الباقة المتقدمة "}
-            price={"200"}
+            price={200}
             support={[
               "إداره شامله للطلاب",
               "اختبارات اوفلين",
@@ -35,7 +33,7 @@ export default function UpgradeSubscription() {
           />
           <Subscription
             title={"الباقة الاحترافية "}
-            price={"300"}
+            price={300}
             support={[
               "إداره شامله للطلاب",
               "اختبارات اوفلين",

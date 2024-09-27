@@ -1,4 +1,4 @@
 export const handleBack=(e)=>{
-  e.preventDefault();
+  e?.preventDefault();
   window.history.back();
 }
