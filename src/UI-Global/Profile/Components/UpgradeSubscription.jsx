@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "./ui-local/Heading";
 import Subscription from "./ui-local/Subscription";
-import Back from "../../public/Icons/arrow_back.svg";
+import Back from "../../../../public/Icons/arrow_back.svg";
 import { useNavigate } from "react-router-dom";
 export default function UpgradeSubscription() {
     const navigate = useNavigate();
