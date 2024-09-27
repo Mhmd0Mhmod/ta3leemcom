@@ -1,7 +1,7 @@
 import Heading from "@/UI-Global/Heading.jsx";
 import HeadIcon from "../../../../../../public/Icons/head-icon-student.svg";
 import { useState } from "react";
-import { Button } from "@/components/ui/Button.jsx";
+import { Button } from "@/components/ui/button.jsx";
 import Question from "../../../../../../public/Icons/question_icon.svg";
 import Bouns from "../../../../../../public/Icons/bouns_icon.svg";
 import Point from "../../../../../../public/Icons/flag_icon.svg";

@@ -15,7 +15,7 @@ import Heading from "../../UI-Global/Heading.jsx";
 import { DEFAULT_QUESTION } from "./AddOnlineTest.jsx";
 import { Reorder } from "framer-motion";
 import { set } from "date-fns";
-import { Button } from "../../components/ui/Button.jsx";
+import { Button } from "../../components/ui/button.jsx";
 import { Switch } from "../../components/ui/switch.jsx";
 import { Label } from "../../components/ui/label.jsx";
 

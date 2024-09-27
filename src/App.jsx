@@ -13,16 +13,16 @@ import Subscriptions from './pages/Subscriptions/Subscriptions.jsx';
 import Opinion from './pages/Opinion/Opinion.jsx';
 import ContactWithUs from './pages/ContactWithUs/ContactWithUs.jsx';
 import PageNotFound from './pages/PageNotFound/PageNotFound.jsx';
-import SingUpForm from './UI-Global/MainRegister/Components/SingUpForm.jsx';
-import MainRegister from './UI-Global/MainRegister/MainRegister.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
-import TeacherLoginForm from '@/UI-Global/MainRegister/Components/TeacherLoginForm.jsx';
-import StudentLoginForm from '@/UI-Global/MainRegister/Components/StudentLoginForm.jsx';
+
+import AuthProvider from 'react-auth-kit';
+import { store } from './auth/authStore.js';
 
 function App() {
     return (
         <>
-            <Router>
+          <AuthProvider store={store}>
+        <Router>
                 <Routes>
                     <Route element={<AppLayout/>}>
                         <Route index element={<Navigate replace to="home"/>}/>
@@ -37,8 +37,9 @@ function App() {
                     </Route>
 
                     <Route path="*" element={<PageNotFound/>}/>
-                </Routes>
+            </Routes>
             </Router>
+            </AuthProvider>
         </>
     );
 }
