@@ -40,6 +40,7 @@ import Print from "../../../public/Icons/print_icon.svg";
 import { SolidLogo } from "../../UI-Global/SolidLogo.jsx";
 import FileUpload from "../../UI-Global/Loader.jsx";
 import UploadBox from "./FileUploaderTest.jsx";
+import Backtolevels from "@/UI-Global/Backtolevels.jsx";
 
 const QUESTIONS = [
  {
@@ -227,15 +228,7 @@ function AddOfflineTest({ test }) {
 
  return (
   <div className="px-12 py-16">
-   <button className="flex gap-1" onClick={backToLevel}>
-    <img src="Icons/rev_arrow.svg" alt="" />
-    <Heading
-     as={"h3"}
-     className={"text-secondary-l underline font-almaria-bold"}
-    >
-     العوده الي المراحل الدراسية
-    </Heading>
-   </button>
+  <Backtolevels/>
    <Heading as={"h1"} className={"my-6 text-black font-almaria-bold"}>
     اختبار جديد
    </Heading>

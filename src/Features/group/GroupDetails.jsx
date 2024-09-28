@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { FakeGroups, LEVELS } from "../../config.js";
 import { useState } from "react";
 
-function GroupDetails({}) {
+function GroupDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const groupID = searchParams.get("groupID");
   const group = FakeGroups.find(el => el.id == groupID)

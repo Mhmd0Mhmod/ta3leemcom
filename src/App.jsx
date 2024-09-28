@@ -1,9 +1,4 @@
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './UI-Global/AppLayout.jsx';
 import Home from './pages/Home/Home.jsx';
 import About from './pages/About/About.jsx';
@@ -17,31 +12,49 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 
 import AuthProvider from 'react-auth-kit';
 import { store } from './auth/authStore.js';
+import AddStudent from './Features/student/AddStudent.jsx';
+import AddGroup from './Features/group/AddGroup.jsx';
+import Level from './pages/Dashboard/subpages/TeacherDashboard/Components/Level.jsx';
+import Test from './pages/Dashboard/subpages/TeacherDashboard/Components/Test.jsx';
+import Students from './pages/Dashboard/subpages/TeacherDashboard/Components/Students.jsx';
+import Months from './pages/Dashboard/subpages/TeacherDashboard/Components/Months.jsx';
+import Toppers from './Features/toppers/Toppers.jsx';
+import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
+import Tests from './Features/test/Tests.jsx';
 
 function App() {
-    return (
-        <>
-          <AuthProvider store={store}>
+  return (
+    <>
+      <AuthProvider store={store}>
         <Router>
-                <Routes>
-                    <Route element={<AppLayout/>}>
-                        <Route index element={<Navigate replace to="home"/>}/>
-                        <Route path="home" element={<Home/>}/>
-                        <Route path="about" element={<About/>}/>
-                        <Route path="services" element={<Services/>}/>
-                        <Route path="instructions" element={<Instructions/>}/>
-                        <Route path="subscriptions" element={<Subscriptions/>}/>
-                        <Route path="opinion" element={<Opinion/>}/>
-                        <Route path="contact-with-us" element={<ContactWithUs/>}/>
-                        <Route path="dashboard" element={<Dashboard/>}/>
-                    </Route>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate replace to="home" />} />
+              <Route path="home" element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="services" element={<Services />} />
+              <Route path="instructions" element={<Instructions />} />
+              <Route path="subscriptions" element={<Subscriptions />} />
+              <Route path="opinion" element={<Opinion />} />
+              <Route path="contact-with-us" element={<ContactWithUs />} />
+              <Route path="dashboard" element={<Dashboard />}>
+                {/* Teacher Dashboard Routes */}
+                <Route path="addStudent" element={<AddStudent />}>
+                  <Route path=":id" element={<AddStudent />} />
+                </Route>
+                <Route path="addGroup" element={<AddGroup />}>
+                  <Route path=":id" element={<AddGroup />} />
+                </Route>
+                <Route path="level" element={<Level />} />
+              </Route>
+            </Route>
 
-                    <Route path="*" element={<PageNotFound/>}/>
-            </Routes>
-            </Router>
-            </AuthProvider>
-        </>
-    );
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </>
+  );
 }
 
 export default App;
