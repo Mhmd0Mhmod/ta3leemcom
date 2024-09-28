@@ -21,6 +21,7 @@ import Months from './pages/Dashboard/subpages/TeacherDashboard/Components/Month
 import Toppers from './Features/toppers/Toppers.jsx';
 import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
 import Tests from './Features/test/Tests.jsx';
+import GroupDetails from './Features/group/GroupDetails.jsx';
 
 function App() {
   return (
@@ -39,12 +40,11 @@ function App() {
               <Route path="contact-with-us" element={<ContactWithUs />} />
               <Route path="dashboard" element={<Dashboard />}>
                 {/* Teacher Dashboard Routes */}
-                <Route path="addStudent" element={<AddStudent />}>
-                  <Route path=":id" element={<AddStudent />} />
-                </Route>
-                <Route path="addGroup" element={<AddGroup />}>
-                  <Route path=":id" element={<AddGroup />} />
-                </Route>
+                <Route path="addStudent" element={<AddStudent />} />
+                <Route path="addStudent/:id" element={<AddStudent />} />
+                <Route path="addGroup" element={<AddGroup />} />
+                <Route path="addGroup/:id" element={<GroupDetails />} />
+
                 <Route path="level" element={<Level />} />
               </Route>
             </Route>
