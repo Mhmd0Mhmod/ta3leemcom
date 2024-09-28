@@ -33,7 +33,7 @@ function DropList({title, options, value, setValue, optionsValue, children}) {
                 </span>
                 </button>
                 {isOpen && (
-                    <ul className="absolute right-0  w-full bg-white rounded  mt-2 max-h-36 overflow-x-auto z-50">
+                    <ul  className="absolute right-0  w-full bg-white rounded  mt-2 max-h-36 overflow-x-auto z-50" >
                         {options?.map((option, index) => (
                             <li
                                 key={option}
