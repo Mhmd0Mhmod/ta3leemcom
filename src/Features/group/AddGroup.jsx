@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { LEVELS } from '../../config.js';
 import { useSearchParams } from 'react-router-dom';
 import GroupDetails from './GroupDetails.jsx';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 function AddGroup() {
   const [searchParmas, setSearchParmas] = useSearchParams();
@@ -14,6 +15,7 @@ function AddGroup() {
   const [levelNumber, setLevelNumber] = useState('');
   if (searchParmas.get('groupID')) return <GroupDetails />;
   const { levels, primary, middle, high } = LEVELS;
+
   return (
     <div className={'font-almaria'}>
       <Heading as={'h1'} className={'text-center font-almaria-bold'}>
