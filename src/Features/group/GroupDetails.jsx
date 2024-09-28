@@ -10,7 +10,7 @@ function GroupDetails() {
   const { id: groupID } = useParams();
 
   const group = FakeGroups.find((el) => el.id == groupID);
-  const [groupName, setGroupName] = useState(group.name);
+  const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState(LEVELS.levels[0]);
   const [subLevel, setSubLevel] = useState(LEVELS.primary[0]);
   if (!group) return null;

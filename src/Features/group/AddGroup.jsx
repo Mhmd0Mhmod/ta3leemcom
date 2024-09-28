@@ -5,12 +5,13 @@ import Group from '../../../public/Icons/group.svg';
 import DropList from '../../UI-Global/DropList.jsx';
 import Button from '../../UI-Global/Button.jsx';
 import { useState } from 'react';
-import { LEVELS } from '../../config.js';
+// import { LEVELS } from '../../config.js';
 import { useSearchParams } from 'react-router-dom';
 import GroupDetails from './GroupDetails.jsx';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { LEVELS } from '@/config.js';
 
 function AddGroup() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +21,7 @@ function AddGroup() {
 
   if (searchParams.get('groupID')) return <GroupDetails />;
 
-  const { levels } = LEVELS;
+  // const { levels } = LEVELS;
   const user = useAuthUser()
   console.log(user)
   console.log(user.teacherId)
@@ -56,11 +57,12 @@ function AddGroup() {
       } 
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'فشل في إضافة المجموعة';
+      
       toast.error(`خطأ: ${errorMessage}`);
       console.error('Error adding group:', error);
     }
   };
-  if (searchParmas.get('groupID')) return <GroupDetails />;
+  if (searchParams.get('groupID')) return <GroupDetails />;
   const { levels, primary, middle, high } = LEVELS;
 
   return (
@@ -90,7 +92,6 @@ function AddGroup() {
         <Button type={'outline'} className={'mt-40 w-fit self-center'}>
           اضافة
         </Button>
-        {/* <Button type='submit' className={'mt-40 w-fit self-center bg-red-500'}>اضغط  </Button> */}
       </form>
     </div>
   );
