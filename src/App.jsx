@@ -22,6 +22,7 @@ import Toppers from './Features/toppers/Toppers.jsx';
 import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
 import Tests from './Features/test/Tests.jsx';
 import GroupDetails from './Features/group/GroupDetails.jsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -53,6 +54,8 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
+
+      <Toaster />
     </>
   );
 }
