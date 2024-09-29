@@ -54,8 +54,6 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
-
-      <Toaster />
     </>
   );
 }
