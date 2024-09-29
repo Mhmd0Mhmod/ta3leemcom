@@ -80,7 +80,6 @@ function SingUpForm({ setNewSignUpEmail }) {
         });
         if (res.status === 200) {
           toast.success('تم التسجيل بنجاح');
-          console.log(res.data);
           searchParams.set('mr', 'verify');
           setSearchParams(searchParams);
         }

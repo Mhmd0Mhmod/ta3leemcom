@@ -86,7 +86,6 @@ const UploadBox = () => {
         removeFile(fileObject);
        }}
        openModel={() => {
-        console.log(fileObject);
 
         if (fileObject.file.type.split("/")[0] === "image") {
          setModel({

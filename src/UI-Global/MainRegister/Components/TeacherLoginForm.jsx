@@ -59,7 +59,6 @@ export default function TeacherLoginForm() {
           email,
           password,
         });
-        console.log(res.data);
         if (res.status === 200) {
           toast.success('تم تسجيل الدخول بنجاح');
           const { token, expiresOn, ...user } = res.data;
