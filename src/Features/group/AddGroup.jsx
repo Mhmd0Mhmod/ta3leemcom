@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { LEVELS } from '@/config.js';
+import Cookies from 'js-cookie'
 
 function AddGroup() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,6 +26,10 @@ function AddGroup() {
   const user = useAuthUser()
   console.log(user)
   console.log(user.teacherId)
+  let teacherId = user.teacherId
+ // get token
+  const token = Cookies.get('_auth');
+  console.log("token : " , token)
 
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
@@ -40,12 +45,18 @@ function AddGroup() {
   
     try {
       const bodyData = {
-        groupName,
-        level,
-        levelNumber,
+        name : groupName,
+        levelYearId : level,
+        teacherId,
       };
+
+      console.log("Data : " , bodyData)
   
-      const response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add',bodyData);
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add',bodyData ,{
+        headers: {
+          Authorization: `Bearer ${token}`, // إضافة الـ token هنا
+        },
+      });
       if (response.status === 200) {
         toast.success(response.data);
       }
@@ -64,6 +75,7 @@ function AddGroup() {
   };
   if (searchParams.get('groupID')) return <GroupDetails />;
   const { levels, primary, middle, high } = LEVELS;
+  
 
   return (
     <div className={'font-almaria'}>
