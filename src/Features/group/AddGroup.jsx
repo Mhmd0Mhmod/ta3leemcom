@@ -46,7 +46,7 @@ function AddGroup() {
     try {
       const bodyData = {
         name : groupName,
-        levelYearId : level,
+        levelYearId : 1,
         teacherId,
       };
 

@@ -1,3 +1,7 @@
+import axios from "axios";
+import Cookies from 'js-cookie'
+import { useState } from "react";
+
 export const MonthsInArabic = [
   "يناير",
   "فبراير",
@@ -164,8 +168,24 @@ export const AllStudent = FakeGroups.reduce(
   (acc, group) => acc.concat(group.students),
   [],
 );
+// const token = Cookies.get('_auth');
+// const [levelsYearId , setLevelsYearsId] = useState(null)
+// let data = []
+// const levelsID=async ()=>{
+//   const response = await axios.get(import.meta.env.VITE_API_URL + '/LevelYear' ,{
+//     headers: {
+//       Authorization: `Bearer ${token}`, // إضافة الـ token هنا
+//     },
+//   });
+//   if (response.status === 200) {
+//     // toast.success(response.data);
+//     data = response.data
+//     console.log(data)
+//   }
+//  }  
+//  levelsID()
 export const constraints = {
-  primary: {
+  1: {
     text: "المرحلة الابتدائية",
     content: [
       "الصف الاول",
@@ -176,12 +196,40 @@ export const constraints = {
       "الصف السادس",
     ],
   },
-  middle: {
+  2: {
     text: "المرحلة الاعدادية",
     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   },
-  high: {
+  3: {
     text: "المرحلة الثانوية",
     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   },
 };
+
+
+
+
+
+
+
+// export const constraints = {
+//   primary: {
+//     text: "المرحلة الابتدائية",
+//     content: [
+//       "الصف الاول",
+//       "الصف الثاني",
+//       "الصف الثالث",
+//       "الصف الرابع",
+//       "الصف الخامس",
+//       "الصف السادس",
+//     ],
+//   },
+//   middle: {
+//     text: "المرحلة الاعدادية",
+//     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
+//   },
+//   high: {
+//     text: "المرحلة الثانوية",
+//     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
+//   },
+// };
