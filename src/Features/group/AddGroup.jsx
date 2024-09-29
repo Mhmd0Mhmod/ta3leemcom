@@ -13,26 +13,59 @@ import axios from 'axios';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { LEVELS } from '@/config.js';
 import Cookies from 'js-cookie'
+import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 
 function AddGroup() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState('');
   const [levelNumber, setLevelNumber] = useState('');
+  console.log(level)
+  console.log(levelNumber)
+
 
   if (searchParams.get('groupID')) return <GroupDetails />;
 
+   const userLevels = useLevels()
+   console.log(userLevels )
+   let names =[]
+   let IDSClassroom = []
+   let IDSClassroomLevel =[]
+    names = userLevels[0].map(user => user.name);
+    IDSClassroom = userLevels[0].map(user => user.id);
+   //1
+    IDSClassroomLevel = userLevels[0].map(user => user.levelId)
+    // console.log(IDSClassroomLevel)
+
+    let stagesName = userLevels[1].map(user => user.name);
+    //2
+    let stagesIDS = userLevels[1].map(user =>user.levelId)
+    // console.log(stages)
+    console.log(stagesIDS)
+    
+        let newArr = []
+    for (let i = 0; i < IDSClassroomLevel.length; i++) {
+      if (IDSClassroomLevel[i] === level) {
+          newArr.push(IDSClassroomLevel[i]);
+  }
+}
+  console.log(newArr)
   // const { levels } = LEVELS;
   const user = useAuthUser()
-  console.log(user)
-  console.log(user.teacherId)
+  // console.log(user)
   let teacherId = user.teacherId
  // get token
   const token = Cookies.get('_auth');
-  console.log("token : " , token)
-
+  // console.log("token : " , token)
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
+  };
+  
+
+  const bodyData = {
+    name : groupName,
+    levelYearId : level,
+    teacherId,
   };
 
   const handleSubmit = async (e) => {
@@ -44,11 +77,7 @@ function AddGroup() {
     }
   
     try {
-      const bodyData = {
-        name : groupName,
-        levelYearId : level,
-        teacherId,
-      };
+      
 
       console.log("Data : " , bodyData)
   
@@ -65,6 +94,7 @@ function AddGroup() {
         setGroupName('');
         setLevel('');
         setLevelNumber('');
+            // window.location.reload(false)
       } 
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'فشل في إضافة المجموعة';
@@ -90,14 +120,15 @@ function AddGroup() {
         <div className={'grid grid-cols-3'}>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
-            <DropList title={'اختر المرحلة الدراسية'} options={levels} value={level} setValue={setLevel} optionsValue={Object.keys(LEVELS).slice(1)} />
+        
+            <DropList title={'اختر المرحلة الدراسية'} options={stagesName} value={level} setValue={setLevel} optionsValue={Object.keys(stagesIDS).slice(1)} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
             {level === '' ? (
               <DropList title={'اختر الصف الدراسي'} options={[]} />
             ) : (
-              <DropList title={'اختر الصف الدراسي'} options={LEVELS[level]} value={levelNumber} setValue={setLevelNumber} optionsValue={LEVELS[level].map((_, i) => i + 1)} />
+              <DropList title={'اختر الصف الدراسي'} options={names} value={levelNumber} setValue={setLevelNumber} optionsValue={newArr} />
             )}
           </div>
         </div>
@@ -109,4 +140,4 @@ function AddGroup() {
   );
 }
 
-export default AddGroup;
+export default AddGroup
