@@ -25,8 +25,10 @@ function AddStudent() {
   const token = document.cookie
     ?.split(';')
     .map((cookie) => cookie.trim())
-    ?.find((cookie) => cookie.startsWith('_auth'))
+    ?.find((cookie) => cookie.startsWith('_auth='))
     ?.split('=')[1];
+
+  console.log(token);
 
   const fetchGroups = async () => {
     try {
@@ -63,7 +65,7 @@ function AddStudent() {
   }
 
   const handleAddStudent = async () => {
-    console.log({ level, levelNumber, groupId: groupId, studentName });
+    console.log({ level, levelNumber, groupId, studentName });
 
     if (studentName.split(' ').length < 4 || studentName.trim().length < 12) {
       toast.error('يجب إدخال الإسم رباعى', { id: 'validation' });
@@ -77,7 +79,7 @@ function AddStudent() {
 
     //! ERROR: Unauthorized !
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, {
+      const data = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, {
         data: {
           name: studentName,
           groupId,
