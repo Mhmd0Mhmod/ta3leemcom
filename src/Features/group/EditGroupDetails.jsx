@@ -10,31 +10,32 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 export default function EditGroupDetails() {
-  // const student = FakeStudent;
   const [groupData , setGroupData] = useState('')
   const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState('');
   const [levelNumber, setLevelNumber] = useState('');
-  const [loading , setLoading] = useState(true)
   useEffect(()=>{
      if(groupData){
       setGroupName(groupData.name)
-      setLevel(groupData.levelYearId)
+      setLevel(groupData.levelId)
+      setLevelNumber(groupData.levelYearId)
       console.log(groupData)
      }
   },[groupData])
 
-  console.log(level)
-  console.log(levelNumber)
+  console.log("Level ID ,  " , level)
+  console.log("levelNumber " , levelNumber)
   const navigate = useNavigate();
-  const handleButtonClick = () => {
-    navigate(-1);
-  };
+  // const handleButtonClick = () => {
+  //   navigate(-1);
+  // };
 
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
+  console.log(token)
   useEffect(() => {
     const get = async () => {
       try {
@@ -59,46 +60,31 @@ export default function EditGroupDetails() {
     setGroupName(e.target.value)
     console.log(e.target.value)
    }
-    const handleLevelChange = (e)=>{
-      setLevel(e.target.value)
-    }
-    const handleLevelNumChange = (e)=>{
-      setLevelNumber(e.target.value)
-    }
-
-    // const bodyData = {
-    //   name: groupName,
-    //   levelYearId: level,
-    //   teacherId,
-    // };
-     
+    const user = useAuthUser();
+    let teacherId = user.teacherId;
      const handleSubmit = async()=>{
-      setLoading(true)
-      // try {
-      //   // console.log('Data : ', bodyData);
+      try {
   
-      //   const response = await axios.(import.meta.env.VITE_API_URL + '/Group/Edit', bodyData, {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,  
-      //     },
-      //   });
-      //   toast.success("تم اضافة المجموعة بنجاح");
-      //   console.log(bodyData)
-      //   console.log(response.data.id)
-      //   if (response.status >= 200 && response.status < 300) {
-      //     toast.success('تم إضافة المجموعة بنجاح!');
-      //     // window.location.reload(false)
-      //     setTimeout(() => {
-      //        navigate(`/dashboard/addGroup/${response.data.id}`)
-      //     }, 300);
-      //   }else {
-      //     toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
-      //   }
-      // } catch (error) {
-      //   console.error('Error adding group:', error);
-      // }
+        const response = await axios.put(import.meta.env.VITE_API_URL + `/Group/Edit?Id=${groupID}&Name=${groupName}&LevelYearId=${level}&TeacherId=${teacherId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,  
+          },
+        });
+        toast.success("تم التعديل المجموعة بنجاح");
+        console.log(response.data)
+        if (response.status >= 200 && response.status < 300) {
+          toast.success('تم تعديل المجموعة بنجاح!');
+          // window.location.reload(false)
+          setTimeout(() => {
+             navigate(`/dashboard/addGroup/${response.data.id}`)
+          }, 300);
+        }else {
+          toast.error(`هناك مشكلة فى عملية الاضافة`);
+        }
+      } catch (error) {
+        console.error('Error adding group:', error);
+      }
 
-      setLoading(false)
        
      }
    const userLevels = useLevels();
@@ -127,7 +113,7 @@ export default function EditGroupDetails() {
         </div>
       </div>
       <div className="w-[100%] text-center">
-        <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={handleButtonClick}>
+        <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={handleSubmit}>
           حفظ
         </Button>
       </div>

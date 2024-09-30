@@ -85,7 +85,6 @@ function AddGroup() {
     }
   };
   if (searchParams.get('groupID')) return <GroupDetails />;
-  const { levels, primary, middle, high } = LEVELS;
 
    console.log(level)
    console.log(levelNumber)
