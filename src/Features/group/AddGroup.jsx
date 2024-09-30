@@ -4,7 +4,7 @@ import Group from '../../../public/Icons/group.svg';
 import DropList from '../../UI-Global/DropList.jsx';
 import Button from '../../UI-Global/Button.jsx';
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import GroupDetails from './GroupDetails.jsx';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -21,8 +21,9 @@ function AddGroup() {
 
 
   if (searchParams.get('groupID')) return <GroupDetails />;
-
+  const navigate = useNavigate()
   const userLevels = useLevels();
+  console.log(userLevels)
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const token = Cookies.get('_auth');
@@ -35,12 +36,26 @@ function AddGroup() {
     levelYearId: level,
     teacherId,
   };
+   
 
+  const clear =()=>{
+    setGroupName('');
+    setLevel('');
+    setLevelNumber('');
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!groupName || !level || !levelNumber) {
-      toast.error('يرجى تعبئة جميع الحقول');
+    if (groupName === "") {
+      toast.error("يرجى ادخال اسم المجموعة ");
+      return;
+    }
+    if (!level) {
+      toast.error("يرجى ادخال المرحلة الدراسية ");
+      return;
+    }
+    if (!levelNumber) {
+      toast.error("يرجى ادخال الصف الدراسي ");
       return;
     }
 
@@ -52,28 +67,28 @@ function AddGroup() {
           Authorization: `Bearer ${token}`,  
         },
       });
-      if (response.status === 200) {
-        toast.success(response.data);
-      }
-      if (response.status === 200) {
+      // toast.success("تم اضافة المجموعة بنجاح");
+      console.log(bodyData)
+      console.log(response.data.id)
+      if (response.status >= 200 && response.status < 300) {
         toast.success('تم إضافة المجموعة بنجاح!');
-        setGroupName('');
-        setLevel('');
-        setLevelNumber('');
+        clear()
         // window.location.reload(false)
+        setTimeout(() => {
+           navigate(`/dashboard/addGroup/${response.data.id}`)
+        }, 300);
+      }else {
+        toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'فشل في إضافة المجموعة';
-
-      toast.error(`خطأ: ${errorMessage}`);
       console.error('Error adding group:', error);
     }
   };
   if (searchParams.get('groupID')) return <GroupDetails />;
   const { levels, primary, middle, high } = LEVELS;
 
-  console.log(userLevels[0]);
-  console.log(userLevels[1]);
+   console.log(level)
+   console.log(levelNumber)
 
   return (
     <div className={'font-almaria'}>
@@ -100,7 +115,7 @@ function AddGroup() {
             )}
           </div>
         </div>
-        <Button type={'outline'} className={'mt-40 w-fit self-center'}>
+        <Button type={'outline'} className={'mt-40 w-fit self-center'} >
           اضافة
         </Button>
       </form>
