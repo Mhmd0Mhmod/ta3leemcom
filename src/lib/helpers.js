@@ -6,11 +6,13 @@ export const handleBack = (e) => {
     window.history.back();
 }
 
-export async function fetchLevels() {
+export async function fetchLevels(teacherId) {
     const token = Cookies.get('_auth');
-    return  await axios.get(`${import.meta.env.VITE_API_URL}/LevelYear`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/Level/GetAllLevels?teacherId=${teacherId}`, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': "application/json"
         }
     });
+    return res;
 }

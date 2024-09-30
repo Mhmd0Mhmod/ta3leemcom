@@ -3,6 +3,7 @@ import StudentDashboard from '@/pages/Dashboard/subpages/StudentDashboard/Studen
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import {createContext, useContext, useEffect, useState} from "react";
 import {fetchLevels} from "@/lib/helpers.js";
+import {useNavigation} from "react-router-dom";
 
 export default function Dashboard() {
     const auth = useAuthUser();
@@ -15,44 +16,58 @@ export default function Dashboard() {
 const LevelsContext = createContext();
 
 function LevelsProvider({children}) {
-    const [levels, setLevels] = useState([]);
+    const [levels, setLevels] = useState({});
     const [mainLevels, setMainLevels] = useState([]);
-    useEffect(() => {
-        fetchLevels().then(res => {
-            const dataMainLevel = res.data.map(el => {
-                switch (el.levelId) {
-                    case 1 :
-                        return {
-                            levelId: 1,
-                            name: 'المرحله الابتدائيه'
-                        }
-                    case 2 :
-                        return {
-                            levelId: 2,
-                            name: 'المرحله الاعداديه'
-                        }
-                    case 3 :
-                        return {
-                            levelId: 3,
-                            name: 'المرحله الثانويه'
-                        }
-                }
-            })
-            setLevels([...res.data]);
-            const filtered = [];
-            dataMainLevel.forEach(el => {
-                if (!filtered.find(item => item.levelId === el.levelId)) {
-                    filtered.push(el);
-                }
-            })
-            setMainLevels([...filtered]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [selectedLevel, setSelectedLevel] = useState([]);
+    const [groupsOfSelectedlevel, setGroupsOfSelectedlevel] = useState([]);
+    const [allGroups, setAllGroups] = useState({});
+    const user = useAuthUser();
+
+    function fetchingDashboard() {
+        setLoading(true);
+        fetchLevels(user.teacherId).then(res => {
+                setMainLevels(res.data?.map(el => {
+                    return {
+                        id: el.levelId,
+                        name: el.levelNames
+                    }
+                }));
+                setLevels(res.data.reduce((acc, level) => {
+                    acc[level.levelId] = level.levelYears.map(year => ({
+                        id: year.levelYearId,
+                        name: year.levelYearName
+                    }));
+                    return acc;
+                }, {}))
+                setAllGroups(res.data.reduce((acc, level) => {
+                    level.levelYears.forEach(year => {
+                        acc[year.levelYearId] = year.levelGroups;
+                    });
+                    return acc;
+                }, {}));
+            }
+        ).catch(err => {
+            setError(err);
+        }).finally(() => {
+            setLoading(false);
         });
+    }
+
+    useEffect(() => {
+        fetchingDashboard();
     }, []);
-    return (
-        <LevelsContext.Provider value={[levels, mainLevels]}>
-            {children}
-        </LevelsContext.Provider>
-    );
+    useEffect(() => {
+        if (!allGroups[selectedLevel]) return;
+        setGroupsOfSelectedlevel([...allGroups[selectedLevel]]);
+    }, [selectedLevel, allGroups]);
+    return (<LevelsContext.Provider value={{
+        levels, mainLevels, error, loading, selectYearIdFunc: setSelectedLevel, groupsOfSelectedlevel
+        , fetchingDashboard
+    }}>
+        {children}
+    </LevelsContext.Provider>);
 }
 
 export function useLevels() {

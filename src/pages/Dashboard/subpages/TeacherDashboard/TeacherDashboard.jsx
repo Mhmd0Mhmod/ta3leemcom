@@ -15,6 +15,7 @@ import Months from './Components/Months.jsx';
 import Toppers from '@/Features/toppers/Toppers.jsx';
 import AsideDashboard from '@/pages/Dashboard/Components/AsideDashboard.jsx';
 import {useLevels} from "@/pages/Dashboard/Dashboard.jsx";
+import {Spinner} from "@/UI-Global/Spinner.jsx";
 // import AddStudent from '../../../../Features/student/AddStudent.jsx';
 // import AddGroup from '../../../../Features/group/AddGroup.jsx';
 // import Level from './Components/Level.jsx';
@@ -24,7 +25,7 @@ function TeacherDashboard() {
     const [searchParams, setSearchParams] = useSearchParams();
     const activeTab = searchParams.get('tab') || null;
     const [showScrollTop, setShowScrollTop] = useState(false);
-    const [LEVELS, MainLevels] = useLevels();
+    const {levels, mainLevels: MainLevels, loading} = useLevels();
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 400) {
@@ -41,7 +42,7 @@ function TeacherDashboard() {
     const scrollToTop = () => {
         document.getElementById('innerContent').scrollIntoView({behavior: 'smooth'});
     };
-
+    if (loading) return <Spinner/>
     return (
         <div className={'dashboard mb-4 flex gap-5 font-cairo'}>
             <div className={`rounded bg-gray-100 p-2.5 ${opened ? 'w-[320px]' : 'w-fit'} self-start`}>
@@ -69,8 +70,10 @@ function TeacherDashboard() {
                             tab: 'StudyLevels',
                             icon: Graduted,
                             Details: <Details route="level" className={'gap-[18px]'} summary={'المراحل الدراسية'}
-                                              Icon={Graduted} opend={opened} listItems={MainLevels}
-                                              tabName={MainLevels.map(level => level.levelId)} param={'level'}/>,
+                                              Icon={Graduted} opend={opened} listItems={MainLevels.map(el => {
+                                return {...el, name: `المرحلة ${el.name}ة`}
+                            })}
+                                              tabName={MainLevels.map(level => level.id)} param={'level'}/>,
                         },
                         {name: 'عقد اجتماع', tab: 'meeting', icon: Meeting},
                     ]}

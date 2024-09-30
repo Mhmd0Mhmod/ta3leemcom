@@ -1,5 +1,4 @@
 import {useSearchParams} from 'react-router-dom';
-import {FakeGroups} from '../../../../../config.js';
 import {useEffect, useState} from 'react';
 import Heading from '../../../../../UI-Global/Heading.jsx';
 import Arrow from '../../../../../../public/Icons/arrow_in_levels.svg';
@@ -11,42 +10,45 @@ import Students from '../../../../../../public/Icons/students.svg';
 import Toppers from '../../../../../../public/Icons/toppers.svg';
 import Monthes from '../../../../../../public/Icons/monthes.svg';
 import {useLevels} from "@/pages/Dashboard/Dashboard.jsx";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
-function Test() {
+function Levels() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [selectedGroups, setSelectedGroups] = useState([FakeGroups[0]]);
-
+    const [selectedGroups, setSelectedGroups] = useState([]);
     let mainLevel = searchParams.get('level');
-    let [levels] = useLevels();
-    levels = levels.filter(el => el.levelId === Number(mainLevel));
-    const subLevel = searchParams.get('subLevel') || 0;
-    console.log(levels)
+    const subLevel = searchParams.get('subLevel');
+    let {levels, selectYearIdFunc, groupsOfSelectedlevel: groups} = useLevels();
+    levels = levels[Number(mainLevel)];
     const handleGroupClick = (group) => {
-        if (selectedGroups.includes(group)) {
-            setSelectedGroups((prevGroups) => prevGroups.filter((prevGroup) => prevGroup !== group));
+        if (selectedGroups.includes(group.groupId)) {
+            setSelectedGroups((prevGroups) => prevGroups.filter((prevGroup) => prevGroup !== group.groupId));
             return;
         }
-        setSelectedGroups((prevGroups) => [...prevGroups, group]);
+        setSelectedGroups((prevGroups) => [...prevGroups, group.groupId]);
     };
-    useEffect(() => {
-        setSearchParams({
-            ...Object.fromEntries(searchParams.entries()),
-            subLevel: levels[0]?.id
-        })
-    }, [mainLevel])
     const moveTo = (tab) => {
-        const groups = selectedGroups
-            .map((group) => group.name)
-            .join(',')
-            .replaceAll(',', '_');
         setSearchParams({
             ...Object.fromEntries(searchParams.entries()),
             tab,
             subLevel: subLevel,
-            group: groups,
+            group:selectedGroups.join('_'),
         });
     };
+    useEffect(() => {
+        if (searchParams.get('subLevel')) return;
+        setSearchParams({
+            ...Object.fromEntries(searchParams.entries()),
+            subLevel: levels?.length ? levels[0]?.id : 'loading'
+        })
 
+    }, [levels, searchParams]);
+    useEffect(() => {
+        selectYearIdFunc(Number(subLevel));
+    }, [subLevel])
+    // useEffect(() => {
+    //     if (!subLevel) return;
+    //     getGroups(teacher.teacherId, subLevel).then();
+    // }, [subLevel, teacher])
     return (
         <div className={'flex flex-col gap-10 font-almaria'}>
             <div className={'w-fit rounded bg-white p-5 shadow-[9px_5px_9.1px_4px_#0884A23D]'}>
@@ -77,13 +79,13 @@ function Test() {
                     </div>
                     <div className={'h-fit max-h-64 overflow-y-auto rounded-xl bg-white p-5'}>
                         <ul className={'flex flex-col gap-5'}>
-                            {FakeGroups.map((group) => (
-                                <li key={group.id}
-                                    className={`flex cursor-pointer gap-2 overflow-hidden rounded-xl border border-[#0884A24D] p-2 font-almaria-bold ${selectedGroups.includes(group) ? 'bg-[#68ABBB]' : ''}`}
+                            {groups.map((group) => (
+                                <li key={group.groupId}
+                                    className={`flex cursor-pointer gap-2 overflow-hidden rounded-xl border border-[#0884A24D] p-2 font-almaria-bold ${selectedGroups.includes(group.groupId) ? 'bg-[#68ABBB]' : ''}`}
                                     onClick={() => handleGroupClick(group)}>
                                     <Trash/>
                                     <Edit/>
-                                    <span className={'flex-1 text-center'}>{group.name}</span>
+                                    <span className={'flex-1 text-center'}>{group.groupName}</span>
                                     <Eye/>
                                 </li>
                             ))}
@@ -113,4 +115,4 @@ function Test() {
     );
 }
 
-export default Test;
+export default Levels;

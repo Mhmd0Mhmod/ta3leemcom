@@ -6,18 +6,20 @@ import Profile from '@/UI-Global/Profile/Profile.jsx';
 import { Toaster } from 'react-hot-toast';
 
 export default function AppLayout() {
-  return (
-    <div className="container mx-auto flex min-h-screen flex-col">
-      <div className="ltr">
-        <Toaster position="top-center" />
-      </div>
-      <Profile />
-      <MainRegister />
-      <Header />
-      <main className="min-h-[80lvh] flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
+    return (
+
+            <div className="container mx-auto flex min-h-screen flex-col">
+                <div className="ltr">
+                    <Toaster position="top-center" />
+                </div>
+                <Profile />
+                <MainRegister />
+                <Header />
+                <main className="min-h-[80lvh] flex-1">
+                    <Outlet />
+                </main>
+                <Footer />
+            </div>
+
+    );
 }
