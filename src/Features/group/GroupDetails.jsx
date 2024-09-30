@@ -34,6 +34,25 @@ function GroupDetails() {
     }
   }, [groupID, token]);
 
+   const handleDelete = async()=>{
+    try {
+      const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status >= 200 && response.status < 300) {
+        toast.success('تم الحذف بنجاح');
+        setTimeout(() => {
+          window.location.href = '/dashboard/addGroup';
+        }, 1000);
+      }
+    } catch (error) {
+      toast.error('حدث خطأ في الحذف!');
+    }
+        
+   }
+
   return (
     <>
       <div>
@@ -43,7 +62,7 @@ function GroupDetails() {
             <button className={`h-10 w-28 rounded-lg bg-[#0884A2] text-xl text-white`}>تعديل</button>
           </Link>
 
-          <button className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`}>حذف</button>
+          <button className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`} onClick={handleDelete}>حذف</button>
         </div>
         <form action="">
           <h3 className="mb-4 font-almaria-bold text-lg"> اسم المجموعة</h3>
