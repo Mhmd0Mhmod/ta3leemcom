@@ -19,7 +19,6 @@ function AsideDashboard({ tabs, opened, className }) {
                 ) : (
                   <li>
                     <Link to={`/dashboard/${tab.tab}`} className={`flex cursor-pointer items-center gap-[18px] rounded p-2.5 duration-300 hover:bg-[#b4d3e0] ${activeTab === tab.tab ? 'active' : ''}`}>
-                      {console.log(tab.tab === activeTab)}
                       <tab.icon className={`${!opened ? 'm-auto' : ''}`} />
                       <span className={`${!opened ? 'hidden' : ''}`}>{tab.name}</span>
                     </Link>
