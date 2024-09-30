@@ -5,12 +5,13 @@ import DropList from '../../UI-Global/DropList.jsx';
 import Button from '../../UI-Global/Button.jsx';
 import { useEffect, useState } from 'react';
 
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import StudentDetailes from './StudentDetailes.jsx';
-import { FakeGroups, LEVELS } from '../../config.js';
+import { LEVELS } from '../../config.js';
 import toast from 'react-hot-toast';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function AddStudent() {
   const [studentName, setStudentName] = useState('');
@@ -18,31 +19,22 @@ function AddStudent() {
   const [levelNumber, setLevelNumber] = useState('');
   const [groupId, setGroupId] = useState('');
   const [allGroups, setAllGroups] = useState([]);
-  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchParam, setSearchParams] = useSearchParams();
 
   const auth = useAuthUser();
+  const token = Cookies.get('_auth');
+  const getLevelKey = () => Object.keys(LEVELS).slice(1)[level - 1];
 
-  const token = document.cookie
-    ?.split(';')
-    .map((cookie) => cookie.trim())
-    ?.find((cookie) => cookie.startsWith('_auth='))
-    ?.split('=')[1];
-
-  console.log(token);
 
   const fetchGroups = async () => {
     try {
-      if (!token) {
-        return;
-      }
-
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Group/GetAllGroupsOfTeacherId?teacherId=${auth.teacherId}&levelYearId=${levelNumber}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setAllGroups(data);
-      toast.success('Groups are fetched', { id: 'validation' });
     } catch (error) {
       toast.error('حدث خطأ', { id: 'validation' });
     }
@@ -53,19 +45,12 @@ function AddStudent() {
       fetchGroups();
     }
   }, [levelNumber, level]);
+  
+  
+  if (searchParam.get('studentId')) return <StudentDetailes />;
 
-  if (id) return <StudentDetailes />;
-
-  function clear() {
-    setStudentName('');
-    setGroupId('');
-    setLevel('');
-    setLevelNumber('');
-    setAllGroups([]);
-  }
 
   const handleAddStudent = async () => {
-    console.log({ level, levelNumber, groupId, studentName });
 
     if (studentName.split(' ').length < 4 || studentName.trim().length < 12) {
       toast.error('يجب إدخال الإسم رباعى', { id: 'validation' });
@@ -77,24 +62,40 @@ function AddStudent() {
       return;
     }
 
-    //! ERROR: Unauthorized !
     try {
-      const data = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, {
-        data: {
+      setIsLoading(true)
+      const bodyData = {
           name: studentName,
           groupId,
-        },
+        }
+
+      const {data, status} = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, bodyData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success('تمت إضافة الطالب بنجاح', { id: 'validation' });
-      console.log({ data });
-      clear();
+
+
+      if(status === 200){
+        toast.success('تمت إضافة الطالب بنجاح', { id: 'validation' });
+        clear();
+         setSearchParams({ studentId: data.id });
+      }
+
     } catch (error) {
       toast.error('حدث خطأ', { id: 'validation' });
+    } finally{
+      setIsLoading(false)
     }
   };
+
+  function clear() {
+    setStudentName('');
+    setGroupId('');
+    setLevel('');
+    setLevelNumber('');
+    setAllGroups([]);
+  }
 
   return (
     <div className={'font-almaria'}>
@@ -109,20 +110,30 @@ function AddStudent() {
         <div className={'grid grid-cols-3'}>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
-            <DropList title={'اختر المرحلة الدراسية'} options={LEVELS.levels} value={level} setValue={setLevel} optionsValue={Object.keys(LEVELS).slice(1)} />
+            <DropList
+              title={'اختر المرحلة الدراسية'}
+              options={LEVELS.levels || []}
+              value={level}
+              setValue={setLevel}
+              optionsValue={
+                Object.keys(LEVELS)
+                  .slice(1)
+                  .map((_, i) => i + 1) || []
+              }
+            />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
 
-            <DropList title={'اختر الصف الدراسي'} options={level ? LEVELS[level] : []} value={levelNumber} setValue={setLevelNumber} optionsValue={LEVELS[level]?.map((_, i) => i + 1) || ''} />
+            <DropList title={'اختر الصف الدراسي'} options={level ? LEVELS[getLevelKey()] : []} value={levelNumber} setValue={setLevelNumber} optionsValue={LEVELS[getLevelKey()]?.map((_, i) => i + 1) || []} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المجموعة</Heading>
-            <DropList title={'اختر المجموعة'} options={levelNumber && allGroups.length > 0 ? allGroups.map((group) => group.name) : []} value={groupId} setValue={setGroupId} optionsValue={allGroups.map((group) => group.id) || ''} />
+            <DropList title={'اختر المجموعة'} options={levelNumber && allGroups.length > 0 ? allGroups.map((group) => group.name) : []} value={groupId} setValue={setGroupId} optionsValue={allGroups.map((group) => group.id) || []} />
           </div>
         </div>
-        <Button type={'outline'} className={'mt-40 w-fit self-center disabled:cursor-not-allowed disabled:opacity-50'} onClick={handleAddStudent} disabled={!studentName || !groupId}>
-          اضافة
+        <Button type={'outline'} className={'mt-40 w-fit self-center disabled:cursor-not-allowed disabled:opacity-50'} onClick={handleAddStudent} disabled={!studentName || !groupId || isLoading}>
+        اضافة
         </Button>
       </div>
     </div>
