@@ -9,6 +9,18 @@ import {useSearchParams} from "react-router-dom";
 import StudentDetailes from "./StudentDetailes.jsx";
 import {LEVELS} from "../../config.js";
 import PopUp from "@/UI-Global/PopUp.jsx";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 function AddStudent() {
     const [searchParam, setSearchParmas] = useSearchParams();
@@ -76,6 +88,23 @@ function AddStudent() {
             <PopUp className={"absolute left-1/2 bottom-24 -translate-x-1/2 -translate-y-1/2"}>
                 <spn>تم إضافة المجموعة بنجاح</spn>
             </PopUp>
+            <AlertDialog>
+                <AlertDialogTrigger>Open</AlertDialogTrigger>
+                <AlertDialogContent className={"w-1/5 !min-h-[10vh] rounded-xl"}>
+                    <AlertDialogHeader className={"!text-right"}>
+                        <AlertDialogTitle>تأكيد حذف المجموعة</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بها نهائيًا.
+                            هل أنت متأكد؟
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className={"!justify-between"}>
+                        <AlertDialogAction>نعم، حذف!</AlertDialogAction>
+                        <AlertDialogCancel>لا، إلغاء</AlertDialogCancel>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
         </div>
     );
 }
