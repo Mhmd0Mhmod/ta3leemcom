@@ -84,7 +84,6 @@ export default function EditGroupDetails() {
       } catch (error) {
         console.error('Error adding group:', error);
       }
-
        
      }
    const userLevels = useLevels();

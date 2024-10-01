@@ -70,11 +70,11 @@ function GroupDetails() {
           <div className="mt-10 flex gap-10">
             <div>
               <h3 className="mb-4 mt-8 font-almaria-bold text-lg">المرحلة الدراسية</h3>
-              <input type="text" className="h-10 w-52 bg-[#EFEFEF] p-2" value={groupData.levelName} />
+              <input type="text" className="h-10 w-52 bg-[#EFEFEF] p-2" value={groupData.levelName} disabled />
             </div>
             <div>
               <h3 className="mb-4 mt-8 font-almaria-bold text-lg"> الصف الدراسي</h3>
-              <input type="text" className="h-10 w-52 bg-[#EFEFEF] p-2" value={groupData.levelYearName} />
+              <input type="text" className="h-10 w-52 bg-[#EFEFEF] p-2" value={groupData.levelYearName} disabled />
             </div>
           </div>
         </form>
