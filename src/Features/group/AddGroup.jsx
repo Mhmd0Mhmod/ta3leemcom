@@ -17,8 +17,8 @@ function AddGroup() {
   const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState('');
   const [levelNumber, setLevelNumber] = useState('');
-  const [loading , setLoading]= useState(true)
-  const [dataGroup , setDataGroup]= useState(null)
+  const [loading, setLoading] = useState(true)
+  const [dataGroup, setDataGroup] = useState(null)
 
   console.log(level)
   console.log(levelNumber)
@@ -27,20 +27,30 @@ function AddGroup() {
   if (searchParams.get('groupID')) return <GroupDetails />;
   const navigate = useNavigate()
   const userLevels = useLevels();
-  console.log(userLevels)
+  const keysLevels = Object.keys(userLevels.mainLevels);
+  console.log(keysLevels)
+   let keysLevelsNum =  [];
+   keysLevelsNum = Object.keys( userLevels.levels);
+  console.log(keysLevelsNum)
+
+  let levels = userLevels.mainLevels
+  let levelsNumber = userLevels.levels
+  console.log("user Levels : ", userLevels)
+  // console.log("levels :::" , levels)
+  // console.log("userLevels : : ", levelsNumber)
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const token = Cookies.get('_auth');
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
-   };
+  };
   const bodyData = {
     name: groupName,
     levelYearId: levelNumber,
     teacherId,
   };
-   let response ;
-   const handleSubmit = async (e) => {
+  let response;
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (groupName === "") {
@@ -56,34 +66,34 @@ function AddGroup() {
       return;
     }
     setLoading(true)
-       response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
-        headers: {
-          Authorization: `Bearer ${token}`,  
-        },
-      });
-      if (response.status >= 200 && response.status < 300) {
-        setDataGroup(response)
-      }
-      
-      
-      setLoading(false)
-     
+    response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.status >= 200 && response.status < 300) {
+      setDataGroup(response)
+    }
+
+
+    setLoading(false)
+
   };
   console.log(bodyData)
-  useEffect(()=>{
-        if(loading === false){
-           if (dataGroup.status >= 200 && dataGroup.status < 300) {
+  useEffect(() => {
+    if (loading === false) {
+      if (dataGroup.status >= 200 && dataGroup.status < 300) {
         toast.success('تم إضافة المجموعة بنجاح!');
         // setTimeout(() => {
         //   window.location.href =`/dashboard/addGroup/${dataGroup.data.id}`
         //   //  navigate(`/dashboard/addGroup/${dataGroup.data.id}`)
         // }, 300);
-      }else {
+      } else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
         toast.error(`مينفعش ابعت الفورم`)
       }
-        }
-  },[loading])
+    }
+  }, [loading])
   // if (searchParams.get('groupID')) return <GroupDetails />;
 
 
@@ -100,15 +110,22 @@ function AddGroup() {
         <div className={'grid grid-cols-3'}>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
-            <DropList title={'اختر المرحلة الدراسية'} options={userLevels[1].map((e) => e.name)} value={level} setValue={setLevel} optionsValue={userLevels[1].map((e) => e.levelId)} />
+
+            <DropList
+              title={'اختر المرحلة الدراسية'}
+              options={levels ? levels.map((e) => e.name) : []}
+              value={level}
+              setValue={setLevel}
+              optionsValue={levels ? levels.map((e) => e.id) : []}
+            />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
             {level === '' ? (
               <DropList title={'اختر الصف الدراسي'} options={[]} />
             ) : (
-              <DropList title={'اختر الصف الدراسي'} options={userLevels[0].filter((e) => e.levelId === level).map((e) => e.name)} value={levelNumber} setValue={setLevelNumber} optionsValue={userLevels[0].filter((e) => e.levelId === level).map((e) => e.id)} />
-            )}
+             <DropList title={'اختر الصف الدراسي'} options={keysLevelsNum.filter((key) => key === level).map((e) => e.name)} value={levelNumber} setValue={setLevelNumber} optionsValue={keysLevelsNum.filter((key) => key === level).map((e) => e.id)} />
+)}
           </div>
         </div>
         <Button type={'outline'} className={'mt-40 w-fit self-center'} >
@@ -160,6 +177,8 @@ export default AddGroup;
 //   if (searchParams.get('groupID')) return <GroupDetails />;
 //   const navigate = useNavigate()
 //   const userLevels = useLevels();
+//   let levels = userLevels.mainLevels
+//   let levelsNumber = userLevels.levels
 //   console.log(userLevels)
 //   const user = useAuthUser();
 //   let teacherId = user.teacherId;

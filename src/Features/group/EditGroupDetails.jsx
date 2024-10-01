@@ -100,7 +100,13 @@ export default function EditGroupDetails() {
       <div className="mb-40 mt-14 flex gap-40">
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المرحلة الدراسية</h3>
-          <DropList title={'اختر المرحلة الدراسية'} options={userLevels[1].map((e) => e.name)} value={level} setValue={setLevel} optionsValue={userLevels[1].map((e) => e.levelId)} />
+          {
+            levelNumber === '' ?(
+                <DropList title='اختر المرحلة الدراسية' options={[]}/>
+            ):(
+              <DropList title={'اختر المرحلة الدراسية'} options={userLevels[1].map((e) => e.name)} value={level} setValue={setLevel} optionsValue={userLevels[1].map((e) => e.levelId)} />
+            )
+          }
           </div>
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> الصف الدراسي</h3>
