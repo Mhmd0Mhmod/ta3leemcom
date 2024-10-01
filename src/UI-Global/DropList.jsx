@@ -24,8 +24,7 @@ function DropList({ title, options, value, setValue, optionsValue, children }) {
       {children}
       <div className={'w-56 flex-1'}>
         <button onClick={toggleDropdown} className="w-full">
-          {/* {selected || title} */}
-          {options?.length > 0 ? selected || title : title}
+          {selected || title}
           <span className={`float-left ${isOpen ? 'rotate-180' : ''} mt-2`}>
             <Drop />
           </span>
@@ -34,7 +33,7 @@ function DropList({ title, options, value, setValue, optionsValue, children }) {
           <ul className="absolute right-0 z-50 mt-2 max-h-36 w-full overflow-x-auto rounded bg-white">
             {options?.map((option, index) => (
               <li
-                key={option}
+                key={`${option}  ${index}`}
                 onClick={() => {
                   handleOptionClick(optionsValue[index]);
                   setSelected(option);
