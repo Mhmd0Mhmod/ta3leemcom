@@ -165,7 +165,7 @@ export const AllStudent = FakeGroups.reduce(
   [],
 );
 export const constraints = {
-  primary: {
+  1: {
     text: "المرحلة الابتدائية",
     content: [
       "الصف الاول",
@@ -176,11 +176,11 @@ export const constraints = {
       "الصف السادس",
     ],
   },
-  middle: {
+  2: {
     text: "المرحلة الاعدادية",
     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   },
-  high: {
+  3: {
     text: "المرحلة الثانوية",
     content: ["الصف الاول", "الصف الثاني", "الصف الثالث"],
   },
