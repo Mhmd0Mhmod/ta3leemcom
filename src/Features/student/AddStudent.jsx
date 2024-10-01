@@ -4,6 +4,8 @@ import Profile from '../../../public/Icons/profile.svg';
 import DropList from '../../UI-Global/DropList.jsx';
 import Button from '../../UI-Global/Button.jsx';
 import { useEffect, useState } from 'react';
+import PopUp from "@/UI-Global/PopUp.jsx";
+
 
 import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -140,8 +142,12 @@ function AddStudent() {
           اضافة
         </Button>
       </div>
+       {/* <PopUp className={"absolute left-1/2 bottom-24 -translate-x-1/2 -translate-y-1/2"}>
+                <spn>تم إضافة المجموعة بنجاح</spn>
+        </PopUp> */}
     </div>
   );
+
 }
 
 export default AddStudent;

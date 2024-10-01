@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import axios from "axios";
 import toast from "react-hot-toast";
 import EdiStudentDetails from "./EditStudentDetails.jsx";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 function StudentDetails({studentData}) {
   const [student, setStudent] = useState(studentData)
@@ -53,14 +54,14 @@ function StudentDetails({studentData}) {
   
   const deleteStudent = async() => {
     try {
-        const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/Student?id=${id}` , {
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Student?id=${id}` , {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "/"
           },
         });
         toast.success('تم حذف الطالب بنجاح', { id: 'msg' });
-        navigate(-1, {replace: true});
+        navigate("/dashboard/addStudent", {replace: true});
       } catch (error) {
         toast.error('حدث خطأ', { id: 'msg' });
       }
@@ -81,10 +82,25 @@ function StudentDetails({studentData}) {
         <div>
           <h3 className="mt-6 font-almaria-bold text-3xl">بيانات الطالب</h3>
           <div className="mb-8 mt-6 flex gap-6">
-            <button onClick={() => setSearchParams({studentId: student.id , editStudent: "true" })} className={`flex h-10 w-28 items-center justify-center rounded-lg bg-[#0884A2] font-almaria-bold text-xl text-white`}>
+            <button onClick={() => setSearchParams({ studentId: student.id, editStudent: 'true' })} className={`flex h-10 w-28 items-center justify-center rounded-lg bg-[#0884A2] font-almaria-bold text-xl text-white`}>
               تعديل
             </button>
-            <button className={`h-10 w-28 rounded-lg bg-[#F54547] font-almaria-bold text-xl text-white`} onClick={deleteStudent}>حذف</button>
+            {/* <button className={`h-10 w-28 rounded-lg bg-[#F54547] font-almaria-bold text-xl text-white`} onClick={deleteStudent}>
+              حذف
+            </button> */}
+            <AlertDialog>
+              <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] font-almaria-bold text-xl text-white`}>حذف</AlertDialogTrigger>
+              <AlertDialogContent className={'!min-h-[10vh] w-1/5 rounded-xl'}>
+                <AlertDialogHeader className={'!text-right'}>
+                  <AlertDialogTitle className="text-xl">تأكيد حذف الطالب</AlertDialogTitle>
+                  <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالطالب نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className={'!justify-between'}>
+                  <AlertDialogAction onClick={deleteStudent}>نعم، حذف!</AlertDialogAction>
+                  <AlertDialogCancel>لا، إلغاء</AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
           <form>
             <h3 className="mb-4 font-almaria-bold text-lg">الاسم بالكامل</h3>
