@@ -74,9 +74,10 @@ function AddGroup() {
         if(loading === false){
            if (dataGroup.status >= 200 && dataGroup.status < 300) {
         toast.success('تم إضافة المجموعة بنجاح!');
-        setTimeout(() => {
-           navigate(`/dashboard/addGroup/${dataGroup.data.id}`)
-        }, 300);
+        // setTimeout(() => {
+        //   window.location.href =`/dashboard/addGroup/${dataGroup.data.id}`
+        //   //  navigate(`/dashboard/addGroup/${dataGroup.data.id}`)
+        // }, 300);
       }else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
         toast.error(`مينفعش ابعت الفورم`)
