@@ -1,7 +1,8 @@
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Heading from '../../UI-Global/Heading.jsx';
 import { constraints } from '../../config.js';
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/ui/button.jsx';
 import { Calendar } from '@/components/ui/calendar.jsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.jsx';
@@ -25,9 +26,11 @@ import AddOfflineTest from './AddOfflineTest.jsx';
 import OnlineTestData from './OnlineTestData.jsx';
 import OfflineTestData from './OfflineTestData.jsx';
 import { X } from 'lucide-react';
+import SearchIcon from '../../../public/Icons/search_icon.svg';
 import Backtolevels from '@/UI-Global/Backtolevels.jsx';
 import Breadcrumb from '@/UI-Global/Breadcrumb.jsx';
-
+import axios from 'axios';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 const TESTS = [
   {
     title: 'Math Test',
@@ -290,7 +293,7 @@ function Tests() {
   const [filterByDateType, setFilterByDateType] = useState('');
   const [filterByTestTypeUl, setFilterByTestTypeUl] = useState(false);
   const [filterByTestType, setFilterByTestType] = useState('');
-  const [tests, setTests] = useState(TESTS);
+  const [tests, setTests] = useState(null);
   const [search, setSearch] = useState('');
   const [dateFrom, setDateFrom] = useState(new Date());
   const [dateTo, setDateTo] = useState(new Date());
@@ -298,6 +301,8 @@ function Tests() {
   const [showDataModal, setShowDataModal] = useState(false);
   const [currentTest, setCurrentTest] = useState(null);
   const [TestToEdit, setTestToEdit] = useState(null);
+
+  const authHeader = useAuthHeader();
 
   const formatDate = (date) => {
     const month = date.getMonth() + 1; // Months are zero-based
@@ -330,6 +335,20 @@ function Tests() {
     setTests(TESTS.filter((test) => regex.test(test.title)));
   };
 
+  // console.log(authHeader);
+  const fetchTests = async () => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?GroupsIds=${searchParams.get('group')}`, {
+      headers: { Authorization: authHeader },
+    });
+    if (res.status === 200) {
+      setTests(res.data);
+    }
+    setTests([]);
+  };
+  useEffect(() => {
+    fetchTests();
+  }, []);
+
   return (
     <>
       {showEditModal && !showDataModal && TestToEdit.type === 'اونلاين' && <AddOnlineTest test={TestToEdit} />}
@@ -343,27 +362,7 @@ function Tests() {
             الاختبارات
           </Heading>
           <hr className="w-[70%]" />
-          {/* <div className="mb-12 mt-4 flex gap-2 font-almaria-light">
-            <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level' })}>
-              <span>المراحل الدراسية</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level', level: searchParams.get('level') })}>
-              <span>{constraints[searchParams.get('level')].text}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1">
-              <span>{constraints[searchParams.get('level')].content[+searchParams.get('subLevel')]}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1">
-              <span>{searchParams.get('group').replaceAll('_', ' / ')}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <div className="flex gap-1 font-almaria-bold">
-              <span>الاختبارات</span>
-            </div>
-          </div> */}
+
           <Breadcrumb page={'الاختبارات'} />
           <Button variant="ghost" size="lg" className={'relative flex gap-4 bg-secondary-l px-4 py-7 font-almaria text-2xl text-white hover:bg-secondary-l hover:text-white'} onClick={() => setAddTestUl((prev) => !prev)}>
             <Plus />
@@ -409,7 +408,7 @@ function Tests() {
                   className="cursor-pointer"
                 />
               ) : (
-                <img src="Icons/search_icon.svg" alt="search" />
+                <SearchIcon />
               )}
               <input type="text" placeholder="اسم الاختبار" className="w-full" value={search} onChange={handleSearch} />
             </div>
@@ -592,33 +591,37 @@ function Tests() {
                 </TR>
               </THead>
               <TBody className="max-h-[500px] overflow-y-scroll px-2">
-                {tests.map((test) => (
-                  <TR key={test.title} className="group mb-1 cursor-pointer">
-                    <TD className="flex gap-4 rounded-br-xl rounded-tr-xl border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">
-                      <button
-                        onClick={() => {
-                          setTestToEdit(test);
-                          setShowEditModal(true);
-                        }}
-                      >
-                        <EditIcon className="h-5" />
-                      </button>
-                      <span
-                        onClick={() => {
-                          setCurrentTest(test);
-                          setShowDataModal(true);
-                        }}
-                      >
-                        {test.title}
-                      </span>
-                      <button className="mr-auto" onClick={() => setTests(tests.filter((item) => item.title !== test.title))}>
-                        <TrashIcon className="h-5" />
-                      </button>
-                    </TD>
-                    <TD className="border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.type}</TD>
-                    <TD className="rounded-bl-xl rounded-tl-xl bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.date}</TD>
-                  </TR>
-                ))}
+                {tests?.length > 0 ? (
+                  tests?.map((test) => (
+                    <TR key={test.title} className="group mb-1 cursor-pointer">
+                      <TD className="flex gap-4 rounded-br-xl rounded-tr-xl border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">
+                        <button
+                          onClick={() => {
+                            setTestToEdit(test);
+                            setShowEditModal(true);
+                          }}
+                        >
+                          <EditIcon className="h-5" />
+                        </button>
+                        <span
+                          onClick={() => {
+                            setCurrentTest(test);
+                            setShowDataModal(true);
+                          }}
+                        >
+                          {test.title}
+                        </span>
+                        <button className="mr-auto" onClick={() => setTests(tests.filter((item) => item.title !== test.title))}>
+                          <TrashIcon className="h-5" />
+                        </button>
+                      </TD>
+                      <TD className="border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.type}</TD>
+                      <TD className="rounded-bl-xl rounded-tl-xl bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.date}</TD>
+                    </TR>
+                  ))
+                ) : (
+                  <p> لا يوجد اختبارت </p>
+                )}
               </TBody>
             </Table>
           </div>

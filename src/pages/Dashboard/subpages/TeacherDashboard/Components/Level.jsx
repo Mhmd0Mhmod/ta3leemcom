@@ -23,11 +23,11 @@ function Levels() {
   console.log(groups);
 
   const handleGroupClick = (group) => {
-    if (selectedGroups.includes(group.groupName)) {
-      setSelectedGroups((prevGroups) => prevGroups.filter((prevGroup) => prevGroup !== group.groupName));
+    if (selectedGroups.includes(group.groupId)) {
+      setSelectedGroups((prevGroups) => prevGroups.filter((prevGroup) => prevGroup !== group.groupId));
       return;
     }
-    setSelectedGroups((prevGroups) => [...prevGroups, group.groupName]);
+    setSelectedGroups((prevGroups) => [...prevGroups, group.groupId]);
   };
   const moveTo = (tab) => {
     setSearchParams({
@@ -85,7 +85,7 @@ function Levels() {
             <ul className={'flex flex-col gap-5'}>
               {groups?.length > 0 ? (
                 groups.map((group) => (
-                  <li key={group.groupId} className={`flex cursor-pointer gap-2 overflow-hidden rounded-xl border border-[#0884A24D] p-2 font-almaria-bold ${selectedGroups.includes(group.groupName) ? 'bg-[#68ABBB] text-white' : ''}`} onClick={() => handleGroupClick(group)}>
+                  <li key={group.groupId} className={`flex cursor-pointer gap-2 overflow-hidden rounded-xl border border-[#0884A24D] p-2 font-almaria-bold ${selectedGroups.includes(group.groupId) ? 'bg-[#68ABBB] text-white' : ''}`} onClick={() => handleGroupClick(group)}>
                     <Trash />
                     <Edit />
                     <span className={'flex-1 text-center'}>{group.groupName}</span>
