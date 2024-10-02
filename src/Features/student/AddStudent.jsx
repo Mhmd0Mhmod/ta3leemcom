@@ -20,7 +20,6 @@ function AddStudent() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [studentDetails, setStudentDetails] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
   const [alertData, setAlertData] = useState({});
 
   const allLevels = useLevels();
@@ -73,7 +72,6 @@ function AddStudent() {
 
     try {
       setIsLoading(true);
-      setShowPopup(false);
       const bodyData = {
         name: studentName,
         groupId,
@@ -91,14 +89,19 @@ function AddStudent() {
           type: 'success',
           open: true,
           setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-          navigate: () => setSearchParams({ studentId: data?.id }),
+          navigate: () => navigate('/dashboard/studentDetails/' + data.id),
         });
         clear();
-        setShowPopup(true);
         setStudentDetails(data);
       }
     } catch (error) {
       toast.error('حدث خطأ', { id: 'validation' });
+      setAlertData({
+        title: 'حدث خطأ . يرجى المحاولة مرة أخرى.',
+        type: 'error',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+      });
     } finally {
       setIsLoading(false);
     }

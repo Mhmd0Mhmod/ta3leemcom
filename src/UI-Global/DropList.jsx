@@ -8,7 +8,7 @@ DropList.propTypes = {
   options: PropTypes.array.isRequired,
 };
 
-function DropList({ title, options, value, setValue, optionsValue, children, click = () => {} }) {
+function DropList({ title, options, value, setValue, optionsValue, children, onClick = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -35,7 +35,7 @@ function DropList({ title, options, value, setValue, optionsValue, children, cli
                 key={`${option}  ${index}`}
                 onClick={() => {
                   handleOptionClick(optionsValue[index]);
-                  click();
+                  onClick();
                 }}
                 className="boder-[#CACACA] cursor-pointer border-b-[0.5px] px-4 py-2 hover:bg-[#b4d3e0]"
               >

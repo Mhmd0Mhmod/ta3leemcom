@@ -5,6 +5,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import EdiStudentDetails from './EditStudentDetails.jsx';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import AlertCircle from '../../../public/imgs/alert-circle.svg';
+import AlertTriangle from '../../../public/imgs/alert-triangle.svg';
 
 function StudentDetails({ studentData }) {
   const [student, setStudent] = useState(studentData);
@@ -62,7 +64,7 @@ function StudentDetails({ studentData }) {
       toast.success('تم حذف الطالب بنجاح', { id: 'msg' });
       navigate('/dashboard/addStudent', { replace: true, state: { isDeleted: true } });
     } catch (error) {
-      toast.error('حدث خطأ', { id: 'msg' });
+      toast.error('حدث خطأ يرجى المحاوله مره اخرى', { id: 'msg' });
     }
   };
 
@@ -89,17 +91,8 @@ function StudentDetails({ studentData }) {
                 <AlertDialogHeader className={'!text-right'}>
                   <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
                     <p className="relative mb-4 flex justify-center">
-                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <svg width="40" height="33" viewBox="0 0 40 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M39.4285 26.922L23.8132 2.22555C23.423 1.6205 22.8659 1.11882 22.1972 0.77024C21.5285 0.421659 20.7714 0.238281 20.0009 0.238281C19.2304 0.238281 18.4733 0.421659 17.8046 0.77024C17.1359 1.11882 16.5788 1.6205 16.1886 2.22555L0.573315 26.922C0.197863 27.5072 0 28.1728 0 28.8506C0 29.5284 0.197863 30.194 0.573315 30.7792C0.958528 31.3879 1.51464 31.8923 2.18459 32.2407C2.85454 32.5891 3.6142 32.7688 4.38562 32.7615H35.6162C36.387 32.7682 37.1459 32.5882 37.8152 32.2399C38.4844 31.8915 39.04 31.3874 39.4249 30.7792C39.8009 30.1943 39.9994 29.5288 40 28.851C40.0006 28.1733 39.8034 27.5075 39.4285 26.922ZM18.5724 13.2476C18.5724 12.9026 18.7229 12.5717 18.9908 12.3277C19.2587 12.0838 19.622 11.9467 20.0009 11.9467C20.3798 11.9467 20.7431 12.0838 21.011 12.3277C21.2789 12.5717 21.4294 12.9026 21.4294 13.2476V19.7523C21.4294 20.0973 21.2789 20.4282 21.011 20.6722C20.7431 20.9161 20.3798 21.0532 20.0009 21.0532C19.622 21.0532 19.2587 20.9161 18.9908 20.6722C18.7229 20.4282 18.5724 20.0973 18.5724 19.7523V13.2476ZM20.0009 27.5578C19.5771 27.5578 19.1628 27.4434 18.8104 27.2289C18.4581 27.0145 18.1834 26.7097 18.0212 26.3532C17.8591 25.9966 17.8166 25.6043 17.8993 25.2257C17.982 24.8472 18.1861 24.4995 18.4857 24.2266C18.7854 23.9537 19.1672 23.7678 19.5829 23.6925C19.9985 23.6172 20.4293 23.6559 20.8209 23.8036C21.2124 23.9513 21.5471 24.2014 21.7825 24.5223C22.018 24.8432 22.1436 25.2205 22.1436 25.6064C22.1436 26.124 21.9179 26.6203 21.516 26.9863C21.1142 27.3522 20.5692 27.5578 20.0009 27.5578Z"
-                            fill="#F34257"
-                          />
-                        </svg>
-                      </span>
-                      <svg width="80" height="75" viewBox="0 0 80 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="40" cy="37.5" rx="40" ry="37.5" fill="#FEF5F6" />
-                      </svg>
+                      <AlertTriangle className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+                      <AlertCircle />
                     </p>
                     <span>تأكيد حذف الطالب</span>
                   </AlertDialogTitle>

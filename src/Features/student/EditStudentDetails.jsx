@@ -8,7 +8,6 @@ import { useLevels } from '@/pages/Dashboard/Dashboard';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import PopUp from '@/UI-Global/PopUp';
 import Alert from './Alert';
 
 export default function EdiStudentDetails({ student, setStudent }) {
@@ -22,12 +21,10 @@ export default function EdiStudentDetails({ student, setStudent }) {
   const [levelNumber, setLevelNumber] = useState(currentLevelNumber || '');
   const [groupId, setGroupId] = useState(student?.groupId || '');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const [alertData, setAlertData] = useState({
     title: 'تم التعديل بنجاح',
     type: 'success',
     open: false,
-    setOpen: setShowPopup,
   });
 
   const navigate = useNavigate();
@@ -40,12 +37,13 @@ export default function EdiStudentDetails({ student, setStudent }) {
       return;
     }
 
-    if (studentName === student.name && level === student.levelId && levelNumber === student.levelYearId && groupId === student.groupId) {
+    if (studentName.trim() === student.name && level === student.levelId && levelNumber === student.levelYearId && groupId === student.groupId) {
       navigate(-1);
       return;
     }
 
     try {
+      setAlertData((data) => ({...data, open: false}))
       setIsLoading(true)
       const bodyData = {
         id: student.id,
@@ -67,7 +65,6 @@ export default function EdiStudentDetails({ student, setStudent }) {
         navigate: () => navigate(-1),
       });
       setStudent((prev) => ({ ...prev, ...res.data }));
-      setShowPopup(true);
     } catch (error) {
       setAlertData({
         title: 'حدث خطأ . يرجى المحاولة مرة أخرى.',
@@ -100,11 +97,11 @@ export default function EdiStudentDetails({ student, setStudent }) {
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المرحلة الدراسية</h3>
           <DropList
-            click={() => {
+            onClick={() => {
               setLevelNumber('');
               setGroupId('');
             }}
-            title={student.levelName || 'اختر المرحلة الدراسية'}
+            title={'اختر المرحلة الدراسية'}
             options={allLevels?.mainLevels.map((el) => el.name)}
             value={level}
             setValue={setLevel}
@@ -115,10 +112,7 @@ export default function EdiStudentDetails({ student, setStudent }) {
           <h3 className="mb-6 font-almaria-bold text-xl"> الصف الدراسي</h3>
 
           <DropList
-            click={() => {
-              setGroupId(null);
-            }}
-            title={levelNumber ? student.levelYearName : 'اختر الصف الدراسي'}
+            title={ 'اختر الصف الدراسي'}
             options={allLevels?.levels[level]?.map((el) => el.name) || []}
             value={levelNumber}
             setValue={setLevelNumber}
@@ -127,7 +121,7 @@ export default function EdiStudentDetails({ student, setStudent }) {
         </div>
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المجموعة</h3>
-          <DropList title={groupId ? student.groupName : 'اختر المجموعة'} options={selectedLevelGroups.map((el) => el.groupName)} value={groupId} setValue={setGroupId} optionsValue={levelNumber ? selectedLevelGroups.map((el) => el.groupId) : []} />
+          <DropList title={'اختر المجموعة'} options={selectedLevelGroups.map((el) => el.groupName)} value={groupId} setValue={setGroupId} optionsValue={selectedLevelGroups.map((el) => el.groupId) || []} />
         </div>
       </div>
       <div className="relative w-[100%] text-center">
