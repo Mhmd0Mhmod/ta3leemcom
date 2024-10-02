@@ -1,12 +1,16 @@
 import { constraints } from '../config.js';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Arrow from '../../public/Icons/breadcrumb_arrow.svg';
+import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 
 function Breadcrumb({ page }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const level = searchParams.get('level') || '';
   const subLevel = searchParams.get('subLevel') || '';
   const groups = searchParams.get('group')?.split('_') || '';
+  // const levels = useLevels();
+  // console.log(levels);
+
   const navigate = useNavigate();
   if (level && subLevel && groups)
     return (
