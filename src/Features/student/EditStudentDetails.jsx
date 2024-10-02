@@ -1,45 +1,55 @@
-import { useEffect, useState } from "react";
-import Profile from "../../../public/Icons/profile.svg";
-import FormInput from "@/UI-Global/FormInput";
-import {Button} from "../../components/ui/button.jsx";
-import { useNavigate } from "react-router-dom";
-import DropList from "@/UI-Global/DropList";
-import { useLevels } from "@/pages/Dashboard/Dashboard";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import Profile from '../../../public/Icons/profile.svg';
+import FormInput from '@/UI-Global/FormInput';
+import { Button } from '../../components/ui/button.jsx';
+import { useNavigate } from 'react-router-dom';
+import DropList from '@/UI-Global/DropList';
+import { useLevels } from '@/pages/Dashboard/Dashboard';
+import axios from 'axios';
 import Cookies from 'js-cookie';
-import toast from "react-hot-toast";
-
+import toast from 'react-hot-toast';
+import PopUp from '@/UI-Global/PopUp';
+import Alert from './Alert';
 
 export default function EdiStudentDetails({ student, setStudent }) {
   const allLevels = useLevels();
   const currentMainLevel = allLevels?.mainLevels.find((el) => el.name === student.levelName).id;
   const currentLevelNumber = allLevels?.levels[currentMainLevel]?.find((el) => el.name === student.levelYearName).id;
-  
+  const selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
+
   const [studentName, setStudentName] = useState(student?.name || '');
   const [level, setLevel] = useState(currentMainLevel || '');
   const [levelNumber, setLevelNumber] = useState(currentLevelNumber || '');
   const [groupId, setGroupId] = useState(student?.groupId || '');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [alertData, setAlertData] = useState({
+    title: 'تم التعديل بنجاح',
+    type: 'success',
+    open: false,
+    setOpen: setShowPopup,
+  });
+
   const navigate = useNavigate();
   const token = Cookies.get('_auth');
 
-  const selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
-  
 
   const updateStudent = async () => {
-    if (!studentName || !level || !levelNumber || !groupId) {
-      toast.error('يجب ادخال جميع الحقول', { id: 'validation' });
+    if (!studentName.trim() || !level || !levelNumber || !groupId) {
+      toast.error('يجب ادخال جميع البيانات', { id: 'validation' });
       return;
     }
 
-    if(studentName === student.name && level === student.levelId && levelNumber === student.levelYearId && groupId ===student.groupId) {
-      navigate(-1)
+    if (studentName === student.name && level === student.levelId && levelNumber === student.levelYearId && groupId === student.groupId) {
+      navigate(-1);
       return;
     }
 
     try {
+      setIsLoading(true)
       const bodyData = {
         id: student.id,
-        name: studentName,
+        name: studentName.trim(),
         groupId: groupId,
       };
 
@@ -49,21 +59,34 @@ export default function EdiStudentDetails({ student, setStudent }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success('تم تعديل الطالب بنجاح', { id: 'msg' });
-      setStudent((prev) => ({...prev, ...res.data}))
-      navigate(-1);
+      setAlertData({
+        title: 'تم التعديل بنجاح',
+        type: 'success',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+        navigate: () => navigate(-1),
+      });
+      setStudent((prev) => ({ ...prev, ...res.data }));
+      setShowPopup(true);
     } catch (error) {
-      toast.error('حدث خطأ', { id: 'msg' });
+      setAlertData({
+        title: 'حدث خطأ . يرجى المحاولة مرة أخرى.',
+        type: 'error',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
 
-
   useEffect(() => {
-    if (levelNumber && level) {
+    if (levelNumber) {
       allLevels?.selectYearIdFunc(levelNumber);
     }
-  }, [levelNumber, level]);
+    
+  }, [levelNumber]);
 
 
   return (
@@ -76,23 +99,42 @@ export default function EdiStudentDetails({ student, setStudent }) {
       <div className="mb-40 mt-14 flex gap-40">
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المرحلة الدراسية</h3>
-          <DropList title={student.levelName || 'اختر المرحلة الدراسية'} options={allLevels?.mainLevels.map((el) => el.name)} value={level} setValue={setLevel} optionsValue={allLevels?.mainLevels.map((el) => el.id)} />
+          <DropList
+            click={() => {
+              setLevelNumber('');
+              setGroupId('');
+            }}
+            title={student.levelName || 'اختر المرحلة الدراسية'}
+            options={allLevels?.mainLevels.map((el) => el.name)}
+            value={level}
+            setValue={setLevel}
+            optionsValue={levelNumber ? allLevels?.mainLevels.map((el) => el.id) : []}
+          />
         </div>
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> الصف الدراسي</h3>
-          
-            <DropList title={student.levelYearName || 'اختر الصف الدراسي'} options={allLevels?.levels[level]?.map((el) => el.name) || []} value={levelNumber} setValue={setLevelNumber} optionsValue={allLevels?.levels[level]?.map((el) => el.id)} />
-          
+
+          <DropList
+            click={() => {
+              setGroupId(null);
+            }}
+            title={levelNumber ? student.levelYearName : 'اختر الصف الدراسي'}
+            options={allLevels?.levels[level]?.map((el) => el.name) || []}
+            value={levelNumber}
+            setValue={setLevelNumber}
+            optionsValue={level ? allLevels?.levels[level]?.map((el) => el.id) : []}
+          />
         </div>
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المجموعة</h3>
-          <DropList title={student.groupName||'اختر المجموعة'} options={selectedLevelGroups.map((el) => el.groupName)} value={groupId} setValue={setGroupId} optionsValue={selectedLevelGroups.map((el) => el.groupId)} />
+          <DropList title={groupId ? student.groupName : 'اختر المجموعة'} options={selectedLevelGroups.map((el) => el.groupName)} value={groupId} setValue={setGroupId} optionsValue={levelNumber ? selectedLevelGroups.map((el) => el.groupId) : []} />
         </div>
       </div>
-      <div className="w-[100%] text-center">
-        <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={updateStudent}>
+      <div className="relative w-[100%] text-center">
+        <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={updateStudent} disabled={!studentName || !level || !levelNumber || !groupId || isLoading}>
           حفظ
         </Button>
+        <Alert {...alertData}/>
       </div>
     </>
   );

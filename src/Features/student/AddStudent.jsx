@@ -4,15 +4,13 @@ import Profile from '../../../public/Icons/profile.svg';
 import DropList from '../../UI-Global/DropList.jsx';
 import Button from '../../UI-Global/Button.jsx';
 import { useEffect, useState } from 'react';
-import PopUp from "@/UI-Global/PopUp.jsx";
-
-
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import StudentDetails from './StudentDetails.jsx';
+import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+import Alert from './Alert.jsx';
 
 function AddStudent() {
   const [studentName, setStudentName] = useState('');
@@ -20,29 +18,42 @@ function AddStudent() {
   const [levelNumber, setLevelNumber] = useState('');
   const [groupId, setGroupId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [allLevels, setAllLevels] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams()
   const [studentDetails, setStudentDetails] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [alertData, setAlertData] = useState({})
 
-  const auth = useAuthUser();
-  const token = Cookies.get('_auth');
-
-  const levelYears = allLevels[level - 1]?.levelYears || [];
-  const levelGroups = levelYears[levelNumber - 1]?.levelGroups|| [];
-
+  const allLevels = useLevels();
+  const token = Cookies.get('_auth');  
+  
+  let selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
+  
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function getAllLevels() {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Level/GetAllLevels?teacherId=${auth.teacherId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
-      setAllLevels(data);
+    if (levelNumber) {
+      allLevels?.selectYearIdFunc(levelNumber);
     }
-    getAllLevels()
-  }, []);
+  }, [levelNumber]);
+  
+  useEffect(() => {
+    if (level) {
+      setLevelNumber('');
+    }
+  }, [level]);
 
+  useEffect(()=> {
+    if(location?.state?.isDeleted) {
+      setAlertData({
+        title: 'تم حذف الطالب بنجاح',
+        type: 'success',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+      });
+      navigate("/dashboard/addStudent", {state: {isDeleted: false}})
+    }
+  }, [location])
 
   const handleAddStudent = async () => {
 
@@ -58,6 +69,7 @@ function AddStudent() {
 
     try {
       setIsLoading(true)
+      setShowPopup(false)
       const bodyData = {
           name: studentName,
           groupId,
@@ -69,11 +81,16 @@ function AddStudent() {
         },
       });
 
-
       if(status === 200){
-        toast.success('تمت إضافة الطالب بنجاح', { id: 'validation' });
+        setAlertData({
+          title: 'تم اضافه الطالب بنجاح',
+          type: 'success',
+          open: true,
+          setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+          navigate: () => setSearchParams({ studentId: data?.id }),
+        });
         clear();
-        setSearchParams({studentId: data.id})
+        setShowPopup(true)
         setStudentDetails(data)
       }
 
@@ -108,46 +125,30 @@ function AddStudent() {
         <div className={'grid grid-cols-3'}>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
-            <DropList
-              title={'اختر المرحلة الدراسية'}
-              value={level}
-              setValue={setLevel}
-              options={allLevels.map((level) => level.levelNames) || []}
-              optionsValue={allLevels.map((level) => level.levelId) || []}
-            />
+            <DropList title={'اختر المرحلة الدراسية'} value={level} setValue={setLevel} options={allLevels?.mainLevels.map((el) => el.name) || []} optionsValue={allLevels?.mainLevels.map((el) => el.id) || []} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
 
-            <DropList
-              title={'اختر الصف الدراسي'}
-              value={levelNumber}
-              setValue={setLevelNumber}
-              options={levelYears.map((el) => el.levelYearName)}
-              optionsValue={levelYears.map((_, i) => i+1)}
-            />
+            <DropList title={'اختر الصف الدراسي'} value={levelNumber} setValue={setLevelNumber} options={allLevels?.levels[level]?.map((el) => el.name) || []} optionsValue={allLevels?.levels[level]?.map((el) => el.id) || []} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المجموعة</Heading>
-            <DropList
-              title={'اختر المجموعة'}
-              value={groupId}
-              setValue={setGroupId}
-              options={levelGroups.map((group) => group.groupName) || []}
-              optionsValue={levelGroups.map((group) => group.groupId) || []}
-            />
+            <DropList title={'اختر المجموعة'} value={groupId} setValue={setGroupId} options={levelNumber ? selectedLevelGroups.map((el) => el.groupName) : []} optionsValue={levelNumber ? selectedLevelGroups.map((el) => el.groupId) : []} />
           </div>
         </div>
-        <Button type={'outline'} className={'mt-40 w-fit self-center disabled:cursor-not-allowed disabled:opacity-50'} onClick={handleAddStudent} disabled={!studentName || !groupId || isLoading}>
-          اضافة
-        </Button>
+        <div className="relative text-center">
+          <Button type={'outline'} className={'mt-40 w-fit self-center disabled:cursor-not-allowed disabled:opacity-50'} onClick={handleAddStudent} disabled={!studentName || !groupId || isLoading}>
+            اضافة
+          </Button>
+          <Alert {...alertData} />
+        </div>
       </div>
-       {/* <PopUp className={"absolute left-1/2 bottom-24 -translate-x-1/2 -translate-y-1/2"}>
-                <spn>تم إضافة المجموعة بنجاح</spn>
-        </PopUp> */}
     </div>
   );
 
 }
 
 export default AddStudent;
+
+
