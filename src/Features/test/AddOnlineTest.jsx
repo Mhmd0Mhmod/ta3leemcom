@@ -1,5 +1,5 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Heading from '../../UI-Global/Heading.jsx';
 import Tab from '../../pages/Dashboard/Components/Tab.jsx';
 import { constraints } from '../../config.js';
@@ -38,6 +38,10 @@ import Print from '../../../public/Icons/print_icon.svg';
 import { SolidLogo } from '../../UI-Global/SolidLogo.jsx';
 import Backtolevels from '@/UI-Global/Backtolevels.jsx';
 import { Input } from '@/components/ui/input.jsx';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 
 // const QUESTIONS = [
 //   {
@@ -113,6 +117,27 @@ export const DEFAULT_QUESTION = {
   required: false,
   id: '',
 };
+let testData = {
+  title: '',
+  mark: 0,
+  startDate: new Date(),
+  type: 'اونلاين',
+  teacherId: 0,
+  groupsIds: [],
+  bounce: 0,
+  questions: [],
+  timeStart: {
+    hours: 5,
+    minute: 30,
+    mode: 'PM',
+  },
+  timeDuration: {
+    hours: 1,
+    minute: 30,
+    mode: 'PM',
+    days: 0,
+  },
+};
 const MINS = [
   { value: 0, label: '00' },
   { value: 5, label: '05' },
@@ -147,7 +172,7 @@ function AddOnlineTest({ test }) {
   // const [QUESTIONS, SetQUESTIONS] = useState([]);
   const [questions, setQuestions] = useState(test?.questions || []);
   const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
-  const [title, setTitle] = useState(test?.title);
+  const [title, setTitle] = useState(test?.title || '');
   const [onEdit, setOnEdit] = useState(false);
   const [onEditIndex, setOnEditIndex] = useState(null);
   const [date, setDate] = useState(new Date());
@@ -183,6 +208,8 @@ function AddOnlineTest({ test }) {
   let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
   let timeDurationString = convertTo12HourFormat(timeDuration.hour, timeDuration.minute, timeDuration.day);
 
+  const authUser = useAuthUser();
+  const authHeader = useAuthHeader();
   const backToLevel = () => {
     navigate(`/dashboard/level?level=${searchParams.get('level')}`);
   };
@@ -286,6 +313,64 @@ function AddOnlineTest({ test }) {
     if (isCorrect && !questions[index].answers[i].isCorrect) {
       return 'false';
       // return "bg-[#fccfd0]";
+    }
+  };
+
+  // console.log(testData);
+  console.log(searchParams.get('group'));
+
+  const handelShareQuiz = async () => {
+    if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
+      return toast.error('الرجاء ملء جميع الحقول');
+    }
+    testData.title = title;
+    testData.mark = questions.reduce((acc, q) => acc + q.deg, 0);
+    testData.startDate = date;
+    testData.type = 'اونلاين';
+    testData.teacherId = authUser.teacherId;
+    testData.groupsIds = searchParams
+      .get('group')
+      ?.split('_')
+      .map((i) => +i);
+
+    testData.bounce = questions.reduce((acc, q) => acc + q.bouns, 0);
+    testData.questions = questions.map((q) => {
+      return {
+        content: q.text,
+        mark: q.deg,
+        explain: q.explain,
+        type: q.required ? 'required' : 'bounce',
+        // bouns: q.bouns,
+        choices: q.answers.map((a) => {
+          return {
+            content: a.text,
+            isCorrect: a.isCorrect,
+          };
+        }),
+      };
+    });
+    testData.timeStart = {
+      hours: timeStart.hour,
+      minute: timeStart.minute,
+      mode: timeStart.mode,
+    };
+    testData.timeDuration = {
+      hours: timeDuration.hour,
+      minute: timeDuration.minute,
+      mode: timeDuration.mode,
+      days: timeDuration.day,
+    };
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
+      if (res.status === 200) {
+        toast.success('تمت الاضافة بنجاح');
+      }
+    } catch (error) {
+      toast.error('حدث خطأ ما');
     }
   };
 
@@ -560,7 +645,7 @@ function AddOnlineTest({ test }) {
                     <div className="flex-grow">
                       {/* <Heading as={'h3'} className={'mb-12 font-almaria-bold'}>
                       </Heading> */}
-                      <Input className="mb-2 max-w-56" placeholder="عنوان الاختبار" value={''} onChange={(e) => setTitle(e.value)} />
+                      <Input className="mb-10 max-w-56 border-none" placeholder="عنوان الاختبار" value={title} onChange={(e) => setTitle(e.target.value)} />
                       <div className="grid max-w-[500px] grid-cols-3 gap-4">
                         {tabs_1.map((item) => (
                           <Tab key={item.text} type={'ghost'} text={item.text} path={item.path} />
@@ -692,7 +777,7 @@ function AddOnlineTest({ test }) {
                       <OldButton type={'outline'} icon={<ShareIcon2 />}>
                         مشاركة مع المجموعة
                       </OldButton>
-                      <OldButton type={'outline'} icon={<ShareIcon />}>
+                      <OldButton type={'outline'} icon={<ShareIcon />} onClick={handelShareQuiz}>
                         مشاركة
                       </OldButton>
                     </div>

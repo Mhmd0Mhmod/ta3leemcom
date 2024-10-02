@@ -340,9 +340,16 @@ function Tests() {
 
   useEffect(() => {
     const fetchTests = async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?GroupsIds=${searchParams.get('group')}`, {
-        headers: { Authorization: authHeader },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?${searchParams
+          .get('group')
+          ?.split('_')
+          .map((i) => `GroupsIds=${i}`)
+          .join('&')}`,
+        {
+          headers: { Authorization: authHeader },
+        },
+      );
       if (res.status === 200) {
         setTESTS(res.data);
         setTests(res.data);

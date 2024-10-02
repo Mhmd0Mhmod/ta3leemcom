@@ -372,7 +372,8 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
                   ...prev,
                   required: val,
                 }));
-                e.target.checked ? handelIncrease() : handelDecrease();
+                val ? handelIncrease() : handelDecrease();
+                // val ? console.log(val) : console.log(val);
               }}
             />
           </div>
