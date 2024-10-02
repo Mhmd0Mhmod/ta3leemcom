@@ -8,8 +8,7 @@ DropList.propTypes = {
   options: PropTypes.array.isRequired,
 };
 
-function DropList({ title, options, value, setValue, optionsValue, children, click=()=>{} }) {
-  const [selected, setSelected] = useState('');
+function DropList({ title, options, value, setValue, optionsValue, children, click = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -24,7 +23,7 @@ function DropList({ title, options, value, setValue, optionsValue, children, cli
       {children}
       <div className={'w-56 flex-1'}>
         <button onClick={toggleDropdown} className="w-full">
-          {selected || title}
+          {options[optionsValue.findIndex((optionValue) => optionValue == value)] || title}
           <span className={`float-left ${isOpen ? 'rotate-180' : ''} mt-2`}>
             <Drop />
           </span>
@@ -36,7 +35,6 @@ function DropList({ title, options, value, setValue, optionsValue, children, cli
                 key={`${option}  ${index}`}
                 onClick={() => {
                   handleOptionClick(optionsValue[index]);
-                  setSelected(option);
                   click();
                 }}
                 className="boder-[#CACACA] cursor-pointer border-b-[0.5px] px-4 py-2 hover:bg-[#b4d3e0]"

@@ -18,16 +18,16 @@ function AddStudent() {
   const [levelNumber, setLevelNumber] = useState('');
   const [groupId, setGroupId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
   const [studentDetails, setStudentDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [alertData, setAlertData] = useState({})
+  const [alertData, setAlertData] = useState({});
 
   const allLevels = useLevels();
-  const token = Cookies.get('_auth');  
-  
+  const token = Cookies.get('_auth');
+
   let selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
-  
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -35,28 +35,32 @@ function AddStudent() {
     if (levelNumber) {
       allLevels?.selectYearIdFunc(levelNumber);
     }
-  }, [levelNumber]);
-  
+  }, [levelNumber, allLevels]);
+
   useEffect(() => {
     if (level) {
       setLevelNumber('');
+      setGroupId('');
     }
   }, [level]);
 
-  useEffect(()=> {
-    if(location?.state?.isDeleted) {
+  useEffect(() => {
+    if (levelNumber) {
+      setGroupId('');
+    }
+  }, [levelNumber]);
+  useEffect(() => {
+    if (location?.state?.isDeleted) {
       setAlertData({
         title: 'تم حذف الطالب بنجاح',
         type: 'success',
         open: true,
         setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
       });
-      navigate("/dashboard/addStudent", {state: {isDeleted: false}})
+      navigate('/dashboard/addStudent', { state: { isDeleted: false } });
     }
-  }, [location])
-
+  }, [location]);
   const handleAddStudent = async () => {
-
     if (studentName.split(' ').length < 4 || studentName.trim().length < 12) {
       toast.error('يجب إدخال الإسم رباعى', { id: 'validation' });
       return;
@@ -68,20 +72,20 @@ function AddStudent() {
     }
 
     try {
-      setIsLoading(true)
-      setShowPopup(false)
+      setIsLoading(true);
+      setShowPopup(false);
       const bodyData = {
-          name: studentName,
-          groupId,
-        }
+        name: studentName,
+        groupId,
+      };
 
-      const {data, status} = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, bodyData, {
+      const { data, status } = await axios.post(`${import.meta.env.VITE_API_URL}/Student/create`, bodyData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if(status === 200){
+      if (status === 200) {
         setAlertData({
           title: 'تم اضافه الطالب بنجاح',
           type: 'success',
@@ -90,14 +94,13 @@ function AddStudent() {
           navigate: () => setSearchParams({ studentId: data?.id }),
         });
         clear();
-        setShowPopup(true)
-        setStudentDetails(data)
+        setShowPopup(true);
+        setStudentDetails(data);
       }
-
     } catch (error) {
       toast.error('حدث خطأ', { id: 'validation' });
-    } finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -113,7 +116,7 @@ function AddStudent() {
   }
 
   return (
-    <div className={'font-almaria'}>
+    <div className={'relative font-almaria'}>
       <Heading as={'h1'} className={'text-center font-almaria-bold'}>
         بيانات الطالب
       </Heading>
@@ -125,7 +128,7 @@ function AddStudent() {
         <div className={'grid grid-cols-3'}>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
-            <DropList title={'اختر المرحلة الدراسية'} value={level} setValue={setLevel} options={allLevels?.mainLevels.map((el) => el.name) || []} optionsValue={allLevels?.mainLevels.map((el) => el.id) || []} />
+            <DropList title={'اختر المرحلة الدراسية'} value={level} setValue={setLevel} options={allLevels?.mainLevels.map((el) => `${el.name}ة`) || []} optionsValue={allLevels?.mainLevels.map((el) => el.id) || []} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
@@ -146,9 +149,6 @@ function AddStudent() {
       </div>
     </div>
   );
-
 }
 
 export default AddStudent;
-
-

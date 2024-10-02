@@ -9,16 +9,16 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
     warning: 'bg-[#FFF6EF] text-[#E77C40]  border-[#E77C40]',
   };
 
-  useEffect(()=> {
-    if(open) {
+  useEffect(() => {
+    if (open) {
       setTimeout(() => {
         setOpen(false);
       }, 7000);
     }
-  }, [open])
+  }, [open]);
 
   return (
-    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} fixed bottom-5 z-[999] flex w-[500px] max-w-full items-center gap-5 rounded-sm duration-300 ${className}`}>
+    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} absolute bottom-5 z-[999] flex w-[500px] max-w-full items-center gap-5 rounded-sm duration-300 ${className}`}>
       <span>{type === 'error' ? <Ban /> : type === 'success' ? <CircleCheckBig /> : type === 'warning' ? <TriangleAlert /> : null}</span>
       <p className="me-auto text-lg font-bold">{children ?? title}</p>
       {navigate && (
@@ -39,4 +39,4 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
   );
 };
 
-export default Alert
+export default Alert;

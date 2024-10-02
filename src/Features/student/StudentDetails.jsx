@@ -1,50 +1,48 @@
-import {  Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import axios from "axios";
-import toast from "react-hot-toast";
-import EdiStudentDetails from "./EditStudentDetails.jsx";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import EdiStudentDetails from './EditStudentDetails.jsx';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import Alert from "./Alert.jsx";
 
-function StudentDetails({studentData}) {
-  const [student, setStudent] = useState(studentData)
-  const [studentName, setStudentName] = useState("");
-  const [studentMainLevel,setStudentMainLevel] = useState( "");
-  const [studentSubLevel,setStudentSubLevel] = useState( "");
-  const [studentGroup,setStudentGroup] = useState("");
+function StudentDetails({ studentData }) {
+  const [student, setStudent] = useState(studentData);
+  const [studentName, setStudentName] = useState('');
+  const [studentMainLevel, setStudentMainLevel] = useState('');
+  const [studentSubLevel, setStudentSubLevel] = useState('');
+  const [studentGroup, setStudentGroup] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const {id: studentId} = useParams();
-  
+  const { id: studentId } = useParams();
+
   const token = Cookies.get('_auth');
-  const id = studentId || searchParams.get("studentId")
+  const id = studentId || searchParams.get('studentId');
   const navigate = useNavigate();
 
-  
-  const getStudent = async() => {
+  const getStudent = async () => {
     try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Student/GetStudent?id=${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setStudent(data);
-        setStudentDetails(data);
-      } catch (error) {
-        navigate('/dashboard/addStudent', { replace: true });
-      }
-  } 
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Student/GetStudent?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setStudent(data);
+      setStudentDetails(data);
+    } catch (error) {
+      navigate('/dashboard/addStudent', { replace: true });
+    }
+  };
 
-    useEffect(() => {
-      if (student) return;
-      getStudent();
-    }, []);
+  useEffect(() => {
+    if (student) return;
+    getStudent();
+  }, []);
 
-    useEffect(()=> {
-      if(student) {
-        setStudentDetails(student);
-      }
-    }, [student])
+  useEffect(() => {
+    if (student) {
+      setStudentDetails(student);
+    }
+  }, [student]);
 
   function setStudentDetails(data) {
     setStudentName(data.name);
@@ -53,27 +51,25 @@ function StudentDetails({studentData}) {
     setStudentGroup(data.groupName);
   }
 
-  
-  const deleteStudent = async() => {
+  const deleteStudent = async () => {
     try {
-        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Student?id=${id}` , {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "/"
-          },
-        });
-        toast.success('تم حذف الطالب بنجاح', { id: 'msg' });
-        navigate("/dashboard/addStudent", {replace: true, state: {isDeleted: true}});
-      } catch (error) {
-        toast.error('حدث خطأ', { id: 'msg' });
-      }
-  }
-  
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Student?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: '/',
+        },
+      });
+      toast.success('تم حذف الطالب بنجاح', { id: 'msg' });
+      navigate('/dashboard/addStudent', { replace: true, state: { isDeleted: true } });
+    } catch (error) {
+      toast.error('حدث خطأ', { id: 'msg' });
+    }
+  };
 
   if (!student) {
-    return null
+    return null;
   }
-  
+
   if (searchParams.get('editStudent')) {
     return <EdiStudentDetails student={student} setStudent={setStudent} />;
   }
@@ -88,7 +84,7 @@ function StudentDetails({studentData}) {
               تعديل
             </button>
             <AlertDialog>
-              <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] font-almaria-bold text-xl text-white`} >حذف</AlertDialogTrigger>
+              <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] font-almaria-bold text-xl text-white`}>حذف</AlertDialogTrigger>
               <AlertDialogContent className={'!min-h-[10vh] w-[450px] max-w-full rounded-xl'}>
                 <AlertDialogHeader className={'!text-right'}>
                   <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
@@ -109,11 +105,13 @@ function StudentDetails({studentData}) {
                   </AlertDialogTitle>
                   <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالطالب نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter className={'!justify-between gap-4 mt-4'}>
-                  <AlertDialogAction className="p-5" style={{ width: '100%', padding: "10px", borderRadius: "20px" }} onClick={deleteStudent}>
+                <AlertDialogFooter className={'mt-4 !justify-between gap-4'}>
+                  <AlertDialogAction className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }} onClick={deleteStudent}>
                     نعم، حذف!
                   </AlertDialogAction>
-                  <AlertDialogCancel className="p-5" style={{ width: '100%', padding: "10px", borderRadius: "20px" }}>لا، إلغاء</AlertDialogCancel>
+                  <AlertDialogCancel className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }}>
+                    لا، إلغاء
+                  </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
