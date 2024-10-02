@@ -85,6 +85,7 @@ export default function EdiStudentDetails({ student, setStudent }) {
     
   }, [levelNumber]);
 
+  
 
   return (
     <>
