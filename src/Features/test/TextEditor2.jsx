@@ -201,7 +201,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
       if (currentQuestion.bouns > 0) setCurrentQuestion((prev) => ({ ...prev, bouns: prev.bouns - 1, deg: 0 }));
     }
     if (currentQuestion.required) {
-      setCurrentQuestion((prev) => ({ ...prev, bouns: 0 }));
+      setCurrentQuestion((prev) => ({ ...prev, bouns: 1 }));
     }
   };
 

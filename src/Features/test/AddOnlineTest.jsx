@@ -42,6 +42,8 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import { DeleteConfirmation } from '@/components/DeleteConfirmation.jsx';
+import { set } from 'date-fns';
 
 // const QUESTIONS = [
 //   {
@@ -106,7 +108,7 @@ import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 // ];
 export const DEFAULT_QUESTION = {
   text: '',
-  bouns: 0,
+  bouns: 1,
   deg: 0,
   answers: [
     { text: '', isCorrect: false, id: '1' },
@@ -117,7 +119,7 @@ export const DEFAULT_QUESTION = {
   required: false,
   id: '',
 };
-let testData = {
+const TESTDATA = {
   title: '',
   mark: 0,
   startDate: new Date(),
@@ -179,6 +181,7 @@ function AddOnlineTest({ test }) {
   const [openModel, setOpenModel] = useState(false);
   const [showTestAlert, setShowTestAlert] = useState(false);
   const [showTestRes, setShowTestRes] = useState(false);
+  const [showTestDeletion, setShowTestDeletion] = useState(false);
   const navigate = useNavigate();
   const [dummyQuestions, setDummyQuestions] = useState(
     questions.map((question) => ({
@@ -261,6 +264,7 @@ function AddOnlineTest({ test }) {
 
   const addQuestion = () => {
     currentQuestion.id = questions.length + 1;
+    currentQuestion.deg = currentQuestion.required ? currentQuestion.deg : 0;
     setQuestions((prev) => [...prev, currentQuestion]);
     setCurrentQuestion(DEFAULT_QUESTION);
   };
@@ -323,6 +327,7 @@ function AddOnlineTest({ test }) {
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
     }
+    let testData = { ...TESTDATA };
     testData.title = title;
     testData.mark = questions.reduce((acc, q) => acc + q.deg, 0);
     testData.startDate = date;
@@ -337,10 +342,10 @@ function AddOnlineTest({ test }) {
     testData.questions = questions.map((q) => {
       return {
         content: q.text,
-        mark: q.deg,
+        mark: q.required ? q.deg : q.bouns,
         explain: q.explain,
         type: q.required ? 'required' : 'bounce',
-        // bouns: q.bouns,
+        // bouns: q.bouns ? q.bouns : 0,
         choices: q.answers.map((a) => {
           return {
             content: a.text,
@@ -360,6 +365,7 @@ function AddOnlineTest({ test }) {
       mode: timeDuration.mode,
       days: timeDuration.day,
     };
+    // console.log(testData);
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
         headers: {
@@ -382,7 +388,41 @@ function AddOnlineTest({ test }) {
     }, 0);
     trueRatio = `${totalRequired} / ${totalCorrect}`;
   }
-
+  const handleDeleteTest = async () => {
+    if (test) {
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz/${test.id}`, {
+          headers: {
+            Authorization: authHeader,
+          },
+        });
+        if (res.status === 200) {
+          toast.success('تم الحذف بنجاح');
+          setShowTestDeletion(false);
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        toast.error('حدث خطأ ما');
+      }
+    } else {
+      setQuestions([]);
+      setTitle('');
+      setDate(new Date());
+      setTimeStart({
+        hour: 1,
+        minute: 15,
+        mode: 'AM',
+      });
+      setTimeDuration({
+        hour: 1,
+        minute: 15,
+        mode: 'AM',
+        day: 0,
+      });
+      setDummyQuestions([]);
+    }
+    setShowTestDeletion(false);
+  };
   return (
     <>
       {showTestRes && (
@@ -574,6 +614,7 @@ function AddOnlineTest({ test }) {
       )}
       {!showTestAlert && !showTestRes && (
         <div className="px-12 py-16">
+          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={handleDeleteTest} />
           <Backtolevels />
           <Heading as={'h1'} className={'my-6 font-almaria-bold text-black'}>
             اختبار جديد
@@ -625,7 +666,7 @@ function AddOnlineTest({ test }) {
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
                       <TooltipTrigger>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="icon" onClick={setShowTestDeletion}>
                           <TrashIcon />
                         </Button>
                       </TooltipTrigger>
@@ -756,22 +797,23 @@ function AddOnlineTest({ test }) {
                   </div>
                   <div className="mt-6 flex justify-between gap-4">
                     <div className="flex gap-6">
-                      <ShowTest
-                        openModel={openModel}
-                        setOpenModel={setOpenModel}
-                        test={{
-                          title,
-                          questions: questions,
-                          timeStart,
-                          timeDuration,
-                          date,
-                        }}
-                        dummyQuestions={dummyQuestions}
-                        setDummyQuestions={setDummyQuestions}
-                        timeStartString={timeStartString}
-                        setShowTestAlert={setShowTestAlert}
-                      />
-                      {/* <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" /> */}
+                      {test && (
+                        <ShowTest
+                          openModel={openModel}
+                          setOpenModel={setOpenModel}
+                          test={{
+                            title,
+                            questions: questions,
+                            timeStart,
+                            timeDuration,
+                            date,
+                          }}
+                          dummyQuestions={dummyQuestions}
+                          setDummyQuestions={setDummyQuestions}
+                          timeStartString={timeStartString}
+                          setShowTestAlert={setShowTestAlert}
+                        />
+                      )}
                     </div>
                     <div className="flex gap-6">
                       <OldButton type={'outline'} icon={<ShareIcon2 />}>
