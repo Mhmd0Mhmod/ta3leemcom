@@ -4,6 +4,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { AlertCircle, AlertTriangle } from 'lucide-react';
 function GroupDetails() {
   const [groupData, setGroupData] = useState('');
   const param = useParams();
@@ -62,7 +64,29 @@ function GroupDetails() {
             <button className={`h-10 w-28 rounded-lg bg-[#0884A2] text-xl text-white`}>تعديل</button>
           </Link>
 
-          <button className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`} onClick={handleDelete}>حذف</button>
+          <AlertDialog>
+              <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`}>حذف</AlertDialogTrigger>
+              <AlertDialogContent className={'!min-h-[10vh] w-[450px] max-w-full rounded-xl'}>
+                <AlertDialogHeader className={'!text-right'}>
+                  <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
+                    <p className="relative mb-4 flex justify-center">
+                      <AlertTriangle className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+                      <AlertCircle />
+                    </p>
+                    <span>تأكيد حذف المجموعة</span>
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالمجموعة نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className={'mt-4 !justify-between gap-4'}>
+                  <AlertDialogAction className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }} onClick={handleDelete}>
+                    نعم، حذف!
+                  </AlertDialogAction>
+                  <AlertDialogCancel className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }}>
+                    لا، إلغاء
+                  </AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
         </div>
         <form action="">
           <h3 className="mb-4 font-almaria-bold text-lg"> اسم المجموعة</h3>

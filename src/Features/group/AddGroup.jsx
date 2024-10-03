@@ -11,6 +11,7 @@ import axios from 'axios';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Cookies from 'js-cookie';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+import Alert from '../student/Alert.jsx';
 
 function AddGroup() {
   const [groupName, setGroupName] = useState('');
@@ -18,13 +19,16 @@ function AddGroup() {
   const [levelNumber, setLevelNumber] = useState('');
   const [loading, setLoading] = useState(true);
   const [dataGroup, setDataGroup] = useState(null);
+  const [alertData, setAlertData] = useState({});
+
   const userLevels = useLevels();
   let keysLevelsNum = userLevels.levels[level];
   let levels = userLevels.mainLevels;
-  console.log(keysLevelsNum);
+  // console.log(keysLevelsNum);
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const token = Cookies.get('_auth');
+  const navigate = useNavigate()
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
   };
@@ -36,16 +40,13 @@ function AddGroup() {
   let response;
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (groupName === '') {
-      toast.error('يجب ادخال اسم الجروب ');
+    if (!groupName) {
+      toast.error('يجب إدخال اسم المجموعة ', { id: 'validation' });
       return;
     }
-    if (!level) {
-      toast.error('يجب ادخال المرحلة الدراسية');
-      return;
-    }
-    if (!levelNumber) {
-      toast.error('يجب ادخال الصف الدراسي');
+
+    if (!level && !levelNumber) {
+      toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
       return;
     }
     setLoading(true);
@@ -63,7 +64,23 @@ function AddGroup() {
   useEffect(() => {
     if (loading === false) {
       if (dataGroup.status >= 200 && dataGroup.status < 300) {
-        toast.success('تم إضافة المجموعة بنجاح!');
+        // toast.success('تم إضافة المجموعة بنجاح!');
+        // console.log(dataGroup.data)
+        // setTimeout(() => {
+        //   navigate(`/dashboard/addGroup/${dataGroup?.data?.id}`)
+        // }, 300);
+        // console.log(dataGroup.data.id)
+        setAlertData({
+          title: 'تم اضافه الطالب بنجاح',
+          type: 'success',
+          open: true,
+          setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+          navigate: () => navigate('/dashboard/addGroup/' + dataGroup.data.id),
+        });
+        navigate('/dashboard/addGroup', { state: { isDeleted: false } });
+
+        // clear();
+
       } else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
         toast.error(`مينفعش ابعت الفورم`);
@@ -97,6 +114,8 @@ function AddGroup() {
           اضافة
         </Button>
       </form>
+      <Alert {...alertData} />
+
     </div>
   );
 }

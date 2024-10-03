@@ -16,3 +16,13 @@ export async function fetchLevels(teacherId) {
     });
     return res;
 }
+
+// export async function addGroup(){
+//     const token = Cookies.get('_auth');
+//     const res = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+//         return res;
+// }
