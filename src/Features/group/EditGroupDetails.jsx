@@ -74,7 +74,7 @@ export default function EditGroupDetails() {
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const bodyData = {
-    Id: level,
+    Id: groupID,
     Name: groupName,
     LevelYearId: levelNumber,
     TeacherId: teacherId,
@@ -107,11 +107,10 @@ export default function EditGroupDetails() {
           type: 'success',
           open: true,
           setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-        });
-        setTimeout(() => {
-           window.location.href=`/dashboard/addGroup/${response.data.id}`
+          navigate: () => navigate(-1),
 
-        }, 1000);        // Clear()
+        });
+              // Clear()
       }
     } catch (error) {
       setAlertData({

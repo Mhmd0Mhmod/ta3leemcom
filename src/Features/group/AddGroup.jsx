@@ -45,7 +45,11 @@ function AddGroup() {
       return;
     }
 
-    if (!level && !levelNumber) {
+    if (!level ) {
+      toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
+      return;
+    }
+    if(!levelNumber){
       toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
       return;
     }
@@ -79,7 +83,6 @@ function AddGroup() {
         });
         navigate('/dashboard/addGroup', { state: { isDeleted: false } });
 
-        // clear();
 
       } else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
@@ -87,8 +90,8 @@ function AddGroup() {
       }
     }
   }, [loading]);
-  // if (searchParams.get('groupID')) return <GroupDetails />;
 
+  // if (searchParams.get('groupID')) return <GroupDetails />;
   return (
     <div className={'font-almaria'}>
       <Heading as={'h1'} className={'text-center font-almaria-bold'}>
