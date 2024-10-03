@@ -36,9 +36,6 @@ export default function EditGroupDetails() {
       console.log(groupData);
     }
   }, [groupData]);
-
-  console.log('Level ID ,  ', level);
-  console.log('levelNumber ', levelNumber);
   const navigate = useNavigate();
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');

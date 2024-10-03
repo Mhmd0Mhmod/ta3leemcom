@@ -17,17 +17,6 @@ export async function fetchLevels(teacherId) {
     return res;
 }
 
-// export async function addGroup(bodyData){
-//     const token = Cookies.get('_auth');
-//     const res = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         });
-//         return res;
-// }
-
-
 export  const getGroup = async (groupID) => {
         const token = Cookies.get('_auth');
 
@@ -41,19 +30,6 @@ export  const getGroup = async (groupID) => {
 
 };
 
-
-export  const deleteGroup = async (groupID) => {
-    const token = Cookies.get('_auth');
-
-    const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    return response
-
-
-};
 
 
 

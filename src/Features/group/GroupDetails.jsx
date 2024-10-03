@@ -3,17 +3,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Warn from '/public/Icons/warining.svg'
 import {  getGroup } from '@/lib/helpers';
 function GroupDetails() {
   const [groupData, setGroupData] = useState('');
-  const param = useParams();
-  console.log(param);
-  const userLevels = useLevels();
-  console.log(userLevels);
-
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
   useEffect(() => {
@@ -22,7 +16,6 @@ function GroupDetails() {
           setGroupData(response.data);
         }
   }, [groupID, token]);
-
    const handleDelete = async()=>{
       const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
         headers: {
@@ -34,8 +27,7 @@ function GroupDetails() {
         setTimeout(() => {
           window.location.href = '/dashboard/addGroup';
         }, 1000);
-      }
-        
+      }   
    }
 
   return (
