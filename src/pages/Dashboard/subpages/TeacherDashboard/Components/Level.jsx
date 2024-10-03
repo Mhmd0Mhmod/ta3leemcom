@@ -20,7 +20,7 @@ function Levels() {
   const subLevel = searchParams.get('subLevel');
   let { levels, selectYearIdFunc, groupsOfSelectedlevel: groups } = useLevels();
   levels = levels[Number(mainLevel)];
-  console.log(groups);
+  // console.log(groups);
 
   const handleGroupClick = (group) => {
     if (selectedGroups.includes(group.groupId)) {
@@ -47,7 +47,7 @@ function Levels() {
   useEffect(() => {
     selectYearIdFunc(Number(subLevel));
   }, [subLevel]);
-  console.log(groups);
+  // console.log(groups);
 
   // useEffect(() => {
   //     if (!subLevel) return;

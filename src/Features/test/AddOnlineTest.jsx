@@ -43,7 +43,6 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { DeleteConfirmation } from '@/components/DeleteConfirmation.jsx';
-import { set } from 'date-fns';
 
 // const QUESTIONS = [
 //   {
@@ -172,7 +171,7 @@ const HOURS = [
 function AddOnlineTest({ test }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // const [QUESTIONS, SetQUESTIONS] = useState([]);
-  const [questions, setQuestions] = useState(test?.questions || []);
+  const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
   const [title, setTitle] = useState(test?.title || '');
   const [onEdit, setOnEdit] = useState(false);
@@ -290,7 +289,9 @@ function AddOnlineTest({ test }) {
     setOnEdit(true);
     setOnEditIndex(index);
     setCurrentQuestion(questions[index]);
+    // console.log(questions[index]);
   };
+  // console.log('currentQuestion', currentQuestion);
 
   const handleReorder = (newAnswers, questionIndex) => {
     if (typeof questionIndex === 'number') {
@@ -320,8 +321,10 @@ function AddOnlineTest({ test }) {
     }
   };
 
+  // console.log('test', questions);
+
   // console.log(testData);
-  console.log(searchParams.get('group'));
+  // console.log(searchParams.get('group'));
 
   const handelShareQuiz = async () => {
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
@@ -367,11 +370,16 @@ function AddOnlineTest({ test }) {
     };
     // console.log(testData);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
-        headers: {
-          Authorization: authHeader,
-        },
-      });
+      let res;
+      if (test) {
+        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuiz/${test.id}`, testData, { headers: { Authorization: authHeader } });
+      } else {
+        res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
+          headers: {
+            Authorization: authHeader,
+          },
+        });
+      }
       if (res.status === 200) {
         toast.success('تمت الاضافة بنجاح');
       }
@@ -423,6 +431,59 @@ function AddOnlineTest({ test }) {
     }
     setShowTestDeletion(false);
   };
+
+  useEffect(() => {
+    if (test) {
+      const fetchTestWithId = async () => {
+        try {
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${test.id}`, { headers: { Authorization: authHeader } });
+          // console.log(res.data);
+          if (res.status === 200) {
+            const data = res.data;
+            setQuestions(
+              data.questionsOfQuizzes.map((q) => {
+                return {
+                  text: q.content,
+                  bouns: 0,
+                  deg: 0,
+                  answers: q.choices.map((a) => {
+                    return {
+                      text: a.content,
+                      isCorrect: a.isCorrect,
+                      id: a.id,
+                    };
+                  }),
+                  images: [],
+                  explain: q.explain,
+                  required: q.type === 'required',
+                  id: q.id,
+                };
+              }),
+            );
+            setTitle(data.title);
+            setDate(new Date(data.startDate));
+            setTimeStart({
+              hour: data.timeStart.hours,
+              minute: data.timeStart.minute,
+              mode: data.timeStart.mode,
+            });
+            setTimeDuration({
+              hour: data.timeDuration.hours,
+              minute: data.timeDuration.minute,
+              mode: data.timeDuration.mode,
+              day: data.timeDuration.days,
+            });
+          }
+        } catch (error) {
+          // toast.error('حدث خطأ ما');
+          toast.error(error.response.data);
+        }
+      };
+      fetchTestWithId();
+    }
+  }, [test, authHeader]);
+  console.log('questions', questions);
+
   return (
     <>
       {showTestRes && (

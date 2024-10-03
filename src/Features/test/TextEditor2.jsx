@@ -218,7 +218,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
     }));
   };
 
-  console.log(currentQuestion);
+  console.log('currentQuestion', currentQuestion.text);
 
   //  const addAnswer = () => {
   //   setAnswers([

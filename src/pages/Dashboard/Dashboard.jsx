@@ -8,7 +8,7 @@ import { Navigate } from 'react-router-dom';
 export default function Dashboard() {
   const auth = useAuthUser();
 
-  console.log(auth);
+  // console.log(auth);
 
   if (!auth) {
     return <Navigate to="/home?mr=login" />;
@@ -68,7 +68,6 @@ function LevelsProvider({ children }) {
         setLoading(false);
       });
   }
-
   useEffect(() => {
     fetchingDashboard();
   }, []);
