@@ -5,8 +5,8 @@ import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-// import { AlertCircle, AlertTriangle } from 'lucide-react';
 import Warn from '/public/Icons/warining.svg'
+import {  getGroup } from '@/lib/helpers';
 function GroupDetails() {
   const [groupData, setGroupData] = useState('');
   const param = useParams();
@@ -17,28 +17,13 @@ function GroupDetails() {
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
   useEffect(() => {
-    const get = async () => {
-      try {
-        const response = await axios.get(import.meta.env.VITE_API_URL + `/Group/GetGroup?id=${groupID}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = getGroup(groupID).then((response) => {setGroupData(response.data);})
         if (response.status >= 200 && response.status < 300) {
-          console.log(response.data);
           setGroupData(response.data);
         }
-      } catch (error) {
-        toast.error('حدث خطأ في جلب البيانات!');
-      }
-    };
-    if (groupID && token) {
-      get();
-    }
   }, [groupID, token]);
 
    const handleDelete = async()=>{
-    try {
       const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,9 +35,6 @@ function GroupDetails() {
           window.location.href = '/dashboard/addGroup';
         }, 1000);
       }
-    } catch (error) {
-      toast.error('حدث خطأ في الحذف!');
-    }
         
    }
 

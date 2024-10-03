@@ -2,7 +2,7 @@ import PopUp from '@/UI-Global/PopUp';
 import { Ban, CircleCheckBig, TriangleAlert, X } from 'lucide-react';
 import { useEffect } from 'react';
 
-const Alert = ({ type = 'success', title, children, open, setOpen, className, navigate }) => {
+const Alert = ({ type = 'success', title, children, open, setOpen, className, navigate  ,edit }) => {
   const colors = {
     success: 'border-[#76D8A3] bg-[#F2FFF7] text-[#2DC071]',
     error: 'border-[#DF1E1E] bg-[#FFDEDE] text-[#E0232E]  ',
@@ -31,7 +31,23 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
         >
           عرض
         </button>
+        
+
       )}
+         {edit && (
+        <button
+          className="border-b border-black text-zinc-700"
+          onClick={() => {
+            edit();
+            setOpen(false);
+          }}
+        >
+          تعديل
+        </button>
+        
+
+      )}
+      
       <span className="cursor-pointer" onClick={() => setOpen(false)}>
         <X size="25px" className={`rounded-full border p-1 text-lg ${colors[type]}`} />
       </span>

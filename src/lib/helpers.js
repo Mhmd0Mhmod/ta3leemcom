@@ -17,7 +17,7 @@ export async function fetchLevels(teacherId) {
     return res;
 }
 
-// export async function addGroup(){
+// export async function addGroup(bodyData){
 //     const token = Cookies.get('_auth');
 //     const res = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
 //           headers: {
@@ -26,3 +26,34 @@ export async function fetchLevels(teacherId) {
 //         });
 //         return res;
 // }
+
+
+export  const getGroup = async (groupID) => {
+        const token = Cookies.get('_auth');
+
+    const response = await axios.get(import.meta.env.VITE_API_URL + `/Group/GetGroup?id=${groupID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response
+   
+
+};
+
+
+export  const deleteGroup = async (groupID) => {
+    const token = Cookies.get('_auth');
+
+    const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    return response
+
+
+};
+
+
+

@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Alert from '../student/Alert.jsx';
+import { getGroup } from '@/lib/helpers.js';
 
 export default function EditGroupDetails() {
   const [groupData, setGroupData] = useState(null);
@@ -41,30 +42,10 @@ export default function EditGroupDetails() {
   const navigate = useNavigate();
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
-  // console.log(token);
-  // function Clear (){
-  //   setGroupName('');
-  //   setLevel(null);
-  //   setLevelNumber(null);
-  // }
   useEffect(() => {
-    const get = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/Group/GetGroup?id=${groupID}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.status >= 200 && response.status < 300) {
-          console.log(response.data);
-          setGroupData(response.data);
-        }
-      } catch (error) {
-        toast.error('حدث خطأ في جلب البيانات!');
-      }
-    };
-    if (groupID && token) {
-      get();
+    const response = getGroup(groupID).then((response) => {setGroupData(response.data);})
+    if (response.status >= 200 && response.status < 300) {
+      setGroupData(response.data);
     }
   }, [groupID, token]);
   const handleGroChange = (e) => {
@@ -98,19 +79,20 @@ export default function EditGroupDetails() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      // toast.success('تم التعديل المجموعة بنجاح');
-      console.log(response.data);
       if (response.status >= 200 && response.status < 300) {
-        // toast.success('تم تعديل المجموعة بنجاح!');
-        setAlertData({
-          title: 'تم التعديل بنجاح',
-          type: 'success',
-          open: true,
-          setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-          navigate: () => navigate(-1),
+        navigate(`/dashboard/addGroup/${groupID}`)
+        setTimeout(() => {
+          setAlertData({
+            title: 'تم التعديل بنجاح',
+            type: 'success',
+            open: true,
+            setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+            navigate: () => navigate(-1),
+  
+          });
+        }, 1000);
 
-        });
-              // Clear()
+   
       }
     } catch (error) {
       setAlertData({
