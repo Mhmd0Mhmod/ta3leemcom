@@ -5,7 +5,8 @@ import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { AlertCircle, AlertTriangle } from 'lucide-react';
+// import { AlertCircle, AlertTriangle } from 'lucide-react';
+import Warn from '/public/Icons/warining.svg'
 function GroupDetails() {
   const [groupData, setGroupData] = useState('');
   const param = useParams();
@@ -70,8 +71,7 @@ function GroupDetails() {
                 <AlertDialogHeader className={'!text-right'}>
                   <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
                     <p className="relative mb-4 flex justify-center">
-                      <AlertTriangle className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-                      <AlertCircle />
+                      <Warn />
                     </p>
                     <span>تأكيد حذف المجموعة</span>
                   </AlertDialogTitle>
