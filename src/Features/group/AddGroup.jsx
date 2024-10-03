@@ -13,31 +13,15 @@ import Cookies from 'js-cookie';
 import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 
 function AddGroup() {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState('');
   const [levelNumber, setLevelNumber] = useState('');
-  const [loading, setLoading] = useState(true)
-  const [dataGroup, setDataGroup] = useState(null)
-
-  console.log(level)
-  console.log(levelNumber)
-
-
-  if (searchParams.get('groupID')) return <GroupDetails />;
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+  const [dataGroup, setDataGroup] = useState(null);
   const userLevels = useLevels();
-  const keysLevels = Object.keys(userLevels.mainLevels);
-  console.log(keysLevels)
-   let keysLevelsNum =  [];
-   keysLevelsNum = Object.keys( userLevels.levels);
-  console.log(keysLevelsNum)
-
-  let levels = userLevels.mainLevels
-  let levelsNumber = userLevels.levels
-  console.log("user Levels : ", userLevels)
-  // console.log("levels :::" , levels)
-  // console.log("userLevels : : ", levelsNumber)
+  let keysLevelsNum = userLevels.levels[level];
+  let levels = userLevels.mainLevels;
+  console.log(keysLevelsNum);
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const token = Cookies.get('_auth');
@@ -52,50 +36,41 @@ function AddGroup() {
   let response;
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (groupName === "") {
-      toast.error("يجب ادخال اسم الجروب ")
+    if (groupName === '') {
+      toast.error('يجب ادخال اسم الجروب ');
       return;
     }
     if (!level) {
-      toast.error("يجب ادخال المرحلة الدراسية")
+      toast.error('يجب ادخال المرحلة الدراسية');
       return;
     }
     if (!levelNumber) {
-      toast.error("يجب ادخال الصف الدراسي")
+      toast.error('يجب ادخال الصف الدراسي');
       return;
     }
-    setLoading(true)
+    setLoading(true);
     response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     if (response.status >= 200 && response.status < 300) {
-      setDataGroup(response)
+      setDataGroup(response);
     }
 
-
-    setLoading(false)
-
+    setLoading(false);
   };
-  console.log(bodyData)
   useEffect(() => {
     if (loading === false) {
       if (dataGroup.status >= 200 && dataGroup.status < 300) {
         toast.success('تم إضافة المجموعة بنجاح!');
-        // setTimeout(() => {
-        //   window.location.href =`/dashboard/addGroup/${dataGroup.data.id}`
-        //   //  navigate(`/dashboard/addGroup/${dataGroup.data.id}`)
-        // }, 300);
       } else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
-        toast.error(`مينفعش ابعت الفورم`)
+        toast.error(`مينفعش ابعت الفورم`);
       }
     }
-  }, [loading])
+  }, [loading]);
   // if (searchParams.get('groupID')) return <GroupDetails />;
-
 
   return (
     <div className={'font-almaria'}>
@@ -111,24 +86,14 @@ function AddGroup() {
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>المرحلة الدراسية</Heading>
 
-            <DropList
-              title={'اختر المرحلة الدراسية'}
-              options={levels ? levels.map((e) => e.name) : []}
-              value={level}
-              setValue={setLevel}
-              optionsValue={levels ? levels.map((e) => e.id) : []}
-            />
+            <DropList title={'اختر المرحلة الدراسية'} options={levels.map((e) => e.name)} value={level} setValue={setLevel} optionsValue={levels.map((e) => e.id)} />
           </div>
           <div className={'flex flex-col gap-5'}>
             <Heading as={'h4'}>الصف الدراسي</Heading>
-            {level === '' ? (
-              <DropList title={'اختر الصف الدراسي'} options={[]} />
-            ) : (
-             <DropList title={'اختر الصف الدراسي'} options={keysLevelsNum.filter((key) => key === level).map((e) => e.name)} value={levelNumber} setValue={setLevelNumber} optionsValue={keysLevelsNum.filter((key) => key === level).map((e) => e.id)} />
-)}
+            <DropList title={'اختر الصف الدراسي'} options={keysLevelsNum ? keysLevelsNum?.map((e) => e.name) : []} value={levelNumber} setValue={setLevelNumber} optionsValue={keysLevelsNum ? keysLevelsNum?.map((e) => e.id) : []} />
           </div>
         </div>
-        <Button type={'outline'} className={'mt-40 w-fit self-center'} >
+        <Button type={'outline'} className={'mt-40 w-fit self-center'}>
           اضافة
         </Button>
       </form>
@@ -137,19 +102,6 @@ function AddGroup() {
 }
 
 export default AddGroup;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import Heading from '../../UI-Global/Heading.jsx';
 // import FormInput from '../../UI-Global/FormInput.jsx';
@@ -172,7 +124,6 @@ export default AddGroup;
 //   const [levelNumber, setLevelNumber] = useState('');
 //   console.log(level)
 //   console.log(levelNumber)
-
 
 //   if (searchParams.get('groupID')) return <GroupDetails />;
 //   const navigate = useNavigate()
@@ -209,7 +160,7 @@ export default AddGroup;
 
 //       const response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
 //         headers: {
-//           Authorization: `Bearer ${token}`,  
+//           Authorization: `Bearer ${token}`,
 //         },
 //       });
 //       if (response.status >= 200 && response.status < 300) {
@@ -226,7 +177,6 @@ export default AddGroup;
 //     }
 //   };
 //   if (searchParams.get('groupID')) return <GroupDetails />;
-
 
 //   return (
 //     <div className={'font-almaria'}>
