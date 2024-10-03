@@ -28,7 +28,7 @@ function AddGroup() {
   const user = useAuthUser();
   let teacherId = user.teacherId;
   const token = Cookies.get('_auth');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
   };
@@ -39,17 +39,19 @@ function AddGroup() {
   };
   let response;
   const handleSubmit = async (e) => {
+    console.log(e);
     e.preventDefault();
+
     if (!groupName) {
       toast.error('يجب إدخال اسم المجموعة ', { id: 'validation' });
       return;
     }
 
-    if (!level ) {
+    if (!level) {
       toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
       return;
     }
-    if(!levelNumber){
+    if (!levelNumber) {
       toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
       return;
     }
@@ -82,8 +84,6 @@ function AddGroup() {
           navigate: () => navigate('/dashboard/addGroup/' + dataGroup.data.id),
         });
         navigate('/dashboard/addGroup', { state: { isDeleted: false } });
-
-
       } else {
         toast.error(`لا يوجد LevelYear مع LevelYearId ${levelNumber}`);
         toast.error(`مينفعش ابعت الفورم`);
@@ -118,7 +118,6 @@ function AddGroup() {
         </Button>
       </form>
       <Alert {...alertData} />
-
     </div>
   );
 }

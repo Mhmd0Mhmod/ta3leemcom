@@ -11,7 +11,8 @@ DropList.propTypes = {
 function DropList({ title, options, value, setValue, optionsValue, children }) {
   const [selected, setSelected] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e?.preventDefault();
     setIsOpen(!isOpen);
   };
   const handleOptionClick = (option) => {
