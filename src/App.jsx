@@ -22,7 +22,7 @@ import Toppers from './Features/toppers/Toppers.jsx';
 import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
 import Tests from './Features/test/Tests.jsx';
 import GroupDetails from './Features/group/GroupDetails.jsx';
-import StudentDetails from './Features/student/StudentDetails.jsx';
+import EditGroupDetails from './Features/group/EditGroupDetails.jsx';
 
 function App() {
   return (
@@ -45,6 +45,8 @@ function App() {
                 <Route path="studentDetails/:id" element={<StudentDetails />} />
                 <Route path="addGroup" element={<AddGroup />} />
                 <Route path="addGroup/:id" element={<GroupDetails />} />
+                <Route path="editGroup/:id" element={<EditGroupDetails />} />
+
 
                 <Route path="level" element={<Level />} />
               </Route>

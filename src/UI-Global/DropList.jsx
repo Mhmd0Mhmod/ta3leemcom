@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import PropTypes from 'prop-types';
 import Drop from '/public/Icons/ArrowUp.svg';
@@ -8,9 +8,11 @@ DropList.propTypes = {
   options: PropTypes.array.isRequired,
 };
 
-function DropList({ title, options, value, setValue, optionsValue, children, onClick = () => {} }) {
+function DropList({ title, options, value, setValue, optionsValue, children }) {
+  const [selected, setSelected] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e?.preventDefault();
     setIsOpen(!isOpen);
   };
   const handleOptionClick = (option) => {
@@ -32,10 +34,10 @@ function DropList({ title, options, value, setValue, optionsValue, children, onC
           <ul className="absolute right-0 z-50 mt-2 max-h-36 w-full overflow-x-auto rounded bg-white">
             {options?.map((option, index) => (
               <li
-                key={`${option}  ${index}`}
+                key={`${option} ${index}`}
                 onClick={() => {
                   handleOptionClick(optionsValue[index]);
-                  onClick();
+                  setSelected(option);
                 }}
                 className="boder-[#CACACA] cursor-pointer border-b-[0.5px] px-4 py-2 hover:bg-[#b4d3e0]"
               >
