@@ -183,13 +183,7 @@ function AddOnlineTest({ test }) {
   const [showTestDeletion, setShowTestDeletion] = useState(false);
   const navigate = useNavigate();
   const [dummyQuestions, setDummyQuestions] = useState(
-    questions.map((question) => ({
-      ...question,
-      answers: question.answers.map((answer) => ({
-        ...answer,
-        isCorrect: false,
-      })),
-    })),
+    []
   );
 
   const [timeStart, setTimeStart] = useState(
@@ -326,7 +320,7 @@ function AddOnlineTest({ test }) {
   // console.log(testData);
   // console.log(searchParams.get('group'));
 
-  const handelShareQuiz = async () => {
+  const handelSaveQuiz = async () => {
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
     }
@@ -347,9 +341,9 @@ function AddOnlineTest({ test }) {
         content: q.text,
         mark: q.required ? q.deg : q.bouns,
         explain: q.explain,
-        type: q.required ? 'required' : 'bounce',
+        type: q.required ? ' اجباري ' : 'اخنياري',
         // bouns: q.bouns ? q.bouns : 0,
-        choices: q.answers.map((a) => {
+        Chooses: q.answers.map((a) => {
           return {
             content: a.text,
             isCorrect: a.isCorrect,
@@ -372,7 +366,12 @@ function AddOnlineTest({ test }) {
     try {
       let res;
       if (test) {
-        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuiz/${test.id}`, testData, { headers: { Authorization: authHeader } });
+        testData.id = test.id;
+        testData.questions = testData.questions.map((q, i) => { return { ...q, id: questions[i].id, Chooses : q.Chooses.map((a, j) => { return { ...a, id: questions[i].answers[j].id }
+        }) } });
+        console.log('testData',testData );
+
+        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuiz`, testData, { headers: { Authorization: authHeader } });
       } else {
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
@@ -381,7 +380,7 @@ function AddOnlineTest({ test }) {
         });
       }
       if (res.status === 200) {
-        toast.success('تمت الاضافة بنجاح');
+        toast.success(test? 'تم التعديل بنجاح' : 'تم الاضافة بنجاح');
       }
     } catch (error) {
       toast.error('حدث خطأ ما');
@@ -437,15 +436,15 @@ function AddOnlineTest({ test }) {
       const fetchTestWithId = async () => {
         try {
           const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${test.id}`, { headers: { Authorization: authHeader } });
-          // console.log(res.data);
+          console.log(res.data);
           if (res.status === 200) {
             const data = res.data;
             setQuestions(
               data.questionsOfQuizzes.map((q) => {
                 return {
                   text: q.content,
-                  bouns: 0,
-                  deg: 0,
+                  bouns: q.type === 'bounce' ? q.mark : 0,
+                  deg: q.type === 'required' ? q.mark : 0,
                   answers: q.choices.map((a) => {
                     return {
                       text: a.content,
@@ -455,34 +454,55 @@ function AddOnlineTest({ test }) {
                   }),
                   images: [],
                   explain: q.explain,
-                  required: q.type === 'required',
+                  required: q.type !== 'اخنياري',
                   id: q.id,
                 };
               }),
             );
+            setDummyQuestions(
+            data.questionsOfQuizzes.map((q) => {
+                return {
+                  text: q.content,
+                  bouns: q.type === 'bounce' ? q.mark : 0,
+                  deg: q.type === 'required' ? q.mark : 0,
+                  answers: q.choices.map((a) => {
+                    return {
+                      text: a.content,
+                      isCorrect: false,
+                      id: a.id,
+                    };
+                  }),
+                  images: [],
+                  explain: q.explain,
+                  required: q.type !== 'اخنياري',
+                  id: q.id,
+                };
+              }),
+            )
             setTitle(data.title);
             setDate(new Date(data.startDate));
             setTimeStart({
-              hour: data.timeStart.hours,
-              minute: data.timeStart.minute,
-              mode: data.timeStart.mode,
+              hour: new Date(data.startDate).getHours() ,
+              minute: new Date(data.startDate).getMinutes(),
+              mode: new Date(data.startDate).getHours() >= 12 ? 'PM' : 'AM',
             });
             setTimeDuration({
-              hour: data.timeDuration.hours,
-              minute: data.timeDuration.minute,
-              mode: data.timeDuration.mode,
-              day: data.timeDuration.days,
+              hour: new Date(data.duration).getHours() ,
+              minute: new Date(data.duration).getMinutes(),
+              mode:  new Date(data.duration).getHours() >= 12 ? 'PM' : 'AM',
+              day:  new Date(data.duration).getDate() - new Date(data.startDate).getDate(),
             });
           }
         } catch (error) {
-          // toast.error('حدث خطأ ما');
-          toast.error(error.response.data);
+
+          toast.error(error?.response?.data);
+          // toast.error(error.message);
         }
       };
       fetchTestWithId();
     }
-  }, [test, authHeader]);
-  console.log('questions', questions);
+  }, [test,authHeader]);
+  // console.log('questions', questions);
 
   return (
     <>
@@ -880,8 +900,8 @@ function AddOnlineTest({ test }) {
                       <OldButton type={'outline'} icon={<ShareIcon2 />}>
                         مشاركة مع المجموعة
                       </OldButton>
-                      <OldButton type={'outline'} icon={<ShareIcon />} onClick={handelShareQuiz}>
-                        مشاركة
+                      <OldButton type={'outline'} icon={<ShareIcon />} onClick={handelSaveQuiz}>
+                         {test ? 'تعديل' : 'اضافة'}
                       </OldButton>
                     </div>
                   </div>
