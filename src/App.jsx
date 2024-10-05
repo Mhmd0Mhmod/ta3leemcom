@@ -22,6 +22,7 @@ import Toppers from './Features/toppers/Toppers.jsx';
 import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
 import Tests from './Features/test/Tests.jsx';
 import GroupDetails from './Features/group/GroupDetails.jsx';
+import StudentDetails from './Features/student/StudentDetails.jsx';
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}>
                 {/* Teacher Dashboard Routes */}
                 <Route path="addStudent" element={<AddStudent />} />
-                <Route path="addStudent/:id" element={<AddStudent />} />
+                <Route path="studentDetails/:id" element={<StudentDetails />} />
                 <Route path="addGroup" element={<AddGroup />} />
                 <Route path="addGroup/:id" element={<GroupDetails />} />
 
