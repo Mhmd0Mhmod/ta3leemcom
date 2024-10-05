@@ -20,7 +20,6 @@ Toppers.propTypes = {
 function Toppers({groupsId, students, backToLevels = true}) {
     const [animation, setAnimation] = useState(true);
     const toppers = students?.filter((el) => groupsId.includes(el.groupId)) || FakeGroups.filter((el) => groupsId.includes(el.id)).map(el=>el.students).flat().slice(10);
-    console.log(toppers)
     const style = {
         0: {
             text: "!bg-[#8F2222] text-white",

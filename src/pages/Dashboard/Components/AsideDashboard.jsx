@@ -1,62 +1,43 @@
 import PropTypes from 'prop-types';
-import Menu from "../../../../public/Icons/menu.svg";
-import {Fragment, useEffect, useState} from "react";
-import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.jsx";
+import { Fragment } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip.jsx';
 
-function AsideDashboard({tabs, opened, className}) {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const location = useLocation();
-    const navigate = useNavigate();
-    const activeTab = searchParams.get("tab") || "";
-    const handleTabClick = (tab) => {
-        if (location.pathname !== "/dashboard") {
-            navigate("/dashboard?tab=" + tab);
-        } else {
-            setSearchParams({tab});
-        }
-    };
-    useEffect(() => {
-        if (location.pathname !== "/dashboard") return;
-        if (!searchParams.get("tab")) {
-            setSearchParams({tab: tabs[0]?.tab});
-        }
-    }, [searchParams, setSearchParams, tabs, location.pathname]);
+function AsideDashboard({ tabs, opened, className }) {
+  const location = useLocation();
+  const activeTab = location.pathname.split('/').at(-1);
 
-    return (
-
-        <ul className={`flex gap-2 flex-col font-cairo text-xl mt-2 ${className}`}>
-            {tabs?.map((tab, idx) => (
-                <Fragment key={idx + tabs.length}>
-                    <TooltipProvider delayDuration={100}>
-                        <Tooltip>
-                            <TooltipTrigger>
-                                {tab.Details ?
-                                    <Fragment>{tab.Details}</Fragment> :
-                                    <li onClick={() => handleTabClick(tab.tab)}
-                                        className={`rounded p-2.5 flex items-center gap-[18px] cursor-pointer hover:bg-[#b4d3e0] duration-300 ${activeTab === tab.tab ? "active" : ""}`}>
-                                        <tab.icon className={`${!opened ? "m-auto" : ''}`}/>
-                                        <span className={`${!opened ? "hidden" : ""}`}>{tab.name}</span>
-                                    </li>
-                                }
-                            </TooltipTrigger>
-                            {
-                                !opened &&
-                                <TooltipContent side={"left"}>{tab.name}</TooltipContent>
-                            }
-                        </Tooltip>
-                    </TooltipProvider>
-                </Fragment>
-            ))}
-        </ul>
-    );
+  return (
+    <ul className={`mt-2 flex flex-col gap-2 font-cairo text-xl ${className}`}>
+      {tabs?.map((tab, idx) => (
+        <Fragment key={idx + tabs.length}>
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger>
+                {tab.Details ? (
+                  <>{tab.Details}</>
+                ) : (
+                  <li>
+                    <Link to={`/dashboard/${tab.tab}`} className={`flex cursor-pointer items-center gap-[18px] rounded p-2.5 duration-300 hover:bg-[#b4d3e0] ${activeTab === tab.tab ? 'active' : ''}`}>
+                      <tab.icon className={`${!opened ? 'm-auto' : ''}`} />
+                      <span className={`${!opened ? 'hidden' : ''}`}>{tab.name}</span>
+                    </Link>
+                  </li>
+                )}
+              </TooltipTrigger>
+              {!opened && <TooltipContent side={'left'}>{tab.name}</TooltipContent>}
+            </Tooltip>
+          </TooltipProvider>
+        </Fragment>
+      ))}
+    </ul>
+  );
 }
 
 AsideDashboard.propTypes = {
-    tabs: PropTypes.array.isRequired,
-    opened: PropTypes.bool.isRequired,
-    className: PropTypes.string
+  tabs: PropTypes.array.isRequired,
+  opened: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 };
-
 
 export default AsideDashboard;

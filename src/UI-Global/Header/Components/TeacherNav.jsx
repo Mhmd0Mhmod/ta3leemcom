@@ -15,7 +15,6 @@ function TeacherNav() {
   const [showItems, setShowItems] = useState(true);
 
   function handleTabListOpen(e) {
-    console.log(e.target.tagName);
     if (e.target.closest('li')) setOpenTabsList(false);
   }
 
