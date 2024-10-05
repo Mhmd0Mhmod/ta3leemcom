@@ -10,5 +10,6 @@ export async function getGroups(teacherId, subLevelId) {
       toJSON: true,
     },
   });
+  return res.data;
 }
 export async function addGroup() {}

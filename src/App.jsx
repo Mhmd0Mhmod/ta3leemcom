@@ -42,7 +42,7 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}>
                 {/* Teacher Dashboard Routes */}
                 <Route path="addStudent" element={<AddStudent />} />
-                <Route path="addStudent/:id" element={<AddStudent />} />
+                <Route path="studentDetails/:id" element={<StudentDetails />} />
                 <Route path="addGroup" element={<AddGroup />} />
                 <Route path="addGroup/:id" element={<GroupDetails />} />
                 <Route path="editGroup/:id" element={<EditGroupDetails />} />

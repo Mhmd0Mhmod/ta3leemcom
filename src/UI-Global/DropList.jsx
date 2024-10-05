@@ -25,7 +25,7 @@ function DropList({ title, options, value, setValue, optionsValue, children }) {
       {children}
       <div className={'w-56 flex-1'}>
         <button onClick={toggleDropdown} className="w-full">
-          {selected || title}
+          {options[optionsValue.findIndex((optionValue) => optionValue == value)] || title}
           <span className={`float-left ${isOpen ? 'rotate-180' : ''} mt-2`}>
             <Drop />
           </span>
