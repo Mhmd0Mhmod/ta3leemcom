@@ -22,6 +22,8 @@ import Toppers from './Features/toppers/Toppers.jsx';
 import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
 import Tests from './Features/test/Tests.jsx';
 import GroupDetails from './Features/group/GroupDetails.jsx';
+import StudentTest from './pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx';
+import StudentMonths from './pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx';
 
 function App() {
   return (
@@ -44,8 +46,12 @@ function App() {
                 <Route path="addStudent/:id" element={<AddStudent />} />
                 <Route path="addGroup" element={<AddGroup />} />
                 <Route path="addGroup/:id" element={<GroupDetails />} />
-
                 <Route path="level" element={<Level />} />
+                {/* Student Dashboard Routes */}
+                <Route path="tests" element={<StudentTest />} />
+                <Route path="tests/id" element={<Test />} />
+                <Route path="toppers" element={<Toppers />} />
+                <Route path="months" element={<StudentMonths />} />
               </Route>
             </Route>
 
