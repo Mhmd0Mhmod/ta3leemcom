@@ -1,36 +1,10 @@
-import TeacherDashboard from '@/pages/Dashboard/subpages/TeacherDashboard/TeacherDashboard.jsx';
-import StudentDashboard from '@/pages/Dashboard/subpages/StudentDashboard/StudentDashboard.jsx';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { fetchLevels } from '@/lib/helpers';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { fetchLevels } from '@/lib/helpers.js';
-import { StudentProvider } from '@/Context/StudentDashboard/StudentProvider';
-import { Navigate } from 'react-router-dom';
-export default function Dashboard() {
-  const auth = useAuthUser();
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
-  console.log(auth);
+const TeacherContext = createContext();
 
-  if (!auth) {
-    return <Navigate to="/home?mr=login" />;
-    // return null;
-  }
-  const isTeacher = auth.role === 'Teacher';
-  if (isTeacher)
-    return (
-      <LevelsProvider>
-        <TeacherDashboard />
-      </LevelsProvider>
-    );
-  return (
-    <StudentProvider>
-      <StudentDashboard />
-    </StudentProvider>
-  );
-}
-
-const LevelsContext = createContext();
-
-function LevelsProvider({ children }) {
+function TeacherProvider({ children }) {
   const [levels, setLevels] = useState({});
   const [mainLevels, setMainLevels] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -86,7 +60,7 @@ function LevelsProvider({ children }) {
     setGroupsOfSelectedlevel([...allGroups[selectedLevel]]);
   }, [selectedLevel, allGroups]);
   return (
-    <LevelsContext.Provider
+    <TeacherContext.Provider
       value={{
         levels,
         mainLevels,
@@ -98,10 +72,12 @@ function LevelsProvider({ children }) {
       }}
     >
       {children}
-    </LevelsContext.Provider>
+    </TeacherContext.Provider>
   );
 }
 
 export function useLevels() {
-  return useContext(LevelsContext);
+  return useContext(TeacherContext);
 }
+
+export default TeacherProvider;

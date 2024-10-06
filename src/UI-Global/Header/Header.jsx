@@ -35,7 +35,7 @@ export default function Header() {
         <div className={'flex w-full items-center justify-between'}>
           <div className={'relative flex items-center gap-4'}>
             <div className={'h-10 w-[3px] bg-[#605E5E]'} />
-            {role === 'student' && <StudentNav />}
+            {role === 'Student' && <StudentNav />}
             {role === 'Teacher' && <TeacherNav />}
           </div>
           <ProfileAndLogoutList currentUser={currentUser} logOut={logOut} />

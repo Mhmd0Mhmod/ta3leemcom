@@ -1,36 +1,24 @@
-import { useSearchParams } from 'react-router-dom';
-import { FakeGroups } from '../../config.js';
 import Confetti from 'react-confetti';
 import HeadingLevelsPages from '../../UI-Global/HeadingLevelsPages.jsx';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import PropTypes from 'prop-types';
-import { getToppers } from '@/Features/toppers/helper.js';
-
+import { useStudent } from '@/Context/StudentDashboard/StudentProvider.jsx';
 Toppers.propTypes = {
-  groupsId: PropTypes.arrayOf(PropTypes.number).isRequired,
+  groupsId: PropTypes.arrayOf(PropTypes.number),
   students: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
+      id: PropTypes.number,
+      name: PropTypes.string,
     }),
   ),
   backToLevels: PropTypes.bool,
 };
-
-function Toppers({ groupsId, students, backToLevels = true }) {
+function Toppers({ groupsId = [], students = [], backToLevels = true }) {
   const [animation, setAnimation] = useState(true);
-  const [toppers, setToppers] = useState([]);
-  if (groupsId && students) {
-    setToppers(
-      students?.filter((el) => groupsId.includes(el.groupId)) ||
-        FakeGroups.filter((el) => groupsId.includes(el.id))
-          .map((el) => el.students)
-          .flat()
-          .slice(10),
-    );
-  }
-  const [searchParam, setSearchParam] = useSearchParams();
+  const { studentToppers } = useStudent();
+  const toppers = students.length !== 0 ? students?.filter((el) => groupsId.includes(el.groupId)) : studentToppers;
+
   const style = {
     0: {
       text: '!bg-[#8F2222] text-white',
@@ -51,13 +39,6 @@ function Toppers({ groupsId, students, backToLevels = true }) {
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
-  useEffect(() => {
-    if (searchParam.get('group')) {
-      getToppers(searchParam.get('group').split('_')).then((res) => {
-        setToppers([...res.data]);
-      });
-    }
-  }, [searchParam]);
   return (
     <>
       <Confetti height={useWindowSize().height} numberOfPieces={2000} tweenDuration={5000} recycle={animation} />
