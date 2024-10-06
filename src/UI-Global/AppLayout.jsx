@@ -15,7 +15,7 @@ export default function AppLayout() {
 
   // console.log(authHeader.split(' ')[1]);
   useEffect(() => {
-    const token = authHeader.split(' ')[1];
+    const token = authHeader?.split(' ')[1];
     if (token) {
       const decoded = jwtDecode(token);
       const isExpired = decoded.exp * 1000 < Date.now();

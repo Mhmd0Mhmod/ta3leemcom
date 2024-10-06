@@ -76,8 +76,8 @@ function TeacherProvider({ children }) {
   );
 }
 
-export function useLevels() {
+function useTeacherDashboard() {
   return useContext(TeacherContext);
 }
 
-export default TeacherProvider;
+export { TeacherProvider, useTeacherDashboard };

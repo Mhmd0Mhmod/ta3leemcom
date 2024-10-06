@@ -24,6 +24,8 @@ import GroupDetails from './Features/group/GroupDetails.jsx';
 import StudentTest from './pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx';
 import StudentMonths from './pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx';
 import EditGroupDetails from './Features/group/EditGroupDetails.jsx';
+import StudentDetails from './Features/student/StudentDetails.jsx';
+import { StudentProvider } from './Context/StudentDashboard/StudentProvider.jsx';
 function App() {
   return (
     <>

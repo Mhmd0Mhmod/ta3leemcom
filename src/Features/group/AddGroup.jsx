@@ -9,8 +9,10 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Cookies from 'js-cookie';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+
 import Alert from '../student/Alert.jsx';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
+import { addGroup } from './helpers.js';
 
 function AddGroup() {
   const [groupName, setGroupName] = useState('');
@@ -20,12 +22,11 @@ function AddGroup() {
   const [dataGroup, setDataGroup] = useState(null);
   const [alertData, setAlertData] = useState({});
 
-  const userLevels = useLevels();
+  const userLevels = useTeacherDashboard();
   let keysLevelsNum = userLevels.levels[level];
   let levels = userLevels.mainLevels;
   const user = useAuthUser();
   let teacherId = user.teacherId;
-  const token = Cookies.get('_auth');
   const navigate = useNavigate();
   const onChangeGroupName = (e) => {
     setGroupName(e.target.value);
@@ -35,16 +36,12 @@ function AddGroup() {
     levelYearId: levelNumber,
     teacherId,
   };
-  let response;
-  const handleSubmit = async (e) => {
-    console.log(e);
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!groupName) {
       toast.error('يجب إدخال اسم المجموعة ', { id: 'validation' });
       return;
     }
-
     if (!level) {
       toast.error('يجب إدخال جميع البيانات', { id: 'validation' });
       return;
@@ -54,35 +51,30 @@ function AddGroup() {
       return;
     }
     setLoading(true);
-    response = await axios.post(import.meta.env.VITE_API_URL + '/Group/Add', bodyData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.status >= 200 && response.status < 300) {
-      setDataGroup(response);
-    }
+    addGroup(bodyData)
+      .then((response) => {
+        console.log(response);
 
-    setLoading(false);
-  };
-  useEffect(() => {
-    if (loading === false) {
-      if (dataGroup.status >= 200 && dataGroup.status < 300) {
+        setDataGroup(response);
         setAlertData({
-          title: 'تم اضافه الطالب بنجاح',
+          title: 'تم اضافه المجموعه  بنجاح',
           type: 'success',
           open: true,
           setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-          navigate: () => navigate('/dashboard/addGroup/' + dataGroup.data.id),
-          edit: ()=> navigate('/dashboard/editGroup/' + dataGroup.data.id)
-          
+          navigate: () => navigate('/dashboard/addGroup/' + response.id),
+          edit: () => navigate('/dashboard/editGroup/' + response.id),
         });
-        navigate('/dashboard/addGroup', { state: { isDeleted: false } });
-      } else {
-        toast.error('توجد مشكلة فى اضافة المجموعة')
-      }
-    }
-  }, [loading]);
+        // navigate('/dashboard/addGroup', { state: { isDeleted: false } });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error('توجد مشكلة فى اضافة المجموعة');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <div className={'font-almaria'}>
       <Heading as={'h1'} className={'text-center font-almaria-bold'}>
@@ -104,7 +96,7 @@ function AddGroup() {
             <DropList title={'اختر الصف الدراسي'} options={keysLevelsNum ? keysLevelsNum?.map((e) => e.name) : []} value={levelNumber} setValue={setLevelNumber} optionsValue={keysLevelsNum ? keysLevelsNum?.map((e) => e.id) : []} />
           </div>
         </div>
-        <Button type={'outline'} className={'mt-40 w-fit self-center'}>
+        <Button type={'outline'} className={'mt-40 w-fit self-center disabled:cursor-not-allowed disabled:opacity-50'} disabled={!level || !levelNumber || !groupName}>
           اضافة
         </Button>
       </form>
@@ -114,44 +106,6 @@ function AddGroup() {
 }
 
 export default AddGroup;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import Heading from '../../UI-Global/Heading.jsx';
 // import FormInput from '../../UI-Global/FormInput.jsx';
@@ -165,7 +119,7 @@ export default AddGroup;
 // import axios from 'axios';
 // import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 // import Cookies from 'js-cookie';
-// import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+// import { useTeacherDashboard } from '@/pages/Dashboard/Dashboard.jsx';
 // import Alert from '../student/Alert.jsx';
 
 // function AddGroup() {
@@ -176,7 +130,7 @@ export default AddGroup;
 //   const [dataGroup, setDataGroup] = useState(null);
 //   const [alertData, setAlertData] = useState({});
 
-//   const userLevels = useLevels();
+//   const userLevels = useTeacherDashboard();
 //   let keysLevelsNum = userLevels.levels[level];
 //   let levels = userLevels.mainLevels;
 //   const user = useAuthUser();
@@ -231,7 +185,7 @@ export default AddGroup;
 //           setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
 //           navigate: () => navigate('/dashboard/addGroup/' + dataGroup.data.id),
 //           edit: ()=> navigate('/dashboard/editGroup/' + dataGroup.data.id)
-          
+
 //         });
 //         navigate('/dashboard/addGroup', { state: { isDeleted: false } });
 //       } else {
@@ -270,4 +224,3 @@ export default AddGroup;
 // }
 
 // export default AddGroup;
-

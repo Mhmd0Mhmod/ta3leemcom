@@ -2,13 +2,13 @@ import Backtolevels from './Backtolevels.jsx';
 import Heading from './Heading.jsx';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@/components/ui/breadcrumb.jsx';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useLevels } from '@/Context/LevelContext.jsx';
 import { useEffect } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu.jsx';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
 function HeadingLevelsPages({ title, backToLevels = true }) {
   const [searchParam, setSearchParam] = useSearchParams();
-  const { mainLevels, groupsOfSelectedlevel, fetchingDashboard } = useLevels();
+  const { mainLevels, groupsOfSelectedlevel, fetchingDashboard } = useTeacherDashboard();
   const mainLevel = mainLevels.find((el) => el?.id == searchParam.get('level'));
   const groupsId = searchParam
     .get('group')
@@ -18,7 +18,6 @@ function HeadingLevelsPages({ title, backToLevels = true }) {
   useEffect(() => {
     if (!mainLevels) fetchingDashboard();
   }, [mainLevels, fetchingDashboard]);
-  console.log(groups, groupsId);
   return (
     <>
       {backToLevels && <Backtolevels />}

@@ -4,14 +4,14 @@ import FormInput from '@/UI-Global/FormInput';
 import { Button } from '../../components/ui/button.jsx';
 import { useNavigate } from 'react-router-dom';
 import DropList from '@/UI-Global/DropList';
-import { useLevels } from '@/pages/Dashboard/Dashboard';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import Alert from './Alert';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider';
 
 export default function EdiStudentDetails({ student, setStudent }) {
-  const allLevels = useLevels();
+  const allLevels = useTeacherDashboard();
   const currentMainLevel = allLevels?.mainLevels.find((el) => el.name === student.levelName).id;
   const currentLevelNumber = allLevels?.levels[currentMainLevel]?.find((el) => el.name === student.levelYearName).id;
   const selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
@@ -30,7 +30,6 @@ export default function EdiStudentDetails({ student, setStudent }) {
   const navigate = useNavigate();
   const token = Cookies.get('_auth');
 
-
   const updateStudent = async () => {
     if (!studentName.trim() || !level || !levelNumber || !groupId) {
       toast.error('يجب ادخال جميع البيانات', { id: 'validation' });
@@ -43,8 +42,8 @@ export default function EdiStudentDetails({ student, setStudent }) {
     }
 
     try {
-      setAlertData((data) => ({...data, open: false}))
-      setIsLoading(true)
+      setAlertData((data) => ({ ...data, open: false }));
+      setIsLoading(true);
       const bodyData = {
         id: student.id,
         name: studentName.trim(),
@@ -77,15 +76,11 @@ export default function EdiStudentDetails({ student, setStudent }) {
     }
   };
 
-
   useEffect(() => {
     if (levelNumber) {
       allLevels?.selectYearIdFunc(levelNumber);
     }
-    
   }, [levelNumber]);
-
-  
 
   return (
     <>
@@ -112,13 +107,7 @@ export default function EdiStudentDetails({ student, setStudent }) {
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> الصف الدراسي</h3>
 
-          <DropList
-            title={ 'اختر الصف الدراسي'}
-            options={allLevels?.levels[level]?.map((el) => el.name) || []}
-            value={levelNumber}
-            setValue={setLevelNumber}
-            optionsValue={level ? allLevels?.levels[level]?.map((el) => el.id) : []}
-          />
+          <DropList title={'اختر الصف الدراسي'} options={allLevels?.levels[level]?.map((el) => el.name) || []} value={levelNumber} setValue={setLevelNumber} optionsValue={level ? allLevels?.levels[level]?.map((el) => el.id) : []} />
         </div>
         <div>
           <h3 className="mb-6 font-almaria-bold text-xl"> المجموعة</h3>
@@ -129,7 +118,7 @@ export default function EdiStudentDetails({ student, setStudent }) {
         <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={updateStudent} disabled={!studentName || !level || !levelNumber || !groupId || isLoading}>
           حفظ
         </Button>
-        <Alert {...alertData}/>
+        <Alert {...alertData} />
       </div>
     </>
   );

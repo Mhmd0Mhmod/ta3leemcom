@@ -9,17 +9,17 @@ import FormInput from '@/UI-Global/FormInput.jsx';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import Alert from '../student/Alert.jsx';
 import { getGroup } from '@/lib/helpers.js';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
 export default function EditGroupDetails() {
   const [groupData, setGroupData] = useState(null);
   const [groupName, setGroupName] = useState('');
   const [level, setLevel] = useState('');
   const [levelNumber, setLevelNumber] = useState('');
-  const userLevels = useLevels();
+  const userLevels = useTeacherDashboard();
   const [alertData, setAlertData] = useState({
     title: 'تم التعديل بنجاح',
     type: 'success',
@@ -40,7 +40,9 @@ export default function EditGroupDetails() {
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
   useEffect(() => {
-    const response = getGroup(groupID).then((response) => {setGroupData(response.data);})
+    const response = getGroup(groupID).then((response) => {
+      setGroupData(response.data);
+    });
     if (response.status >= 200 && response.status < 300) {
       setGroupData(response.data);
     }
@@ -58,7 +60,6 @@ export default function EditGroupDetails() {
     TeacherId: teacherId,
   };
   const handleSubmit = async () => {
-
     if (!groupName) {
       toast.error('يجب إدخال اسم المجموعة ');
       return;
@@ -77,7 +78,7 @@ export default function EditGroupDetails() {
         },
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate(`/dashboard/addGroup/${groupID}`)
+        navigate(`/dashboard/addGroup/${groupID}`);
         setTimeout(() => {
           setAlertData({
             title: 'تم التعديل بنجاح',
@@ -85,11 +86,8 @@ export default function EditGroupDetails() {
             open: true,
             setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
             navigate: () => navigate(-1),
-  
           });
         }, 1000);
-
-   
       }
     } catch (error) {
       setAlertData({
@@ -97,11 +95,10 @@ export default function EditGroupDetails() {
         type: 'error',
         open: true,
         setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-      });}
+      });
+    }
   };
 
-
-  
   return (
     <>
       <h2 className="text-center font-almaria-bold text-3xl">تعديل المجموعة</h2>
@@ -123,8 +120,7 @@ export default function EditGroupDetails() {
         <Button type={'outline'} className={'h-[4.063rem] min-w-[8.75rem] self-center'} onClick={handleSubmit}>
           حفظ
         </Button>
-        <Alert {...alertData}/>
-
+        <Alert {...alertData} />
       </div>
     </>
   );

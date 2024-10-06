@@ -3,8 +3,8 @@ import HeadingLevelsPages from '../../UI-Global/HeadingLevelsPages.jsx';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import PropTypes from 'prop-types';
-import Heading from '@/UI-Global/Heading.jsx';
-import { useStudent } from '@/Context/StudentDashboard/StudentProvider.jsx';
+import { getToppers } from './helper.js';
+import { useSearchParams } from 'react-router-dom';
 Toppers.propTypes = {
   groupsId: PropTypes.arrayOf(PropTypes.number),
   students: PropTypes.arrayOf(
@@ -15,9 +15,18 @@ Toppers.propTypes = {
   ),
   backToLevels: PropTypes.bool,
 };
-function Toppers({ students = [], backToLevels = true }) {
+function Toppers({ backToLevels = true }) {
   const [animation, setAnimation] = useState(true);
-  const { studentToppers: toppers } = useStudent();
+  const [searchParam] = useSearchParams();
+  const [toppers, setToppers] = useState([]);
+  useEffect(
+    function () {
+      getToppers(searchParam.get('group').split('_')).then((res) => setToppers(res));
+    },
+    [searchParam],
+  );
+  console.log(toppers);
+
   const style = {
     0: {
       text: '!bg-[#8F2222] text-white',
@@ -42,10 +51,7 @@ function Toppers({ students = [], backToLevels = true }) {
     <>
       <Confetti height={useWindowSize().height} numberOfPieces={2000} tweenDuration={5000} recycle={animation} />
       <div className={'m-auto flex w-[687px] flex-col gap-6 text-center'}>
-        <Heading as={'h1'} className={'font-almaria-bold'}>
-          المتفوقون
-        </Heading>
-        <hr className="w-[70%]" />
+        <HeadingLevelsPages title={'المتفوقون'} backToLevels={backToLevels} />
       </div>
       <div className={'m-auto flex w-[559px] flex-col font-almaria-bold'}>
         {toppers?.map((el, index) => (

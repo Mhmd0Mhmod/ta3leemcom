@@ -1,34 +1,31 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import Warn from '/public/Icons/warining.svg'
-import {  getGroup } from '@/lib/helpers';
+import Warn from '/public/Icons/warining.svg';
+import { getGroup } from '@/lib/helpers';
+import { deleteGroup } from './helpers';
 function GroupDetails() {
   const [groupData, setGroupData] = useState('');
+  const navigate = useNavigate();
   const { id: groupID } = useParams();
   const token = Cookies.get('_auth');
   useEffect(() => {
-        const response = getGroup(groupID).then((response) => {setGroupData(response.data);})
-        if (response.status >= 200 && response.status < 300) {
-          setGroupData(response.data);
-        }
+    const response = getGroup(groupID).then((response) => {
+      setGroupData(response.data);
+    });
+    if (response.status >= 200 && response.status < 300) {
+      setGroupData(response.data);
+    }
   }, [groupID, token]);
-   const handleDelete = async()=>{
-      const response = await axios.delete(import.meta.env.VITE_API_URL + `/Group/Delete?id=${groupID}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status >= 200 && response.status < 300) {
-        toast.success('تم الحذف بنجاح');
-        setTimeout(() => {
-          window.location.href = '/dashboard/addGroup';
-        }, 1000);
-      }   
-   }
+  const handleDelete = () => {
+    deleteGroup(groupID).then((response) => {
+      toast.success('تم الحذف بنجاح');
+      navigate('/dashboard/addGroup');
+    });
+  };
 
   return (
     <>
@@ -40,27 +37,27 @@ function GroupDetails() {
           </Link>
 
           <AlertDialog>
-              <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`}>حذف</AlertDialogTrigger>
-              <AlertDialogContent className={'!min-h-[10vh] w-[450px] max-w-full rounded-xl'}>
-                <AlertDialogHeader className={'!text-right'}>
-                  <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
-                    <p className="relative mb-4 flex justify-center">
-                      <Warn />
-                    </p>
-                    <span>تأكيد حذف المجموعة</span>
-                  </AlertDialogTitle>
-                  <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالمجموعة نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className={'mt-4 !justify-between gap-4'}>
-                  <AlertDialogAction className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }} onClick={handleDelete}>
-                    نعم، حذف!
-                  </AlertDialogAction>
-                  <AlertDialogCancel className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }}>
-                    لا، إلغاء
-                  </AlertDialogCancel>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <AlertDialogTrigger className={`h-10 w-28 rounded-lg bg-[#F54547] text-xl text-white`}>حذف</AlertDialogTrigger>
+            <AlertDialogContent className={'!min-h-[10vh] w-[450px] max-w-full rounded-xl'}>
+              <AlertDialogHeader className={'!text-right'}>
+                <AlertDialogTitle className="my-4 text-center text-3xl font-extrabold">
+                  <p className="relative mb-4 flex justify-center">
+                    <Warn />
+                  </p>
+                  <span>تأكيد حذف المجموعة</span>
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالمجموعة نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className={'mt-4 !justify-between gap-4'}>
+                <AlertDialogAction className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }} onClick={handleDelete}>
+                  نعم، حذف!
+                </AlertDialogAction>
+                <AlertDialogCancel className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }}>
+                  لا، إلغاء
+                </AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
         <form action="">
           <h3 className="mb-4 font-almaria-bold text-lg"> اسم المجموعة</h3>

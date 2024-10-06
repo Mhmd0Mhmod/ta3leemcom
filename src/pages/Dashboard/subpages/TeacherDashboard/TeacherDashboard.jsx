@@ -5,27 +5,26 @@ import Meeting from '../../../../../public/Icons/meeting.svg';
 import ThreeCirlce from '../../../../../public/Icons/threeCirlceDashboard.svg';
 import Menu from '../../../../../public/Icons/menu.svg';
 import ScrollTop from '../../../../../public/Icons/scroll_top_icon.svg';
-import TestIcon from '../../../../../public/Icons/test.svg';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Test from './Components/Test.jsx';
 import Details from '../../../../UI-Global/Details.jsx';
 import Students from './Components/Students.jsx';
 import Months from './Components/Months.jsx';
-import Toppers from '@/Features/toppers/Toppers.jsx';
+import Toppers from '@/Features/toppers/ToppersGropus.jsx';
 import AsideDashboard from '@/pages/Dashboard/Components/AsideDashboard.jsx';
-import { useLevels } from '@/Context/LevelContext.jsx';
 import { Spinner } from '@/UI-Global/Spinner.jsx';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider';
 // import AddStudent from '../../../../Features/student/AddStudent.jsx';
 // import AddGroup from '../../../../Features/group/AddGroup.jsx';
 // import Level from './Components/Level.jsx';
 
 function TeacherDashboard() {
   const [opened, setOpened] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || null;
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const { levels, mainLevels: MainLevels, loading } = useLevels();
+  const { mainLevels: MainLevels, loading } = useTeacherDashboard();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 400) {
@@ -55,12 +54,12 @@ function TeacherDashboard() {
           tabs={[
             { name: 'اضافة طالب', tab: 'addStudent', icon: Profile },
             { name: 'اضافة مجموعة', tab: 'addGroup', icon: Group },
-            {
-              name: 'اضافة اختبار',
-              tab: 'addTest',
-              icon: TestIcon,
-              Details: <Details route="addTest" className={'gap-[18px]'} summary={'اضافة اختبار'} Icon={TestIcon} opend={opened} listItems={[{ name: 'اونلاين' }, { name: 'اوفلاين' }]} tabName={['online', 'offline']} param={'test'} />,
-            },
+            // {
+            //   name: 'اضافة اختبار',
+            //   tab: 'addTest',
+            //   icon: TestIcon,
+            //   Details: <Details route="addTest" className={'gap-[18px]'} summary={'اضافة اختبار'} Icon={TestIcon} opend={opened} listItems={[{ name: 'اونلاين' }, { name: 'اوفلاين' }]} tabName={['online', 'offline']} param={'test'} />,
+            // },
             {
               name: 'المراحل الدراسية',
               tab: 'StudyLevels',

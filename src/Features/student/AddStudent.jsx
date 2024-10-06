@@ -9,8 +9,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import StudentDetails from './StudentDetails.jsx';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 import Alert from './Alert.jsx';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
 function AddStudent() {
   const [studentName, setStudentName] = useState('');
@@ -22,7 +22,7 @@ function AddStudent() {
   const [studentDetails, setStudentDetails] = useState(null);
   const [alertData, setAlertData] = useState({});
 
-  const allLevels = useLevels();
+  const allLevels = useTeacherDashboard();
   const token = Cookies.get('_auth');
 
   let selectedLevelGroups = allLevels?.groupsOfSelectedlevel || [];
