@@ -50,7 +50,7 @@ function App() {
                 {/* Student Dashboard Routes */}
                 <Route path="tests" element={<StudentTest />} />
                 <Route path="tests/id" element={<Test />} />
-                <Route path="toppers" element={<Toppers />} />
+                <Route path="toppers" element={<Toppers backToLevels={false} />} />
                 <Route path="months" element={<StudentMonths />} />
               </Route>
             </Route>

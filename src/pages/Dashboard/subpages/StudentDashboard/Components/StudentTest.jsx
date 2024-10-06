@@ -1,6 +1,6 @@
 import Heading from '@/UI-Global/Heading.jsx';
 import HeadIcon from '../../../../../../public/Icons/head-icon-student.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button.jsx';
 import Question from '../../../../../../public/Icons/question_icon.svg';
 import Bouns from '../../../../../../public/Icons/bouns_icon.svg';
@@ -8,7 +8,6 @@ import Point from '../../../../../../public/Icons/flag_icon.svg';
 import Search from '../../../../../../public/Icons/search_icon.svg';
 import RemoveSearched from '../../../../../../public/Icons/removeSeach.svg';
 import Table from '@/UI-Global/Table/Table.jsx';
-import { ShowTest } from '../../../../../Features/test/ShowTest.jsx';
 import THead from '@/UI-Global/Table/THead.jsx';
 import TR from '@/UI-Global/Table/TR.jsx';
 import TH from '@/UI-Global/Table/TH.jsx';
@@ -16,14 +15,32 @@ import Sort from '../../../../../../public/Icons/sort.svg';
 import TD from '@/UI-Global/Table/TD.jsx';
 import TBody from '@/UI-Global/Table/TBody.jsx';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { getTests } from '@/Context/StudentDashboard/helpers';
+import toast from 'react-hot-toast';
+import { Spinner } from '@/UI-Global/Spinner';
+import { durationToMinutes, parseISODateString, parseISOTimeString } from '@/lib/time';
 
 function StudentTest() {
-  console.log(useAuthUser());
+  const student = useAuthUser();
+  const [loading, setLoading] = useState(false);
+  const [endedTests, setEndedTests] = useState([]);
   const [tests, setTests] = useState([]);
   const [search, setSearch] = useState('');
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
+  useEffect(() => {
+    setLoading(true);
+    getTests(student.studentId)
+      .then((data) => {
+        setTests(data.filter((test) => test.quizStatus !== 'Ended' && test.quizStatus));
+        setEndedTests(data.filter((test) => test.quizStatus === 'Ended'));
+      })
+      .catch((err) => toast.error('حدث خطأ ما'))
+      .finally(() => setLoading(false));
+  }, [student.studentId]);
+  if (loading) return <Spinner />;
   return (
     <div className={`student__tests`}>
       <div className={'flex items-center'}>
@@ -34,28 +51,35 @@ function StudentTest() {
       </div>
       <div className={'mr-10 mt-10 flex max-h-[30rem] flex-col gap-16 overflow-y-auto'}>
         {tests.map((test, idx) => (
-          <div key={test.id} className={'flex items-center gap-4'}>
+          <div key={test.quizId} className={'flex items-center gap-4'}>
             <span className={'text-l font-almaria-bold'}>{idx + 1}.</span>
             <div className={'grid w-[90%] grid-cols-2 justify-between rounded bg-white px-5 py-10'}>
               <div className={'flex w-[70%] flex-col justify-between'}>
                 <div className={'flex items-center justify-between'}>
                   <span className={'font-almaria-bold text-xl'}>{test.name}</span>
-                  <Button className={'bg-[#0884A2] hover:bg-[#0884A2]'}>بدا الاختبار</Button>
+                  {test.quizStatus === 'Started' && <Button className={'bg-[#0884A2] hover:bg-[#0884A2]'}>بدا الاختبار</Button>}
+                  {test.quizStatus === 'Not Started ' && <Button className={'bg-[#B2B2B2] hover:bg-[#B2B2B2]'}>لم يبدأ بعد</Button>}
                 </div>
                 <div className={'flex justify-between'}>
                   <div className={'flex gap-2 text-[#878787]'}>
                     <Question />
-                    <span>{1}</span>
+                    <span>{test.mandatoryQuestionCount}</span>
                     <span>سؤال</span>
                   </div>
                   <div className={'flex gap-2 text-[#878787]'}>
                     <Bouns />
-                    <span>{1}</span>
-                    <span>بونص</span>
+                    {test.optionalQuestionCount ? (
+                      <>
+                        <span>{test.optionalQuestionCount}</span>
+                        <span>بونص</span>
+                      </>
+                    ) : (
+                      <span>لا يوجد بونص</span>
+                    )}
                   </div>
                   <div className={'flex gap-2 text-[#878787]'}>
                     <Point />
-                    <span>{1}</span>
+                    <span>{test.totalMark}</span>
                     <span>درجة</span>
                   </div>
                 </div>
@@ -63,15 +87,15 @@ function StudentTest() {
               <div className={'mr-auto flex flex-col gap-2 font-almaria-bold'}>
                 <div className={'flex items-center gap-10'}>
                   <span>تاريخ الاختبار</span>
-                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{test.date}</span>
+                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{parseISODateString(test.startDate)}</span>
                 </div>
                 <div className={'flex items-center gap-10'}>
                   <span>وقت الاخبار</span>
-                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{test.date}</span>
+                  <span className={'ltr rounded bg-[#EFEFEF] px-4 py-2'}>{parseISOTimeString(test.startDate)}</span>
                 </div>
                 <div className={'flex items-center gap-10'}>
                   <span>مدة الاختبار</span>
-                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{test.date}</span>
+                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{durationToMinutes(test.duration)} دقيقه</span>
                 </div>
               </div>
             </div>
@@ -82,7 +106,7 @@ function StudentTest() {
       <div>
         <div className={'mb-8 flex items-center'}>
           <Heading as={'h3'} className={'font-almaria-bold'}>
-            الاختبارات المنتهية{' '}
+            الاختبارات المنتهية
           </Heading>
           <HeadIcon />
         </div>
@@ -96,6 +120,7 @@ function StudentTest() {
             <THead className="my-2">
               <TR className="rounded bg-[#D9D9D9]">
                 <TH>اسم الاختبار</TH>
+                <TH>حاله الاختبار</TH>
                 <TH>الدرجة</TH>
                 <TH>
                   <span>نوع الاختبار</span>
@@ -108,8 +133,8 @@ function StudentTest() {
               </TR>
             </THead>
             <TBody className="max-h-64 overflow-y-auto">
-              {tests.map((test, idx) => (
-                <TR key={test.id} className="mb-1 rounded bg-white">
+              {endedTests?.map((test, idx) => (
+                <TR key={test.quizId} className="mb-1 rounded bg-white">
                   <TD className="flex items-center justify-between">
                     <span>
                       <span>{idx + 1}.</span>
@@ -118,10 +143,22 @@ function StudentTest() {
                     <Button className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2]'}>محاولة تدربية</Button>
                   </TD>
                   <TD>
-                    <span className="font-almaria-bold"> 10 </span>/ 10
+                    {test.solveStatus === 'Solved Late' && 'حل متأخر '}
+                    {test.solveStatus === 'Not Solved' && 'لم يبم الحل  '}
+                    {test.solveStatus === 'Solved' && 'حل في الموعد '}
+                  </TD>
+                  <TD>
+                    {test.solveStatus !== 'Not Solved' ? (
+                      <>
+                        <span> {test.totalMark}</span>
+                        <span className="font-almaria-bold"> / {test.studentMark} </span>
+                      </>
+                    ) : (
+                      'لم يتم الحل'
+                    )}
                   </TD>
                   <TD>اونلاين</TD>
-                  <TD>2023-10-01</TD>
+                  <TD>{parseISODateString(test.startDate)}</TD>
                 </TR>
               ))}
             </TBody>

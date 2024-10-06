@@ -1,10 +1,9 @@
-import { useSearchParams } from 'react-router-dom';
-import { FakeGroups } from '../../config.js';
 import Confetti from 'react-confetti';
 import HeadingLevelsPages from '../../UI-Global/HeadingLevelsPages.jsx';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import PropTypes from 'prop-types';
+import { useStudent } from '@/Context/StudentDashboard/StudentProvider.jsx';
 
 Toppers.propTypes = {
   groupsId: PropTypes.arrayOf(PropTypes.number),
@@ -19,7 +18,9 @@ Toppers.propTypes = {
 
 function Toppers({ groupsId = [], students = [], backToLevels = true }) {
   const [animation, setAnimation] = useState(true);
-  const toppers = students?.filter((el) => groupsId.includes(el.groupId));
+  const { studentToppers } = useStudent();
+  const toppers = students.length !== 0 ? students?.filter((el) => groupsId.includes(el.groupId)) : studentToppers;
+
   const style = {
     0: {
       text: '!bg-[#8F2222] text-white',
