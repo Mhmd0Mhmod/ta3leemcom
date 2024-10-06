@@ -4,9 +4,16 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { fetchLevels } from '@/lib/helpers.js';
 import { StudentProvider } from '@/Context/StudentDashboard/StudentProvider';
-
+import { Navigate } from 'react-router-dom';
 export default function Dashboard() {
   const auth = useAuthUser();
+
+  console.log(auth);
+
+  if (!auth) {
+    return <Navigate to="/home?mr=login" />;
+    // return null;
+  }
   const isTeacher = auth.role === 'Teacher';
   if (isTeacher)
     return (

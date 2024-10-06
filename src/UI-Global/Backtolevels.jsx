@@ -1,11 +1,16 @@
 import Heading from './Heading.jsx';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Arrow from '../../public/Icons/rev_arrow.svg';
+
 function Backtolevels() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const backToLevel = () => {
-    navigate(`/dashboard/level?level=${searchParams.get('level')}`);
+    let params = `?level=${searchParams.get('level')}`;
+    if (searchParams.get('subLevel')) {
+      params += `&subLevel=${searchParams.get('subLevel')}`;
+    }
+    navigate(`/dashboard/level${params}`);
   };
 
   return (

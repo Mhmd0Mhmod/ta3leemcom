@@ -5,7 +5,7 @@ import Tab from '../../pages/Dashboard/Components/Tab.jsx';
 import { constraints } from '../../config.js';
 import OldButton from '../../UI-Global/Button.jsx';
 import Editor from './TextEditor2.jsx';
-import { Check, Edit, Plus, X } from 'lucide-react';
+import { Check, Edit, Plus, Trash2, X } from 'lucide-react';
 
 import { Reorder } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip.jsx';
@@ -14,12 +14,19 @@ import { Calendar } from '@/components/ui/calendar.jsx';
 
 import { Button } from '../../components/ui/button.jsx';
 
+// import OnlineIcon from '../../../public/Icons/online_icon.svg';
 import OnlineIcon from '../../../public/Icons/online_icon.svg';
 import TimeIcon from '../../../public/Icons/time_icon.svg';
 import TimeIcon2 from '../../../public/Icons/time_icon_2.svg';
 import CalenderIcon from '../../../public/Icons/calender_icon_2.svg';
 import CopyIcon from '../../../public/Icons/copy_icon_gray.svg';
 import TrashIcon from '../../../public/Icons/trash_icon_gray.svg';
+import BreadcrumbArrow from '../../../public/Icons/breadcrumb_arrow.svg';
+import TestImage from '../../../public/imgs/test_image.svg';
+import ShareIcon from '../../../public/Icons/share_icon.svg';
+import ShareIcon2 from '../../../public/Icons/share_icon_2.svg';
+import ArrowRounded from '../../../public/Icons/arrow_rounded.svg';
+import GripIcon from '../../../public/Icons/grip_icon.svg';
 import PickTime from '../../components/PickTime.jsx';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { convertTo12HourFormat } from '@/lib/time.js';
@@ -30,68 +37,69 @@ import Trash from '../../../public/Icons/trash_icon_gray.svg';
 import Print from '../../../public/Icons/print_icon.svg';
 import { SolidLogo } from '../../UI-Global/SolidLogo.jsx';
 import Backtolevels from '@/UI-Global/Backtolevels.jsx';
+import { Input } from '@/components/ui/input.jsx';
 
-const QUESTIONS = [
-  {
-    text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
-    bouns: 0,
-    deg: 1,
-    answers: [
-      { text: 'المشتري', isCorrect: true, id: '1' },
-      { text: 'المريخ', isCorrect: false, id: '2' },
-    ],
-    images: [],
-    explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
-    required: true,
-    id: '1',
-  },
-  {
-    text: 'ما هي عاصمة فرنسا؟',
-    bouns: 1,
-    deg: 0,
-    answers: [
-      { text: 'باريس', isCorrect: true, id: '1' },
-      { text: 'برلين', isCorrect: false, id: '2' },
-    ],
-    images: [],
-    explain: 'باريس هي عاصمة فرنسا.',
-    required: false,
-    id: '2',
-  },
-  {
-    text: 'ما هو الحيوان الأسرع في العالم؟',
-    bouns: 0,
-    deg: 1,
-    answers: [
-      { text: 'الفهد', isCorrect: true, id: '1' },
-      { text: 'الأسد', isCorrect: false, id: '2' },
-    ],
-    images: [],
-    explain: 'الفهد هو الحيوان الأسرع في العالم.',
-    required: true,
-    id: '3',
-  },
-  //  {
-  //   text: "ما هو الحيوان الأسرع في العالم 2؟",
-  //   bouns: 0,
-  //   deg: 1,
-  //   answers: [
-  //    { text: "الفهد", isCorrect: true, id: "1" },
-  //    { text: "الأسد", isCorrect: false, id: "2" },
-  //    { text: "الثعلب", isCorrect: false, id: "3" },
-  //    { text: "القطة", isCorrect: false, id: "4" },
-  //   ],
-  //   images: [
-  //    "../../public/imgs/test_image.svg",
-  //    "../../public/imgs/video.svg",
-  //    "../../public/imgs/home-bg-1.png",
-  //    "../../public/imgs/home-bg-2.png",
-  //   ],
-  //   explain: "الفهد هو الحيوان الأسرع في العالم.",
-  //   required: true,
-  //   id: "4",
-  //  },
-];
+// const QUESTIONS = [
+//   {
+//     text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
+//     bouns: 0,
+//     deg: 1,
+//     answers: [
+//       { text: 'المشتري', isCorrect: true, id: '1' },
+//       { text: 'المريخ', isCorrect: false, id: '2' },
+//     ],
+//     images: [],
+//     explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
+//     required: true,
+//     id: '1',
+//   },
+//   {
+//     text: 'ما هي عاصمة فرنسا؟',
+//     bouns: 1,
+//     deg: 0,
+//     answers: [
+//       { text: 'باريس', isCorrect: true, id: '1' },
+//       { text: 'برلين', isCorrect: false, id: '2' },
+//     ],
+//     images: [],
+//     explain: 'باريس هي عاصمة فرنسا.',
+//     required: false,
+//     id: '2',
+//   },
+//   {
+//     text: 'ما هو الحيوان الأسرع في العالم؟',
+//     bouns: 0,
+//     deg: 1,
+//     answers: [
+//       { text: 'الفهد', isCorrect: true, id: '1' },
+//       { text: 'الأسد', isCorrect: false, id: '2' },
+//     ],
+//     images: [],
+//     explain: 'الفهد هو الحيوان الأسرع في العالم.',
+//     required: true,
+//     id: '3',
+//   },
+//   //  {
+//   //   text: "ما هو الحيوان الأسرع في العالم 2؟",
+//   //   bouns: 0,
+//   //   deg: 1,
+//   //   answers: [
+//   //    { text: "الفهد", isCorrect: true, id: "1" },
+//   //    { text: "الأسد", isCorrect: false, id: "2" },
+//   //    { text: "الثعلب", isCorrect: false, id: "3" },
+//   //    { text: "القطة", isCorrect: false, id: "4" },
+//   //   ],
+//   //   images: [
+//   //    "../../public/imgs/test_image.svg",
+//   //    "../../public/imgs/video.svg",
+//   //    "../../public/imgs/home-bg-1.png",
+//   //    "../../public/imgs/home-bg-2.png",
+//   //   ],
+//   //   explain: "الفهد هو الحيوان الأسرع في العالم.",
+//   //   required: true,
+//   //   id: "4",
+//   //  },
+// ];
 export const DEFAULT_QUESTION = {
   text: '',
   bouns: 0,
@@ -136,9 +144,10 @@ const HOURS = [
 
 function AddOnlineTest({ test }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [questions, setQuestions] = useState(test?.questions || QUESTIONS);
+  // const [QUESTIONS, SetQUESTIONS] = useState([]);
+  const [questions, setQuestions] = useState(test?.questions || []);
   const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
-  const [title, setTitle] = useState(test?.title || 'اختبار بدون عنوان');
+  const [title, setTitle] = useState(test?.title);
   const [onEdit, setOnEdit] = useState(false);
   const [onEditIndex, setOnEditIndex] = useState(null);
   const [date, setDate] = useState(new Date());
@@ -185,18 +194,18 @@ function AddOnlineTest({ test }) {
   const tabs_1 = [
     {
       text: constraints[searchParams.get('level')].content[searchParams.get('subLevel')],
-      path: 'Icons/level_icon.svg',
+      path: '../../../public/Icons/level_icon.svg',
     },
     {
       text: searchParams.get('group').split('_').length,
-      path: 'Icons/group_icon.svg',
+      path: '../../../public/Icons/group_icon.svg',
     },
-    { text: '12 طالب', path: 'Icons/students_icon.svg' },
-    { text: questions.length, path: 'Icons/question_icon.svg' },
-    { text: '20 درجة', path: 'Icons/flag_icon.svg' },
+    { text: '12 طالب', path: '../../../public/Icons/students_icon.svg' },
+    { text: questions.length, path: '../../../public/Icons/question_icon.svg' },
+    { text: '20 درجة', path: '../../../public/Icons/flag_icon.svg' },
     {
       text: questions.reduce((acc, el) => acc + el.bouns, 0),
-      path: 'Icons/bouns_icon.svg',
+      path: '../../../public/Icons/bouns_icon.svg',
     },
   ];
 
@@ -488,23 +497,23 @@ function AddOnlineTest({ test }) {
           <div className="mb-12 mt-4 flex gap-2 font-almaria-light">
             <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level' })}>
               <span>المراحل الدراسية</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
+              <BreadcrumbArrow />
             </button>
             <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level', level: searchParams.get('level') })}>
               <span>{constraints[searchParams.get('level')].text}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
+              <BreadcrumbArrow />
             </button>
             <button className="flex gap-1">
               <span>{constraints[searchParams.get('level')].content[+searchParams.get('subLevel')]}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
+              <BreadcrumbArrow />
             </button>
             <button className="flex gap-1">
               <span>{searchParams.get('group')?.replaceAll('_', ' / ')}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
+              <BreadcrumbArrow />
             </button>
             <div className="flex gap-1">
               <span>الاختبارات</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
+              <BreadcrumbArrow />
             </div>
             <div className="flex gap-1 font-almaria-bold">
               <span>اضافة اختبار</span>
@@ -513,13 +522,6 @@ function AddOnlineTest({ test }) {
           <div className="mx-auto w-full p-4 md:w-[85%] lg:w-[70%]">
             <div className="rounded-lg bg-white p-4">
               <div className="mb-6 flex items-center justify-between">
-                {/* <div className="flex gap-1 items-end">
-         <span className="text-secondary-l font-almaria-extrabold text-[1rem]">
-          تعليم{" "}
-         </span>
-         <span className="text-primary-l font-almaria-bold">كوم </span>
-         <img src="Icons/logo_solid.svg" alt="logo" />
-        </div> */}
                 <SolidLogo />
                 <div className="flex gap-2">
                   <TooltipProvider delayDuration={100}>
@@ -539,7 +541,7 @@ function AddOnlineTest({ test }) {
                     <Tooltip>
                       <TooltipTrigger>
                         <Button variant="outline" size="icon">
-                          <TrashIcon />{' '}
+                          <TrashIcon />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent side="bottom" align="center" sideOffset={10}>
@@ -551,14 +553,14 @@ function AddOnlineTest({ test }) {
               </div>
               <div className="my-4 flex">
                 <div className="mr-8">
-                  <img src="imgs/test_image.svg" alt="test" />
+                  <TestImage />{' '}
                 </div>
                 <div className="ml-8 flex-grow">
                   <div className="mr-6 flex flex-grow items-center gap-3">
                     <div className="flex-grow">
-                      <Heading as={'h3'} className={'mb-12 font-almaria-bold'}>
-                        {title}
-                      </Heading>
+                      {/* <Heading as={'h3'} className={'mb-12 font-almaria-bold'}>
+                      </Heading> */}
+                      <Input className="mb-2 max-w-56" placeholder="عنوان الاختبار" value={''} onChange={(e) => setTitle(e.value)} />
                       <div className="grid max-w-[500px] grid-cols-3 gap-4">
                         {tabs_1.map((item) => (
                           <Tab key={item.text} type={'ghost'} text={item.text} path={item.path} />
@@ -687,10 +689,10 @@ function AddOnlineTest({ test }) {
                       {/* <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" /> */}
                     </div>
                     <div className="flex gap-6">
-                      <OldButton type={'outline'} icon={<img src={'../../public/Icons/share_icon_2.svg'} />}>
+                      <OldButton type={'outline'} icon={<ShareIcon2 />}>
                         مشاركة مع المجموعة
                       </OldButton>
-                      <OldButton type={'outline'} icon={<img src={'../../public/Icons/share_icon.svg'} />}>
+                      <OldButton type={'outline'} icon={<ShareIcon />}>
                         مشاركة
                       </OldButton>
                     </div>
@@ -750,10 +752,10 @@ function AddOnlineTest({ test }) {
                         <div className="flex items-center gap-2 rounded-lg bg-accent-l-1100 px-4 py-2">
                           <div className="flex flex-col justify-between gap-1">
                             <button className="transition-all duration-300 hover:scale-110" onClick={() => handelIncrease(index)}>
-                              <img src="Icons/arrow_rounded.svg" alt="up" />
+                              <ArrowRounded />
                             </button>
                             <button className="transition-all duration-300 hover:scale-110" onClick={() => handelDecrease(index)}>
-                              <img src="Icons/arrow_rounded.svg" alt="down" className="rotate-180" />
+                              <ArrowRounded className="rotate-180" />
                             </button>
                           </div>
                           <span className="mr-1">{question.required ? question.deg : question.bouns}</span>
@@ -778,7 +780,7 @@ function AddOnlineTest({ test }) {
                               <div className="w-full">
                                 <div className="flex w-full items-center gap-2">
                                   <div className="min-w-[25%]" dangerouslySetInnerHTML={{ __html: answer.text }}></div>
-                                  <img src="Icons/grip_icon.svg" alt="drag" draggable={false} />
+                                  <GripIcon />
                                 </div>
                               </div>
                             </Reorder.Item>
@@ -797,13 +799,13 @@ function AddOnlineTest({ test }) {
 
                       {/* {i === question.answers.length - 1 && ( */}
                       <div className="flex items-end gap-4">
-                        <img src="Icons/grip_icon.svg" alt="drag" draggable={false} className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
+                        <GripIcon className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
                         <button type="button" className="col-span-10 mt-4 flex items-center gap-1" onClick={() => edit(index)}>
                           <Edit className="h-5 text-secondary-l" />
                           <span className="font-almaria-bold text-secondary-l">تعديل</span>
                         </button>
-                        <button type="button" className="col-span-10 mt-4 flex items-start gap-1" onClick={() => deleteQuestion(index)}>
-                          <img src="Icons/trash_icon.svg" alt="delete" />
+                        <button type="button" className="col-span-10 mt-4 flex items-end gap-1 text-primary-l" onClick={() => deleteQuestion(index)}>
+                          <Trash2 />
                           <span className="font-almaria-bold text-primary-l">حذف</span>
                         </button>
                       </div>

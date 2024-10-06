@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import PropTypes from 'prop-types';
 import { useStudent } from '@/Context/StudentDashboard/StudentProvider.jsx';
-
 Toppers.propTypes = {
   groupsId: PropTypes.arrayOf(PropTypes.number),
   students: PropTypes.arrayOf(
@@ -15,7 +14,6 @@ Toppers.propTypes = {
   ),
   backToLevels: PropTypes.bool,
 };
-
 function Toppers({ groupsId = [], students = [], backToLevels = true }) {
   const [animation, setAnimation] = useState(true);
   const { studentToppers } = useStudent();

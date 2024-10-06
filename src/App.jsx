@@ -9,7 +9,6 @@ import Opinion from './pages/Opinion/Opinion.jsx';
 import ContactWithUs from './pages/ContactWithUs/ContactWithUs.jsx';
 import PageNotFound from './pages/PageNotFound/PageNotFound.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx';
-
 import AuthProvider from 'react-auth-kit';
 import { store } from './auth/authStore.js';
 import AddStudent from './Features/student/AddStudent.jsx';
@@ -24,7 +23,7 @@ import Tests from './Features/test/Tests.jsx';
 import GroupDetails from './Features/group/GroupDetails.jsx';
 import StudentTest from './pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx';
 import StudentMonths from './pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx';
-
+import EditGroupDetails from './Features/group/EditGroupDetails.jsx';
 function App() {
   return (
     <>
@@ -43,9 +42,10 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}>
                 {/* Teacher Dashboard Routes */}
                 <Route path="addStudent" element={<AddStudent />} />
-                <Route path="addStudent/:id" element={<AddStudent />} />
+                <Route path="studentDetails/:id" element={<StudentDetails />} />
                 <Route path="addGroup" element={<AddGroup />} />
                 <Route path="addGroup/:id" element={<GroupDetails />} />
+                <Route path="editGroup/:id" element={<EditGroupDetails />} />
                 <Route path="level" element={<Level />} />
                 {/* Student Dashboard Routes */}
                 <Route path="tests" element={<StudentTest />} />

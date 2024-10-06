@@ -1,7 +1,7 @@
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Heading from '../../UI-Global/Heading.jsx';
-import { constraints } from '../../config.js';
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/ui/button.jsx';
 import { Calendar } from '@/components/ui/calendar.jsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.jsx';
@@ -10,7 +10,7 @@ import CalendarIcon from '../../../public/Icons/calender.svg';
 import Arrow from '../../../public/Icons/breadcrumb_arrow.svg';
 import ArrowFilled from '../../../public/Icons/arrow_list_icon.svg';
 import { cn } from '@/lib/utils.js';
-import { format } from 'date-fns';
+import { format, isAfter, isBefore, isToday, isYesterday, isThisWeek } from 'date-fns';
 import Table from '@/UI-Global/Table/Table.jsx';
 import THead from '@/UI-Global/Table/THead.jsx';
 import TR from '@/UI-Global/Table/TR.jsx';
@@ -25,263 +25,267 @@ import AddOfflineTest from './AddOfflineTest.jsx';
 import OnlineTestData from './OnlineTestData.jsx';
 import OfflineTestData from './OfflineTestData.jsx';
 import { X } from 'lucide-react';
+import SearchIcon from '../../../public/Icons/search_icon.svg';
 import Backtolevels from '@/UI-Global/Backtolevels.jsx';
 import Breadcrumb from '@/UI-Global/Breadcrumb.jsx';
-
-const TESTS = [
-  {
-    title: 'Math Test',
-    type: 'اوفلاين',
-    date: '8/18/2024',
-    timeStart: { hour: 9, minute: 30, mode: 'AM' },
-    timeDuration: { hour: 1, minute: 15, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'المشتري', isCorrect: true, id: '1' },
-          { text: 'المريخ', isCorrect: false, id: '2' },
-          { text: 'الأرض', isCorrect: false, id: '3' },
-          { text: 'الزهرة', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Science Project',
-    type: 'اونلاين',
-    date: '8/17/2024',
-    timeStart: { hour: 11, minute: 0, mode: 'AM' },
-    timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
-    questions: [
-      {
-        text: 'ما هو العنصر الأكثر انتشارًا في الكون؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'الهيدروجين', isCorrect: true, id: '1' },
-          { text: 'الأكسجين', isCorrect: false, id: '2' },
-          { text: 'الكربون', isCorrect: false, id: '3' },
-          { text: 'الهيليوم', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'الهيدروجين هو العنصر الأكثر انتشارًا في الكون.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'History Exam',
-    type: 'اوفلاين',
-    date: '8/16/2024',
-    timeStart: { hour: 2, minute: 0, mode: 'PM' },
-    timeDuration: { hour: 1, minute: 30, mode: 'PM', day: 0 },
-    questions: [
-      {
-        text: 'من هو أول رئيس للولايات المتحدة الأمريكية؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'جورج واشنطن', isCorrect: true, id: '1' },
-          { text: 'أبراهام لنكولن', isCorrect: false, id: '2' },
-          { text: 'توماس جيفرسون', isCorrect: false, id: '3' },
-          { text: 'جيمس ماديسون', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'جورج واشنطن هو أول رئيس للولايات المتحدة الأمريكية.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'English Essay',
-    type: 'اونلاين',
-    date: '8/15/2024',
-    timeStart: { hour: 10, minute: 30, mode: 'AM' },
-    timeDuration: { hour: 1, minute: 45, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: "Which of the following is a synonym for 'happy'?",
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'Sad', isCorrect: false, id: '1' },
-          { text: 'Joyful', isCorrect: true, id: '2' },
-          { text: 'Angry', isCorrect: false, id: '3' },
-          { text: 'Tired', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: "'Joyful' is a synonym for 'happy'.",
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Physics Lab',
-    type: 'اوفلاين',
-    date: '8/14/2024',
-    timeStart: { hour: 8, minute: 0, mode: 'AM' },
-    timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: 'ما هو قانون نيوتن الثالث؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          {
-            text: 'القوة تساوي الكتلة مضروبة في التسارع',
-            isCorrect: false,
-            id: '1',
-          },
-          {
-            text: 'لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه',
-            isCorrect: true,
-            id: '2',
-          },
-          { text: 'القوة الناتجة تساوي صفر', isCorrect: false, id: '3' },
-          {
-            text: 'الجسم يبقى في حالة سكون ما لم تؤثر عليه قوة خارجية',
-            isCorrect: false,
-            id: '4',
-          },
-        ],
-        images: [],
-        explain: 'قانون نيوتن الثالث ينص على أن لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Chemistry Quiz',
-    type: 'اونلاين',
-    date: '8/13/2024',
-    timeStart: { hour: 1, minute: 0, mode: 'PM' },
-    timeDuration: { hour: 1, minute: 0, mode: 'PM', day: 0 },
-    questions: [
-      {
-        text: 'ما هو رمز الصوديوم في الجدول الدوري؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'Na', isCorrect: true, id: '1' },
-          { text: 'Cl', isCorrect: false, id: '2' },
-          { text: 'K', isCorrect: false, id: '3' },
-          { text: 'Mg', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'رمز الصوديوم في الجدول الدوري هو Na.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Geography Presentation',
-    type: 'اوفلاين',
-    date: '8/12/2024',
-    timeStart: { hour: 10, minute: 0, mode: 'AM' },
-    timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: 'ما هي أكبر قارة من حيث المساحة؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'آسيا', isCorrect: true, id: '1' },
-          { text: 'أفريقيا', isCorrect: false, id: '2' },
-          { text: 'أوروبا', isCorrect: false, id: '3' },
-          { text: 'أمريكا الشمالية', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'آسيا هي أكبر قارة من حيث المساحة.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Art Project',
-    type: 'اونلاين',
-    date: '8/11/2024',
-    timeStart: { hour: 3, minute: 0, mode: 'PM' },
-    timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
-    questions: [
-      {
-        text: 'Who painted the Mona Lisa?',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'Leonardo da Vinci', isCorrect: true, id: '1' },
-          { text: 'Vincent van Gogh', isCorrect: false, id: '2' },
-          { text: 'Pablo Picasso', isCorrect: false, id: '3' },
-          { text: 'Claude Monet', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'Leonardo da Vinci painted the Mona Lisa.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Computer Science Test',
-    type: 'اوفلاين',
-    date: '2024-10-30',
-    timeStart: { hour: 8, minute: 45, mode: 'AM' },
-    timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: 'ما هي لغة البرمجة التي تم تطويرها بواسطة جيمس جوسلينج؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'Python', isCorrect: false, id: '1' },
-          { text: 'Java', isCorrect: true, id: '2' },
-          { text: 'C++', isCorrect: false, id: '3' },
-          { text: 'Ruby', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'لغة Java تم تطويرها بواسطة جيمس جوسلينج.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-  {
-    title: 'Biology Lab',
-    type: 'اونلاين',
-    date: '2024-09-15',
-    timeStart: { hour: 10, minute: 15, mode: 'AM' },
-    timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
-    questions: [
-      {
-        text: 'ما هي الوحدة الأساسية للحياة؟',
-        bouns: 0,
-        deg: 1,
-        answers: [
-          { text: 'الخلية', isCorrect: true, id: '1' },
-          { text: 'الجزيء', isCorrect: false, id: '2' },
-          { text: 'الأنسجة', isCorrect: false, id: '3' },
-          { text: 'الأعضاء', isCorrect: false, id: '4' },
-        ],
-        images: [],
-        explain: 'الخلية هي الوحدة الأساسية للحياة.',
-        required: true,
-        id: '1',
-      },
-    ],
-  },
-];
+import axios from 'axios';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import toast from 'react-hot-toast';
+import { DeleteConfirmation } from '@/components/DeleteConfirmation';
+// const TESTS = [
+//   {
+//     title: 'Math Test',
+//     type: 'اوفلاين',
+//     date: '8/18/2024',
+//     timeStart: { hour: 9, minute: 30, mode: 'AM' },
+//     timeDuration: { hour: 1, minute: 15, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'المشتري', isCorrect: true, id: '1' },
+//           { text: 'المريخ', isCorrect: false, id: '2' },
+//           { text: 'الأرض', isCorrect: false, id: '3' },
+//           { text: 'الزهرة', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Science Project',
+//     type: 'اونلاين',
+//     date: '8/17/2024',
+//     timeStart: { hour: 11, minute: 0, mode: 'AM' },
+//     timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هو العنصر الأكثر انتشارًا في الكون؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'الهيدروجين', isCorrect: true, id: '1' },
+//           { text: 'الأكسجين', isCorrect: false, id: '2' },
+//           { text: 'الكربون', isCorrect: false, id: '3' },
+//           { text: 'الهيليوم', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'الهيدروجين هو العنصر الأكثر انتشارًا في الكون.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'History Exam',
+//     type: 'اوفلاين',
+//     date: '8/16/2024',
+//     timeStart: { hour: 2, minute: 0, mode: 'PM' },
+//     timeDuration: { hour: 1, minute: 30, mode: 'PM', day: 0 },
+//     questions: [
+//       {
+//         text: 'من هو أول رئيس للولايات المتحدة الأمريكية؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'جورج واشنطن', isCorrect: true, id: '1' },
+//           { text: 'أبراهام لنكولن', isCorrect: false, id: '2' },
+//           { text: 'توماس جيفرسون', isCorrect: false, id: '3' },
+//           { text: 'جيمس ماديسون', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'جورج واشنطن هو أول رئيس للولايات المتحدة الأمريكية.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'English Essay',
+//     type: 'اونلاين',
+//     date: '8/15/2024',
+//     timeStart: { hour: 10, minute: 30, mode: 'AM' },
+//     timeDuration: { hour: 1, minute: 45, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: "Which of the following is a synonym for 'happy'?",
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'Sad', isCorrect: false, id: '1' },
+//           { text: 'Joyful', isCorrect: true, id: '2' },
+//           { text: 'Angry', isCorrect: false, id: '3' },
+//           { text: 'Tired', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: "'Joyful' is a synonym for 'happy'.",
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Physics Lab',
+//     type: 'اوفلاين',
+//     date: '8/14/2024',
+//     timeStart: { hour: 8, minute: 0, mode: 'AM' },
+//     timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هو قانون نيوتن الثالث؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           {
+//             text: 'القوة تساوي الكتلة مضروبة في التسارع',
+//             isCorrect: false,
+//             id: '1',
+//           },
+//           {
+//             text: 'لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه',
+//             isCorrect: true,
+//             id: '2',
+//           },
+//           { text: 'القوة الناتجة تساوي صفر', isCorrect: false, id: '3' },
+//           {
+//             text: 'الجسم يبقى في حالة سكون ما لم تؤثر عليه قوة خارجية',
+//             isCorrect: false,
+//             id: '4',
+//           },
+//         ],
+//         images: [],
+//         explain: 'قانون نيوتن الثالث ينص على أن لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Chemistry Quiz',
+//     type: 'اونلاين',
+//     date: '8/13/2024',
+//     timeStart: { hour: 1, minute: 0, mode: 'PM' },
+//     timeDuration: { hour: 1, minute: 0, mode: 'PM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هو رمز الصوديوم في الجدول الدوري؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'Na', isCorrect: true, id: '1' },
+//           { text: 'Cl', isCorrect: false, id: '2' },
+//           { text: 'K', isCorrect: false, id: '3' },
+//           { text: 'Mg', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'رمز الصوديوم في الجدول الدوري هو Na.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Geography Presentation',
+//     type: 'اوفلاين',
+//     date: '8/12/2024',
+//     timeStart: { hour: 10, minute: 0, mode: 'AM' },
+//     timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هي أكبر قارة من حيث المساحة؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'آسيا', isCorrect: true, id: '1' },
+//           { text: 'أفريقيا', isCorrect: false, id: '2' },
+//           { text: 'أوروبا', isCorrect: false, id: '3' },
+//           { text: 'أمريكا الشمالية', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'آسيا هي أكبر قارة من حيث المساحة.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Art Project',
+//     type: 'اونلاين',
+//     date: '8/11/2024',
+//     timeStart: { hour: 3, minute: 0, mode: 'PM' },
+//     timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
+//     questions: [
+//       {
+//         text: 'Who painted the Mona Lisa?',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'Leonardo da Vinci', isCorrect: true, id: '1' },
+//           { text: 'Vincent van Gogh', isCorrect: false, id: '2' },
+//           { text: 'Pablo Picasso', isCorrect: false, id: '3' },
+//           { text: 'Claude Monet', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'Leonardo da Vinci painted the Mona Lisa.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Computer Science Test',
+//     type: 'اوفلاين',
+//     date: '2024-10-30',
+//     timeStart: { hour: 8, minute: 45, mode: 'AM' },
+//     timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هي لغة البرمجة التي تم تطويرها بواسطة جيمس جوسلينج؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'Python', isCorrect: false, id: '1' },
+//           { text: 'Java', isCorrect: true, id: '2' },
+//           { text: 'C++', isCorrect: false, id: '3' },
+//           { text: 'Ruby', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'لغة Java تم تطويرها بواسطة جيمس جوسلينج.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+//   {
+//     title: 'Biology Lab',
+//     type: 'اونلاين',
+//     date: '2024-09-15',
+//     timeStart: { hour: 10, minute: 15, mode: 'AM' },
+//     timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
+//     questions: [
+//       {
+//         text: 'ما هي الوحدة الأساسية للحياة؟',
+//         bouns: 0,
+//         deg: 1,
+//         answers: [
+//           { text: 'الخلية', isCorrect: true, id: '1' },
+//           { text: 'الجزيء', isCorrect: false, id: '2' },
+//           { text: 'الأنسجة', isCorrect: false, id: '3' },
+//           { text: 'الأعضاء', isCorrect: false, id: '4' },
+//         ],
+//         images: [],
+//         explain: 'الخلية هي الوحدة الأساسية للحياة.',
+//         required: true,
+//         id: '1',
+//       },
+//     ],
+//   },
+// ];
 
 function Tests() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -290,7 +294,8 @@ function Tests() {
   const [filterByDateType, setFilterByDateType] = useState('');
   const [filterByTestTypeUl, setFilterByTestTypeUl] = useState(false);
   const [filterByTestType, setFilterByTestType] = useState('');
-  const [tests, setTests] = useState(TESTS);
+  const [TESTS, setTESTS] = useState(null);
+  const [tests, setTests] = useState(null);
   const [search, setSearch] = useState('');
   const [dateFrom, setDateFrom] = useState(new Date());
   const [dateTo, setDateTo] = useState(new Date());
@@ -298,22 +303,9 @@ function Tests() {
   const [showDataModal, setShowDataModal] = useState(false);
   const [currentTest, setCurrentTest] = useState(null);
   const [TestToEdit, setTestToEdit] = useState(null);
+  const [showDelete, setShowDelete] = useState(false);
 
-  const formatDate = (date) => {
-    const month = date.getMonth() + 1; // Months are zero-based
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
-  };
-  const today = new Date();
-
-  // Yesterday's date
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-
-  // A week ago
-  const aWeekAgo = new Date();
-  aWeekAgo.setDate(today.getDate() - 7);
+  const authHeader = useAuthHeader();
 
   const handleSearch = (e) => {
     const searchValue = e.target.value.toLowerCase();
@@ -330,6 +322,41 @@ function Tests() {
     setTests(TESTS.filter((test) => regex.test(test.title)));
   };
 
+  const deleteTest = async (id) => {
+    try {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz?id=${id}`, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
+      if (res.status === 200) {
+        setTESTS((prev) => prev.filter((item) => item.id !== id));
+        toast.success('تم حذف الاختبار');
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    const fetchTests = async () => {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?GroupsIds=${searchParams.get('group')}`, {
+        headers: { Authorization: authHeader },
+      });
+      if (res.status === 200) {
+        setTESTS(res.data);
+        setTests(res.data);
+      } else setTests([]);
+    };
+    fetchTests();
+  }, [authHeader, searchParams]);
+  // console.log(authHeader);
+  useEffect(() => {
+    if (dateFrom && dateTo && TESTS) {
+      setTests(TESTS?.filter((test) => isAfter(test.startDate, dateFrom) && isBefore(test.startDate, dateTo)));
+    }
+  }, [dateFrom, dateTo]);
+
   return (
     <>
       {showEditModal && !showDataModal && TestToEdit.type === 'اونلاين' && <AddOnlineTest test={TestToEdit} />}
@@ -343,27 +370,7 @@ function Tests() {
             الاختبارات
           </Heading>
           <hr className="w-[70%]" />
-          {/* <div className="mb-12 mt-4 flex gap-2 font-almaria-light">
-            <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level' })}>
-              <span>المراحل الدراسية</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1" onClick={() => setSearchParams({ tab: 'level', level: searchParams.get('level') })}>
-              <span>{constraints[searchParams.get('level')].text}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1">
-              <span>{constraints[searchParams.get('level')].content[+searchParams.get('subLevel')]}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <button className="flex gap-1">
-              <span>{searchParams.get('group').replaceAll('_', ' / ')}</span>
-              <img src="Icons/breadcrumb_arrow.svg" alt="arrow" />
-            </button>
-            <div className="flex gap-1 font-almaria-bold">
-              <span>الاختبارات</span>
-            </div>
-          </div> */}
+
           <Breadcrumb page={'الاختبارات'} />
           <Button variant="ghost" size="lg" className={'relative flex gap-4 bg-secondary-l px-4 py-7 font-almaria text-2xl text-white hover:bg-secondary-l hover:text-white'} onClick={() => setAddTestUl((prev) => !prev)}>
             <Plus />
@@ -409,20 +416,10 @@ function Tests() {
                   className="cursor-pointer"
                 />
               ) : (
-                <img src="Icons/search_icon.svg" alt="search" />
+                <SearchIcon />
               )}
               <input type="text" placeholder="اسم الاختبار" className="w-full" value={search} onChange={handleSearch} />
             </div>
-            {/* <Button
-       type="ghost"
-       size="lg"
-       className={
-        " bg-accent-l-900 text-black hover:bg-accent-l-900  font-almaria-light text-lg  py-6 "
-       }
-      >
-       بحث
-      </Button> */}
-
             <Button type="ghost" className={'relative bg-accent-l-900 py-6 font-almaria text-xl text-black hover:bg-accent-l-900'} onClick={() => setFilterByDateUl((prev) => !prev)}>
               <div className="flex items-center gap-2 font-almaria-light text-lg !text-black">
                 <CalendarIcon />
@@ -474,7 +471,8 @@ function Tests() {
                     disabled={!filterByDateUl}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setTests(TESTS.filter((test) => test.date === formatDate(today)));
+                      setTests(TESTS.filter((test) => isToday(test.startDate)));
+                      setFilterByDateType('اليوم');
                       setFilterByDateUl(false);
                     }}
                     className="hover:bg-accent-900 rounded-[7px] border border-[#b4d3e0] p-3 text-start transition-all duration-500 hover:bg-accent-l-900"
@@ -485,9 +483,9 @@ function Tests() {
                     disabled={!filterByDateUl}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setTests(TESTS.filter((test) => test.date >= formatDate(yesterday)));
-                      setFilterByDateType('اليوم');
+                      setTests(TESTS.filter((test) => isYesterday(test.startDate)));
                       setFilterByDateUl(false);
+                      setFilterByDateType('امس');
                     }}
                     className="hover:bg-accent-900 rounded-[7px] border border-[#b4d3e0] p-3 text-start transition-all duration-500 hover:bg-accent-l-900"
                   >
@@ -497,8 +495,8 @@ function Tests() {
                     disabled={!filterByDateUl}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setTests(TESTS.filter((test) => test.date >= formatDate(aWeekAgo)));
-                      setFilterByDateType('امس');
+                      setTests(TESTS.filter((test) => isThisWeek(test.startDate)));
+                      setFilterByDateType('اسبوع');
                       setFilterByDateUl(false);
                     }}
                     className="hover:bg-accent-900 rounded-[7px] border border-[#b4d3e0] p-3 text-start transition-all duration-500 hover:bg-accent-l-900"
@@ -509,9 +507,9 @@ function Tests() {
                     className="mt-2 w-fit text-start text-secondary-l underline"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setFilterByDateType('اسبوع');
                       setFilterByDateUl(false);
                       setFilterByDateType('');
+                      setTests(TESTS);
                     }}
                   >
                     الغاء
@@ -592,33 +590,39 @@ function Tests() {
                 </TR>
               </THead>
               <TBody className="max-h-[500px] overflow-y-scroll px-2">
-                {tests.map((test) => (
-                  <TR key={test.title} className="group mb-1 cursor-pointer">
-                    <TD className="flex gap-4 rounded-br-xl rounded-tr-xl border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">
-                      <button
-                        onClick={() => {
-                          setTestToEdit(test);
-                          setShowEditModal(true);
-                        }}
-                      >
-                        <EditIcon className="h-5" />
-                      </button>
-                      <span
-                        onClick={() => {
-                          setCurrentTest(test);
-                          setShowDataModal(true);
-                        }}
-                      >
-                        {test.title}
-                      </span>
-                      <button className="mr-auto" onClick={() => setTests(tests.filter((item) => item.title !== test.title))}>
-                        <TrashIcon className="h-5" />
-                      </button>
-                    </TD>
-                    <TD className="border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.type}</TD>
-                    <TD className="rounded-bl-xl rounded-tl-xl bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.date}</TD>
-                  </TR>
-                ))}
+                {tests?.length > 0 ? (
+                  tests?.map((test) => (
+                    <TR key={test.id} className="group mb-1 cursor-pointer">
+                      <DeleteConfirmation open={showDelete} setOpen={setShowDelete} onDelete={() => deleteTest(test.id)} />
+
+                      <TD className="flex gap-4 rounded-br-xl rounded-tr-xl border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">
+                        <button
+                          onClick={() => {
+                            setTestToEdit(test);
+                            setShowEditModal(true);
+                          }}
+                        >
+                          <EditIcon className="h-5" />
+                        </button>
+                        <span
+                          onClick={() => {
+                            setCurrentTest(test);
+                            setShowDataModal(true);
+                          }}
+                        >
+                          {test.title}
+                        </span>
+                        <button className="mr-auto" onClick={setShowDelete}>
+                          <TrashIcon className="h-5" />
+                        </button>
+                      </TD>
+                      <TD className="border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{test.type}</TD>
+                      <TD className="rounded-bl-xl rounded-tl-xl bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">{new Date(test.startDate).toLocaleDateString()}</TD>
+                    </TR>
+                  ))
+                ) : (
+                  <p> لا يوجد اختبارت </p>
+                )}
               </TBody>
             </Table>
           </div>

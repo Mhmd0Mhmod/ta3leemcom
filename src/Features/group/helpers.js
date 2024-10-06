@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 export async function getGroups(teacherId, subLevelId) {
   const res = await axios.get(`${import.meta.env}/GetAllGroupsOfTeacherId?teacherId=${teacherId}&levelYearId=${subLevelId}`, {
@@ -9,4 +10,6 @@ export async function getGroups(teacherId, subLevelId) {
       toJSON: true,
     },
   });
+  return res.data;
 }
+export async function addGroup() {}
