@@ -110,8 +110,8 @@ export const DEFAULT_QUESTION = {
   bouns: 1,
   deg: 0,
   answers: [
-    { text: '', isCorrect: false, id: '1' },
-    { text: '', isCorrect: false, id: '2' },
+    { text: '', isCorrect: false, isDeleted: false, id: '1' },
+    { text: '', isCorrect: false, isDeleted: false, id: '2' },
   ],
   images: [],
   explain: '',
@@ -182,9 +182,7 @@ function AddOnlineTest({ test }) {
   const [showTestRes, setShowTestRes] = useState(false);
   const [showTestDeletion, setShowTestDeletion] = useState(false);
   const navigate = useNavigate();
-  const [dummyQuestions, setDummyQuestions] = useState(
-    []
-  );
+  const [dummyQuestions, setDummyQuestions] = useState([]);
 
   const [timeStart, setTimeStart] = useState(
     test?.timeStart || {
@@ -343,7 +341,7 @@ function AddOnlineTest({ test }) {
         explain: q.explain,
         type: q.required ? ' اجباري ' : 'اخنياري',
         // bouns: q.bouns ? q.bouns : 0,
-        Chooses: q.answers.map((a) => {
+        Choices: q.answers.map((a) => {
           return {
             content: a.text,
             isCorrect: a.isCorrect,
@@ -367,11 +365,18 @@ function AddOnlineTest({ test }) {
       let res;
       if (test) {
         testData.id = test.id;
-        testData.questions = testData.questions.map((q, i) => { return { ...q, id: questions[i].id, Chooses : q.Chooses.map((a, j) => { return { ...a, id: questions[i].answers[j].id }
-        }) } });
-        console.log('testData',testData );
+        testData.questions = testData.questions.map((q, i) => {
+          return {
+            ...q,
+            id: questions[i].id,
+            choices: q.Choices.map((a, j) => {
+              return { ...a, id: questions[i].answers[j].id };
+            }),
+          };
+        });
+        console.log('testData', testData);
 
-        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuiz`, testData, { headers: { Authorization: authHeader } });
+        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuizBeforeStart`, testData, { headers: { Authorization: authHeader } });
       } else {
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
@@ -380,10 +385,11 @@ function AddOnlineTest({ test }) {
         });
       }
       if (res.status === 200) {
-        toast.success(test? 'تم التعديل بنجاح' : 'تم الاضافة بنجاح');
+        toast.success(test ? 'تم التعديل بنجاح' : 'تم الاضافة بنجاح');
       }
     } catch (error) {
-      toast.error('حدث خطأ ما');
+      // toast.error('حدث خطأ ما');
+      toast.error(error.message);
     }
   };
 
@@ -443,24 +449,25 @@ function AddOnlineTest({ test }) {
               data.questionsOfQuizzes.map((q) => {
                 return {
                   text: q.content,
-                  bouns: q.type === 'bounce' ? q.mark : 0,
-                  deg: q.type === 'required' ? q.mark : 0,
+                  bouns: q.type === 'اختياري' ? q.mark : 0,
+                  deg: q.type !== 'اختياري' ? q.mark : 0,
                   answers: q.choices.map((a) => {
                     return {
                       text: a.content,
                       isCorrect: a.isCorrect,
                       id: a.id,
+                      isDeleted: a.isDeleted,
                     };
                   }),
                   images: [],
                   explain: q.explain,
-                  required: q.type !== 'اخنياري',
+                  required: q.type !== 'اختياري',
                   id: q.id,
                 };
               }),
             );
             setDummyQuestions(
-            data.questionsOfQuizzes.map((q) => {
+              data.questionsOfQuizzes.map((q) => {
                 return {
                   text: q.content,
                   bouns: q.type === 'bounce' ? q.mark : 0,
@@ -478,30 +485,29 @@ function AddOnlineTest({ test }) {
                   id: q.id,
                 };
               }),
-            )
+            );
             setTitle(data.title);
             setDate(new Date(data.startDate));
             setTimeStart({
-              hour: new Date(data.startDate).getHours() ,
-              minute: new Date(data.startDate).getMinutes(),
-              mode: new Date(data.startDate).getHours() >= 12 ? 'PM' : 'AM',
+              hour: data.timeStart.hours,
+              minute: data.timeStart.minute,
+              mode: data.timeStart.mode,
             });
             setTimeDuration({
-              hour: new Date(data.duration).getHours() ,
-              minute: new Date(data.duration).getMinutes(),
-              mode:  new Date(data.duration).getHours() >= 12 ? 'PM' : 'AM',
-              day:  new Date(data.duration).getDate() - new Date(data.startDate).getDate(),
+              hour: data.timeDuration.hours,
+              minute: data.timeDuration.minute,
+              mode: data.timeDuration.mode,
+              day: data.timeDuration.days,
             });
           }
         } catch (error) {
-
           toast.error(error?.response?.data);
           // toast.error(error.message);
         }
       };
       fetchTestWithId();
     }
-  }, [test,authHeader]);
+  }, [test, authHeader]);
   // console.log('questions', questions);
 
   return (
@@ -582,8 +588,10 @@ function AddOnlineTest({ test }) {
                     <li className="w-full rounded-md bg-white px-3 py-5 text-black">
                       <div className="flex items-center justify-between">
                         <Heading as={'h3'}>
-                          {' '}
-                          <span className="ml-2 text-accent-l-700">{index + 1}.</span> {question.text}
+                          <div className="flex">
+                            <span className="ml-2 text-accent-l-700">{index + 1}.</span> <div dangerouslySetInnerHTML={{ __html: question.text }} />
+                            {question.required && <span className="mr-1 text-red-500">*</span>}
+                          </div>
                         </Heading>
                         <p className="text-accent-l-100">
                           {question.required ? question.deg : question.bouns}
@@ -592,7 +600,7 @@ function AddOnlineTest({ test }) {
                       </div>
                       <div className="grid grid-cols-12">
                         <div className="col-span-6 mr-16 mt-6 text-start">
-                          {question?.answers.map((answer, i) => (
+                          {question?.answers?.map((answer, i) => (
                             <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer.isCorrect, i, index) === 'true' ? 'bg-[#bae3cd]' : highlight(answer.isCorrect, i, index) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
                               <input
                                 type="radio"
@@ -603,7 +611,7 @@ function AddOnlineTest({ test }) {
                                 //  onChange={(e) => handelAnswerCheck(e, i, index)}
                               />
                               <div className="flex w-full justify-between">
-                                <p className="">{answer.text}</p>
+                                <div dangerouslySetInnerHTML={{ __html: answer.text }} />
                                 <span>{highlight(answer.isCorrect, i, index) === 'true' ? <Check /> : highlight(answer.isCorrect, i, index) === 'false' ? <X /> : ''}</span>
                               </div>
                             </div>
@@ -901,7 +909,7 @@ function AddOnlineTest({ test }) {
                         مشاركة مع المجموعة
                       </OldButton>
                       <OldButton type={'outline'} icon={<ShareIcon />} onClick={handelSaveQuiz}>
-                         {test ? 'تعديل' : 'اضافة'}
+                        {test ? 'تعديل' : 'اضافة'}
                       </OldButton>
                     </div>
                   </div>

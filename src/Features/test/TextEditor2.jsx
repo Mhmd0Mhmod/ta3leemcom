@@ -165,6 +165,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
                   {
                     text: '',
                     isCorrect: false,
+                    isDeleted: false,
                     id: '3',
                   },
                 ],
@@ -175,7 +176,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
     } else {
       setCurrentQuestion((prev) => ({
         ...prev,
-        answers: [...prev.answers, { text: '', isCorrect: false, id: (prev.answers.length + 1).toString() }],
+        answers: [...prev.answers, { text: '', isCorrect: false, isDeleted: false, id: (prev.answers.length + 1).toString() }],
       }));
     }
   };
