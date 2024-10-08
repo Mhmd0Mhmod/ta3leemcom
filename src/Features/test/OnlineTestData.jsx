@@ -123,148 +123,129 @@ export default function OnlineTestData() {
   }
  };
  return (
-  <div>
-   {showTestResult && (
-    <>
-     <div className=" rounded-lg mx-auto container w-full md:w-[85%] lg:w-[80%] p-4">
-      <div className="mx-auto container text-center  rounded-lg -mt-5 w-full md:w-[85%] lg:w-[70%] p-4 ">
-       <div className="bg-secondary-l text-white py-20 rounded-md">
-        <Heading as={"h1"}>{title}</Heading>
-       </div>
-       <div className="flex justify-between my-4  text-xl font-almaria-bold">
-        <div className="flex gap-4">
-         <div className="flex gap-3 items-center ">
-          <span>درجة</span>
-          <span>:</span>
-          <div className="bg-white px-10 text-secondary-l py-2">80%</div>
-         </div>
-         <div className="flex gap-3 items-center ">
-          <span>الوقت</span>
-          <span>:</span>
-          <div className="bg-white px-10 text-secondary-l py-2">
-           {2}:{15}{" "}
-          </div>
-         </div>
-         <div className="flex gap-3 items-center ">
-          <span>الترتيب</span>
-          <span>:</span>
-          <div className="bg-white px-10 text-secondary-l py-2">{1}</div>
-         </div>
-        </div>
-        <div className="flex gap-4 items-start">
-         <TooltipProvider>
-          <Tooltip delayDuration={100}>
-           <TooltipTrigger className="w-full">
-            <Button
-             variant="ghost"
-             size="icon"
-             className="w-full justify-start gap-4"
-            >
-             <Print />
-            </Button>
-           </TooltipTrigger>
-           <TooltipContent side="bottom" align="center" sideOffset={10}>
-            <p> طباعة</p>
-           </TooltipContent>
-          </Tooltip>
-         </TooltipProvider>
-         <TooltipProvider>
-          <Tooltip delayDuration={100}>
-           <TooltipTrigger className="w-full">
-            <Button
-             onClick={() => {
-              // setShowTestRes(false);
-              // setDummyQuestions(
-              //  questions.map((question) => ({
-              //   ...question,
-              //   answers: question.answers.map((answer) => ({
-              //    ...answer,
-              //    isCorrect: false,
-              //   })),
-              //  }))
-              // );
-             }}
-             variant="ghost"
-             size="icon"
-             className="w-full justify-start gap-4"
-            >
-             <Trash />
-            </Button>
-           </TooltipTrigger>
-           <TooltipContent side="bottom" align="center" sideOffset={10}>
-            <p>حذف</p>
-           </TooltipContent>
-          </Tooltip>
-         </TooltipProvider>
-        </div>
-       </div>
-       <ul className="flex flex-col gap-4  ">
-        {dummyQuestions.map((question, index) => (
-         <div key={question.id}>
-          <li className="w-full rounded-md bg-white text-black px-3 py-5">
-           <div className="flex justify-between items-center">
-            <Heading as={"h3"}>
-             {" "}
-             <span className="text-accent-l-700 ml-2">{index + 1}.</span>{" "}
-             {question.text}
-            </Heading>
-            <p className="text-accent-l-100">
-             {question.required ? question.deg : question.bouns}
-             <span className="mr-1">{question.required ? "درجة" : "بونص"}</span>
-            </p>
-           </div>
-           <div className="grid grid-cols-12">
-            <div className="text-start mt-6 mr-16 col-span-6 ">
-             {question?.answers.map((answer, i) => (
-              <div
-               key={answer.text}
-               className={`flex gap-4 mb-3 py-1 px-2 ${
-                highlight(answer.isCorrect, i, index) === "true"
-                 ? "bg-[#bae3cd]"
-                 : highlight(answer.isCorrect, i, index) === "false"
-                 ? "bg-[#fccfd0]"
-                 : ""
-               } `}
-              >
-               <input
-                type="radio"
-                name={question.id}
-                className="h-5 w-5 "
-                checked={answer.isCorrect}
-                disabled
-                //  onChange={(e) => handelAnswerCheck(e, i, index)}
-               />
-               <div className="flex w-full justify-between">
-                <p className="">{answer.text}</p>
-                <span>
-                 {highlight(answer.isCorrect, i, index) === "true" ? (
-                  <Check />
-                 ) : highlight(answer.isCorrect, i, index) === "false" ? (
-                  <X />
-                 ) : (
-                  ""
-                 )}
-                </span>
+   <div>
+     {showTestResult && (
+       <>
+         <div className="container mx-auto w-full rounded-lg p-4 md:w-[85%] lg:w-[80%]">
+           <div className="container mx-auto -mt-5 w-full rounded-lg p-4 text-center md:w-[85%] lg:w-[70%]">
+             <div className="rounded-md bg-secondary-l py-20 text-white">
+               <Heading as={'h1'}>{title}</Heading>
+             </div>
+             <div className="my-4 flex justify-between font-almaria-bold text-xl">
+               <div className="flex gap-4">
+                 <div className="flex items-center gap-3">
+                   <span>درجة</span>
+                   <span>:</span>
+                   <div className="bg-white px-10 py-2 text-secondary-l">80%</div>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <span>الوقت</span>
+                   <span>:</span>
+                   <div className="bg-white px-10 py-2 text-secondary-l">
+                     {2}:{15}{' '}
+                   </div>
+                 </div>
+                 <div className="flex items-center gap-3">
+                   <span>الترتيب</span>
+                   <span>:</span>
+                   <div className="bg-white px-10 py-2 text-secondary-l">{1}</div>
+                 </div>
                </div>
-              </div>
-             ))}
-            </div>
-            <div className="col-span-6 grid grid-cols-4">
-             {question?.images.map((image, i) => (
-              <img src={image} alt={`image-${i}`} key={image} />
-             ))}
-            </div>
-           </div>
-          </li>
-          <p className="text-start mt-2 ">
-           {" "}
-           <span className="font-almaria-bold ">التفسير : </span>
-           {question.explain}
-          </p>
-         </div>
-        ))}
-       </ul>
-       {/* <div className="flex justify-between items-center mt-12">
+               <div className="flex items-start gap-4">
+                 <TooltipProvider>
+                   <Tooltip delayDuration={100}>
+                     <TooltipTrigger className="w-full">
+                       <Button variant="ghost" size="icon" className="w-full justify-start gap-4">
+                         <Print />
+                       </Button>
+                     </TooltipTrigger>
+                     <TooltipContent side="bottom" align="center" sideOffset={10}>
+                       <p> طباعة</p>
+                     </TooltipContent>
+                   </Tooltip>
+                 </TooltipProvider>
+                 <TooltipProvider>
+                   <Tooltip delayDuration={100}>
+                     <TooltipTrigger className="w-full">
+                       <Button
+                         onClick={() => {
+                           // setShowTestRes(false);
+                           // setDummyQuestions(
+                           //  questions.map((question) => ({
+                           //   ...question,
+                           //   answers: question.answers.map((answer) => ({
+                           //    ...answer,
+                           //    isCorrect: false,
+                           //   })),
+                           //  }))
+                           // );
+                         }}
+                         variant="ghost"
+                         size="icon"
+                         className="w-full justify-start gap-4"
+                       >
+                         <Trash />
+                       </Button>
+                     </TooltipTrigger>
+                     <TooltipContent side="bottom" align="center" sideOffset={10}>
+                       <p>حذف</p>
+                     </TooltipContent>
+                   </Tooltip>
+                 </TooltipProvider>
+               </div>
+             </div>
+             <ul className="flex flex-col gap-4">
+               {dummyQuestions.map((question, index) => (
+                 <div key={question.id}>
+                   <li className="w-full rounded-md bg-white px-3 py-5 text-black">
+                     <div className="flex items-center justify-between">
+                       <Heading as={'h3'}>
+                         {' '}
+                         <span className="ml-2 text-accent-l-700">{index + 1}.</span> {question.text}
+                       </Heading>
+                       <p className="text-accent-l-100">
+                         {question.required ? question.deg : question.bouns}
+                         <span className="mr-1">{question.required ? 'درجة' : 'بونص'}</span>
+                       </p>
+                     </div>
+                     <div className="grid grid-cols-12">
+                       <div className="col-span-6 mr-16 mt-6 text-start">
+                         {question?.answers.map(
+                           (answer, i) =>
+                             !answer.isDeleted && (
+                               <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer.isCorrect, i, index) === 'true' ? 'bg-[#bae3cd]' : highlight(answer.isCorrect, i, index) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
+                                 <input
+                                   type="radio"
+                                   name={question.id}
+                                   className="h-5 w-5"
+                                   checked={answer.isCorrect}
+                                   disabled
+                                   //  onChange={(e) => handelAnswerCheck(e, i, index)}
+                                 />
+                                 <div className="flex w-full justify-between">
+                                   <p className="">{answer.text}</p>
+                                   <span>{highlight(answer.isCorrect, i, index) === 'true' ? <Check /> : highlight(answer.isCorrect, i, index) === 'false' ? <X /> : ''}</span>
+                                 </div>
+                               </div>
+                             ),
+                         )}
+                       </div>
+                       <div className="col-span-6 grid grid-cols-4">
+                         {question?.images.map((image, i) => (
+                           <img src={image} alt={`image-${i}`} key={image} />
+                         ))}
+                       </div>
+                     </div>
+                   </li>
+                   <p className="mt-2 text-start">
+                     {' '}
+                     <span className="font-almaria-bold">التفسير : </span>
+                     {question.explain}
+                   </p>
+                 </div>
+               ))}
+             </ul>
+             {/* <div className="flex justify-between items-center mt-12">
         <Button
          variant="ghost"
          className=" bg-secondary-l text-white px-10 py-6"
@@ -277,173 +258,132 @@ export default function OnlineTestData() {
         </Button>
         <SolidLogo />
        </div> */}
-      </div>
-     </div>
-    </>
-   )}
-   {!showTestResult && (
-    <>
-     <div className="flex justify-between my-4  text-xl font-almaria-bold">
-      <div className="flex gap-4 items-start"></div>
-     </div>
-     <div className="mx-auto container   rounded-lg -mt-5 w-full  xl:w-[85%] pt-16">
-      <div className="bg-secondary-l flex flex-col gap-7 items-center text-white py-6 rounded-xl relative">
-       <img
-        src="imgs/res-bg.png"
-        alt="res-bg"
-        className="absolute h-full left-0 top-0 opacity-25  "
-       />
-       <img
-        src="imgs/res-bg.png"
-        alt="res-bg"
-        className="absolute h-full right-0 top-0 opacity-25  "
-       />
-       <Heading as={"h4"}>اختبار بدون عنوان</Heading>
-       <div className="flex justify-between w-[55%] text-white  font-almaria-light">
-        <div className="flex items-end gap-1">
-         <StudentsIcon className="ml-2" />
-         <span>{12} طالب</span>
-        </div>
-        <div className="flex items-end gap-1">
-         <UserRoundX className="ml-2" />
-         <span>{5} طلاب لم يشاركوا</span>
-        </div>
-        <div className="flex items-end gap-1">
-         <QuestionsIcon className="ml-2" />
-         <span>{15} سوال</span>
-        </div>
-        <div className="flex items-end gap-1">
-         <Bouns className="ml-2" />
-         <span>{2} بونص</span>
-        </div>
-        <div className="flex items-end gap-1">
-         <Flag className="ml-2" />
-         <span>{20} درجة</span>
-        </div>
-       </div>
-
-       <div className="flex justify-center gap-4  w-[30%]">
-        <Button
-         onClick={() => setType(types[2])}
-         className={cn(
-          "bg-accent-l-1200 text-gray-700 gap-1 px-3 ",
-          type === types[2] ? "bg-black text-white" : ""
-         )}
-        >
-         <UserRoundX className="ml-2" />
-         <span>الطلاب غير المشاركين</span>
-        </Button>
-        <Button
-         onClick={() => setType(types[0])}
-         className={cn(
-          "bg-accent-l-1200 text-gray-700 gap-1 px-5 ",
-          type === types[0] ? "bg-black text-white" : ""
-         )}
-        >
-         <NotepadText className="ml-2" />
-         <span>النتائج</span>
-        </Button>
-        <Button
-         onClick={() => setType(types[1])}
-         className={cn(
-          "bg-accent-l-1200 text-gray-700 gap-1 px-5 ",
-          type === types[1] ? "bg-black text-white" : ""
-         )}
-        >
-         <ChartPie className="ml-2" />
-         <span>الاحصائيات</span>
-        </Button>
-       </div>
-      </div>
-      {type === types[0] && (
-       <div className="my-4 bg-accent-l-1000 px-2 font-almaria-bold overflow-y-auto max-h-[80vh]">
-        <div className="grid grid-cols-11 items-center  text-center mb-3 px-4 ">
-         <div>الوقت</div>
-         <div className="col-span-2">اسم الطالب</div>
-         <div>ترتيب</div>
-         <div>درجة</div>
-         <div>بونص</div>
-         <div>الدرجة النهائية</div>
-         <div></div>
-         <div className="col-span-3 w-full text-xl font-cairo  flex items-center justify-between">
-          <Arrow />
-          {[1, 2, 3, 4, 5, 6].map((index) => (
-           <div
-            key={index}
-            className="flex flex-col gap-1 items-center justify-center"
-           >
-            <p>ب1</p>
-            <span className="text-white px-3 text-sm rounded-full bg-gray-500">
-             2
-            </span>
            </div>
-          ))}
-
-          <Arrow className="rotate-180" />
          </div>
-        </div>
-        {Array.from({ length: 12 }).map((_, index) => (
-         <div
-          key={index}
-          onClick={() => {
-           setShowTestResult(true);
-           setCurrentTestResult({});
-          }}
-          className="grid grid-cols-11 text-center   gap-4 bg-white rounded-xl px-4 py-3  items-center mb-4 hover:bg-accent-l-900/70 cursor-pointer"
-         >
-          <div className="font-almaria">10:15</div>
-          <div className="col-span-2 line-clamp-1 font-almaria">
-           عمرو مصطفي محمد درويش
-          </div>
-          <div>{index + 1}</div>
-          <div>
-           100% <span className="font-almaria">(10</span> /10)
-          </div>
-
-          <div>
-           50% <span className="font-almaria">(2</span> /1)
-          </div>
-
-          <div>
-           125% <span className="font-almaria">(10</span> /11)
-          </div>
-          <div></div>
-          <div className="col-span-3 w-full text-xl font-cairo  flex items-center justify-between ">
-           <div></div>
-           {[1, 2, 3, 4, 5, 6].map((index) =>
-            index === Math.floor(Math.random() * 6) ? (
-             <InCorrectIcon key={index} />
-            ) : (
-             <CorrectIcon key={index} />
-            )
-           )}
-           <div></div>
-           {/* </div> */}
-          </div>
-         </div>
-        ))}
-       </div>
-      )}
-      {type === types[1] && <></>}
-      {type === types[2] && (
-       <>
-        <div className="flex text-center flex-col gap-3 mt-12 ">
-         <div className="text-white bg-[#E0232E] py-3 rounded-lg font-almaria-bold">
-          اسم الطالب
-         </div>
-         <div className="flex flex-col gap-3  overflow-y-auto max-h-[40vh]">
-          {Array.from({ length: 40 }).map((_, index) => (
-           <div key={index} className=" bg-white py-3 rounded-lg">
-            عمرو مصطفي محمد درويش
-           </div>
-          ))}
-         </div>
-        </div>
        </>
-      )}
-     </div>
-    </>
-   )}
-  </div>
+     )}
+     {!showTestResult && (
+       <>
+         <div className="my-4 flex justify-between font-almaria-bold text-xl">
+           <div className="flex items-start gap-4"></div>
+         </div>
+         <div className="container mx-auto -mt-5 w-full rounded-lg pt-16 xl:w-[85%]">
+           <div className="relative flex flex-col items-center gap-7 rounded-xl bg-secondary-l py-6 text-white">
+             <img src="imgs/res-bg.png" alt="res-bg" className="absolute left-0 top-0 h-full opacity-25" />
+             <img src="imgs/res-bg.png" alt="res-bg" className="absolute right-0 top-0 h-full opacity-25" />
+             <Heading as={'h4'}>اختبار بدون عنوان</Heading>
+             <div className="flex w-[55%] justify-between font-almaria-light text-white">
+               <div className="flex items-end gap-1">
+                 <StudentsIcon className="ml-2" />
+                 <span>{12} طالب</span>
+               </div>
+               <div className="flex items-end gap-1">
+                 <UserRoundX className="ml-2" />
+                 <span>{5} طلاب لم يشاركوا</span>
+               </div>
+               <div className="flex items-end gap-1">
+                 <QuestionsIcon className="ml-2" />
+                 <span>{15} سوال</span>
+               </div>
+               <div className="flex items-end gap-1">
+                 <Bouns className="ml-2" />
+                 <span>{2} بونص</span>
+               </div>
+               <div className="flex items-end gap-1">
+                 <Flag className="ml-2" />
+                 <span>{20} درجة</span>
+               </div>
+             </div>
+
+             <div className="flex w-[30%] justify-center gap-4">
+               <Button onClick={() => setType(types[2])} className={cn('gap-1 bg-accent-l-1200 px-3 text-gray-700', type === types[2] ? 'bg-black text-white' : '')}>
+                 <UserRoundX className="ml-2" />
+                 <span>الطلاب غير المشاركين</span>
+               </Button>
+               <Button onClick={() => setType(types[0])} className={cn('gap-1 bg-accent-l-1200 px-5 text-gray-700', type === types[0] ? 'bg-black text-white' : '')}>
+                 <NotepadText className="ml-2" />
+                 <span>النتائج</span>
+               </Button>
+               <Button onClick={() => setType(types[1])} className={cn('gap-1 bg-accent-l-1200 px-5 text-gray-700', type === types[1] ? 'bg-black text-white' : '')}>
+                 <ChartPie className="ml-2" />
+                 <span>الاحصائيات</span>
+               </Button>
+             </div>
+           </div>
+           {type === types[0] && (
+             <div className="my-4 max-h-[80vh] overflow-y-auto bg-accent-l-1000 px-2 font-almaria-bold">
+               <div className="mb-3 grid grid-cols-11 items-center px-4 text-center">
+                 <div>الوقت</div>
+                 <div className="col-span-2">اسم الطالب</div>
+                 <div>ترتيب</div>
+                 <div>درجة</div>
+                 <div>بونص</div>
+                 <div>الدرجة النهائية</div>
+                 <div></div>
+                 <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
+                   <Arrow />
+                   {[1, 2, 3, 4, 5, 6].map((index) => (
+                     <div key={index} className="flex flex-col items-center justify-center gap-1">
+                       <p>ب1</p>
+                       <span className="rounded-full bg-gray-500 px-3 text-sm text-white">2</span>
+                     </div>
+                   ))}
+
+                   <Arrow className="rotate-180" />
+                 </div>
+               </div>
+               {Array.from({ length: 12 }).map((_, index) => (
+                 <div
+                   key={index}
+                   onClick={() => {
+                     setShowTestResult(true);
+                     setCurrentTestResult({});
+                   }}
+                   className="mb-4 grid cursor-pointer grid-cols-11 items-center gap-4 rounded-xl bg-white px-4 py-3 text-center hover:bg-accent-l-900/70"
+                 >
+                   <div className="font-almaria">10:15</div>
+                   <div className="col-span-2 line-clamp-1 font-almaria">عمرو مصطفي محمد درويش</div>
+                   <div>{index + 1}</div>
+                   <div>
+                     100% <span className="font-almaria">(10</span> /10)
+                   </div>
+
+                   <div>
+                     50% <span className="font-almaria">(2</span> /1)
+                   </div>
+
+                   <div>
+                     125% <span className="font-almaria">(10</span> /11)
+                   </div>
+                   <div></div>
+                   <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
+                     <div></div>
+                     {[1, 2, 3, 4, 5, 6].map((index) => (index === Math.floor(Math.random() * 6) ? <InCorrectIcon key={index} /> : <CorrectIcon key={index} />))}
+                     <div></div>
+                     {/* </div> */}
+                   </div>
+                 </div>
+               ))}
+             </div>
+           )}
+           {type === types[1] && <></>}
+           {type === types[2] && (
+             <>
+               <div className="mt-12 flex flex-col gap-3 text-center">
+                 <div className="rounded-lg bg-[#E0232E] py-3 font-almaria-bold text-white">اسم الطالب</div>
+                 <div className="flex max-h-[40vh] flex-col gap-3 overflow-y-auto">
+                   {Array.from({ length: 40 }).map((_, index) => (
+                     <div key={index} className="rounded-lg bg-white py-3">
+                       عمرو مصطفي محمد درويش
+                     </div>
+                   ))}
+                 </div>
+               </div>
+             </>
+           )}
+         </div>
+       </>
+     )}
+   </div>
  );
 }

@@ -313,11 +313,6 @@ function AddOnlineTest({ test }) {
     }
   };
 
-  // console.log('test', questions);
-
-  // console.log(testData);
-  // console.log(searchParams.get('group'));
-
   const handelSaveQuiz = async () => {
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
@@ -345,6 +340,7 @@ function AddOnlineTest({ test }) {
           return {
             content: a.text,
             isCorrect: a.isCorrect,
+            isDeleted: a.isDeleted,
           };
         }),
       };
@@ -363,7 +359,7 @@ function AddOnlineTest({ test }) {
     // console.log(testData);
     try {
       let res;
-      if (test) {
+      if (test && new Date(Date.now()) < new Date(test?.startDate)) {
         testData.id = test.id;
         testData.questions = testData.questions.map((q, i) => {
           return {
@@ -377,6 +373,12 @@ function AddOnlineTest({ test }) {
         console.log('testData', testData);
 
         res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuizBeforeStart`, testData, { headers: { Authorization: authHeader } });
+
+        if (res.status === 200) {
+          backToLevel();
+        }
+      } else if (test && new Date(Date.now()) >= new Date(test?.startDate)) {
+        console.log('comming soon');
       } else {
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
@@ -401,18 +403,20 @@ function AddOnlineTest({ test }) {
     }, 0);
     trueRatio = `${totalRequired} / ${totalCorrect}`;
   }
+
   const handleDeleteTest = async () => {
     if (test) {
       try {
-        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz/${test.id}`, {
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz?id=${test.id}`, {
           headers: {
             Authorization: authHeader,
           },
         });
+        console.log(res);
         if (res.status === 200) {
           toast.success('تم الحذف بنجاح');
           setShowTestDeletion(false);
-          navigate('/dashboard');
+          navigate('/dashboard/level?level=1&subLevel=1');
         }
       } catch (error) {
         toast.error('حدث خطأ ما');
@@ -508,7 +512,6 @@ function AddOnlineTest({ test }) {
       fetchTestWithId();
     }
   }, [test, authHeader]);
-  // console.log('questions', questions);
 
   return (
     <>
@@ -777,8 +780,8 @@ function AddOnlineTest({ test }) {
                       </Heading> */}
                       <Input className="mb-10 max-w-56 border-none" placeholder="عنوان الاختبار" value={title} onChange={(e) => setTitle(e.target.value)} />
                       <div className="grid max-w-[500px] grid-cols-3 gap-4">
-                        {tabs_1.map((item) => (
-                          <Tab key={item.text} type={'ghost'} text={item.text} path={item.path} />
+                        {tabs_1.map((item, index) => (
+                          <Tab key={index} type={'ghost'} text={item.text} path={item.path} />
                         ))}
                       </div>
                     </div>
@@ -990,17 +993,20 @@ function AddOnlineTest({ test }) {
                     >
                       <div className="grid grid-cols-12">
                         <div className="col-span-6 flex flex-col gap-4">
-                          {question.answers.map((answer) => (
-                            <Reorder.Item key={answer.text} value={answer} className="flex w-full items-center gap-3 font-almaria-bold">
-                              <input type="radio" className="h-5 w-5" name={answer.text} checked={answer.isCorrect} onChange={() => {}} disabled />
-                              <div className="w-full">
-                                <div className="flex w-full items-center gap-2">
-                                  <div className="min-w-[25%]" dangerouslySetInnerHTML={{ __html: answer.text }}></div>
-                                  <GripIcon />
-                                </div>
-                              </div>
-                            </Reorder.Item>
-                          ))}
+                          {question.answers.map(
+                            (answer) =>
+                              !answer.isDeleted && (
+                                <Reorder.Item key={answer.text} value={answer} className="flex w-full items-center gap-3 font-almaria-bold">
+                                  <input type="radio" className="h-5 w-5" name={answer.text} checked={answer.isCorrect} onChange={() => {}} disabled />
+                                  <div className="w-full">
+                                    <div className="flex w-full items-center gap-2">
+                                      <div className="min-w-[25%]" dangerouslySetInnerHTML={{ __html: answer.text }}></div>
+                                      <GripIcon />
+                                    </div>
+                                  </div>
+                                </Reorder.Item>
+                              ),
+                          )}
                         </div>
                         <div className="col-span-6 grid grid-cols-4">
                           {question?.images?.map((image, i) => (

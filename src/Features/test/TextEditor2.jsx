@@ -129,24 +129,24 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
   };
 
   const handelType = (value, i, index) => {
-    if (typeof index === 'number') {
-      setQuestions((prev) =>
-        prev.map((question, i) =>
-          i === index
-            ? {
-                ...question,
-                text: value,
-              }
-            : question,
-        ),
-      );
-    } else {
-      const updatedAnswers = currentQuestion.answers.map((answer, index) => (index === i ? { ...answer, text: value } : answer));
-      setCurrentQuestion((prev) => ({
-        ...prev,
-        answers: updatedAnswers,
-      }));
-    }
+    // if (typeof index === 'number') {
+    //   setQuestions((prev) =>
+    //     prev.map((question, i) =>
+    //       i === index
+    //         ? {
+    //             ...question,
+    //             text: value,
+    //           }
+    //         : question,
+    //     ),
+    //   );
+    // } else {
+    // const updatedAnswers = currentQuestion.answers.map((answer, index) => (index === i ? { ...answer, text: value } : answer));
+    setCurrentQuestion((prev) => ({
+      ...prev,
+      answers: prev.answers.map((answer, index) => (index === i ? { ...answer, text: value } : answer)),
+    }));
+    // }
   };
 
   const handelQuestionProp = (key, val) => {
@@ -184,7 +184,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
   const deleteAnswer = (index) => {
     setCurrentQuestion((prev) => ({
       ...prev,
-      answers: prev.answers.filter((_, i) => i !== index),
+      answers: prev.answers.map((a, i) => (i !== index ? a : { ...a, isDeleted: true })),
     }));
   };
 
@@ -219,7 +219,7 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
     }));
   };
 
-  console.log('currentQuestion', currentQuestion.text);
+  // console.log('currentQuestion', currentQuestion.text);
 
   //  const addAnswer = () => {
   //   setAnswers([
@@ -286,29 +286,32 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
           className="grid grid-cols-12 overflow-clip"
         >
           <div className="col-span-8">
-            {currentQuestion?.answers?.map((answer, i) => (
-              <Reorder.Item value={answer} key={answer.id} className="grid grid-cols-12 items-center">
-                <div className="col-span-12 grid grid-cols-12 items-center">
-                  <div className="col-span-2 flex items-center justify-around">
-                    <X onClick={() => deleteAnswer(i)} />
-                    <input className="h-5 w-5" type="radio" name="current-answers" checked={answer.isCorrect} onChange={(e) => handelCheck(e, i)} />
-                  </div>
+            {currentQuestion?.answers?.map(
+              (answer, i) =>
+                !answer.isDeleted && (
+                  <Reorder.Item value={answer} key={answer.id} className="grid grid-cols-12 items-center">
+                    <div className="col-span-12 grid grid-cols-12 items-center">
+                      <div className="col-span-2 flex items-center justify-around">
+                        <X onClick={() => deleteAnswer(i)} />
+                        <input className="h-5 w-5" type="radio" name="current-answers" checked={answer.isCorrect} onChange={(e) => handelCheck(e, i)} />
+                      </div>
 
-                  <div className="col-span-9 min-w-[50%]" onClick={() => (activeEditorRef.current = answerRefs.current[i])}>
-                    <ReactQuill
-                      ref={(el) => (answerRefs.current[i] = el)}
-                      theme="snow"
-                      value={answer.text}
-                      placeholder={`خيار ${i + 1}`}
-                      className="px-2 py-3"
-                      onChange={(value) => handelType(value, i)}
-                      modules={{ toolbar: false }} // Disable default toolbar
-                    />
-                  </div>
-                  <img src="../../../public/Icons/grip_icon.svg" alt="drag" draggable={false} />
-                </div>
-              </Reorder.Item>
-            ))}
+                      <div className="col-span-9 min-w-[50%]" onClick={() => (activeEditorRef.current = answerRefs.current[i])}>
+                        <ReactQuill
+                          ref={(el) => (answerRefs.current[i] = el)}
+                          theme="snow"
+                          value={answer.text}
+                          placeholder={`خيار ${i + 1}`}
+                          className="px-2 py-3"
+                          onChange={(value) => handelType(value, i)}
+                          modules={{ toolbar: false }} // Disable default toolbar
+                        />
+                      </div>
+                      <img src="../../../public/Icons/grip_icon.svg" alt="drag" draggable={false} />
+                    </div>
+                  </Reorder.Item>
+                ),
+            )}
           </div>
           <Reorder.Group
             values={currentQuestion?.images}

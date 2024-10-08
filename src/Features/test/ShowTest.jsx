@@ -77,12 +77,15 @@ export function ShowTest({ test, timeStartString, setShowTestAlert, openModel, s
                 </div>
                 <div className="grid grid-cols-12">
                   <div className="col-span-6 mr-16 mt-6 text-start">
-                    {question?.answers.map((answer, i) => (
-                      <div key={answer.text} className="mb-3 flex gap-4">
-                        <input type="radio" name={question.id} className="h-5 w-5" checked={answer.isCorrect} onChange={(e) => handelAnswerCheck(e, i, index)} />
-                        <div dangerouslySetInnerHTML={{ __html: answer.text }} />
-                      </div>
-                    ))}
+                    {question?.answers.map(
+                      (answer, i) =>
+                        !answer.isDeleted && (
+                          <div key={answer.text} className="mb-3 flex gap-4">
+                            <input type="radio" name={question.id} className="h-5 w-5" checked={answer.isCorrect} onChange={(e) => handelAnswerCheck(e, i, index)} />
+                            <div dangerouslySetInnerHTML={{ __html: answer.text }} />
+                          </div>
+                        ),
+                    )}
                   </div>
                   <div className="col-span-6 grid grid-cols-4">
                     {question?.images?.map((image, i) => (
