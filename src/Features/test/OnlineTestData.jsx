@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Heading from '../../UI-Global/Heading.jsx';
 import { ChartPie, Check, ChevronLeft, ChevronRight, CircleChevronLeft, CircleChevronRight, NotepadText, UserRoundX, X } from 'lucide-react';
 import Trash from '../../../public/Icons/trash_icon_gray.svg';
@@ -20,7 +20,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { format } from 'date-fns';
-import { transform } from 'framer-motion';
+import { useReactToPrint } from 'react-to-print';
+import { Bichart } from '@/components/ui/bi-chart.jsx';
+import { Barchart } from '@/components/ui/bar-chart.jsx';
 
 // const RES = {
 //  title: "اختبار بدون عنوان",
@@ -98,10 +100,12 @@ export default function OnlineTestData({ test }) {
   const [testDesc, setTestDesc] = useState({});
   const [testRes, setTestRes] = useState([]);
   const [studentsDidntTakeTest, setStudentsDidntTakeTest] = useState([]);
+  const [testStats, setTestStats] = useState([]);
   const [ansInx, setAnsInx] = useState(0);
   const [type, setType] = useState(types[0]);
   const [showTestResult, setShowTestResult] = useState(false);
   const [currentTestResult, setCurrentTestResult] = useState({});
+  const [showPrint, setShowPrint] = useState(false);
   const [dummyQuestions, setDummyQuestions] = useState(
     questions.map((question) => ({
       ...question,
@@ -111,15 +115,19 @@ export default function OnlineTestData({ test }) {
       })),
     })),
   );
+  const componentRef = useRef();
 
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+  });
   const authHeader = useAuthHeader();
 
-  const highlight = (isCorrect, i, index) => {
-    if ((isCorrect && questions[index].answers[i].isCorrect) || questions[index].answers[i].isCorrect) {
+  const highlight = (answer, stdAnswer) => {
+    if (answer?.isCorrect && stdAnswer === answer?.text) {
       return 'true';
       // return "bg-[#bae3cd]";
     }
-    if (isCorrect && !questions[index].answers[i].isCorrect) {
+    if (answer?.isCorrect && stdAnswer !== answer?.text) {
       return 'false';
       // return "bg-[#fccfd0]";
     }
@@ -127,7 +135,7 @@ export default function OnlineTestData({ test }) {
 
   const handleAnsNav = (type) => {
     if (type === 'next') {
-      if (ansInx + 6 < testRes[0]?.answers.length) {
+      if (ansInx + 6 < testDesc.questionsDes.length) {
         setAnsInx(ansInx + 1);
       }
     } else {
@@ -168,15 +176,84 @@ export default function OnlineTestData({ test }) {
         toast.error('حدث خطأ ما');
       }
     };
+    const fetchTestStats = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllStatsOfQuizId?quizid=${test.id}`, {
+          headers: { Authorization: authHeader },
+        });
+        if (res.status === 200) {
+          setTestStats(res.data);
+        }
+      } catch (error) {
+        toast.error('حدث خطأ ما');
+      }
+    };
     fetchTest();
     fetchStudentDidntTakeTest();
+    fetchTestStats();
   }, [test]);
+
+  useEffect(() => {
+    const fetchTestResult = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetStudentSolutionByStudentQuizId?studentQuizId=${currentTestResult.id}`, {
+          headers: { Authorization: authHeader },
+        });
+        if (res.status === 200) {
+          setDummyQuestions(
+            res.data.quiz.questionsOfQuizzes.map((question) => ({
+              //    {
+              //   text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
+              //   bouns: 0,
+              //   deg: 1,
+              //   answers: [
+              //     { text: 'المشتري', isCorrect: true, id: '1' },
+              //     { text: 'المريخ', isCorrect: false, id: '2' },
+              //   ],
+              //   images: [],
+              //   explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
+              //   required: true,
+              //   id: '1',
+              // },
+              text: question.content,
+              bouns: question.type === 'اجباري' ? 0 : question.mark,
+              deg: question.type === 'اجباري' ? question.mark : 0,
+              answers: question.choices?.map((answer) => ({
+                text: answer?.content,
+                isCorrect: answer?.isCorrect,
+                id: answer?.questionId,
+                isDeleted: answer?.isDeleted,
+              })),
+              images: [],
+              explain: question.explain,
+              required: question.type === 'اجباري',
+              id: question.id,
+              answer: question.answer,
+            })),
+          );
+        }
+      } catch (error) {
+        toast.error('حدث خطأ ما');
+      }
+    };
+    if (currentTestResult.id) {
+      fetchTestResult();
+    }
+  }, [currentTestResult]);
+
+  const BarChartData = [
+    { ans: '1', votes: 20, fill: '#2cbf71' },
+    { ans: '2', votes: 3, fill: '#e0242d' },
+    { ans: '3', votes: 4, fill: '#e0242d' },
+    { ans: '4', votes: 2, fill: '#e0242d' },
+    { ans: '5', votes: 0, fill: '#e0242d' },
+  ];
 
   return (
     <div>
       {showTestResult && (
         <>
-          <div className="container mx-auto w-full rounded-lg p-4 md:w-[85%] lg:w-[80%]">
+          <div className="container mx-auto w-full rounded-lg p-4 md:w-[85%] lg:w-[80%]" ref={componentRef}>
             <div className="container mx-auto -mt-5 w-full rounded-lg p-4 text-center md:w-[85%] lg:w-[70%]">
               <div className="rounded-md bg-secondary-l py-20 text-white">
                 <Heading as={'h1'}>{testDesc?.title ? testDesc.title : 'اختبار بدون عنوان'}</Heading>
@@ -203,9 +280,19 @@ export default function OnlineTestData({ test }) {
                 </div>
                 <div className="flex items-start gap-4">
                   <TooltipProvider>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger className="w-full">
-                        <Button variant="ghost" size="icon" className="w-full justify-start gap-4">
+                    <Tooltip delayDuration={100} open={showPrint}>
+                      <TooltipTrigger className="w-full" onMouseOver={setShowPrint} onMouseLeave={() => setShowPrint(false)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="w-full justify-start gap-4"
+                          onClick={() => {
+                            setShowPrint(false);
+                            setTimeout(() => {
+                              handlePrint();
+                            }, 200);
+                          }}
+                        >
                           <Print />
                         </Button>
                       </TooltipTrigger>
@@ -214,21 +301,20 @@ export default function OnlineTestData({ test }) {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                  <TooltipProvider>
+                  {/* <TooltipProvider>
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger className="w-full">
                         <Button
                           onClick={() => {
-                            // setShowTestRes(false);
-                            // setDummyQuestions(
-                            //  questions.map((question) => ({
-                            //   ...question,
-                            //   answers: question.answers.map((answer) => ({
-                            //    ...answer,
-                            //    isCorrect: false,
-                            //   })),
-                            //  }))
-                            // );
+                            setDummyQuestions(
+                              questions.map((question) => ({
+                                ...question,
+                                answers: question.answers.map((answer) => ({
+                                  ...answer,
+                                  isCorrect: false,
+                                })),
+                              })),
+                            );
                           }}
                           variant="ghost"
                           size="icon"
@@ -241,7 +327,7 @@ export default function OnlineTestData({ test }) {
                         <p>حذف</p>
                       </TooltipContent>
                     </Tooltip>
-                  </TooltipProvider>
+                  </TooltipProvider> */}
                 </div>
               </div>
               <ul className="flex flex-col gap-4">
@@ -263,7 +349,7 @@ export default function OnlineTestData({ test }) {
                           {question?.answers.map(
                             (answer, i) =>
                               !answer.isDeleted && (
-                                <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer.isCorrect, i, index) === 'true' ? 'bg-[#bae3cd]' : highlight(answer.isCorrect, i, index) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
+                                <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer, question?.answer) === 'true' ? 'bg-[#bae3cd]' : highlight(answer, question?.answer) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
                                   <input
                                     type="radio"
                                     name={question.id}
@@ -274,7 +360,7 @@ export default function OnlineTestData({ test }) {
                                   />
                                   <div className="flex w-full justify-between">
                                     <p className="">{answer.text}</p>
-                                    <span>{highlight(answer.isCorrect, i, index) === 'true' ? <Check /> : highlight(answer.isCorrect, i, index) === 'false' ? <X /> : ''}</span>
+                                    <span>{highlight(answer, question?.answer) === 'true' ? <Check /> : highlight(answer, question?.answer) === 'false' ? <X /> : ''}</span>
                                   </div>
                                 </div>
                               ),
@@ -319,8 +405,8 @@ export default function OnlineTestData({ test }) {
           </div>
           <div className="container mx-auto -mt-5 w-full rounded-lg pt-16 xl:w-[85%]">
             <div className="relative flex flex-col items-center gap-7 rounded-xl bg-secondary-l py-6 text-white">
-              <img src="imgs/res-bg.png" alt="res-bg" className="absolute left-0 top-0 h-full opacity-25" />
-              <img src="imgs/res-bg.png" alt="res-bg" className="absolute right-0 top-0 h-full opacity-25" />
+              <img src="../../../public/imgs/res-bg.png" alt="res-bg" className="absolute left-0 top-0 h-full opacity-25" />
+              <img src="../../../public/imgs/res-bg.png" alt="res-bg" className="absolute right-0 top-0 h-full opacity-25" />
               <Heading as={'h4'}>{testDesc?.title ? testDesc.title : 'اختبار بدون عنوان'}</Heading>
               <div className="flex w-[55%] justify-between font-almaria-light text-white">
                 <div className="flex items-end gap-1">
@@ -371,15 +457,20 @@ export default function OnlineTestData({ test }) {
                   <div>الدرجة النهائية</div>
                   <div></div>
                   <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
-                    <CircleChevronRight className={ansInx > 0 ? 'cursor-pointer text-secondary-l' : 'cursor-not-allowed text-secondary-l/40'} onClick={() => handleAnsNav('prev')} />
-                    {testRes[0]?.answers?.slice(ansInx, ansInx + 6).map((ans, index) => (
-                      <div key={index} className="flex flex-col items-center justify-center gap-1">
-                        <p>{ans.id}</p>
-                        <span className="rounded-full bg-gray-500 px-3 text-sm text-white">2</span>
+                    <Button size="icon" disabled={ansInx <= 0} variant="ghost" onClick={() => handleAnsNav('prev')}>
+                      <CircleChevronRight className={ansInx > 0 ? 'text-secondary-l' : 'text-secondary-l/40'} />
+                    </Button>
+                    {testDesc.questionsDes?.slice(ansInx, ansInx + 6).map((ans, index) => (
+                      <div style={{ userSelect: 'none' }} key={index} className="flex flex-col items-center justify-center gap-1">
+                        <div>
+                          <span className="font-sans">{ans?.type === 'اجباري' ? 'س' : 'ب'}</span>
+                          <span>{index + 1 + ansInx}</span>
+                        </div>
+                        <span className="rounded-full bg-gray-500 px-3 text-sm text-white">{ans?.mark}</span>
                       </div>
                     ))}
 
-                    <CircleChevronLeft className={ansInx + 6 < testRes[0]?.answers.length ? 'cursor-pointer text-secondary-l' : 'cursor-not-allowed text-secondary-l/40'} onClick={() => handleAnsNav('next')} />
+                    <CircleChevronLeft className={ansInx + 6 < testDesc?.questionsDes?.length ? 'cursor-pointer text-secondary-l' : 'cursor-not-allowed text-secondary-l/40'} onClick={() => handleAnsNav('next')} />
                   </div>
                 </div>
                 {testRes?.map((res, index) => (
@@ -417,7 +508,45 @@ export default function OnlineTestData({ test }) {
                 ))}
               </div>
             )}
-            {type === types[1] && <></>}
+            {type === types[1] && (
+              <>
+                <div className="mt-12 flex flex-col gap-3 text-center">
+                  <div className="flex flex-col gap-3">
+                    {testStats?.map((st, index) => (
+                      <div key={index} className="rounded-lg bg-white px-8 py-6">
+                        <div className="flex gap-2 font-almaria-bold text-xl">
+                          <span>{index + 1}.</span>
+                          <div>
+                            <div dangerouslySetInnerHTML={{ __html: st.questionContent }} />
+                            <p className="mt-4 text-start text-lg text-slate-500">{st.correctAnswerCount + st.incorrectAnswerCount} اجابة </p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-12">
+                          <Bichart
+                            chartData={[
+                              { q_type: 'correct', answers: st?.correctAnswerCount, fill: '#2cbf71' },
+                              { q_type: 'incorrect', answers: st?.incorrectAnswerCount, fill: '#e0242d' },
+                            ]}
+                          />
+                          <Barchart
+                            chartData={
+                              st?.choices?.map((ans, index) => ({ ans: (index + 1).toString(), votes: ans?.choiceSelectionCount, fill: ans?.isCorrect ? '#2cbf71' : '#e0242d' }))
+
+                              // [
+                              // { ans: '2', votes: 3, fill: '#e0242d' },
+                              // { ans: '3', votes: 4, fill: '#e0242d' },
+                              // { ans: '4', votes: 2, fill: '#e0242d' },
+                              // { ans: '5', votes: 0, fill: '#e0242d' },
+                              // ]
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
             {type === types[2] && (
               <>
                 <div className="mt-12 flex flex-col gap-3 text-center">
