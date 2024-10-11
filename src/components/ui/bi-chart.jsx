@@ -24,11 +24,12 @@ export function Bichart({ chartData }) {
   return (
     <Card className="flex h-full flex-col border-none">
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground">
+        <ChartContainer config={chartConfig} className=" text-xl  mx-auto  aspect-square max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground">
           <PieChart
             margin={{
               top: 40,
             }}
+            fontSize={20}
           >
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <Pie data={chartData} dataKey="answers" label nameKey="q_type" />

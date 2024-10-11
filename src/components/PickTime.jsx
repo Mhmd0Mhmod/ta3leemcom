@@ -6,11 +6,13 @@ export default function PickTime({ PopoverClose, timeStartString, timeStart, set
     setTimeStart({ ...timeStart, mode });
   };
 
+  // console.log(timeStart);
+
   return (
     <div className="flex flex-col gap-2 rounded-lg">
       <div className="ltr rounded-lg bg-accent-l-200 py-4 text-center font-almaria-bold text-2xl text-black">
         <span>
-          {timeStartString.hour}:{timeStartString.minute} {timeStartString.mode}
+          {timeStartString.hour}:{timeStartString.minute} {timeStart.mode}
         </span>
       </div>
       <div className="flex gap-2 rounded-lg border p-2">

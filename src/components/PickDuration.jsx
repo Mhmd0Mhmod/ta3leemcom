@@ -12,7 +12,7 @@ export default function PickDuration({ PopoverClose, timeDurationString, timeDur
       <div className="rounded-lg bg-accent-l-200 py-4 text-center font-almaria-bold text-2xl text-black">
         <div className="flex items-center justify-center gap-2">
           <div>
-            <p className="text-4xl">{timeDurationString.mode}</p>
+            <p className="text-4xl">{timeDuration.mode}</p>
           </div>
           <div>
             <p className="flex items-start justify-center gap-4 text-3xl">

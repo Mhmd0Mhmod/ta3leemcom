@@ -5,7 +5,7 @@ import Tab from '../../pages/Dashboard/Components/Tab.jsx';
 import { constraints } from '../../config.js';
 import OldButton from '../../UI-Global/Button.jsx';
 import Editor from './TextEditor2.jsx';
-import { Check, Edit, Plus, Trash2, X } from 'lucide-react';
+import { Check, Edit, EditIcon, Plus, Trash2, X } from 'lucide-react';
 
 import { Reorder } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip.jsx';
@@ -43,6 +43,8 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { DeleteConfirmation } from '@/components/DeleteConfirmation.jsx';
+import { Combobox } from '@/components/ui/combobox.jsx';
+import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
 
 // const QUESTIONS = [
 //   {
@@ -184,6 +186,8 @@ function AddOnlineTest({ test }) {
   const navigate = useNavigate();
   const [dummyQuestions, setDummyQuestions] = useState([]);
 
+  const [selectedGroups, setSelectedGroups] = useState();
+
   const [timeStart, setTimeStart] = useState(
     test?.timeStart || {
       hour: 1,
@@ -199,6 +203,9 @@ function AddOnlineTest({ test }) {
       day: 0,
     },
   );
+
+  const { groupsOfSelectedlevel } = useLevels();
+
   let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
   let timeDurationString = convertTo12HourFormat(timeDuration.hour, timeDuration.minute, timeDuration.day);
 
@@ -221,15 +228,33 @@ function AddOnlineTest({ test }) {
       text: searchParams.get('group').split('_').length,
       path: '../../../public/Icons/group_icon.svg',
     },
-    { text: '12 طالب', path: '../../../public/Icons/students_icon.svg' },
+    // { text: '12 طالب', path: '../../../public/Icons/students_icon.svg' },
     { text: questions.length, path: '../../../public/Icons/question_icon.svg' },
-    { text: '20 درجة', path: '../../../public/Icons/flag_icon.svg' },
     {
-      text: questions.reduce((acc, el) => acc + el.bouns, 0),
+      text: test
+        ? test.mark + ' درجة'
+        : `${
+            questions?.reduce((a, c) => {
+              return a + c?.deg;
+            }, 0) || '0'
+          } درجة`,
+      path: '../../../public/Icons/flag_icon.svg',
+    },
+    {
+      text: test
+        ? ` ${
+            test?.questionsOfQuizzes?.reduce((acc, el) => {
+              if (el.type.trim() === 'اخنياري') {
+                return acc + el.mark;
+              }
+            }, 0) || 0
+          } بونص`
+        : ` ${questions.reduce((acc, el) => acc + el.bouns, 0) || 0} بونص`,
       path: '../../../public/Icons/bouns_icon.svg',
     },
   ];
 
+  // console.log(timeStart, timeDuration);
   const handelIncrease = (index) => {
     if (typeof index === 'number') {
       if (questions[index].required) {
@@ -256,8 +281,10 @@ function AddOnlineTest({ test }) {
   const addQuestion = () => {
     currentQuestion.id = questions.length + 1;
     currentQuestion.deg = currentQuestion.required ? currentQuestion.deg : 0;
+    currentQuestion.bouns = currentQuestion.required ? 0 : currentQuestion.bouns;
     setQuestions((prev) => [...prev, currentQuestion]);
     setCurrentQuestion(DEFAULT_QUESTION);
+    // console.log(currentQuestion);
   };
 
   const editQuestion = () => {
@@ -313,7 +340,9 @@ function AddOnlineTest({ test }) {
     }
   };
 
-  const handelSaveQuiz = async () => {
+  // console.log(timeStart, timeDuration);
+
+  const handelSaveQuiz = async (isNew) => {
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
     }
@@ -323,10 +352,12 @@ function AddOnlineTest({ test }) {
     testData.startDate = date;
     testData.type = 'اونلاين';
     testData.teacherId = authUser.teacherId;
-    testData.groupsIds = searchParams
-      .get('group')
-      ?.split('_')
-      .map((i) => +i);
+    testData.groupsIds =
+      (selectedGroups?.length > 0 && selectedGroups.map((group) => group.groupId)) ||
+      searchParams
+        .get('group')
+        ?.split('_')
+        .map((i) => +i);
 
     testData.bounce = questions.reduce((acc, q) => acc + q.bouns, 0);
     testData.questions = questions.map((q) => {
@@ -357,6 +388,7 @@ function AddOnlineTest({ test }) {
       days: timeDuration.day,
     };
     // console.log(testData);
+
     try {
       let res;
       if (test && new Date(Date.now()) < new Date(test?.startDate)) {
@@ -370,28 +402,38 @@ function AddOnlineTest({ test }) {
             }),
           };
         });
-        console.log('testData', testData);
+        // console.log('testData', testData);
 
         res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuizBeforeStart`, testData, { headers: { Authorization: authHeader } });
 
-        if (res.status === 200) {
+        if (res?.status === 200) {
           backToLevel();
         }
-      } else if (test && new Date(Date.now()) >= new Date(test?.startDate)) {
+      } else if (test && new Date(Date.now()) >= new Date(test?.startDate) && !isNew) {
+        // console.log(testData);
+        // console.log(selectedGroups)
         console.log('comming soon');
       } else {
+        if (isNew) {
+          testData.title = `${testData.title} - نسخة`;
+          testData.groupsIds = selectedGroups.map((group) => group.groupId);
+          // console.log(selectedGroups);
+          console.log('dublicateing existing quiz');
+        }
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
             Authorization: authHeader,
           },
         });
       }
-      if (res.status === 200) {
-        toast.success(test ? 'تم التعديل بنجاح' : 'تم الاضافة بنجاح');
+      if (res?.status === 200) {
+        toast.success(test ? (isNew ? 'تم عمل نسخة من الاختبار' : 'تم التعديل بنجاح') : 'تم الاضافة بنجاح');
       }
     } catch (error) {
       // toast.error('حدث خطأ ما');
       toast.error(error.message);
+    } finally {
+      navigate('/dashboard/level?level=1&subLevel=1');
     }
   };
 
@@ -412,8 +454,8 @@ function AddOnlineTest({ test }) {
             Authorization: authHeader,
           },
         });
-        console.log(res);
-        if (res.status === 200) {
+        // console.log(res);
+        if (res?.status === 200) {
           toast.success('تم الحذف بنجاح');
           setShowTestDeletion(false);
           navigate('/dashboard/level?level=1&subLevel=1');
@@ -446,15 +488,15 @@ function AddOnlineTest({ test }) {
       const fetchTestWithId = async () => {
         try {
           const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${test.id}`, { headers: { Authorization: authHeader } });
-          console.log(res.data);
-          if (res.status === 200) {
+          // console.log(res.data);
+          if (res?.status === 200) {
             const data = res.data;
             setQuestions(
               data.questionsOfQuizzes.map((q) => {
                 return {
                   text: q.content,
-                  bouns: q.type === 'اختياري' ? q.mark : 0,
-                  deg: q.type !== 'اختياري' ? q.mark : 0,
+                  bouns: q.type.trim() !== 'اجباري' ? q.mark : 0,
+                  deg: q.type.trim() === 'اجباري' ? q.mark : 0,
                   answers: q.choices.map((a) => {
                     return {
                       text: a.content,
@@ -465,7 +507,7 @@ function AddOnlineTest({ test }) {
                   }),
                   images: [],
                   explain: q.explain,
-                  required: q.type !== 'اختياري',
+                  required: q.type.trim() === 'اجباري',
                   id: q.id,
                 };
               }),
@@ -503,6 +545,8 @@ function AddOnlineTest({ test }) {
               mode: data.timeDuration.mode,
               day: data.timeDuration.days,
             });
+            setSelectedGroups(groupsOfSelectedlevel.filter((item) => data.groupsIds.includes(item.groupId)));
+            // console.log(groupsOfSelectedlevel.filter((item) => data.groupsIds.includes(item.groupId)));
           }
         } catch (error) {
           toast.error(error?.response?.data);
@@ -512,6 +556,11 @@ function AddOnlineTest({ test }) {
       fetchTestWithId();
     }
   }, [test, authHeader]);
+
+  useEffect(() => {
+    setSelectedGroups(groupsOfSelectedlevel.filter((group) => searchParams.get('group').split('_').includes(group.groupId.toString())));
+  }, [searchParams.get('group')]);
+  // console.log('selectedGroups', selectedGroups, groupsOfSelectedlevel);
 
   return (
     <>
@@ -742,18 +791,27 @@ function AddOnlineTest({ test }) {
               <div className="mb-6 flex items-center justify-between">
                 <SolidLogo />
                 <div className="flex gap-2">
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button variant="outline" size="icon">
-                          <CopyIcon />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" align="center" sideOffset={10}>
-                        <p>انشاء نسخة</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  {test && (
+                    <TooltipProvider delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button
+                            onClick={() => {
+                              setTitle(title + ' - نسخة');
+                              handelSaveQuiz(true);
+                            }}
+                            variant="outline"
+                            size="icon"
+                          >
+                            <CopyIcon />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" align="center" sideOffset={10}>
+                          <p>انشاء نسخة</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
 
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
@@ -817,7 +875,7 @@ function AddOnlineTest({ test }) {
                                 <Button variant="secondary" className="w-full justify-start gap-2 pr-1">
                                   <TimeIcon />
                                   <span className="ltr">
-                                    {timeStartString.hour}:{timeStartString.minute} {timeStartString.mode}
+                                    {timeStartString.hour}:{timeStartString.minute} {timeStart.mode}
                                   </span>
                                 </Button>
                               </TooltipTrigger>
@@ -908,12 +966,12 @@ function AddOnlineTest({ test }) {
                       )}
                     </div>
                     <div className="flex gap-6">
-                      <OldButton type={'outline'} icon={<ShareIcon2 />}>
-                        مشاركة مع المجموعة
-                      </OldButton>
-                      <OldButton type={'outline'} icon={<ShareIcon />} onClick={handelSaveQuiz}>
+                      <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
+
+                      <Button variant={'outline'} onClick={handelSaveQuiz} className="gap-2">
                         {test ? 'تعديل' : 'اضافة'}
-                      </OldButton>
+                        {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
+                      </Button>
                     </div>
                   </div>
                 </div>

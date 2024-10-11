@@ -29,7 +29,7 @@ export function Barchart({ chartData }) {
             <XAxis dataKey="ans" tickLine={false} tickMargin={10} axisLine={false} tickFormatter={(value) => value.slice(0, 3)} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Bar dataKey="votes" fill="var(--color-votes)" radius={8}>
-              <LabelList position="top" offset={12} className="fill-foreground" fontSize={12} />
+              <LabelList position="top" offset={12} className="fill-foreground" fontSize={20} />
             </Bar>
           </BarChart>
         </ChartContainer>

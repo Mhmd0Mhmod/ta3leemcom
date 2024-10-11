@@ -7,8 +7,9 @@ import Group from '../../../../public/Icons/group.svg';
 import TestIcon from '../../../../public/Icons/test.svg';
 import Details from '@/UI-Global/Details.jsx';
 import Graduted from '../../../../public/Icons/graduted.svg';
-import { LEVELS } from '@/config.js';
+import { constraints, LEVELS } from '@/config.js';
 import Meeting from '../../../../public/Icons/meeting.svg';
+import { useLevels } from '@/pages/Dashboard/Dashboard';
 
 function TeacherNav() {
   const [openTabsList, setOpenTabsList] = useState(false);
@@ -17,7 +18,15 @@ function TeacherNav() {
   function handleTabListOpen(e) {
     if (e.target.closest('li')) setOpenTabsList(false);
   }
-
+  // console.log(LEVELS.levels.map((el) => el.split(' ').at(1)));
+  // console.log(Object.keys(LEVELS).slice(1));
+  // let lvls = [];
+  // for (const key in constraints) {
+  //   lvls.push(constraints[key].text);
+  // }
+  // console.log(lvls);
+  // console.log(Object.entries(constraints)[0][1]);
+  // console.log(Object.keys(constraints));
   return (
     <div>
       <button className={'flex items-center gap-[10px] text-2xl'} onClick={() => setOpenTabsList(!openTabsList)}>
@@ -48,6 +57,20 @@ function TeacherNav() {
                 name: 'المراحل الدراسية',
                 tab: 'StudyLevels',
                 icon: Graduted,
+                // Details: (
+                //   <Details
+                //     route="level"
+                //     className={'gap-[18px]'}
+                //     summary={'المراحل الدراسية'}
+                //     Icon={Graduted}
+                //     opend={showItems}
+                //     listItems={lvls.map((el) => {
+                //       return { ...el, name: el };
+                //     })}
+                //     tabName={MainLevels.map((level) => level.id)}
+                //     param={'level'}
+                //   />
+                // ),
                 Details: <Details className={'gap-[18px]'} summary={'المراحل الدراسية'} Icon={Graduted} opend={showItems} listItems={LEVELS.levels.map((el) => el.split(' ').at(1))} tabName={Object.keys(LEVELS).slice(1)} param={'level'} />,
               },
               { name: 'عقد اجتماع', tab: 'meeting', icon: Meeting },

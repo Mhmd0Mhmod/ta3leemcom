@@ -95,6 +95,7 @@ const QUESTIONS = [
 ];
 const types = ['النتائج', 'الاحصائيات', 'الطلاب غير المشاركين'];
 
+let tt = true;
 export default function OnlineTestData({ test }) {
   const [questions, setQuestions] = useState(QUESTIONS);
   const [testDesc, setTestDesc] = useState({});
@@ -157,7 +158,7 @@ export default function OnlineTestData({ test }) {
         const data = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllResultsOfQuizId?quizId=${test.id}`, {
           headers: { Authorization: authHeader },
         });
-        if (data.status === 200) {
+        if (res.status === 200) {
           setTestRes(data.data);
         }
       } catch (error) {
@@ -201,27 +202,14 @@ export default function OnlineTestData({ test }) {
         });
         if (res.status === 200) {
           setDummyQuestions(
-            res.data.quiz.questionsOfQuizzes.map((question) => ({
-              //    {
-              //   text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
-              //   bouns: 0,
-              //   deg: 1,
-              //   answers: [
-              //     { text: 'المشتري', isCorrect: true, id: '1' },
-              //     { text: 'المريخ', isCorrect: false, id: '2' },
-              //   ],
-              //   images: [],
-              //   explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
-              //   required: true,
-              //   id: '1',
-              // },
+            res.data.quiz.questionsOfQuizzes.map((question, index) => ({
               text: question.content,
               bouns: question.type === 'اجباري' ? 0 : question.mark,
               deg: question.type === 'اجباري' ? question.mark : 0,
               answers: question.choices?.map((answer) => ({
                 text: answer?.content,
                 isCorrect: answer?.isCorrect,
-                id: answer?.questionId,
+                id: answer?.id,
                 isDeleted: answer?.isDeleted,
               })),
               images: [],
@@ -229,6 +217,7 @@ export default function OnlineTestData({ test }) {
               required: question.type === 'اجباري',
               id: question.id,
               answer: question.answer,
+              stdAnswer: res.data.studentSolve.answers[index],
             })),
           );
         }
@@ -240,14 +229,6 @@ export default function OnlineTestData({ test }) {
       fetchTestResult();
     }
   }, [currentTestResult]);
-
-  const BarChartData = [
-    { ans: '1', votes: 20, fill: '#2cbf71' },
-    { ans: '2', votes: 3, fill: '#e0242d' },
-    { ans: '3', votes: 4, fill: '#e0242d' },
-    { ans: '4', votes: 2, fill: '#e0242d' },
-    { ans: '5', votes: 0, fill: '#e0242d' },
-  ];
 
   return (
     <div>
@@ -337,7 +318,10 @@ export default function OnlineTestData({ test }) {
                       <div className="flex items-center justify-between">
                         <Heading as={'h3'}>
                           {' '}
-                          <span className="ml-2 text-accent-l-700">{index + 1}.</span> {question.text}
+                          <div className="flex gap-1">
+                            <span className="ml-2 text-accent-l-700">{index + 1}.</span>
+                            <div dangerouslySetInnerHTML={{ __html: question.text }} />
+                          </div>
                         </Heading>
                         <p className="text-accent-l-100">
                           {question.required ? question.deg : question.bouns}
@@ -349,18 +333,21 @@ export default function OnlineTestData({ test }) {
                           {question?.answers.map(
                             (answer, i) =>
                               !answer.isDeleted && (
-                                <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer, question?.answer) === 'true' ? 'bg-[#bae3cd]' : highlight(answer, question?.answer) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
+                                <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${answer.isCorrect && 'bg-[#bae3cd]'} ${question.stdAnswer?.choiceId === answer.id && (question.stdAnswer.iscorrect ? 'bg-[#bae3cd]' : 'bg-[#fccfd0]')} `}>
                                   <input
                                     type="radio"
                                     name={question.id}
                                     className="h-5 w-5"
-                                    checked={answer.isCorrect}
+                                    checked={question.stdAnswer?.choiceId === answer.id}
                                     disabled
                                     //  onChange={(e) => handelAnswerCheck(e, i, index)}
                                   />
                                   <div className="flex w-full justify-between">
-                                    <p className="">{answer.text}</p>
-                                    <span>{highlight(answer, question?.answer) === 'true' ? <Check /> : highlight(answer, question?.answer) === 'false' ? <X /> : ''}</span>
+                                    <div dangerouslySetInnerHTML={{ __html: answer.text }} />
+                                    <span>
+                                      {question.stdAnswer?.choiceId === answer.id && (question.stdAnswer.iscorrect ? <Check /> : <X />)}
+                                      {answer.isCorrect && !question.stdAnswer.iscorrect && <Check />}
+                                    </span>
                                   </div>
                                 </div>
                               ),
@@ -374,26 +361,14 @@ export default function OnlineTestData({ test }) {
                       </div>
                     </li>
                     <p className="mt-2 text-start">
-                      {' '}
-                      <span className="font-almaria-bold">التفسير : </span>
-                      {question.explain}
+                      <div className="flex gap-1">
+                        <span className="font-almaria-bold">التفسير : </span>
+                        <div dangerouslySetInnerHTML={{ __html: question.explain }} />
+                      </div>
                     </p>
                   </div>
                 ))}
               </ul>
-              {/* <div className="flex justify-between items-center mt-12">
-        <Button
-         variant="ghost"
-         className=" bg-secondary-l text-white px-10 py-6"
-         onClick={() => {
-          setShowTestAlert(true);
-          setOpenModel(false);
-         }}
-        >
-         ارسال
-        </Button>
-        <SolidLogo />
-       </div> */}
             </div>
           </div>
         </>
@@ -487,15 +462,15 @@ export default function OnlineTestData({ test }) {
                     <div className="col-span-2 line-clamp-1 font-almaria">{res.stuentName}</div>
                     <div>{index + 1}</div>
                     <div>
-                      {(res.studentMark / (res.quizMark === 0 ? 1 : res.quizMark)) * 100}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark})
+                      {Math.floor((res.studentMark / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark})
                     </div>
 
                     <div>
-                      {(res.studentBounce / (res.quizBounce === 0 ? 1 : res.quizBounce)) * 100}% <span className="font-almaria">({res.quizBounce}</span> /{res.studentBounce})
+                      {Math.floor((res.studentBounce / (res.quizBounce === 0 ? 1 : res.quizBounce)) * 100)}% <span className="font-almaria">({res.quizBounce}</span> /{res.studentBounce})
                     </div>
 
                     <div>
-                      {((res.studentMark + res.studentBounce) / (res.quizMark === 0 ? 1 : res.quizMark)) * 100}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark + res.studentBounce})
+                      {Math.floor(((res.studentMark + res.studentBounce) / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark + res.studentBounce})
                     </div>
                     <div></div>
                     <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
