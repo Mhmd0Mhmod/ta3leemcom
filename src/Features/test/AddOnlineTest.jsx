@@ -44,7 +44,8 @@ import axios from 'axios';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import { DeleteConfirmation } from '@/components/DeleteConfirmation.jsx';
 import { Combobox } from '@/components/ui/combobox.jsx';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
+
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
 // const QUESTIONS = [
 //   {
@@ -204,7 +205,7 @@ function AddOnlineTest({ test }) {
     },
   );
 
-  const { groupsOfSelectedlevel } = useLevels();
+  const { groupsOfSelectedlevel } = useTeacherDashboard();
 
   let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
   let timeDurationString = convertTo12HourFormat(timeDuration.hour, timeDuration.minute, timeDuration.day);
@@ -412,13 +413,13 @@ function AddOnlineTest({ test }) {
       } else if (test && new Date(Date.now()) >= new Date(test?.startDate) && !isNew) {
         // console.log(testData);
         // console.log(selectedGroups)
-        console.log('comming soon');
+        // console.log('comming soon');
       } else {
         if (isNew) {
           testData.title = `${testData.title} - نسخة`;
           testData.groupsIds = selectedGroups.map((group) => group.groupId);
           // console.log(selectedGroups);
-          console.log('dublicateing existing quiz');
+          // console.log('dublicateing existing quiz');
         }
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
@@ -516,8 +517,8 @@ function AddOnlineTest({ test }) {
               data.questionsOfQuizzes.map((q) => {
                 return {
                   text: q.content,
-                  bouns: q.type === 'bounce' ? q.mark : 0,
-                  deg: q.type === 'required' ? q.mark : 0,
+                  bouns: q.type.trim() !== 'اجباري' ? q.mark : 0,
+                  deg: q.type.trim() === 'اجباري' ? q.mark : 0,
                   answers: q.choices.map((a) => {
                     return {
                       text: a.content,
@@ -527,7 +528,7 @@ function AddOnlineTest({ test }) {
                   }),
                   images: [],
                   explain: q.explain,
-                  required: q.type !== 'اخنياري',
+                  required: q.type.trim() === 'اجباري',
                   id: q.id,
                 };
               }),
@@ -546,7 +547,6 @@ function AddOnlineTest({ test }) {
               day: data.timeDuration.days,
             });
             setSelectedGroups(groupsOfSelectedlevel.filter((item) => data.groupsIds.includes(item.groupId)));
-            // console.log(groupsOfSelectedlevel.filter((item) => data.groupsIds.includes(item.groupId)));
           }
         } catch (error) {
           toast.error(error?.response?.data);
@@ -560,7 +560,6 @@ function AddOnlineTest({ test }) {
   useEffect(() => {
     setSelectedGroups(groupsOfSelectedlevel.filter((group) => searchParams.get('group').split('_').includes(group.groupId.toString())));
   }, [searchParams.get('group')]);
-  // console.log('selectedGroups', selectedGroups, groupsOfSelectedlevel);
 
   return (
     <>
@@ -677,9 +676,10 @@ function AddOnlineTest({ test }) {
                       </div>
                     </li>
                     <p className="mt-2 text-start">
-                      {' '}
-                      <span className="font-almaria-bold">التفسير : </span>
-                      {question.explain}
+                      <div className="flex gap-2">
+                        <span className="font-almaria-bold">التفسير : </span>
+                        <div dangerouslySetInnerHTML={{ __html: question.explain }} />
+                      </div>
                     </p>
                   </div>
                 ))}

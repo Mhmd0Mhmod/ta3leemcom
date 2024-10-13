@@ -10,8 +10,28 @@ export async function getTests(studentId) {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
+  // console.log(res);
 
+  return res.data;
+}
+export async function getTest(quizId) {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${quizId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.data.isAttend) {
+    throw new Error('لقد قمت بحل الاختبار مسبقا');
+  }
+  if (new Date(res.data.startDate) > new Date(Date.now())) {
+    throw new Error('لم يحن وقت الاختبار');
+  }
+  if (new Date(res.data.endDate) < new Date(Date.now())) {
+    throw new Error('انتهى وقت الاختبار');
+  }
+
+  // throw new Error('انتهى وقت الاختبار');
   return res.data;
 }
 export async function getToppers(groupId) {

@@ -9,7 +9,7 @@ import Details from '@/UI-Global/Details.jsx';
 import Graduted from '../../../../public/Icons/graduted.svg';
 import { constraints, LEVELS } from '@/config.js';
 import Meeting from '../../../../public/Icons/meeting.svg';
-import { useLevels } from '@/pages/Dashboard/Dashboard';
+
 
 function TeacherNav() {
   const [openTabsList, setOpenTabsList] = useState(false);

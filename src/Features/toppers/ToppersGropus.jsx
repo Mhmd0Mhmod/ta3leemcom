@@ -25,7 +25,7 @@ function Toppers({ backToLevels = true }) {
     },
     [searchParam],
   );
-  console.log(toppers);
+  // console.log(toppers);
 
   const style = {
     0: {

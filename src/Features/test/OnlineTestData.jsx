@@ -146,6 +146,28 @@ export default function OnlineTestData({ test }) {
     }
   };
 
+  const reformatStudentAnswers = (questions, answers) => {
+    const answeredIds = answers.map((ans) => ans.questionId);
+
+    let temp = [];
+    questions.forEach((question) => {
+      const isExist = answers.find((ans, index) => ans.questionId === question.id);
+      if (isExist) {
+        temp.push(isExist);
+      } else {
+        temp.push({
+          id: Math.random(),
+          questionId: question.id,
+          choiceId: null,
+          questionMark: question.mark,
+          iscorrect: false,
+        });
+      }
+    });
+
+    return temp;
+  };
+
   useEffect(() => {
     const fetchTest = async () => {
       try {
@@ -159,7 +181,10 @@ export default function OnlineTestData({ test }) {
           headers: { Authorization: authHeader },
         });
         if (res.status === 200) {
+          let questions = res.data.questionsDes;
+          data.data.map((item, index) => (item.answers = reformatStudentAnswers(questions, item.answers)));
           setTestRes(data.data);
+          console.log(data.data);
         }
       } catch (error) {
         toast.error('حدث خطأ ما');

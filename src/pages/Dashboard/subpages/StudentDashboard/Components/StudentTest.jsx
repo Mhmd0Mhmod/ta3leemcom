@@ -18,7 +18,8 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { getTests } from '@/Context/StudentDashboard/helpers';
 import toast from 'react-hot-toast';
 import { Spinner } from '@/UI-Global/Spinner';
-import { durationToMinutes, parseISODateString, parseISOTimeString } from '@/lib/time';
+import { durationToArabic, parseISODateString, parseISOTimeString } from '@/lib/time';
+import { useNavigate } from 'react-router-dom';
 
 function StudentTest() {
   const student = useAuthUser();
@@ -26,16 +27,22 @@ function StudentTest() {
   const [endedTests, setEndedTests] = useState([]);
   const [tests, setTests] = useState([]);
   const [search, setSearch] = useState('');
+  const nav = useNavigate();
+
+  const handelStartQuiz = (test) => {
+    if (test.quizStatus === 'Started' && !test.studentQuizId && !test.isAttend && new Date(test.endDate) > new Date(Date.now())) nav(`/dashboard/tests/${test.quizId}`);
+  };
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
+
   useEffect(() => {
     setLoading(true);
     getTests(student.studentId)
       .then((data) => {
-        setTests(data.filter((test) => test.quizStatus !== 'Ended' && test.quizStatus));
-        setEndedTests(data.filter((test) => test.quizStatus === 'Ended'));
+        setTests(data.filter((test) => test.quizStatus !== 'Ended' && test.quizStatus !== 'Solved' && test.quizStatus));
+        setEndedTests(data.filter((test) => test.quizStatus === 'Ended' || test.quizStatus === 'Solved'));
       })
       .catch((err) => toast.error('حدث خطأ ما'))
       .finally(() => setLoading(false));
@@ -56,9 +63,26 @@ function StudentTest() {
             <div className={'grid w-[90%] grid-cols-2 justify-between rounded bg-white px-5 py-10'}>
               <div className={'flex w-[70%] flex-col justify-between'}>
                 <div className={'flex items-center justify-between'}>
-                  <span className={'font-almaria-bold text-xl'}>{test.name}</span>
-                  {test.quizStatus === 'Started' && <Button className={'bg-[#0884A2] hover:bg-[#0884A2]'}>بدا الاختبار</Button>}
-                  {test.quizStatus === 'Not Started ' && <Button className={'bg-[#B2B2B2] hover:bg-[#B2B2B2]'}>لم يبدأ بعد</Button>}
+                  <span className={'font-almaria-bold text-xl'}>{test?.title}</span>
+                  {/* <span>
+                    <div>quizId : {test.quizId}</div>
+                    <div>studentQuizId : {String(test.studentQuizId)}</div>
+                    <div>startDate : {test.startDate}</div>
+                    <div>endDate : {test.endDate}</div>
+                    <div>isAttend : {String(test.isAttend)}</div>
+                    <div>quizStatus : {test.quizStatus}</div>
+                    <div>solveStatus : {test.solveStatus}</div>
+                  </span> */}
+                  {test.quizStatus === 'Started' && (
+                    <Button onClick={() => handelStartQuiz(test)} className={'bg-[#0884A2] hover:bg-[#0884A2]'}>
+                      بدا الاختبار
+                    </Button>
+                  )}
+                  {test.quizStatus.trim() === 'Not Started' && (
+                    <Button disabled className={'bg-[#B2B2B2] hover:bg-[#B2B2B2]'}>
+                      لم يبدأ بعد
+                    </Button>
+                  )}
                 </div>
                 <div className={'flex justify-between'}>
                   <div className={'flex gap-2 text-[#878787]'}>
@@ -85,17 +109,17 @@ function StudentTest() {
                 </div>
               </div>
               <div className={'mr-auto flex flex-col gap-2 font-almaria-bold'}>
-                <div className={'flex items-center gap-10'}>
+                <div className={'flex w-full items-center gap-10'}>
                   <span>تاريخ الاختبار</span>
-                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{parseISODateString(test.startDate)}</span>
+                  <span className={'flex-grow items-center rounded bg-[#EFEFEF] px-4 py-2'}>{parseISODateString(test.startDate)}</span>
                 </div>
-                <div className={'flex items-center gap-10'}>
+                <div className={'flex w-full items-center gap-10'}>
                   <span>وقت الاخبار</span>
-                  <span className={'ltr rounded bg-[#EFEFEF] px-4 py-2'}>{parseISOTimeString(test.startDate)}</span>
+                  <span className={'ltr flex-grow items-center rounded bg-[#EFEFEF] px-4 py-2 text-right'}>{parseISOTimeString(test.startDate)}</span>
                 </div>
-                <div className={'flex items-center gap-10'}>
+                <div className={'flex w-full items-center gap-10'}>
                   <span>مدة الاختبار</span>
-                  <span className={'rounded bg-[#EFEFEF] px-4 py-2'}>{durationToMinutes(test.duration)} دقيقه</span>
+                  <span className={'flex-grow items-center rounded bg-[#EFEFEF] px-4 py-2'}>{durationToArabic(test.duration)}</span>
                 </div>
               </div>
             </div>
@@ -138,7 +162,7 @@ function StudentTest() {
                   <TD className="flex items-center justify-between">
                     <span>
                       <span>{idx + 1}.</span>
-                      {test.name}
+                      {test.title}
                     </span>
                     <Button className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2]'}>محاولة تدربية</Button>
                   </TD>

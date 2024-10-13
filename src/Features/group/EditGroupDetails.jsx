@@ -33,7 +33,7 @@ export default function EditGroupDetails() {
       setGroupName(groupData.name);
       setLevel(groupData.levelId);
       setLevelNumber(groupData.levelYearId);
-      console.log(groupData);
+      // console.log(groupData);
     }
   }, [groupData]);
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ export default function EditGroupDetails() {
   }, [groupID, token]);
   const handleGroChange = (e) => {
     setGroupName(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
   const user = useAuthUser();
   let teacherId = user.teacherId;

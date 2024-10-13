@@ -1,5 +1,3 @@
-import { Minus, Plus } from 'lucide-react';
-
 import { Button } from '@/components/ui/button.jsx';
 
 import Eye from '../../../public/Icons/show_icon.svg';
@@ -10,7 +8,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/component
 import TimeIcon from '../../../public/Icons/time_icon.svg';
 import { SolidLogo } from '../../UI-Global/SolidLogo.jsx';
 
-export function ShowTest({ test, timeStartString, setShowTestAlert, openModel, setOpenModel, dummyQuestions, setDummyQuestions }) {
+export function ShowTest({ test, timeStartString, setShowTestAlert, openModel, setOpenModel, dummyQuestions, setDummyQuestions, testType }) {
   const handelAnswerCheck = (e, i, questionIndex) => {
     setDummyQuestions((prev) =>
       prev.map((question, qIndex) => {
@@ -28,6 +26,12 @@ export function ShowTest({ test, timeStartString, setShowTestAlert, openModel, s
       }),
     );
   };
+
+  // const handelSubmitTest = () => {
+  //   if (testType === 'online-test') {
+  //     // submit quiz
+  //   }
+  // };
 
   return (
     <AlertDialog open={openModel}>
@@ -101,6 +105,7 @@ export function ShowTest({ test, timeStartString, setShowTestAlert, openModel, s
               variant="ghost"
               className="bg-secondary-l px-10 py-6 font-almaria-light text-2xl text-white"
               onClick={() => {
+                // handelSubmitTest();
                 setShowTestAlert(true);
                 setOpenModel(false);
               }}

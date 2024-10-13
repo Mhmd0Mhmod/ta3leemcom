@@ -20,13 +20,13 @@ export function convertTo12HourFormat(hour, minute, day) {
     if (totalMinutes < 60) {
       duration = `${totalMinutes} دقيقة`;
     } else if (totalMinutes === 60) {
-      duration = 'ساعة واحدة';
+      duration = 'ساعة';
     } else {
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
 
       if (hours === 1) {
-        duration = minutes > 0 ? `ساعة واحدة و ${minutes} دقيقة` : `ساعة واحدة`;
+        duration = minutes > 0 ? `ساعة و ${minutes} دقيقة` : `ساعة`;
       } else if (hours === 2) {
         duration = minutes > 0 ? `ساعتان و ${minutes} دقيقة` : `ساعتان`;
       } else {
@@ -64,7 +64,27 @@ export function parseISOTimeString(isoString) {
 
   return `${formattedHour}:${minute} ${mode}`;
 }
-export function durationToMinutes(duration) {
+export function durationToArabic(duration) {
   const [hours, minutes, seconds] = duration.split(':').map(Number);
-  return hours * 60 + minutes + Math.floor(seconds / 60);
+  const totalMinutes = hours * 60 + minutes + Math.floor(seconds / 60);
+
+  let arabicDuration;
+  if (totalMinutes < 60) {
+    arabicDuration = `${totalMinutes} دقيقة`;
+  } else if (totalMinutes === 60) {
+    arabicDuration = 'ساعة';
+  } else {
+    const totalHours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+
+    if (totalHours === 1) {
+      arabicDuration = remainingMinutes > 0 ? `ساعة و ${Math.round(remainingMinutes)} دقيقة` : `ساعة`;
+    } else if (totalHours === 2) {
+      arabicDuration = remainingMinutes > 0 ? `ساعتان و ${Math.round(remainingMinutes)} دقيقة` : `ساعتان`;
+    } else {
+      arabicDuration = remainingMinutes > 0 ? `${Math.round(totalHours)} ساعات و ${Math.round(remainingMinutes)} دقيقة` : `${Math.round(totalHours)} ساعات`;
+    }
+  }
+
+  return arabicDuration;
 }

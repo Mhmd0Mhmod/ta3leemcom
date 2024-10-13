@@ -7,7 +7,7 @@ import { StudentProvider } from '@/Context/StudentDashboard/StudentProvider';
 export default function Dashboard() {
   const auth = useAuthUser();
 
-  console.log(auth);
+  // console.log(auth);
 
   if (!auth) {
     return <Navigate to="/home?mr=login" />;

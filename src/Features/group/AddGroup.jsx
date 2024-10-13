@@ -53,7 +53,7 @@ function AddGroup() {
     setLoading(true);
     addGroup(bodyData)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         setDataGroup(response);
         setAlertData({

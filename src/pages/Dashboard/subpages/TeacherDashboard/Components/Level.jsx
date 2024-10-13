@@ -23,7 +23,7 @@ function Levels() {
   const navigate = useNavigate();
   let { levels, selectYearIdFunc, groupsOfSelectedlevel: groups, fetchingDashboard } = useTeacherDashboard();
   levels = levels[Number(mainLevel)];
-  console.log(groups);
+  // console.log(groups);
 
   const handleGroupClick = (group) => {
     if (selectedGroups.includes(group.groupId)) {
