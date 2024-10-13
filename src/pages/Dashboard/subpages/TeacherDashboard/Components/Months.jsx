@@ -35,6 +35,7 @@ function Months() {
   const [alertData, setAlertData] = useState({});
   const [daysData, setDaysData] = useState([]);
   const [absencesData, setAbsencesData] = useState([]);
+  const [isMonthPayChanged, setIsMonthPayChanged] = useState(false);
 
   const { groupsOfSelectedlevel, selectYearIdFunc } = useTeacherDashboard();
   const groupsIds = searchParams.get('group')?.split('_').map(Number) || [];
@@ -79,6 +80,13 @@ function Months() {
       setDaysData(monthData.days);
     }
   }, [monthData]);
+
+  useEffect(() => {
+    if (monthData) {
+      const result = monthData.monthStudents?.some((std, idx) => std.pay !== students[idx].pay);
+      setIsMonthPayChanged(result);
+    }
+  }, [students]);
 
   async function getMonths() {
     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Month/GetAllMonthsOfGroups?ids=${groupsIds.join('&ids=')}`, {
@@ -234,6 +242,8 @@ function Months() {
         },
       });
       getMonthData();
+      setAbsencesData([]);
+      setIsMonthPayChanged(false);
       setAlertData({
         title: 'تم حفظ التعديلات بنجاح',
         type: 'success',
@@ -423,9 +433,7 @@ function Months() {
                           <TableRow key={idx} className="rounded-2xl bg-white">
                             <TableCell className="sticky right-0 whitespace-nowrap bg-[#e7e6e6]">{idx + 1} .</TableCell>
                             {allDaysForStudent?.map((day, i) => (
-                              <TableCell key={day.dayId} title={`${day.studentName}`}>
-                                {day.attended ? <StudentPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} /> : <StudentNotPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} />}
-                              </TableCell>
+                              <TableCell key={day.dayId}>{day.attended ? <StudentPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} /> : <StudentNotPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} />}</TableCell>
                             ))}
                           </TableRow>
                         );
@@ -462,7 +470,7 @@ function Months() {
         <Alert {...alertData} />
       </div>
       <div className={'relative mr-[-35px] mt-3 flex min-h-[56px] max-w-[95%] items-center justify-end gap-5'}>
-        {absencesData.length > 0 && (
+        {(absencesData.length > 0 || isMonthPayChanged) && (
           <>
             <button className="rounded-lg border-2 bg-white px-6 py-4 text-black" onClick={clearChanges}>
               الغاء
