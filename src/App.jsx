@@ -1,56 +1,64 @@
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './UI-Global/AppLayout.jsx';
-import Home from './pages/Home/Home.jsx';
-import About from './pages/About/About.jsx';
-import Services from './pages/Services/Services.jsx';
-import Instructions from './pages/Instuctions/Instructions.jsx';
-import Subscriptions from './pages/Subscriptions/Subscriptions.jsx';
-import Opinion from './pages/Opinion/Opinion.jsx';
-import ContactWithUs from './pages/ContactWithUs/ContactWithUs.jsx';
-import PageNotFound from './pages/PageNotFound/PageNotFound.jsx';
-import Dashboard from './pages/Dashboard/Dashboard.jsx';
-
 import AuthProvider from 'react-auth-kit';
 import { store } from './auth/authStore.js';
-import AddStudent from './Features/student/AddStudent.jsx';
-import AddGroup from './Features/group/AddGroup.jsx';
-import Level from './pages/Dashboard/subpages/TeacherDashboard/Components/Level.jsx';
-import Test from './pages/Dashboard/subpages/TeacherDashboard/Components/Test.jsx';
-import Students from './pages/Dashboard/subpages/TeacherDashboard/Components/Students.jsx';
-import Months from './pages/Dashboard/subpages/TeacherDashboard/Components/Months.jsx';
-import Toppers from './Features/toppers/Toppers.jsx';
-import AddOnlineTest from './Features/test/AddOnlineTest.jsx';
-import Tests from './Features/test/Tests.jsx';
-import GroupDetails from './Features/group/GroupDetails.jsx';
+import { Spinner } from './UI-Global/Spinner.jsx';
+
+const Home = React.lazy(() => import('./pages/Home/Home.jsx'));
+const About = React.lazy(() => import('./pages/About/About.jsx'));
+const Services = React.lazy(() => import('./pages/Services/Services.jsx'));
+const Instructions = React.lazy(() => import('./pages/Instuctions/Instructions.jsx'));
+const Subscriptions = React.lazy(() => import('./pages/Subscriptions/Subscriptions.jsx'));
+const Opinion = React.lazy(() => import('./pages/Opinion/Opinion.jsx'));
+const ContactWithUs = React.lazy(() => import('./pages/ContactWithUs/ContactWithUs.jsx'));
+const PageNotFound = React.lazy(() => import('./pages/PageNotFound/PageNotFound.jsx'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard/Dashboard.jsx'));
+const AddStudent = React.lazy(() => import('./Features/student/AddStudent.jsx'));
+const AddGroup = React.lazy(() => import('./Features/group/AddGroup.jsx'));
+const Level = React.lazy(() => import('./pages/Dashboard/subpages/TeacherDashboard/Components/Level.jsx'));
+const Test = React.lazy(() => import('./pages/Dashboard/subpages/TeacherDashboard/Components/Test.jsx'));
+const Toppers = React.lazy(() => import('./Features/toppers/Toppers.jsx'));
+const GroupDetails = React.lazy(() => import('./Features/group/GroupDetails.jsx'));
+const StudentTest = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx'));
+const StudentMonths = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx'));
+const EditGroupDetails = React.lazy(() => import('./Features/group/EditGroupDetails.jsx'));
+const StudentDetails = React.lazy(() => import('./Features/student/StudentDetails.jsx'));
 
 function App() {
   return (
     <>
       <AuthProvider store={store}>
         <Router>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<Navigate replace to="home" />} />
-              <Route path="home" element={<Home />} />
-              <Route path="about" element={<About />} />
-              <Route path="services" element={<Services />} />
-              <Route path="instructions" element={<Instructions />} />
-              <Route path="subscriptions" element={<Subscriptions />} />
-              <Route path="opinion" element={<Opinion />} />
-              <Route path="contact-with-us" element={<ContactWithUs />} />
-              <Route path="dashboard" element={<Dashboard />}>
-                {/* Teacher Dashboard Routes */}
-                <Route path="addStudent" element={<AddStudent />} />
-                <Route path="addStudent/:id" element={<AddStudent />} />
-                <Route path="addGroup" element={<AddGroup />} />
-                <Route path="addGroup/:id" element={<GroupDetails />} />
-
-                <Route path="level" element={<Level />} />
+          <Suspense fallback={<Spinner />}>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route index element={<Navigate replace to="home" />} />
+                <Route path="home" element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="services" element={<Services />} />
+                <Route path="instructions" element={<Instructions />} />
+                <Route path="subscriptions" element={<Subscriptions />} />
+                <Route path="opinion" element={<Opinion />} />
+                <Route path="contact-with-us" element={<ContactWithUs />} />
+                <Route path="dashboard" element={<Dashboard />}>
+                  {/* Teacher Dashboard Routes */}
+                  <Route path="addStudent" element={<AddStudent />} />
+                  <Route path="studentDetails/:id" element={<StudentDetails />} />
+                  <Route path="addGroup" element={<AddGroup />} />
+                  <Route path="addGroup/:id" element={<GroupDetails />} />
+                  <Route path="editGroup/:id" element={<EditGroupDetails />} />
+                  <Route path="level" element={<Level />} />
+                  {/* Student Dashboard Routes */}
+                  <Route path="tests" element={<StudentTest />} />
+                  <Route path="tests/id" element={<Test />} />
+                  <Route path="toppers" element={<Toppers backToLevels={false} />} />
+                  <Route path="months" element={<StudentMonths />} />
+                </Route>
               </Route>
-            </Route>
-
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Suspense>
         </Router>
       </AuthProvider>
     </>

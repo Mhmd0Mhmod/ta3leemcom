@@ -1,106 +1,112 @@
-import Heading from "@/UI-Global/Heading.jsx";
-import HeadIcon from "../../../../../../public/Icons/head-icon-student.svg"
-import BgIcon from "../../../../../../public/Icons/flow-months-student-bg.svg"
-import Paid from "../../../../../../public/Icons/paied.svg"
-import Done from "../../../../../../public/Icons/done.svg"
-import False from "../../../../../../public/Icons/false.svg";
-import HeadMonthsStudent from "@/pages/Dashboard/subpages/StudentDashboard/Components/HeadMonthsStudent.jsx";
-import DropList from "@/UI-Global/DropList.jsx";
-import {MonthsInArabic} from "@/config.js";
-import {useState} from "react";
-import {Button} from "@/components/ui/button.jsx";
-
-const FakeAttendance = [
-    {date: "2022-09-09", present: true},
-    {date: "2022-09-09", present: false}, {
-        date: "2022-09-09",
-        present: true
-    }, {date: "2022-09-09", present: false}, {date: "2022-09-09", present: true}, {
-        date: "2022-09-09",
-        present: false
-    }, {date: "2022-09-09", present: true}, {date: "2022-09-09", present: false}, {
-        date: "2022-09-09",
-        present: true
-    }, {date: "2022-09-09", present: false}, {date: "2022-09-09", present: true}, {
-        date: "2022-09-09",
-        present: false
-    }, {date: "2022-09-09", present: true}, {date: "2022-09-09", present: false}, {
-        date: "2022-09-09",
-        present: true
-    }, {date: "2022-09-09", present: false}, {date: "2022-09-09", present: true}, {
-        date: "2022-09-09",
-        present: false
-    }, {date: "2022-09-09", present: true}, {date: "2022-09-09", present: false}];
+import Heading from '@/UI-Global/Heading.jsx';
+import HeadIcon from '../../../../../../public/Icons/head-icon-student.svg';
+import BgIcon from '../../../../../../public/Icons/flow-months-student-bg.svg';
+import Paid from '../../../../../../public/Icons/paied.svg';
+import NotPaid from '../../../../../../public/Icons/notpaidMonth.svg';
+import Done from '../../../../../../public/Icons/done.svg';
+import False from '../../../../../../public/Icons/false.svg';
+import HeadMonthsStudent from '@/pages/Dashboard/subpages/StudentDashboard/Components/HeadMonthsStudent.jsx';
+import DropList from '@/UI-Global/DropList.jsx';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button.jsx';
+import { useStudent } from '@/Context/StudentDashboard/StudentProvider';
+import { parseISODateString } from '@/lib/time';
 
 function StudentMonths() {
-    const [value, setValue] = useState("");
-    const [showMore, setShowMore] = useState(false)
-    const handleShowMore = () => {
-        setShowMore(!showMore)
-    }
-    return (
-        <>
-            <BgIcon className={"absolute left-[10%] top-[15%] "}/>
-            <div className={"flex justify-center gap-12 "}>
-                <Heading as={"h3"} className={"font-almaria-bold text-center"}>متابعة الشهر الدراسي</Heading>
-                <HeadIcon/>
+  const [value, setValue] = useState('');
+  const [showMore, setShowMore] = useState(false);
+  const { studentAttendance: attendance } = useStudent();
+
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+  };
+  return (
+    <>
+      <BgIcon className={'absolute left-[10%] top-[15%]'} />
+      <div className={'flex justify-center gap-12'}>
+        <Heading as={'h3'} className={'text-center font-almaria-bold'}>
+          متابعة الشهر الدراسي
+        </Heading>
+        <HeadIcon />
+      </div>
+      <div className={'mt-20 flex flex-col justify-between gap-16'}>
+        <div>
+          <HeadMonthsStudent title={'اختر الشهر'} />
+          <div className={'mr-10'}>
+            <DropList title={'اختر الشهر'} options={attendance.map((el) => `${el.monthName}  ${el.year}`)} value={value} setValue={setValue} optionsValue={attendance}>
+              <span className={'text-[#666666]'}> الشهر</span>
+              <span className={'h-full w-[2px] bg-[#D9D9D9]'}></span>
+            </DropList>
+          </div>
+        </div>
+        {value && (
+          <>
+            <div>
+              <HeadMonthsStudent title={'دفع الشهر'} />
+              <div className={'mr-10 flex w-2/5 items-center justify-center gap-10 rounded-[7px] bg-white py-4'}>
+                {value.paied ? (
+                  <>
+                    <Paid />
+                    <span className={'font-almaria-bold text-[18px]'}>الشهر مدفوع</span>
+                  </>
+                ) : (
+                  <>
+                    <NotPaid />
+                    <span className={'font-almaria-bold text-[18px]'}>الشهر غير مدفوع</span>
+                  </>
+                )}
+              </div>
             </div>
-            <div className={"flex flex-col justify-between mt-20 gap-16"}>
+            <div>
+              <div className={'flex w-1/6 items-center justify-between'}>
+                <HeadMonthsStudent title={'الحصص'} />
+                {value.days.length ? (
+                  <Button className={'bg-transparent p-0 font-almaria-bold text-[#0884A2] hover:bg-transparent'} onClick={handleShowMore}>
+                    {showMore ? 'عرض اخر حصه فقط' : 'عرض المزيد'}
+                  </Button>
+                ) : null}
+              </div>
 
-                <div>
-                    <HeadMonthsStudent title={"اختر الشهر"}/>
-                    <div className={"mr-10"}>
-                        <DropList title={"اختر الشهر"} options={MonthsInArabic} value={value} setValue={setValue}>
-                            <span className={"text-[#666666]"}> الشهر</span>
-                            <span className={"h-full w-[2px] bg-[#D9D9D9]"}></span>
-                        </DropList>
-                    </div>
+              {showMore ? (
+                <div className={'flex gap-40'}>
+                  <span className={'self-end font-almaria-bold text-xl'}>الحضور</span>
+                  <div className={'flex max-w-7xl overflow-x-auto rounded bg-white p-3'}>
+                    {value.days?.map((item, index) => (
+                      <div key={index} className={'flex h-24 min-w-24 flex-col items-center justify-between rounded border-[#D9D9D9] py-2 hover:bg-[#E4E8E9]'}>
+                        <span className={'font-almaria-bold'}>{parseISODateString(item.date)}</span>
+                        <span>{item.attended ? <Done /> : <False width={42} height={42} />}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                    <HeadMonthsStudent title={"دفع الشهر"}/>
-                    <div
-                        className={"w-2/5 flex  items-center justify-center gap-10 rounded-[7px] py-4 bg-white mr-10 "}>
-                        <Paid/>
-                        <span className={"text-[18px] font-almaria-bold "}>الشهر مدفوع</span>
-                    </div>
+              ) : (
+                <div className={'mr-10 flex w-1/4 items-center gap-2'}>
+                  {value.days.length ? (
+                    <>
+                      <div className={'ml-4 flex-1 rounded-[7px] bg-white py-4 text-center'}>{parseISODateString(value?.days.at(-1).date)}</div>
+                      {value?.days.at(-1).attended ? (
+                        <>
+                          <Done />
+                          <span className={'font-almaria-bold text-[18px]'}>تم الحضور</span>
+                        </>
+                      ) : (
+                        <>
+                          <False />
+                          <span className={'font-almaria-bold text-[18px]'}>لم يتم الحضور</span>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <span className={'font-almaria-bold text-2xl'}>لا يوجد حصص</span>
+                  )}
                 </div>
-                <div >
-                    <div className={"w-1/6 flex items-center justify-between"}>
-                        <HeadMonthsStudent title={"الحصص"}/>
-                        <Button className={"text-[#0884A2] p-0 bg-transparent font-almaria-bold hover:bg-transparent"}
-                                onClick={handleShowMore}>{showMore ? "عرض اخر حصه فقط" : "عرض المزيد"}</Button>
-                    </div>
-
-                    {showMore ? <div className={"flex justify-between"}>
-                            <span className={"self-end text-xl font-almaria-bold"}>الحضور</span>
-                            <div className={"flex max-w-7xl overflow-x-auto  bg-white p-3 rounded"}>
-                                {FakeAttendance.map((item, index) =>
-                                    <div
-                                        key={index}
-                                        className={"flex flex-col justify-between items-center rounded   border-[#D9D9D9] min-w-24 h-24 hover:bg-[#E4E8E9] py-2"}>
-                                        <span className={"font-almaria-bold"}>{new Date(item.date).toLocaleDateString("ar-EG")}</span>
-                                        <span>{item.present ? <Done/> : <False width={42} height={42}/>}</span>
-                                    </div>)
-                                }
-                            </div>
-                        </div> :
-                        <div className={"flex w-1/4 items-center gap-2 mr-10"}>
-
-                            <div
-                                className={" rounded-[7px] py-4 bg-white  flex-1  text-center ml-4"}>
-                                {new Date().toLocaleDateString("ar-EG")}
-                            </div>
-                            <Done/>
-                            <span className={"text-[18px] font-almaria-bold "}>تم الحضور</span>
-
-                        </div>
-                    }
-
-                </div>
+              )}
             </div>
-        </>
-    )
-        ;
+          </>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default StudentMonths;

@@ -1,5 +1,6 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Heading from '../../../../../UI-Global/Heading.jsx';
 import Arrow from '../../../../../../public/Icons/arrow_in_levels.svg';
 import Eye from '../../../../../../public/Icons/eye.svg';
@@ -9,18 +10,20 @@ import Tests from '../../../../../../public/Icons/tests.svg';
 import Students from '../../../../../../public/Icons/students.svg';
 import Toppers from '../../../../../../public/Icons/toppers.svg';
 import Monthes from '../../../../../../public/Icons/monthes.svg';
-import { useLevels } from '@/pages/Dashboard/Dashboard.jsx';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import toast from 'react-hot-toast';
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
+import RemoveGroupAlert from './RemoveGroupAlert.jsx';
+import { deleteGroup } from '@/Features/group/helpers.js';
 
 function Levels() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedGroups, setSelectedGroups] = useState([]);
   let mainLevel = searchParams.get('level');
   const subLevel = searchParams.get('subLevel');
-  let { levels, selectYearIdFunc, groupsOfSelectedlevel: groups } = useLevels();
+  const navigate = useNavigate();
+  let { levels, selectYearIdFunc, groupsOfSelectedlevel: groups, fetchingDashboard } = useTeacherDashboard();
   levels = levels[Number(mainLevel)];
-  // console.log(groups);
+  console.log(groups);
 
   const handleGroupClick = (group) => {
     if (selectedGroups.includes(group.groupId)) {
@@ -37,17 +40,28 @@ function Levels() {
       group: selectedGroups.join('_'),
     });
   };
+  function handleShowGroup(groupId) {
+    navigate(`/dashboard/addGroup/${groupId}`);
+  }
+  function hanldeEditGroup(groupId) {
+    navigate(`/dashboard/editGroup/${groupId}`);
+  }
+  function handleRemoveGroup(groupId) {
+    deleteGroup(groupId).then((response) => {
+      toast.success('تم حذف المجموعة بنجاح');
+      fetchingDashboard();
+    });
+  }
   useEffect(() => {
     if (searchParams.get('subLevel')) return;
     setSearchParams({
       ...Object.fromEntries(searchParams.entries()),
       subLevel: levels?.length ? levels[0]?.id : 'loading',
     });
-  }, [levels, searchParams]);
+  }, [levels, searchParams, setSearchParams]);
   useEffect(() => {
     selectYearIdFunc(Number(subLevel));
-  }, [subLevel]);
-  // console.log(groups);
+  }, [subLevel, selectYearIdFunc]);
 
   // useEffect(() => {
   //     if (!subLevel) return;
@@ -86,10 +100,12 @@ function Levels() {
               {groups?.length > 0 ? (
                 groups.map((group) => (
                   <li key={group.groupId} className={`flex cursor-pointer gap-2 overflow-hidden rounded-xl border border-[#0884A24D] p-2 font-almaria-bold ${selectedGroups.includes(group.groupId) ? 'bg-[#68ABBB] text-white' : ''}`} onClick={() => handleGroupClick(group)}>
-                    <Trash />
-                    <Edit />
+                    <RemoveGroupAlert handleDelete={() => handleRemoveGroup(group.groupId)}>
+                      <Trash />
+                    </RemoveGroupAlert>
+                    <Edit onClick={() => hanldeEditGroup(group.groupId)} />
                     <span className={'flex-1 text-center'}>{group.groupName}</span>
-                    <Eye />
+                    <Eye onClick={() => handleShowGroup(group.groupId)} />
                   </li>
                 ))
               ) : (

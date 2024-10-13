@@ -40,3 +40,31 @@ export function convertTo12HourFormat(hour, minute, day) {
 
   return result;
 }
+export function parseISODateString(isoString) {
+  const date = new Date(isoString);
+  if (isNaN(date)) {
+    throw new Error('Invalid ISO date string');
+  }
+  const day = formatTimeUnit(date.getDate());
+  const month = formatTimeUnit(date.getMonth() + 1); // Months are zero-based
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+export function parseISOTimeString(isoString) {
+  const date = new Date(isoString);
+  if (isNaN(date)) {
+    throw new Error('Invalid ISO date string');
+  }
+  const hour = date.getHours();
+  const minute = formatTimeUnit(date.getMinutes());
+  const isPM = hour >= 12;
+  const formattedHour = formatTimeUnit(hour % 12 || 12); // Convert 0 to 12 for midnight, and 13+ to 1-11 for PM
+  const mode = isPM ? 'PM' : 'AM';
+
+  return `${formattedHour}:${minute} ${mode}`;
+}
+export function durationToMinutes(duration) {
+  const [hours, minutes, seconds] = duration.split(':').map(Number);
+  return hours * 60 + minutes + Math.floor(seconds / 60);
+}

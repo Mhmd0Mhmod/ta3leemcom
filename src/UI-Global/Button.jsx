@@ -26,7 +26,7 @@ export default function Button({ children, type = 'primary', className, icon = f
       );
     }
     return (
-      <button disabled={disabled} className={`border-primary-ldisabled:cursor-not-allowed border text-primary-l transition-all duration-500 hover:bg-primary hover:text-white ${style}`}>
+      <button disabled={disabled} onClick={onClick} className={`border-primary-ldisabled:cursor-not-allowed border text-primary-l transition-all duration-500 hover:bg-primary hover:text-white ${style}`}>
         {children}
       </button>
     );

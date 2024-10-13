@@ -16,3 +16,20 @@ export async function fetchLevels(teacherId) {
     });
     return res;
 }
+
+export  const getGroup = async (groupID) => {
+        const token = Cookies.get('_auth');
+
+    const response = await axios.get(import.meta.env.VITE_API_URL + `/Group/GetGroup?id=${groupID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response
+   
+
+};
+
+
+
+

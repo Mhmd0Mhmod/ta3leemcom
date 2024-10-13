@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../Button.jsx';
 import ArrowLeft from '../../../public/Icons/leftArrow.svg';
 import { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import ProfileAndLogoutList from '@/UI-Global/Header/Components/ProfileAndLogout
 export default function Header() {
   const [searchParam, setSearchParam] = useSearchParams();
   const [role, setRole] = useState('');
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const signOut = useSignOut();
   const auth = useAuthUser();
@@ -27,6 +28,7 @@ export default function Header() {
     setCurrentUser({});
     setRole('');
     toast.success('تم تسجيل الخروج بنجاح');
+    navigate('/home');
   }
   return (
     <nav className={'relative mb-3 ml-10 flex justify-between gap-4 font-almaria'}>
@@ -35,7 +37,7 @@ export default function Header() {
         <div className={'flex w-full items-center justify-between'}>
           <div className={'relative flex items-center gap-4'}>
             <div className={'h-10 w-[3px] bg-[#605E5E]'} />
-            {role === 'student' && <StudentNav />}
+            {role === 'Student' && <StudentNav />}
             {role === 'Teacher' && <TeacherNav />}
           </div>
           <ProfileAndLogoutList currentUser={currentUser} logOut={logOut} />
