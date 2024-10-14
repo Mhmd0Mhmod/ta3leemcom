@@ -33,6 +33,9 @@ function Months() {
   const [date, setDate] = useState(new Date());
   const [dayDate, setDayDate] = useState();
   const [alertData, setAlertData] = useState({});
+  const [daysData, setDaysData] = useState([]);
+  const [absencesData, setAbsencesData] = useState([]);
+  const [isMonthPayChanged, setIsMonthPayChanged] = useState(false);
 
   const { groupsOfSelectedlevel, selectYearIdFunc } = useTeacherDashboard();
   const groupsIds = searchParams.get('group')?.split('_').map(Number) || [];
@@ -65,12 +68,25 @@ function Months() {
   }, [selectedGroup]);
 
   useEffect(() => {
-    if (studentSearch) {
+    if (studentSearch && monthData) {
       setStudents(monthData?.monthStudents?.filter((student) => student?.studentName.includes(studentSearch)));
     } else {
       setStudents(monthData?.monthStudents);
     }
   }, [studentSearch, monthData]);
+
+  useEffect(() => {
+    if (monthData) {
+      setDaysData(monthData.days);
+    }
+  }, [monthData]);
+
+  useEffect(() => {
+    if (monthData) {
+      const result = monthData.monthStudents?.some((std, idx) => std.pay !== students[idx].pay);
+      setIsMonthPayChanged(result);
+    }
+  }, [students]);
 
   async function getMonths() {
     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/Month/GetAllMonthsOfGroups?ids=${groupsIds.join('&ids=')}`, {
@@ -94,6 +110,7 @@ function Months() {
     });
     setMonthData(data);
     setStudents(data.monthStudents);
+    setDaysData(data.days);
   }
 
   const addDay = async () => {
@@ -191,6 +208,63 @@ function Months() {
     }
   };
 
+  const toggleStudentPay = async (data) => {
+    setStudents((prev) =>
+      prev.map((student) => {
+        return student.studentId === data.studentId ? { ...data, pay: !data.pay } : student;
+      }),
+    );
+  };
+
+  const toggleStudentAbsence = async (data, index) => {
+    let studentIndex = absencesData?.findIndex((el) => el.dayId === data.dayId && el.studentId === data.studentId);
+    if (studentIndex == -1) {
+      setAbsencesData((prev) => [...prev, { ...data, attended: !data.attended }]);
+    } else {
+      absencesData.splice(studentIndex, 1);
+    }
+
+    const absences = daysData[index].studentAbsences;
+    const newAbsences = absences.map((absence) => (absence.studentId === data.studentId ? { ...data, attended: !data.attended } : absence));
+    setDaysData((prev) => prev.map((day) => (day.id === data.dayId ? { ...day, studentAbsences: newAbsences } : day)));
+  };
+
+  const saveChanges = async () => {
+    const bodyData = {
+      absenceStudents: absencesData,
+      monthStudents: students,
+    };
+    try {
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/Month/SaveChanges`, bodyData, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('_auth')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      getMonthData();
+      setAbsencesData([]);
+      setIsMonthPayChanged(false);
+      setAlertData({
+        title: 'تم حفظ التعديلات بنجاح',
+        type: 'success',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+      });
+    } catch (error) {
+      setAlertData({
+        title: 'حدث خطأ ما',
+        type: 'error',
+        open: true,
+        setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
+      });
+    }
+  };
+
+  const clearChanges = () => {
+    setStudents(monthData.monthStudents);
+    setDaysData(monthData.days);
+  };
+
   return (
     <div className="Months flex flex-col gap-6">
       <HeadingLevelsPages title="الاشهر" />
@@ -266,9 +340,10 @@ function Months() {
         </Heading>
         <div className={'relative col-span-2 flex max-h-[50lvh]'}>
           {openCalendar && (
-            <div className="top-30px absolute left-[95px] top-[45px] z-10 rounded-md bg-white p-5 shadow-2xl">
+            <div className="top-30px absolute left-[95px] top-[45px] z-10 rounded-md bg-white p-6 shadow-2xl">
               <Calendar
-                className="sticky top-0 w-fit rounded-md border bg-white"
+                className="sticky top-0 rounded-md border bg-white"
+                classNames={{ day_selected: 'bg-[#0884A2] text-white' }}
                 mode="single"
                 onSelect={setDate}
                 showOutsideDays={false}
@@ -284,26 +359,19 @@ function Months() {
                   setDayDate(utcDate.toISOString());
                 }}
               />
+              <div className="mt-3 flex items-center justify-between gap-2">
+                <button className="w-full rounded-md border bg-white p-3" onClick={() => setOpenCalendar(false)}>
+                  إلغاء
+                </button>
+                <button className="w-full rounded-md bg-[#0884A2] p-3 text-white disabled:cursor-no-drop disabled:opacity-60" onClick={addDay} disabled={!dayDate || !selectedMonth}>
+                  إضافة
+                </button>
+              </div>
             </div>
           )}
           <Table className={'relative grid min-h-[450px] grid-cols-[1fr_2fr_auto] items-start gap-10 overflow-y-auto'}>
             <div className="absolute left-[93px] z-10">
-              <button
-                onClick={() => {
-                  if (!selectedMonth) {
-                    setAlertData({
-                      title: 'يجب اختيار الشهر اولا',
-                      type: 'error',
-                      open: true,
-                      setOpen: () => setAlertData((prev) => ({ ...prev, open: false })),
-                    });
-                    return;
-                  }
-                  setOpenCalendar((prev) => !prev);
-                }}
-                className="w-fit rounded-full p-0 text-3xl text-white disabled:cursor-no-drop"
-                disabled={!selectedMonth}
-              >
+              <button onClick={() => setOpenCalendar((prev) => !prev)} className="w-fit rounded-full p-0 text-3xl text-white disabled:cursor-no-drop" disabled={!selectedMonth}>
                 <Plus className="rounded-full fill-white text-white" />
               </button>
             </div>
@@ -321,7 +389,9 @@ function Months() {
                       <TableCell className="!w-full whitespace-nowrap">
                         {idx + 1} . {student.studentName}
                       </TableCell>
-                      <TableCell>{student.pay ? <StudentPaid className="m-auto" /> : <StudentNotPaid className="m-auto" />}</TableCell>
+                      <TableCell className="cursor-pointer" onClick={() => toggleStudentPay(student)}>
+                        {student.pay ? <StudentPaid className="m-auto" /> : <StudentNotPaid className="m-auto" />}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -329,11 +399,11 @@ function Months() {
             </div>
             <div className={'rotateX-180 overflow-x-scroll'}>
               <div className={'rotateX-180'}>
-                {monthData?.days?.length > 0 && (
+                {daysData?.length > 0 && (
                   <>
                     <TableHeader className={'sticky top-0'}>
                       <th></th>
-                      {monthData?.days
+                      {daysData
                         ?.sort((a, b) => new Date(a.date) - new Date(b.date))
                         .map((day, idx) => {
                           const dateOfDay = new Date(day.date).toLocaleDateString(['en-GB'], {
@@ -355,7 +425,7 @@ function Months() {
                     </TableHeader>
                     <TableBody>
                       {students?.map((month, idx) => {
-                        let allDaysForStudent = monthData?.days?.map((day) => {
+                        let allDaysForStudent = daysData?.map((day) => {
                           return day.studentAbsences.find((student) => student.studentId === month.studentId);
                         });
 
@@ -363,7 +433,7 @@ function Months() {
                           <TableRow key={idx} className="rounded-2xl bg-white">
                             <TableCell className="sticky right-0 whitespace-nowrap bg-[#e7e6e6]">{idx + 1} .</TableCell>
                             {allDaysForStudent?.map((day, i) => (
-                              <TableCell key={i}>{day.attended ? <StudentPaid className="m-auto" /> : <StudentNotPaid className="m-auto" />}</TableCell>
+                              <TableCell key={day.dayId}>{day.attended ? <StudentPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} /> : <StudentNotPaid className="m-auto cursor-pointer" onClick={() => toggleStudentAbsence(day, i)} />}</TableCell>
                             ))}
                           </TableRow>
                         );
@@ -397,19 +467,19 @@ function Months() {
             </div>
           </Table>
         </div>
+        <Alert {...alertData} />
       </div>
-      <div className={'relative z-10 mr-[-35px] mt-3 flex min-h-[56px] max-w-[95%] items-center justify-end gap-5'}>
-        {openCalendar && (
+      <div className={'relative mr-[-35px] mt-3 flex min-h-[56px] max-w-[95%] items-center justify-end gap-5'}>
+        {(absencesData.length > 0 || isMonthPayChanged) && (
           <>
-            <button className="rounded-lg border-2 bg-white px-6 py-4 text-black" onClick={() => setOpenCalendar(false)}>
+            <button className="rounded-lg border-2 bg-white px-6 py-4 text-black" onClick={clearChanges}>
               الغاء
             </button>
-            <button className="rounded-lg bg-[#0884A2] px-6 py-4 text-white disabled:cursor-no-drop disabled:opacity-60" onClick={addDay} disabled={!dayDate || !selectedMonth}>
+            <button className="rounded-lg bg-[#0884A2] px-6 py-4 text-white disabled:cursor-no-drop disabled:opacity-60" onClick={saveChanges}>
               حفظ
             </button>
           </>
         )}
-        <Alert {...alertData} className="bottom-[100%]" />
       </div>
     </div>
   );

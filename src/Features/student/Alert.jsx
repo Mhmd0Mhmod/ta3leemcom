@@ -18,7 +18,7 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
   // }, [open]);
 
   return (
-    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} absolute bottom-5 z-[999] flex !w-[450px] max-w-full items-center gap-5 rounded-sm duration-500 ${className}`}>
+    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} absolute bottom-5 z-20 flex !w-[450px] max-w-full items-center gap-5 rounded-sm duration-500 ${className}`}>
       <span>{type === 'error' ? <Ban /> : type === 'success' ? <CircleCheckBig /> : type === 'warning' ? <TriangleAlert /> : null}</span>
       <p className="me-auto text-lg font-bold">{children ?? title}</p>
       {navigate && (
