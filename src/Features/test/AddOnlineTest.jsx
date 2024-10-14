@@ -245,7 +245,7 @@ function AddOnlineTest({ test }) {
       text: test
         ? ` ${
             test?.questionsOfQuizzes?.reduce((acc, el) => {
-              if (el.type.trim() === 'اخنياري') {
+              if (el.type.trim() === 'اختياري') {
                 return acc + el.mark;
               }
             }, 0) || 0
@@ -366,7 +366,7 @@ function AddOnlineTest({ test }) {
         content: q.text,
         mark: q.required ? q.deg : q.bouns,
         explain: q.explain,
-        type: q.required ? ' اجباري ' : 'اخنياري',
+        type: q.required ? 'اجباري' : 'اختياري',
         // bouns: q.bouns ? q.bouns : 0,
         Choices: q.answers.map((a) => {
           return {
