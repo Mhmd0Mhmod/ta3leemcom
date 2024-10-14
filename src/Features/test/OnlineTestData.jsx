@@ -147,8 +147,6 @@ export default function OnlineTestData({ test }) {
   };
 
   const reformatStudentAnswers = (questions, answers) => {
-    const answeredIds = answers.map((ans) => ans.questionId);
-
     let temp = [];
     questions.forEach((question) => {
       const isExist = answers.find((ans, index) => ans.questionId === question.id);
@@ -473,39 +471,41 @@ export default function OnlineTestData({ test }) {
                     <CircleChevronLeft className={ansInx + 6 < testDesc?.questionsDes?.length ? 'cursor-pointer text-secondary-l' : 'cursor-not-allowed text-secondary-l/40'} onClick={() => handleAnsNav('next')} />
                   </div>
                 </div>
-                {testRes?.map((res, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      res.order = index + 1;
-                      setShowTestResult(true);
-                      setCurrentTestResult(res);
-                    }}
-                    className="mb-4 grid cursor-pointer grid-cols-11 items-center gap-4 rounded-xl bg-white px-4 py-3 text-center hover:bg-accent-l-900/70"
-                  >
-                    <div className="font-almaria">{format(res.submitAnswerTime, 'HH:MM')}</div>
-                    <div className="col-span-2 line-clamp-1 font-almaria">{res.stuentName}</div>
-                    <div>{index + 1}</div>
-                    <div>
-                      {Math.floor((res.studentMark / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark})
-                    </div>
+                {testRes
+                  ?.sort((a, b) => b.studentMark + b.studentBounce - (a.studentMark + a.studentBounce))
+                  ?.map((res, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        res.order = index + 1;
+                        setShowTestResult(true);
+                        setCurrentTestResult(res);
+                      }}
+                      className="mb-4 grid cursor-pointer grid-cols-11 items-center gap-4 rounded-xl bg-white px-4 py-3 text-center hover:bg-accent-l-900/70"
+                    >
+                      <div className="font-almaria">{format(res.submitAnswerTime, 'hh:mm')}</div>
+                      <div className="col-span-2 line-clamp-1 font-almaria">{res.stuentName}</div>
+                      <div>{index + 1}</div>
+                      <div>
+                        {Math.floor((res.studentMark / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark})
+                      </div>
 
-                    <div>
-                      {Math.floor((res.studentBounce / (res.quizBounce === 0 ? 1 : res.quizBounce)) * 100)}% <span className="font-almaria">({res.quizBounce}</span> /{res.studentBounce})
-                    </div>
+                      <div>
+                        {Math.floor((res.studentBounce / (res.quizBounce === 0 ? 1 : res.quizBounce)) * 100)}% <span className="font-almaria">({res.quizBounce}</span> /{res.studentBounce})
+                      </div>
 
-                    <div>
-                      {Math.floor(((res.studentMark + res.studentBounce) / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark + res.studentBounce})
-                    </div>
-                    <div></div>
-                    <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
+                      <div>
+                        {Math.floor(((res.studentMark + res.studentBounce) / (res.quizMark === 0 ? 1 : res.quizMark)) * 100)}% <span className="font-almaria">({res.quizMark}</span> /{res.studentMark + res.studentBounce})
+                      </div>
                       <div></div>
-                      {res?.answers?.slice(ansInx, ansInx + 6)?.map((ans, index) => (ans.iscorrect ? <CorrectIcon key={index} /> : <InCorrectIcon key={index} />))}
-                      <div></div>
-                      {/* </div> */}
+                      <div className="col-span-3 flex w-full items-center justify-between font-cairo text-xl">
+                        <div></div>
+                        {res?.answers?.slice(ansInx, ansInx + 6)?.map((ans, index) => (ans.iscorrect ? <CorrectIcon key={index} /> : <InCorrectIcon key={index} />))}
+                        <div></div>
+                        {/* </div> */}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             )}
             {type === types[1] && (

@@ -392,6 +392,7 @@ function AddOnlineTest({ test }) {
 
     try {
       let res;
+
       if (test && new Date(Date.now()) < new Date(test?.startDate)) {
         testData.id = test.id;
         testData.questions = testData.questions.map((q, i) => {
@@ -968,7 +969,7 @@ function AddOnlineTest({ test }) {
                     <div className="flex gap-6">
                       <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
 
-                      <Button variant={'outline'} onClick={handelSaveQuiz} className="gap-2">
+                      <Button variant={'outline'} onClick={() => handelSaveQuiz(false)} className="gap-2">
                         {test ? 'تعديل' : 'اضافة'}
                         {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
                       </Button>

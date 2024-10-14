@@ -21,7 +21,7 @@ export async function getTest(quizId) {
     },
   });
 
-  if (res.data.isAttend) {
+  if (res.data.isAttending) {
     throw new Error('لقد قمت بحل الاختبار مسبقا');
   }
   if (new Date(res.data.startDate) > new Date(Date.now())) {

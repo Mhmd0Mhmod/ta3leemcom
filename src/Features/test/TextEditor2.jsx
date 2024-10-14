@@ -208,6 +208,8 @@ const Editor = ({ currentQuestion, setCurrentQuestion, questions, setQuestions }
 
   const dubblicateQuestion = () => {
     currentQuestion.id = (questions.length + 1).toString();
+    currentQuestion.deg = currentQuestion.required ? currentQuestion.deg : 0;
+    currentQuestion.bouns = currentQuestion.required ? 0 : currentQuestion.bouns;
     setQuestions((prev) => [...prev, currentQuestion]);
   };
 

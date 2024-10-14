@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { getTest } from '@/Context/StudentDashboard/helpers';
 
-import { convertTo12HourFormat } from '@/lib/time';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 import Heading from '@/UI-Global/Heading';
@@ -11,13 +10,13 @@ import { SolidLogo } from '@/UI-Global/SolidLogo';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip.jsx';
 import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog.jsx';
 
-import Eye from '@public/Icons/show_icon.svg';
 import TimeIcon from '@public/Icons/time_icon.svg';
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import { intervalToDuration, formatDuration, differenceInSeconds } from 'date-fns';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { submitTestAnswer } from '@/Features/test/helpers';
 import { Hourglass } from 'lucide-react';
+import { fromZonedTime } from 'date-fns-tz';
 
 export default function StudentSolveTest() {
   const { id: quizId } = useParams();
@@ -38,6 +37,7 @@ export default function StudentSolveTest() {
   const [error, setError] = useState(null);
 
   const { studentId } = useAuthUser();
+  const nav = useNavigate();
 
   const handelAnswerCheck = (e, i, questionIndex) => {
     setDummyQuestions((prev) =>
@@ -70,7 +70,10 @@ export default function StudentSolveTest() {
           .filter((a) => a.choiceId !== undefined),
       };
       if (testData.quizId && testData.studentId && testData.questionForms.length > 0) {
+        testData.submitAnswersDate = fromZonedTime(new Date(), 'Africa/Cairo').toISOString();
         submitTestAnswer(testData);
+        toast.success('تم ارسال الاختبار بنجاح');
+        nav('/dashboard');
       }
     } catch (error) {
       toast.error('حدث خطأ ما');
