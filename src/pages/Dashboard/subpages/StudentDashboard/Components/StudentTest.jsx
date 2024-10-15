@@ -164,7 +164,9 @@ function StudentTest() {
                       <span>{idx + 1}.</span>
                       {test.title}
                     </span>
-                    <Button className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2]'}>محاولة تدربية</Button>
+                    <Button className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2]'} onClick={() => nav(`/dashboard/tests/training-attempt/${test.quizId}`)}>
+                      محاولة تدربية
+                    </Button>
                   </TD>
                   <TD>
                     {test.solveStatus === 'Solved Late' && 'حل متأخر '}

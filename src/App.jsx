@@ -54,6 +54,7 @@ function App() {
                   <Route path="tests" element={<StudentTest />} />
                   <Route path="tests/id" element={<Test />} />
                   <Route path="tests/:id" element={<StudentSolveTest />} />
+                  <Route path="tests/training-attempt/:id" element={<StudentSolveTest training={true} />} />
                   <Route path="toppers" element={<Toppers backToLevels={false} />} />
                   <Route path="months" element={<StudentMonths />} />
                 </Route>

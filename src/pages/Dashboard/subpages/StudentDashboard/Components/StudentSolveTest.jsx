@@ -17,8 +17,10 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { submitTestAnswer } from '@/Features/test/helpers';
 import { Hourglass } from 'lucide-react';
 import { fromZonedTime } from 'date-fns-tz';
+import ShowTestAlert from '@/Features/test/_Components/ShowTestAlert';
+import ShowTestRes from '@/Features/test/_Components/ShowTestRes';
 
-export default function StudentSolveTest() {
+export default function StudentSolveTest({ training }) {
   const { id: quizId } = useParams();
   const [test, setTest] = useState(null);
 
@@ -29,6 +31,7 @@ export default function StudentSolveTest() {
   const [showTestRes, setShowTestRes] = useState(false);
 
   const [dummyQuestions, setDummyQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
   const [timeStart, setTimeStart] = useState({});
   const [timeDuration, setTimeDuration] = useState({});
@@ -73,12 +76,12 @@ export default function StudentSolveTest() {
         testData.submitAnswersDate = fromZonedTime(new Date(), 'Africa/Cairo').toISOString();
         submitTestAnswer(testData);
         toast.success('تم ارسال الاختبار بنجاح');
-        nav('/dashboard');
+        if (!training) nav('/dashboard');
       }
     } catch (error) {
       toast.error('حدث خطأ ما');
     } finally {
-      localStorage.removeItem('dummyQuestions');
+      localStorage.removeItem(`dummyQuestions-${quizId}`);
     }
   };
   useEffect(() => {
@@ -86,7 +89,7 @@ export default function StudentSolveTest() {
       try {
         setLoading(true);
 
-        const data = await getTest(quizId); // Wait for the promise to resolve
+        const data = await getTest(quizId, training); // Wait for the promise to resolve
 
         setTest(data);
         setTitle(data.title || 'اختبار بدون عنوان');
@@ -104,8 +107,29 @@ export default function StudentSolveTest() {
           mode: data.timeDuration.mode,
           day: data.timeDuration.days,
         });
-        if (localStorage.getItem('dummyQuestions')) {
-          setDummyQuestions(JSON.parse(localStorage.getItem('dummyQuestions')));
+        setQuestions(
+          data.questionsOfQuizzes.map((q) => {
+            return {
+              text: q.content,
+              bouns: q.type.trim() !== 'اجباري' ? q.mark : 0,
+              deg: q.type.trim() === 'اجباري' ? q.mark : 0,
+              answers: q.choices.map((a) => {
+                return {
+                  text: a.content,
+                  isCorrect: a.isCorrect,
+                  id: a.id,
+                  isDeleted: a.isDeleted,
+                };
+              }),
+              images: [],
+              explain: q.explain,
+              required: q.type.trim() === 'اجباري',
+              id: q.id,
+            };
+          }),
+        );
+        if (localStorage.getItem(`dummyQuestions-${quizId}`)) {
+          setDummyQuestions(JSON.parse(localStorage.getItem(`dummyQuestions-${quizId}`)));
         } else {
           setDummyQuestions(
             data.questionsOfQuizzes.map((q) => ({
@@ -135,8 +159,8 @@ export default function StudentSolveTest() {
 
   useEffect(() => {
     if (dummyQuestions.length === 0) return;
-    localStorage.setItem('dummyQuestions', JSON.stringify(dummyQuestions));
-  }, [dummyQuestions]);
+    localStorage.setItem(`dummyQuestions-${quizId}`, JSON.stringify(dummyQuestions));
+  }, [dummyQuestions, quizId]);
 
   const [remainingTime, setRemainingTime] = useState('');
 
@@ -252,8 +276,10 @@ export default function StudentSolveTest() {
                   className="bg-secondary-l px-10 py-6 font-almaria-light text-2xl text-white"
                   onClick={() => {
                     handelSubmitTest();
-                    // setShowTestAlert(true);
-                    // setOpenModel(false);
+                    if (training) {
+                      setShowTestAlert(true);
+                      setOpenModel(false);
+                    }
                   }}
                 >
                   ارسال
@@ -265,8 +291,9 @@ export default function StudentSolveTest() {
           </AlertDialogContent>
         </AlertDialog>
       )}
-      {/* {showTestAlert && <ShowTestAlert setShowTestAlert={setShowTestAlert} setShowTestRes={setShowTestRes} setOpenModel={setOpenModel} setDummyQuestions={dummyQuestions} questions={questions} />}
-      {showTestRes && <ShowTestRes setShowTestRes={setShowTestRes} setDummyQuestions={setDummyQuestions} questions={questions} title={title} timeStart={timeStart} showTestRes={showTestRes} dummyQuestions={dummyQuestions} />} */}
+
+      {showTestAlert && training && <ShowTestAlert setShowTestAlert={setShowTestAlert} setShowTestRes={setShowTestRes} setOpenModel={setOpenModel} setDummyQuestions={dummyQuestions} questions={questions} />}
+      {showTestRes && training && <ShowTestRes setShowTestRes={setShowTestRes} setDummyQuestions={setDummyQuestions} questions={questions} title={title} timeStart={timeStart} showTestRes={showTestRes} dummyQuestions={dummyQuestions} />}
     </>
   );
 }
