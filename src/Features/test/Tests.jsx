@@ -32,260 +32,6 @@ import axios from 'axios';
 import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
 import toast from 'react-hot-toast';
 import { DeleteConfirmation } from '@/components/DeleteConfirmation';
-// const TESTS = [
-//   {
-//     title: 'Math Test',
-//     type: 'اوفلاين',
-//     date: '8/18/2024',
-//     timeStart: { hour: 9, minute: 30, mode: 'AM' },
-//     timeDuration: { hour: 1, minute: 15, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'المشتري', isCorrect: true, id: '1' },
-//           { text: 'المريخ', isCorrect: false, id: '2' },
-//           { text: 'الأرض', isCorrect: false, id: '3' },
-//           { text: 'الزهرة', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Science Project',
-//     type: 'اونلاين',
-//     date: '8/17/2024',
-//     timeStart: { hour: 11, minute: 0, mode: 'AM' },
-//     timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هو العنصر الأكثر انتشارًا في الكون؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'الهيدروجين', isCorrect: true, id: '1' },
-//           { text: 'الأكسجين', isCorrect: false, id: '2' },
-//           { text: 'الكربون', isCorrect: false, id: '3' },
-//           { text: 'الهيليوم', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'الهيدروجين هو العنصر الأكثر انتشارًا في الكون.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'History Exam',
-//     type: 'اوفلاين',
-//     date: '8/16/2024',
-//     timeStart: { hour: 2, minute: 0, mode: 'PM' },
-//     timeDuration: { hour: 1, minute: 30, mode: 'PM', day: 0 },
-//     questions: [
-//       {
-//         text: 'من هو أول رئيس للولايات المتحدة الأمريكية؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'جورج واشنطن', isCorrect: true, id: '1' },
-//           { text: 'أبراهام لنكولن', isCorrect: false, id: '2' },
-//           { text: 'توماس جيفرسون', isCorrect: false, id: '3' },
-//           { text: 'جيمس ماديسون', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'جورج واشنطن هو أول رئيس للولايات المتحدة الأمريكية.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'English Essay',
-//     type: 'اونلاين',
-//     date: '8/15/2024',
-//     timeStart: { hour: 10, minute: 30, mode: 'AM' },
-//     timeDuration: { hour: 1, minute: 45, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: "Which of the following is a synonym for 'happy'?",
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'Sad', isCorrect: false, id: '1' },
-//           { text: 'Joyful', isCorrect: true, id: '2' },
-//           { text: 'Angry', isCorrect: false, id: '3' },
-//           { text: 'Tired', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: "'Joyful' is a synonym for 'happy'.",
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Physics Lab',
-//     type: 'اوفلاين',
-//     date: '8/14/2024',
-//     timeStart: { hour: 8, minute: 0, mode: 'AM' },
-//     timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هو قانون نيوتن الثالث؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           {
-//             text: 'القوة تساوي الكتلة مضروبة في التسارع',
-//             isCorrect: false,
-//             id: '1',
-//           },
-//           {
-//             text: 'لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه',
-//             isCorrect: true,
-//             id: '2',
-//           },
-//           { text: 'القوة الناتجة تساوي صفر', isCorrect: false, id: '3' },
-//           {
-//             text: 'الجسم يبقى في حالة سكون ما لم تؤثر عليه قوة خارجية',
-//             isCorrect: false,
-//             id: '4',
-//           },
-//         ],
-//         images: [],
-//         explain: 'قانون نيوتن الثالث ينص على أن لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Chemistry Quiz',
-//     type: 'اونلاين',
-//     date: '8/13/2024',
-//     timeStart: { hour: 1, minute: 0, mode: 'PM' },
-//     timeDuration: { hour: 1, minute: 0, mode: 'PM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هو رمز الصوديوم في الجدول الدوري؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'Na', isCorrect: true, id: '1' },
-//           { text: 'Cl', isCorrect: false, id: '2' },
-//           { text: 'K', isCorrect: false, id: '3' },
-//           { text: 'Mg', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'رمز الصوديوم في الجدول الدوري هو Na.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Geography Presentation',
-//     type: 'اوفلاين',
-//     date: '8/12/2024',
-//     timeStart: { hour: 10, minute: 0, mode: 'AM' },
-//     timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هي أكبر قارة من حيث المساحة؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'آسيا', isCorrect: true, id: '1' },
-//           { text: 'أفريقيا', isCorrect: false, id: '2' },
-//           { text: 'أوروبا', isCorrect: false, id: '3' },
-//           { text: 'أمريكا الشمالية', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'آسيا هي أكبر قارة من حيث المساحة.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Art Project',
-//     type: 'اونلاين',
-//     date: '8/11/2024',
-//     timeStart: { hour: 3, minute: 0, mode: 'PM' },
-//     timeDuration: { hour: 2, minute: 0, mode: 'PM', day: 0 },
-//     questions: [
-//       {
-//         text: 'Who painted the Mona Lisa?',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'Leonardo da Vinci', isCorrect: true, id: '1' },
-//           { text: 'Vincent van Gogh', isCorrect: false, id: '2' },
-//           { text: 'Pablo Picasso', isCorrect: false, id: '3' },
-//           { text: 'Claude Monet', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'Leonardo da Vinci painted the Mona Lisa.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Computer Science Test',
-//     type: 'اوفلاين',
-//     date: '2024-10-30',
-//     timeStart: { hour: 8, minute: 45, mode: 'AM' },
-//     timeDuration: { hour: 2, minute: 0, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هي لغة البرمجة التي تم تطويرها بواسطة جيمس جوسلينج؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'Python', isCorrect: false, id: '1' },
-//           { text: 'Java', isCorrect: true, id: '2' },
-//           { text: 'C++', isCorrect: false, id: '3' },
-//           { text: 'Ruby', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'لغة Java تم تطويرها بواسطة جيمس جوسلينج.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-//   {
-//     title: 'Biology Lab',
-//     type: 'اونلاين',
-//     date: '2024-09-15',
-//     timeStart: { hour: 10, minute: 15, mode: 'AM' },
-//     timeDuration: { hour: 1, minute: 30, mode: 'AM', day: 0 },
-//     questions: [
-//       {
-//         text: 'ما هي الوحدة الأساسية للحياة؟',
-//         bouns: 0,
-//         deg: 1,
-//         answers: [
-//           { text: 'الخلية', isCorrect: true, id: '1' },
-//           { text: 'الجزيء', isCorrect: false, id: '2' },
-//           { text: 'الأنسجة', isCorrect: false, id: '3' },
-//           { text: 'الأعضاء', isCorrect: false, id: '4' },
-//         ],
-//         images: [],
-//         explain: 'الخلية هي الوحدة الأساسية للحياة.',
-//         required: true,
-//         id: '1',
-//       },
-//     ],
-//   },
-// ];
 
 function Tests() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -322,15 +68,17 @@ function Tests() {
     setTests(TESTS.filter((test) => regex.test(test.title)));
   };
 
-  const deleteTest = async (id) => {
+  const deleteTest = async () => {
+    const testId = currentTest.id;
     try {
-      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz?id=${id}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz?id=${testId}`, {
         headers: {
           Authorization: authHeader,
         },
       });
       if (res.status === 200) {
-        setTESTS((prev) => prev.filter((item) => item.id !== id));
+        setTESTS((prev) => prev.filter((item) => item.id !== testId));
+        setTests((prev) => prev.filter((item) => item.id !== testId));
         toast.success('تم حذف الاختبار');
       }
     } catch (error) {
@@ -340,9 +88,16 @@ function Tests() {
 
   useEffect(() => {
     const fetchTests = async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?GroupsIds=${searchParams.get('group')}`, {
-        headers: { Authorization: authHeader },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/Quiz/GetAllQuizsByGroupsIds?${searchParams
+          .get('group')
+          ?.split('_')
+          .map((i) => `GroupsIds=${i}`)
+          .join('&')}`,
+        {
+          headers: { Authorization: authHeader },
+        },
+      );
       if (res.status === 200) {
         setTESTS(res.data);
         setTests(res.data);
@@ -593,7 +348,7 @@ function Tests() {
                 {tests?.length > 0 ? (
                   tests?.map((test) => (
                     <TR key={test.id} className="group mb-1 cursor-pointer">
-                      <DeleteConfirmation open={showDelete} setOpen={setShowDelete} onDelete={() => deleteTest(test.id)} />
+                      <DeleteConfirmation open={showDelete} setOpen={setShowDelete} onDelete={deleteTest} />
 
                       <TD className="flex gap-4 rounded-br-xl rounded-tr-xl border-l bg-white px-6 py-2 transition-all group-hover:bg-accent-l-900">
                         <button
@@ -612,7 +367,13 @@ function Tests() {
                         >
                           {test.title}
                         </span>
-                        <button className="mr-auto" onClick={setShowDelete}>
+                        <button
+                          className="mr-auto"
+                          onClick={() => {
+                            setCurrentTest(test);
+                            setShowDelete(true);
+                          }}
+                        >
                           <TrashIcon className="h-5" />
                         </button>
                       </TD>

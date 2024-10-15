@@ -13,7 +13,7 @@ export function DeleteConfirmation({ open, setOpen, onDelete }) {
             تأكيد حذف الاختبار{' '}
           </Heading>
           <div className="space-y-3 text-center font-almaria text-accent-l-700">
-            <p>ستؤدي هذه العملية الي ازالة جميع البيانات المتعلقة بها نهائياز</p>
+            <p>ستؤدي هذه العملية الي ازالة جميع البيانات المتعلقة بها نهائيا</p>
             <p>هل انت متأكد؟</p>
           </div>
         </AlertDialogHeader>

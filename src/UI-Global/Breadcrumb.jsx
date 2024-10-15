@@ -7,6 +7,9 @@ function Breadcrumb({ page }) {
   const level = searchParams.get('level') || '';
   const subLevel = searchParams.get('subLevel') || '';
   const groups = searchParams.get('group')?.split('_') || '';
+
+  // console.log(levels);
+
   const navigate = useNavigate();
   if (level && subLevel && groups)
     return (

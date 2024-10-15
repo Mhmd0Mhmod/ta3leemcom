@@ -28,7 +28,7 @@ const RES = [
 
 export default function OfflineTestData({ test }) {
  const [res, setRes] = useState(RES);
- console.log(test);
+//  console.log(test);
  return (
   <div>
    <div className="flex justify-between my-4  text-xl font-almaria-bold">

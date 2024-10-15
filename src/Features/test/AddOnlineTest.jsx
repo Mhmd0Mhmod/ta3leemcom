@@ -1,11 +1,11 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Heading from '../../UI-Global/Heading.jsx';
 import Tab from '../../pages/Dashboard/Components/Tab.jsx';
 import { constraints } from '../../config.js';
 import OldButton from '../../UI-Global/Button.jsx';
 import Editor from './TextEditor2.jsx';
-import { Check, Edit, Plus, Trash2, X } from 'lucide-react';
+import { Check, Edit, EditIcon, Plus, Trash2, X } from 'lucide-react';
 
 import { Reorder } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip.jsx';
@@ -38,6 +38,14 @@ import Print from '../../../public/Icons/print_icon.svg';
 import { SolidLogo } from '../../UI-Global/SolidLogo.jsx';
 import Backtolevels from '@/UI-Global/Backtolevels.jsx';
 import { Input } from '@/components/ui/input.jsx';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import { DeleteConfirmation } from '@/components/DeleteConfirmation.jsx';
+import { Combobox } from '@/components/ui/combobox.jsx';
+
+import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
 // const QUESTIONS = [
 //   {
@@ -102,16 +110,37 @@ import { Input } from '@/components/ui/input.jsx';
 // ];
 export const DEFAULT_QUESTION = {
   text: '',
-  bouns: 0,
+  bouns: 1,
   deg: 0,
   answers: [
-    { text: '', isCorrect: false, id: '1' },
-    { text: '', isCorrect: false, id: '2' },
+    { text: '', isCorrect: false, isDeleted: false, id: '1' },
+    { text: '', isCorrect: false, isDeleted: false, id: '2' },
   ],
   images: [],
   explain: '',
   required: false,
   id: '',
+};
+const TESTDATA = {
+  title: '',
+  mark: 0,
+  startDate: new Date(),
+  type: 'اونلاين',
+  teacherId: 0,
+  groupsIds: [],
+  bounce: 0,
+  questions: [],
+  timeStart: {
+    hours: 5,
+    minute: 30,
+    mode: 'PM',
+  },
+  timeDuration: {
+    hours: 1,
+    minute: 30,
+    mode: 'PM',
+    days: 0,
+  },
 };
 const MINS = [
   { value: 0, label: '00' },
@@ -145,25 +174,20 @@ const HOURS = [
 function AddOnlineTest({ test }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // const [QUESTIONS, SetQUESTIONS] = useState([]);
-  const [questions, setQuestions] = useState(test?.questions || []);
+  const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(DEFAULT_QUESTION);
-  const [title, setTitle] = useState(test?.title);
+  const [title, setTitle] = useState(test?.title || '');
   const [onEdit, setOnEdit] = useState(false);
   const [onEditIndex, setOnEditIndex] = useState(null);
   const [date, setDate] = useState(new Date());
   const [openModel, setOpenModel] = useState(false);
   const [showTestAlert, setShowTestAlert] = useState(false);
   const [showTestRes, setShowTestRes] = useState(false);
+  const [showTestDeletion, setShowTestDeletion] = useState(false);
   const navigate = useNavigate();
-  const [dummyQuestions, setDummyQuestions] = useState(
-    questions.map((question) => ({
-      ...question,
-      answers: question.answers.map((answer) => ({
-        ...answer,
-        isCorrect: false,
-      })),
-    })),
-  );
+  const [dummyQuestions, setDummyQuestions] = useState([]);
+
+  const [selectedGroups, setSelectedGroups] = useState();
 
   const [timeStart, setTimeStart] = useState(
     test?.timeStart || {
@@ -180,9 +204,14 @@ function AddOnlineTest({ test }) {
       day: 0,
     },
   );
+
+  const { groupsOfSelectedlevel } = useTeacherDashboard();
+
   let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
   let timeDurationString = convertTo12HourFormat(timeDuration.hour, timeDuration.minute, timeDuration.day);
 
+  const authUser = useAuthUser();
+  const authHeader = useAuthHeader();
   const backToLevel = () => {
     navigate(`/dashboard/level?level=${searchParams.get('level')}`);
   };
@@ -200,15 +229,33 @@ function AddOnlineTest({ test }) {
       text: searchParams.get('group').split('_').length,
       path: '../../../public/Icons/group_icon.svg',
     },
-    { text: '12 طالب', path: '../../../public/Icons/students_icon.svg' },
+    // { text: '12 طالب', path: '../../../public/Icons/students_icon.svg' },
     { text: questions.length, path: '../../../public/Icons/question_icon.svg' },
-    { text: '20 درجة', path: '../../../public/Icons/flag_icon.svg' },
     {
-      text: questions.reduce((acc, el) => acc + el.bouns, 0),
+      text: test
+        ? test.mark + ' درجة'
+        : `${
+            questions?.reduce((a, c) => {
+              return a + c?.deg;
+            }, 0) || '0'
+          } درجة`,
+      path: '../../../public/Icons/flag_icon.svg',
+    },
+    {
+      text: test
+        ? ` ${
+            test?.questionsOfQuizzes?.reduce((acc, el) => {
+              if (el.type.trim() === 'اختياري') {
+                return acc + el.mark;
+              }
+            }, 0) || 0
+          } بونص`
+        : ` ${questions.reduce((acc, el) => acc + el.bouns, 0) || 0} بونص`,
       path: '../../../public/Icons/bouns_icon.svg',
     },
   ];
 
+  // console.log(timeStart, timeDuration);
   const handelIncrease = (index) => {
     if (typeof index === 'number') {
       if (questions[index].required) {
@@ -234,8 +281,11 @@ function AddOnlineTest({ test }) {
 
   const addQuestion = () => {
     currentQuestion.id = questions.length + 1;
+    currentQuestion.deg = currentQuestion.required ? currentQuestion.deg : 0;
+    currentQuestion.bouns = currentQuestion.required ? 0 : currentQuestion.bouns;
     setQuestions((prev) => [...prev, currentQuestion]);
     setCurrentQuestion(DEFAULT_QUESTION);
+    // console.log(currentQuestion);
   };
 
   const editQuestion = () => {
@@ -259,7 +309,9 @@ function AddOnlineTest({ test }) {
     setOnEdit(true);
     setOnEditIndex(index);
     setCurrentQuestion(questions[index]);
+    // console.log(questions[index]);
   };
+  // console.log('currentQuestion', currentQuestion);
 
   const handleReorder = (newAnswers, questionIndex) => {
     if (typeof questionIndex === 'number') {
@@ -289,6 +341,104 @@ function AddOnlineTest({ test }) {
     }
   };
 
+  // console.log(timeStart, timeDuration);
+
+  const handelSaveQuiz = async (isNew) => {
+    if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
+      return toast.error('الرجاء ملء جميع الحقول');
+    }
+    let testData = { ...TESTDATA };
+    testData.title = title;
+    testData.mark = questions.reduce((acc, q) => acc + q.deg, 0);
+    testData.startDate = date;
+    testData.type = 'اونلاين';
+    testData.teacherId = authUser.teacherId;
+    testData.groupsIds =
+      (selectedGroups?.length > 0 && selectedGroups.map((group) => group.groupId)) ||
+      searchParams
+        .get('group')
+        ?.split('_')
+        .map((i) => +i);
+
+    testData.bounce = questions.reduce((acc, q) => acc + q.bouns, 0);
+    testData.questions = questions.map((q) => {
+      return {
+        content: q.text,
+        mark: q.required ? q.deg : q.bouns,
+        explain: q.explain,
+        type: q.required ? 'اجباري' : 'اختياري',
+        // bouns: q.bouns ? q.bouns : 0,
+        Choices: q.answers.map((a) => {
+          return {
+            content: a.text,
+            isCorrect: a.isCorrect,
+            isDeleted: a.isDeleted,
+          };
+        }),
+      };
+    });
+    testData.timeStart = {
+      hours: timeStart.hour,
+      minute: timeStart.minute,
+      mode: timeStart.mode,
+    };
+    testData.timeDuration = {
+      hours: timeDuration.hour,
+      minute: timeDuration.minute,
+      mode: timeDuration.mode,
+      days: timeDuration.day,
+    };
+    // console.log(testData);
+
+    try {
+      let res;
+
+      if (test && new Date(Date.now()) < new Date(test?.startDate)) {
+        testData.id = test.id;
+        testData.questions = testData.questions.map((q, i) => {
+          return {
+            ...q,
+            id: questions[i].id,
+            choices: q.Choices.map((a, j) => {
+              return { ...a, id: questions[i].answers[j].id };
+            }),
+          };
+        });
+        // console.log('testData', testData);
+
+        res = await axios.put(`${import.meta.env.VITE_API_URL}/Quiz/UpdateOnlineQuizBeforeStart`, testData, { headers: { Authorization: authHeader } });
+
+        if (res?.status === 200) {
+          backToLevel();
+        }
+      } else if (test && new Date(Date.now()) >= new Date(test?.startDate) && !isNew) {
+        // console.log(testData);
+        // console.log(selectedGroups)
+        // console.log('comming soon');
+      } else {
+        if (isNew) {
+          testData.title = `${testData.title} - نسخة`;
+          testData.groupsIds = selectedGroups.map((group) => group.groupId);
+          // console.log(selectedGroups);
+          // console.log('dublicateing existing quiz');
+        }
+        res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
+          headers: {
+            Authorization: authHeader,
+          },
+        });
+      }
+      if (res?.status === 200) {
+        toast.success(test ? (isNew ? 'تم عمل نسخة من الاختبار' : 'تم التعديل بنجاح') : 'تم الاضافة بنجاح');
+      }
+    } catch (error) {
+      // toast.error('حدث خطأ ما');
+      toast.error(error.message);
+    } finally {
+      navigate('/dashboard/level?level=1&subLevel=1');
+    }
+  };
+
   let trueRatio;
   if (showTestRes) {
     const totalRequired = questions.filter((q) => q.required).length;
@@ -297,6 +447,120 @@ function AddOnlineTest({ test }) {
     }, 0);
     trueRatio = `${totalRequired} / ${totalCorrect}`;
   }
+
+  const handleDeleteTest = async () => {
+    if (test) {
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Quiz/DeleteQuiz?id=${test.id}`, {
+          headers: {
+            Authorization: authHeader,
+          },
+        });
+        // console.log(res);
+        if (res?.status === 200) {
+          toast.success('تم الحذف بنجاح');
+          setShowTestDeletion(false);
+          navigate('/dashboard/level?level=1&subLevel=1');
+        }
+      } catch (error) {
+        toast.error('حدث خطأ ما');
+      }
+    } else {
+      setQuestions([]);
+      setTitle('');
+      setDate(new Date());
+      setTimeStart({
+        hour: 1,
+        minute: 15,
+        mode: 'AM',
+      });
+      setTimeDuration({
+        hour: 1,
+        minute: 15,
+        mode: 'AM',
+        day: 0,
+      });
+      setDummyQuestions([]);
+    }
+    setShowTestDeletion(false);
+  };
+
+  useEffect(() => {
+    if (test) {
+      const fetchTestWithId = async () => {
+        try {
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${test.id}`, { headers: { Authorization: authHeader } });
+          // console.log(res.data);
+          if (res?.status === 200) {
+            const data = res.data;
+            setQuestions(
+              data.questionsOfQuizzes.map((q) => {
+                return {
+                  text: q.content,
+                  bouns: q.type.trim() !== 'اجباري' ? q.mark : 0,
+                  deg: q.type.trim() === 'اجباري' ? q.mark : 0,
+                  answers: q.choices.map((a) => {
+                    return {
+                      text: a.content,
+                      isCorrect: a.isCorrect,
+                      id: a.id,
+                      isDeleted: a.isDeleted,
+                    };
+                  }),
+                  images: [],
+                  explain: q.explain,
+                  required: q.type.trim() === 'اجباري',
+                  id: q.id,
+                };
+              }),
+            );
+            setDummyQuestions(
+              data.questionsOfQuizzes.map((q) => {
+                return {
+                  text: q.content,
+                  bouns: q.type.trim() !== 'اجباري' ? q.mark : 0,
+                  deg: q.type.trim() === 'اجباري' ? q.mark : 0,
+                  answers: q.choices.map((a) => {
+                    return {
+                      text: a.content,
+                      isCorrect: false,
+                      id: a.id,
+                    };
+                  }),
+                  images: [],
+                  explain: q.explain,
+                  required: q.type.trim() === 'اجباري',
+                  id: q.id,
+                };
+              }),
+            );
+            setTitle(data.title);
+            setDate(new Date(data.startDate));
+            setTimeStart({
+              hour: data.timeStart.hours,
+              minute: data.timeStart.minute,
+              mode: data.timeStart.mode,
+            });
+            setTimeDuration({
+              hour: data.timeDuration.hours,
+              minute: data.timeDuration.minute,
+              mode: data.timeDuration.mode,
+              day: data.timeDuration.days,
+            });
+            setSelectedGroups(groupsOfSelectedlevel.filter((item) => data.groupsIds.includes(item.groupId)));
+          }
+        } catch (error) {
+          toast.error(error?.response?.data);
+          // toast.error(error.message);
+        }
+      };
+      fetchTestWithId();
+    }
+  }, [test, authHeader]);
+
+  useEffect(() => {
+    setSelectedGroups(groupsOfSelectedlevel.filter((group) => searchParams.get('group').split('_').includes(group.groupId.toString())));
+  }, [searchParams.get('group')]);
 
   return (
     <>
@@ -376,8 +640,10 @@ function AddOnlineTest({ test }) {
                     <li className="w-full rounded-md bg-white px-3 py-5 text-black">
                       <div className="flex items-center justify-between">
                         <Heading as={'h3'}>
-                          {' '}
-                          <span className="ml-2 text-accent-l-700">{index + 1}.</span> {question.text}
+                          <div className="flex">
+                            <span className="ml-2 text-accent-l-700">{index + 1}.</span> <div dangerouslySetInnerHTML={{ __html: question.text }} />
+                            {question.required && <span className="mr-1 text-red-500">*</span>}
+                          </div>
                         </Heading>
                         <p className="text-accent-l-100">
                           {question.required ? question.deg : question.bouns}
@@ -386,7 +652,7 @@ function AddOnlineTest({ test }) {
                       </div>
                       <div className="grid grid-cols-12">
                         <div className="col-span-6 mr-16 mt-6 text-start">
-                          {question?.answers.map((answer, i) => (
+                          {question?.answers?.map((answer, i) => (
                             <div key={answer.text} className={`mb-3 flex gap-4 px-2 py-1 ${highlight(answer.isCorrect, i, index) === 'true' ? 'bg-[#bae3cd]' : highlight(answer.isCorrect, i, index) === 'false' ? 'bg-[#fccfd0]' : ''} `}>
                               <input
                                 type="radio"
@@ -397,7 +663,7 @@ function AddOnlineTest({ test }) {
                                 //  onChange={(e) => handelAnswerCheck(e, i, index)}
                               />
                               <div className="flex w-full justify-between">
-                                <p className="">{answer.text}</p>
+                                <div dangerouslySetInnerHTML={{ __html: answer.text }} />
                                 <span>{highlight(answer.isCorrect, i, index) === 'true' ? <Check /> : highlight(answer.isCorrect, i, index) === 'false' ? <X /> : ''}</span>
                               </div>
                             </div>
@@ -411,9 +677,10 @@ function AddOnlineTest({ test }) {
                       </div>
                     </li>
                     <p className="mt-2 text-start">
-                      {' '}
-                      <span className="font-almaria-bold">التفسير : </span>
-                      {question.explain}
+                      <div className="flex gap-2">
+                        <span className="font-almaria-bold">التفسير : </span>
+                        <div dangerouslySetInnerHTML={{ __html: question.explain }} />
+                      </div>
                     </p>
                   </div>
                 ))}
@@ -489,6 +756,7 @@ function AddOnlineTest({ test }) {
       )}
       {!showTestAlert && !showTestRes && (
         <div className="px-12 py-16">
+          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={handleDeleteTest} />
           <Backtolevels />
           <Heading as={'h1'} className={'my-6 font-almaria-bold text-black'}>
             اختبار جديد
@@ -524,23 +792,32 @@ function AddOnlineTest({ test }) {
               <div className="mb-6 flex items-center justify-between">
                 <SolidLogo />
                 <div className="flex gap-2">
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button variant="outline" size="icon">
-                          <CopyIcon />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" align="center" sideOffset={10}>
-                        <p>انشاء نسخة</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  {test && (
+                    <TooltipProvider delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button
+                            onClick={() => {
+                              setTitle(title + ' - نسخة');
+                              handelSaveQuiz(true);
+                            }}
+                            variant="outline"
+                            size="icon"
+                          >
+                            <CopyIcon />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom" align="center" sideOffset={10}>
+                          <p>انشاء نسخة</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
 
                   <TooltipProvider delayDuration={100}>
                     <Tooltip>
                       <TooltipTrigger>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="icon" onClick={setShowTestDeletion}>
                           <TrashIcon />
                         </Button>
                       </TooltipTrigger>
@@ -560,10 +837,10 @@ function AddOnlineTest({ test }) {
                     <div className="flex-grow">
                       {/* <Heading as={'h3'} className={'mb-12 font-almaria-bold'}>
                       </Heading> */}
-                      <Input className="mb-2 max-w-56" placeholder="عنوان الاختبار" value={''} onChange={(e) => setTitle(e.value)} />
+                      <Input className="mb-10 max-w-56 border-none" placeholder="عنوان الاختبار" value={title} onChange={(e) => setTitle(e.target.value)} />
                       <div className="grid max-w-[500px] grid-cols-3 gap-4">
-                        {tabs_1.map((item) => (
-                          <Tab key={item.text} type={'ghost'} text={item.text} path={item.path} />
+                        {tabs_1.map((item, index) => (
+                          <Tab key={index} type={'ghost'} text={item.text} path={item.path} />
                         ))}
                       </div>
                     </div>
@@ -599,7 +876,7 @@ function AddOnlineTest({ test }) {
                                 <Button variant="secondary" className="w-full justify-start gap-2 pr-1">
                                   <TimeIcon />
                                   <span className="ltr">
-                                    {timeStartString.hour}:{timeStartString.minute} {timeStartString.mode}
+                                    {timeStartString.hour}:{timeStartString.minute} {timeStart.mode}
                                   </span>
                                 </Button>
                               </TooltipTrigger>
@@ -671,30 +948,31 @@ function AddOnlineTest({ test }) {
                   </div>
                   <div className="mt-6 flex justify-between gap-4">
                     <div className="flex gap-6">
-                      <ShowTest
-                        openModel={openModel}
-                        setOpenModel={setOpenModel}
-                        test={{
-                          title,
-                          questions: questions,
-                          timeStart,
-                          timeDuration,
-                          date,
-                        }}
-                        dummyQuestions={dummyQuestions}
-                        setDummyQuestions={setDummyQuestions}
-                        timeStartString={timeStartString}
-                        setShowTestAlert={setShowTestAlert}
-                      />
-                      {/* <Tab text={"النتائج"} path={"Icons/res_icon.svg"} className="pr-4" /> */}
+                      {test && (
+                        <ShowTest
+                          openModel={openModel}
+                          setOpenModel={setOpenModel}
+                          test={{
+                            title,
+                            questions: questions,
+                            timeStart,
+                            timeDuration,
+                            date,
+                          }}
+                          dummyQuestions={dummyQuestions}
+                          setDummyQuestions={setDummyQuestions}
+                          timeStartString={timeStartString}
+                          setShowTestAlert={setShowTestAlert}
+                        />
+                      )}
                     </div>
                     <div className="flex gap-6">
-                      <OldButton type={'outline'} icon={<ShareIcon2 />}>
-                        مشاركة مع المجموعة
-                      </OldButton>
-                      <OldButton type={'outline'} icon={<ShareIcon />}>
-                        مشاركة
-                      </OldButton>
+                      <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
+
+                      <Button variant={'outline'} onClick={() => handelSaveQuiz(false)} className="gap-2">
+                        {test ? 'تعديل' : 'اضافة'}
+                        {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -774,17 +1052,20 @@ function AddOnlineTest({ test }) {
                     >
                       <div className="grid grid-cols-12">
                         <div className="col-span-6 flex flex-col gap-4">
-                          {question.answers.map((answer) => (
-                            <Reorder.Item key={answer.text} value={answer} className="flex w-full items-center gap-3 font-almaria-bold">
-                              <input type="radio" className="h-5 w-5" name={answer.text} checked={answer.isCorrect} onChange={() => {}} disabled />
-                              <div className="w-full">
-                                <div className="flex w-full items-center gap-2">
-                                  <div className="min-w-[25%]" dangerouslySetInnerHTML={{ __html: answer.text }}></div>
-                                  <GripIcon />
-                                </div>
-                              </div>
-                            </Reorder.Item>
-                          ))}
+                          {question.answers.map(
+                            (answer) =>
+                              !answer.isDeleted && (
+                                <Reorder.Item key={answer.text} value={answer} className="flex w-full items-center gap-3 font-almaria-bold">
+                                  <input type="radio" className="h-5 w-5" name={answer.text} checked={answer.isCorrect} onChange={() => {}} disabled />
+                                  <div className="w-full">
+                                    <div className="flex w-full items-center gap-2">
+                                      <div className="min-w-[25%]" dangerouslySetInnerHTML={{ __html: answer.text }}></div>
+                                      <GripIcon />
+                                    </div>
+                                  </div>
+                                </Reorder.Item>
+                              ),
+                          )}
                         </div>
                         <div className="col-span-6 grid grid-cols-4">
                           {question?.images?.map((image, i) => (

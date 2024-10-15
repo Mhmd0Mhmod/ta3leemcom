@@ -24,6 +24,7 @@ const StudentTest = React.lazy(() => import('./pages/Dashboard/subpages/StudentD
 const StudentMonths = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx'));
 const EditGroupDetails = React.lazy(() => import('./Features/group/EditGroupDetails.jsx'));
 const StudentDetails = React.lazy(() => import('./Features/student/StudentDetails.jsx'));
+const StudentSolveTest = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentSolveTest.jsx'));
 
 function App() {
   return (
@@ -52,6 +53,8 @@ function App() {
                   {/* Student Dashboard Routes */}
                   <Route path="tests" element={<StudentTest />} />
                   <Route path="tests/id" element={<Test />} />
+                  <Route path="tests/:id" element={<StudentSolveTest />} />
+                  <Route path="tests/training-attempt/:id" element={<StudentSolveTest training={true} />} />
                   <Route path="toppers" element={<Toppers backToLevels={false} />} />
                   <Route path="months" element={<StudentMonths />} />
                 </Route>
