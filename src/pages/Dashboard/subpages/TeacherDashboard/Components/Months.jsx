@@ -263,6 +263,8 @@ function Months() {
   const clearChanges = () => {
     setStudents(monthData.monthStudents);
     setDaysData(monthData.days);
+    setAbsencesData([]);
+    setIsMonthPayChanged(false);
   };
 
   return (
