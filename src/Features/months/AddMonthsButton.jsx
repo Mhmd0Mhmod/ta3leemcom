@@ -7,14 +7,19 @@ import Cookies from 'js-cookie';
 
 function AddMonthsButton({ existMonths, selectedGroup, setMonthsUpdate, setAlertData, onClick = () => {} }) {
   const currentYear = new Date().getFullYear();
+  const specialMonth = { name: 'يناير', year: currentYear + 1 };
   const availableMonths = MonthsInArabic.filter((month) => !existMonths.find((existMonth) => existMonth.monthName === month && existMonth.year === currentYear));
+  const monthsData = [...availableMonths.map((el) => ({ name: el, year: currentYear })), specialMonth];
   const [monthSearch, setMonthSearch] = useState('');
   const [months, setMonths] = useState([]);
   const [openSelectMonths, setOpenSelectMonths] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState();
 
   useEffect(() => {
-    setMonths(availableMonths);
+    if (existMonths.find((month) => month.monthName === specialMonth.name && month.year === specialMonth.year)) {
+      monthsData.splice(monthsData.length - 1, 1);
+    }
+    setMonths(monthsData);
   }, [existMonths]);
 
   const addMonth = async () => {
@@ -22,8 +27,8 @@ function AddMonthsButton({ existMonths, selectedGroup, setMonthsUpdate, setAlert
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/Month`,
         {
-          name: selectedMonth,
-          year: currentYear,
+          name: selectedMonth.name,
+          year: selectedMonth.year,
           groupId: selectedGroup,
         },
         {
@@ -55,9 +60,9 @@ function AddMonthsButton({ existMonths, selectedGroup, setMonthsUpdate, setAlert
 
   function searchMonths(monthSearch) {
     if (monthSearch === '') {
-      setMonths(availableMonths);
+      setMonths(monthsData);
     } else {
-      setMonths(availableMonths.filter((month) => month.includes(monthSearch)));
+      setMonths(monthsData.filter((month) => month.name.includes(monthSearch)));
     }
   }
 
@@ -87,14 +92,16 @@ function AddMonthsButton({ existMonths, selectedGroup, setMonthsUpdate, setAlert
                 searchMonths(e.target.value);
               }}
             />
-            <ul className={'max-h-[218px] overflow-auto text-right'}>
+            <div className={'max-h-[218px] overflow-auto text-right'}>
               {months.map((month, index) => (
-                <li key={index} className={'flex gap-4 rounded border-b p-2 text-black duration-500 hover:bg-[#B4D3E0]'}>
-                  <input type={'radio'} name={'months'} value={month} id={month} className={'w-[22px]'} onChange={() => setSelectedMonth(month)} />
-                  <label htmlFor={month}>{month}</label>
-                </li>
+                <label htmlFor={month.name + index} key={index} className={'flex gap-4 rounded border-b p-2 text-black duration-500 hover:bg-[#B4D3E0]'}>
+                  <input type={'radio'} name={'months'} value={month.name} id={month.name + index} className={'w-[22px]'} onChange={() => setSelectedMonth(month)} />
+                  <p className="flex flex-1 justify-between">
+                    {month.name} <span>{month.year}</span>
+                  </p>
+                </label>
               ))}
-            </ul>
+            </div>
             <div className={'flex gap-4'}>
               <Button
                 type={'normal'}

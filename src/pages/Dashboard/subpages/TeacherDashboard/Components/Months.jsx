@@ -63,6 +63,7 @@ function Months() {
     if (selectedGroup) {
       setMonths(allMonths.filter((month) => month.groupId === selectedGroup));
       setSelectedMonth(null);
+      setOpenCalendar(false);
       setMonthData([]);
     }
   }, [selectedGroup]);
@@ -263,6 +264,8 @@ function Months() {
   const clearChanges = () => {
     setStudents(monthData.monthStudents);
     setDaysData(monthData.days);
+    setAbsencesData([]);
+    setIsMonthPayChanged(false);
   };
 
   return (
@@ -343,7 +346,7 @@ function Months() {
             <div className="top-30px absolute left-[95px] top-[45px] z-10 rounded-md bg-white p-6 shadow-2xl">
               <Calendar
                 className="sticky top-0 rounded-md border bg-white"
-                classNames={{ day_selected: 'bg-[#0884A2] text-white' }}
+                classNames={{ day_selected: 'bg-[#0884A2] text-white', nav_button_previous: 'absolute left-1 invisible', nav_button_next: 'absolute right-1 invisible' }}
                 mode="single"
                 onSelect={setDate}
                 showOutsideDays={false}
