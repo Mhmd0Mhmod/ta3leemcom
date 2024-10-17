@@ -4,6 +4,16 @@ import AppLayout from './UI-Global/AppLayout.jsx';
 import AuthProvider from 'react-auth-kit';
 import { store } from './auth/authStore.js';
 import { Spinner } from './UI-Global/Spinner.jsx';
+import AddStudent from './Features/student/AddStudent.jsx';
+import AddGroup from './Features/group/AddGroup.jsx';
+import Level from './pages/Dashboard/subpages/TeacherDashboard/Components/Level.jsx';
+import Test from './pages/Dashboard/subpages/TeacherDashboard/Components/Test.jsx';
+import Toppers from './Features/toppers/Toppers.jsx';
+import GroupDetails from './Features/group/GroupDetails.jsx';
+import StudentTest from './pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx';
+import StudentMonths from './pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx';
+import EditGroupDetails from './Features/group/EditGroupDetails.jsx';
+import StudentDetails from './Features/student/StudentDetails.jsx';
 
 const Home = React.lazy(() => import('./pages/Home/Home.jsx'));
 const About = React.lazy(() => import('./pages/About/About.jsx'));
@@ -14,17 +24,6 @@ const Opinion = React.lazy(() => import('./pages/Opinion/Opinion.jsx'));
 const ContactWithUs = React.lazy(() => import('./pages/ContactWithUs/ContactWithUs.jsx'));
 const PageNotFound = React.lazy(() => import('./pages/PageNotFound/PageNotFound.jsx'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard/Dashboard.jsx'));
-const AddStudent = React.lazy(() => import('./Features/student/AddStudent.jsx'));
-const AddGroup = React.lazy(() => import('./Features/group/AddGroup.jsx'));
-const Level = React.lazy(() => import('./pages/Dashboard/subpages/TeacherDashboard/Components/Level.jsx'));
-const Test = React.lazy(() => import('./pages/Dashboard/subpages/TeacherDashboard/Components/Test.jsx'));
-const Toppers = React.lazy(() => import('./Features/toppers/Toppers.jsx'));
-const GroupDetails = React.lazy(() => import('./Features/group/GroupDetails.jsx'));
-const StudentTest = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentTest.jsx'));
-const StudentMonths = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx'));
-const EditGroupDetails = React.lazy(() => import('./Features/group/EditGroupDetails.jsx'));
-const StudentDetails = React.lazy(() => import('./Features/student/StudentDetails.jsx'));
-const StudentSolveTest = React.lazy(() => import('./pages/Dashboard/subpages/StudentDashboard/Components/StudentSolveTest.jsx'));
 
 function App() {
   return (

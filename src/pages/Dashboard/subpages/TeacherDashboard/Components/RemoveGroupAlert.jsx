@@ -1,7 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Warn from '/public/Icons/warining.svg';
 
-function RemoveGroupAlert({ group = true, student = false, children, handleDelete }) {
+function RemoveGroupAlert({ group = true, student = false, title, description, children, handleDelete }) {
   return (
     <>
       <AlertDialog>
@@ -12,9 +12,9 @@ function RemoveGroupAlert({ group = true, student = false, children, handleDelet
               <p className="relative mb-4 flex justify-center">
                 <Warn />
               </p>
-              <span>تأكيد حذف المجموعة</span>
+              <span>{title || 'تأكيد حذف المجموعة'}</span>
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg">ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالمجموعة نهائيًا. هل أنت متأكد؟</AlertDialogDescription>
+            <AlertDialogDescription className="text-lg"> {description || 'ستؤدي هذه العملية إلى إزالة جميع البيانات المتعلقة بالمجموعة نهائيًا. هل أنت متأكد؟'} </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className={'mt-4 !justify-between gap-4'}>
             <AlertDialogAction className="p-5" style={{ width: '100%', padding: '10px', borderRadius: '20px' }} onClick={handleDelete}>

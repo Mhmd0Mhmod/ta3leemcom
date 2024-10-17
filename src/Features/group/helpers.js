@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 const token = Cookies.get('_auth');
 export async function getGroups(teacherId, subLevelId) {
-  const res = await axios.get(`${import.meta.env}/GetAllGroupsOfTeacherId?teacherId=${teacherId}&levelYearId=${subLevelId}`, {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/GetAllGroupsOfTeacherId?teacherId=${teacherId}&levelYearId=${subLevelId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',

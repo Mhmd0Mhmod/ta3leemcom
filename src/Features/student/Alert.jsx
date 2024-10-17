@@ -2,7 +2,7 @@ import PopUp from '@/UI-Global/PopUp';
 import { Ban, CircleCheckBig, TriangleAlert, X } from 'lucide-react';
 import { useEffect } from 'react';
 
-const Alert = ({ type = 'success', title, children, open, setOpen, className, navigate  ,edit }) => {
+const Alert = ({ type = 'success', title, children, open, setOpen, className, navigate, edit }) => {
   const colors = {
     success: 'border-[#76D8A3] bg-[#F2FFF7] text-[#2DC071]',
     error: 'border-[#DF1E1E] bg-[#FFDEDE] text-[#E0232E]  ',
@@ -18,7 +18,7 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
   // }, [open]);
 
   return (
-    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} absolute bottom-5 z-[999] flex w-[500px] max-w-full items-center gap-5 rounded-sm duration-500 ${className}`}>
+    <PopUp className={`${open ? 'right-5 opacity-100' : 'pointer-events-none -right-full opacity-0'} ${colors[type]} absolute bottom-5 z-20 flex !w-[450px] max-w-full items-center gap-5 rounded-sm duration-500 ${className}`}>
       <span>{type === 'error' ? <Ban /> : type === 'success' ? <CircleCheckBig /> : type === 'warning' ? <TriangleAlert /> : null}</span>
       <p className="me-auto text-lg font-bold">{children ?? title}</p>
       {navigate && (
@@ -31,10 +31,8 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
         >
           عرض
         </button>
-        
-
       )}
-         {edit && (
+      {edit && (
         <button
           className="border-b border-black text-zinc-700"
           onClick={() => {
@@ -44,10 +42,8 @@ const Alert = ({ type = 'success', title, children, open, setOpen, className, na
         >
           تعديل
         </button>
-        
-
       )}
-      
+
       <span className="cursor-pointer" onClick={() => setOpen(false)}>
         <X size="25px" className={`rounded-full border p-1 text-lg ${colors[type]}`} />
       </span>
