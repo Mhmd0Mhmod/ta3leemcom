@@ -1,5 +1,5 @@
 import DropDashBoardList from '../../../../public/Icons/DropNavBar.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Menu from '../../../../public/Icons/menu.svg';
 import AsideDashboard from '@/pages/Dashboard/Components/AsideDashboard.jsx';
 import Profile from '../../../../public/Icons/blackProfile.svg';
@@ -7,14 +7,16 @@ import Group from '../../../../public/Icons/group.svg';
 import TestIcon from '../../../../public/Icons/test.svg';
 import Details from '@/UI-Global/Details.jsx';
 import Graduted from '../../../../public/Icons/graduted.svg';
-import { constraints, LEVELS } from '@/config.js';
+import { LEVELS } from '@/config.js';
 import Meeting from '../../../../public/Icons/meeting.svg';
-
+import { fetchLevels } from '@/lib/helpers';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 function TeacherNav() {
   const [openTabsList, setOpenTabsList] = useState(false);
   const [showItems, setShowItems] = useState(true);
-
+  const [levels, setLevels] = useState([]);
+  const { teacherId } = useAuthUser();
   function handleTabListOpen(e) {
     if (e.target.closest('li')) setOpenTabsList(false);
   }
@@ -27,6 +29,13 @@ function TeacherNav() {
   // console.log(lvls);
   // console.log(Object.entries(constraints)[0][1]);
   // console.log(Object.keys(constraints));
+  useEffect(() => {
+    fetchLevels(teacherId).then((res) => {
+      console.log(res);
+      setLevels([...res.data]);
+    });
+  }, [teacherId]);
+
   return (
     <div>
       <button className={'flex items-center gap-[10px] text-2xl'} onClick={() => setOpenTabsList(!openTabsList)}>
@@ -47,12 +56,12 @@ function TeacherNav() {
                 icon: Profile,
               },
               { name: 'اضافة مجموعة', tab: 'addGroup', icon: Group },
-              {
-                name: 'اضافة اختبار',
-                tab: 'addTest',
-                icon: TestIcon,
-                Details: <Details className={'gap-[18px]'} summary={'اضافة اختبار'} Icon={TestIcon} opend={showItems} listItems={['اونلاين', 'اوفلاين']} tabName={['online', 'offline']} param={'test'} />,
-              },
+              // {
+              //   name: 'اضافة اختبار',
+              //   tab: 'addTest',
+              //   icon: TestIcon,
+              //   Details: <Details className={'gap-[18px]'} summary={'اضافة اختبار'} Icon={TestIcon} opend={showItems} listItems={['اونلاين', 'اوفلاين']} tabName={['online', 'offline']} param={'test'} />,
+              // },
               {
                 name: 'المراحل الدراسية',
                 tab: 'StudyLevels',
@@ -71,9 +80,25 @@ function TeacherNav() {
                 //     param={'level'}
                 //   />
                 // ),
-                Details: <Details className={'gap-[18px]'} summary={'المراحل الدراسية'} Icon={Graduted} opend={showItems} listItems={LEVELS.levels.map((el) => el.split(' ').at(1))} tabName={Object.keys(LEVELS).slice(1)} param={'level'} />,
+                Details: (
+                  <Details
+                    className={'gap-[18px]'}
+                    summary={'المراحل الدراسية'}
+                    route="/dashboard/level"
+                    Icon={Graduted}
+                    opend={showItems}
+                    listItems={levels.map((item) => {
+                      return {
+                        id: item.levelId,
+                        name: `المرحله ${item.levelNames} `,
+                      };
+                    })}
+                    tabName={levels.map((item) => item.levelId)}
+                    param={'level'}
+                  />
+                ),
               },
-              { name: 'عقد اجتماع', tab: 'meeting', icon: Meeting },
+              // { name: 'عقد اجتماع', tab: 'meeting', icon: Meeting },
             ]}
           />
         </div>

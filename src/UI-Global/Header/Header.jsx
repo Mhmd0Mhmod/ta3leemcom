@@ -9,6 +9,7 @@ import NavLinks from '@/UI-Global/Header/Components/NavLinks.jsx';
 import StudentNav from '@/UI-Global/Header/Components/StudentNav.jsx';
 import TeacherNav from '@/UI-Global/Header/Components/TeacherNav.jsx';
 import ProfileAndLogoutList from '@/UI-Global/Header/Components/ProfileAndLogoutList.jsx';
+import Notifications from '@/Features/Notifications/Notifications.jsx';
 
 export default function Header() {
   const [searchParam, setSearchParam] = useSearchParams();
@@ -40,7 +41,10 @@ export default function Header() {
             {role === 'Student' && <StudentNav />}
             {role === 'Teacher' && <TeacherNav />}
           </div>
+          <div className={"flex items-center"}>
           <ProfileAndLogoutList currentUser={currentUser} logOut={logOut} />
+            {role === 'Teacher' && <Notifications />}
+          </div>
         </div>
       )}
       {!role && (

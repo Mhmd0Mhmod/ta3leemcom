@@ -15,24 +15,27 @@ import FilledStar5 from '/public/imgs/filled-star-5.svg';
 import { useState } from 'react';
 import { sendOpinion } from './helpers.js';
 import toast from 'react-hot-toast';
-
 export default function Opinion() {
   const [rate, setRate] = useState(0);
   const [comment, setComment] = useState('');
   const handleSetRate = (e) => {
     setRate(e.target.closest('svg').dataset.value);
   };
+  const [loading, setLoading] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendOpinion(rate, comment).then((res) => {
-      if (res.status === 200) {
-        toast.success('تم ارسال رايك بنجاح');
-        setRate(0);
-        setComment('');
-      } else {
-        toast.error('حدث خطأ اثناء ارسال رايك');
-      }
-    });
+    setLoading(true);
+    sendOpinion(rate, comment)
+      .then((res) => {
+        if (res?.status === 200) {
+          toast.success('تم ارسال رايك بنجاح');
+          setRate(0);
+          setComment('');
+        } else {
+          toast.error('حدث خطأ اثناء ارسال رايك');
+        }
+      })
+      .finally(() => setLoading(false));
   };
   return (
     <div className="text-center">
@@ -70,7 +73,9 @@ export default function Opinion() {
               اكتب رايك
             </Heading>
             <textarea className="bg-accent-300 my-6 min-h-72 w-full flex-1 resize-none rounded-lg border border-accent-l-50 p-4 text-xl" placeholder="اكتب رايك هنا" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
-            <Button>إرسال</Button>
+            <Button disabled={loading} className={'disabled:cursor-not-allowed disabled:bg-gray-700'}>
+              إرسال
+            </Button>
           </form>
         </div>
         <div className="col-span-1"></div>

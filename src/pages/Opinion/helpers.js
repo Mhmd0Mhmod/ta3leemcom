@@ -1,10 +1,28 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
 
-export function sendOpinion(rate, comment) {
+export async function sendOpinion(rate, comment) {
+  const userString = Cookies.get('_auth_state');
+  if (!userString) {
+    toast.error('يجب تسجيل الدخول اولا');
+    return;
+  }
+  const user = JSON.parse(userString);
+
   const bodyData = {
     stars: rate,
+    name: user.name,
+    userRole: user.role,
     message: comment,
   };
-  const res = axios.post(`${import.meta.env.VITE_API_URL}/Comments/AddFeedback`, bodyData);
+  console.log(bodyData);
+  const token = Cookies.get('_auth');
+  const res = await axios.post(`${import.meta.env.VITE_API_URL}/Comments/AddFeedback`, bodyData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res;
 }

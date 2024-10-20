@@ -14,6 +14,7 @@ import StudentTest from './pages/Dashboard/subpages/StudentDashboard/Components/
 import StudentMonths from './pages/Dashboard/subpages/StudentDashboard/Components/StudentMonths.jsx';
 import EditGroupDetails from './Features/group/EditGroupDetails.jsx';
 import StudentDetails from './Features/student/StudentDetails.jsx';
+import StudentSolveTest from './pages/Dashboard/subpages/StudentDashboard/Components/StudentSolveTest.jsx';
 
 const Home = React.lazy(() => import('./pages/Home/Home.jsx'));
 const About = React.lazy(() => import('./pages/About/About.jsx'));
