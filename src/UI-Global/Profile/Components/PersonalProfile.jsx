@@ -1,11 +1,12 @@
 import React from 'react';
 import Profile from '/public/imgs/Profile (2).svg';
 import { useSearchParams } from 'react-router-dom';
-export default function PersonalProfile({teacher}) {
+export default function PersonalProfile({ teacher }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  function  handleEditButton(e){
-    setSearchParams({...Object.fromEntries(searchParams.entries()),tab:'EditTeacherProfile'});
+  function handleEditButton(e) {
+    setSearchParams({ ...Object.fromEntries(searchParams.entries()), tab: 'EditTeacherProfile' });
   }
+
   return (
     <>
       <div className="mt-10 flex items-center justify-between px-10">

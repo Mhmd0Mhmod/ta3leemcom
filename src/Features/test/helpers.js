@@ -11,3 +11,12 @@ export async function submitTestAnswer(testData) {
   });
   return res.status;
 }
+
+export async function getStudentTestsResult(id, auth) {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetStudentSolutionByStudentQuizId?studentQuizId=${id}`, {
+    headers: {
+      Authorization: auth,
+    },
+  });
+  return res.data;
+}

@@ -8,7 +8,6 @@ export default function ProfileSubscription() {
   function handleUpdateSub() {
     setSearchParams({ ...Object.fromEntries(searchParams.entries()), tab: 'UpgradeSubscription' });
   }
-  if (!searchParams.get('Profile')) return;
   return (
     <div className="ms-6 mt-10">
       <Heading as={'h3'} className={'flex items-center font-cairo-bold'}>

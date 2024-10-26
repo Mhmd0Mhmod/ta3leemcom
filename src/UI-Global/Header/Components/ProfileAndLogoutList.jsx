@@ -5,6 +5,9 @@ import SmallProfile from '../../../../public/Icons/profile-unfill.svg';
 import Logout from '../../../../public/Icons/logout.svg';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Modal from '@/UI-Global/Modal/Modal';
+import PersonalProfile from '@/UI-Global/Profile/Components/PersonalProfile';
+import Profile from '@/UI-Global/Profile/TeacherProfile';
 
 function ProfileAndLogoutList({ currentUser, logOut }) {
   const [searchParam, setSearchParam] = useSearchParams();
@@ -20,7 +23,6 @@ function ProfileAndLogoutList({ currentUser, logOut }) {
       setSearchParam({
         ...Object.fromEntries(searchParam.entries()),
         tab: 'PersonalProfile',
-        Profile: currentUser.userId,
       });
   }
   return (
@@ -32,10 +34,17 @@ function ProfileAndLogoutList({ currentUser, logOut }) {
       {openList && (
         <ul className={'absolute left-2 top-16 z-40 flex flex-col gap-4 rounded border bg-white p-2'}>
           <Triangle className="absolute -top-5 left-5" width={25} height={25} />
-          <li className={'flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#B4D3E0]'} onClick={handleOpenProfile}>
-            <SmallProfile />
-            <span>الملف الشخصي</span>
-          </li>
+          <Modal>
+            <Modal.Open name={currentUser.role === 'Student' ? 'studentProfile' : 'teacherProfile'}>
+              <li className={'flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#B4D3E0]'}>
+                <SmallProfile />
+                <span>الملف الشخصي</span>
+              </li>
+            </Modal.Open>
+            <Modal.Window name={currentUser.role === 'Student' ? 'studentProfile' : 'teacherProfile'}>
+              <Profile />
+            </Modal.Window>
+          </Modal>
           <li onClick={logOut} className={'flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#FFB2B3]'}>
             <Logout />
             <span>تسجيل الخروج</span>

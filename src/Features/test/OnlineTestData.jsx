@@ -252,6 +252,7 @@ export default function OnlineTestData({ test }) {
       fetchTestResult();
     }
   }, [currentTestResult]);
+  console.log(dummyQuestions);
 
   return (
     <div>
@@ -368,8 +369,8 @@ export default function OnlineTestData({ test }) {
                                   <div className="flex w-full justify-between">
                                     <div dangerouslySetInnerHTML={{ __html: answer.text }} />
                                     <span>
-                                      {question.stdAnswer?.choiceId === answer.id && (question.stdAnswer.iscorrect ? <Check /> : <X />)}
-                                      {answer.isCorrect && !question.stdAnswer.iscorrect && <Check />}
+                                      {question?.stdAnswer?.choiceId === answer.id && (question?.stdAnswer?.iscorrect ? <Check /> : <X />)}
+                                      {answer?.isCorrect && !question?.stdAnswer.iscorrect && <Check />}
                                     </span>
                                   </div>
                                 </div>

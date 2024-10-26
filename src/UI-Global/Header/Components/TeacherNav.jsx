@@ -31,7 +31,6 @@ function TeacherNav() {
   // console.log(Object.keys(constraints));
   useEffect(() => {
     fetchLevels(teacherId).then((res) => {
-      console.log(res);
       setLevels([...res.data]);
     });
   }, [teacherId]);

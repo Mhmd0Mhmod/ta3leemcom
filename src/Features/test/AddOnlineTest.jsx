@@ -422,6 +422,7 @@ function AddOnlineTest({ test }) {
           // console.log(selectedGroups);
           // console.log('dublicateing existing quiz');
         }
+        console.log(testData);
         res = await axios.post(`${import.meta.env.VITE_API_URL}/Quiz/AddOnlineQuiz`, testData, {
           headers: {
             Authorization: authHeader,

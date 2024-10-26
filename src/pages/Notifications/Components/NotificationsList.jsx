@@ -1,15 +1,12 @@
-import Readed from '/public/Icons/readed.svg';
-import NotificationListItem from './NotificationListItem';
-
-import Heading from '@/UI-Global/Heading';
 import { useNotifications } from '@/Context/Notifications/Notifications';
-import { Link } from 'react-router-dom';
-function NotificationList({ className }) {
-  const { limitedNotifications, unreadNotificationCount, makeNotificationReaded } = useNotifications();
-  console.log(limitedNotifications);
+import Readed from '/public/Icons/readed.svg';
 
+import NotificationListItem from '@/Features/Notifications/NotificationListItem';
+import Heading from '@/UI-Global/Heading';
+function NotificationsList() {
+  const { notifications, unreadNotificationCount, makeNotificationReaded } = useNotifications();
   return (
-    <div className={className}>
+    <div className="relative">
       <div className="p-4">
         <Heading as={'h2'}>الاشعارات</Heading>
         <p className="text-gray-400">تابع أحدث التحديثات والأنشطة المتعلقة بحسابك من خلال الإشعارات</p>
@@ -25,7 +22,7 @@ function NotificationList({ className }) {
         </Heading>
       </div>
       <ul className="p-4">
-        {limitedNotifications.map((day) => (
+        {notifications.map((day) => (
           <div className="mt-5" key={day.date}>
             <span className="text-gray-400">{day.date}</span>
             {day.notifications.map((notification) => (
@@ -34,10 +31,7 @@ function NotificationList({ className }) {
           </div>
         ))}
       </ul>
-      <Link to={'notifications'} className="mb-4 flex w-full justify-center bg-[#F0F0F0] p-2">
-        عرض الكل
-      </Link>
     </div>
   );
 }
-export default NotificationList;
+export default NotificationsList;

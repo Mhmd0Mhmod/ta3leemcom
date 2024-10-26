@@ -19,7 +19,8 @@ import { getTests } from '@/Context/StudentDashboard/helpers';
 import toast from 'react-hot-toast';
 import { Spinner } from '@/UI-Global/Spinner';
 import { durationToArabic, parseISODateString, parseISOTimeString } from '@/lib/time';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { TooltipContent, TooltipProvider, TooltipTrigger, Tooltip } from '/src/components/ui/tooltip.jsx';
 
 function StudentTest() {
   const student = useAuthUser();
@@ -41,8 +42,10 @@ function StudentTest() {
     setLoading(true);
     getTests(student.studentId)
       .then((data) => {
-        setTests(data.filter((test) => test.quizStatus !== 'Ended' && test.quizStatus !== 'Solved' && test.quizStatus));
-        setEndedTests(data.filter((test) => test.quizStatus === 'Ended' || test.quizStatus === 'Solved'));
+        data.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+        setTests(data?.filter((test) => test.quizStatus !== 'Ended' && test.quizStatus !== 'Solved' && test.quizStatus));
+        setEndedTests(data?.filter((test) => test.quizStatus === 'Ended' || test.quizStatus === 'Solved'));
       })
       .catch((err) => toast.error('حدث خطأ ما'))
       .finally(() => setLoading(false));
@@ -164,21 +167,29 @@ function StudentTest() {
                       <span>{idx + 1}.</span>
                       {test.title}
                     </span>
-                    <Button className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2]'} onClick={() => nav(`/dashboard/tests/training-attempt/${test.quizId}`)}>
+                    <Button
+                      className={'h-fit bg-[#0884A2] px-[10px] py-[5px] hover:bg-[#0884A2] disabled:cursor-not-allowed disabled:bg-gray-500 disabled:hover:bg-gray-500'}
+                      disabled={new Date(test.endDate) > new Date(Date.now())}
+                      onClick={() => nav(`/dashboard/tests/training-attempt/${test.quizId}`)}
+                    >
                       محاولة تدربية
                     </Button>
                   </TD>
                   <TD>
                     {test.solveStatus === 'Solved Late' && 'حل متأخر '}
-                    {test.solveStatus === 'Not Solved' && 'لم يبم الحل  '}
-                    {test.solveStatus === 'Solved' && 'حل في الموعد '}
+                    {test.solveStatus === 'Not Solved' && 'لم يتم الحل  '}
+                    {test.solveStatus === 'Solved In Time' && 'حل في الموعد '}
                   </TD>
                   <TD>
                     {test.solveStatus !== 'Not Solved' ? (
-                      <>
-                        <span> {test.totalMark}</span>
-                        <span className="font-almaria-bold"> / {test.studentMark} </span>
-                      </>
+                      new Date(test.endDate) > Date.now() ? (
+                        'الاختبار مستمر'
+                      ) : (
+                        <Link className="w-full" to={`result/${test.studentQuizId}`}>
+                          <span> {test.totalMark}</span>
+                          <span className="font-almaria-bold"> / {test.studentMark} </span>
+                        </Link>
+                      )
                     ) : (
                       'لم يتم الحل'
                     )}

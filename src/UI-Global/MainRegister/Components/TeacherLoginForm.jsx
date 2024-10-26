@@ -11,7 +11,8 @@ import toast from 'react-hot-toast';
 import { ErrorMessage } from '@/components/ui/validationMessages';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import ForgetPassword from '@/UI-Global/MainRegister/Components/ForgetPassword.jsx';
-
+import * as signalR from '@microsoft/signalr';
+import { openConnectionSignalR } from '../Helpers.js';
 export default function TeacherLoginForm() {
   const navigate = useNavigate();
   const loaction = useLocation();
@@ -70,6 +71,31 @@ export default function TeacherLoginForm() {
             userState: user,
           });
           setSearchParams({});
+          // Create connection to the SignalR hub
+          // const connection = new signalR.HubConnectionBuilder()
+          //   .withUrl(`https://ta3leemcom-api.runasp.net/notificationHub`, {
+          //     accessTokenFactory: () => token, // withCredentials: true,
+          //   }) // Replace with your backend URL
+          //   .configureLogging(signalR.LogLevel.Information)
+          //   .build();
+
+          // Start the connection
+          // connection
+          //   .start()
+          //   .then(() => {
+          //     console.log('Connected to the SignalR hub! ');
+          //     // Listen for incoming notifications
+          //     connection.on('ReceiveNotification', (message) => {
+          //       console.log('Notification received:', message);
+          //       // setNotifications((prev) => [...prev, message]);
+          //     });
+
+          //     // Add additional logging to check if the event is being triggered
+          //     connection.onclose((error) => {
+          //       console.error('Connection closed:', error);
+          //     });
+          //   })
+          //   .catch((err) => console.error('Connection failed: ', err));
         }
       } catch (error) {
         // toast.error('حدث خطأ أثناء التسجيل، يرجى المحاولة مرة أخرى');

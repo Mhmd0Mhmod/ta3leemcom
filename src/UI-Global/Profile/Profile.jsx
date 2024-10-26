@@ -17,7 +17,7 @@ function Profile() {
     e.preventDefault();
     if (e.target.id === 'all' || e.target.id === 'exit') setSearchParams({});
   };
-  if (!searchParams.get('Profile')) return;
+  return;
   return (
     <>
       <div className="fixed z-[989] m-0 h-full w-full bg-[rgb(0,0,0,0.4)]" id="all" onClick={handleButtonClick}>

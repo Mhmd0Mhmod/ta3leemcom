@@ -11,6 +11,7 @@ export async function getTests(studentId) {
     },
   });
   // console.log(res);
+  console.log(res);
 
   return res.data;
 }
