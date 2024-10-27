@@ -10,7 +10,7 @@ export function DeleteConfirmation({ open, setOpen, onDelete }) {
         <AlertDialogHeader className={'items-center'}>
           <TriangleAlert className="box-content h-12 w-16 rounded-full bg-red-500/10 px-4 py-6 text-red-700" />
           <Heading as={'h2'} className="py-4 font-almaria-extrabold">
-            تأكيد حذف الاختبار{' '}
+            تأكيد الحذف {' '}
           </Heading>
           <div className="space-y-3 text-center font-almaria text-accent-l-700">
             <p>ستؤدي هذه العملية الي ازالة جميع البيانات المتعلقة بها نهائيا</p>

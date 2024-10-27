@@ -47,67 +47,7 @@ import { Combobox } from '@/components/ui/combobox.jsx';
 
 import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
-// const QUESTIONS = [
-//   {
-//     text: 'ما هو أكبر كوكب في المجموعة الشمسية؟',
-//     bouns: 0,
-//     deg: 1,
-//     answers: [
-//       { text: 'المشتري', isCorrect: true, id: '1' },
-//       { text: 'المريخ', isCorrect: false, id: '2' },
-//     ],
-//     images: [],
-//     explain: 'المشتري هو أكبر كوكب في المجموعة الشمسية.',
-//     required: true,
-//     id: '1',
-//   },
-//   {
-//     text: 'ما هي عاصمة فرنسا؟',
-//     bouns: 1,
-//     deg: 0,
-//     answers: [
-//       { text: 'باريس', isCorrect: true, id: '1' },
-//       { text: 'برلين', isCorrect: false, id: '2' },
-//     ],
-//     images: [],
-//     explain: 'باريس هي عاصمة فرنسا.',
-//     required: false,
-//     id: '2',
-//   },
-//   {
-//     text: 'ما هو الحيوان الأسرع في العالم؟',
-//     bouns: 0,
-//     deg: 1,
-//     answers: [
-//       { text: 'الفهد', isCorrect: true, id: '1' },
-//       { text: 'الأسد', isCorrect: false, id: '2' },
-//     ],
-//     images: [],
-//     explain: 'الفهد هو الحيوان الأسرع في العالم.',
-//     required: true,
-//     id: '3',
-//   },
-//   //  {
-//   //   text: "ما هو الحيوان الأسرع في العالم 2؟",
-//   //   bouns: 0,
-//   //   deg: 1,
-//   //   answers: [
-//   //    { text: "الفهد", isCorrect: true, id: "1" },
-//   //    { text: "الأسد", isCorrect: false, id: "2" },
-//   //    { text: "الثعلب", isCorrect: false, id: "3" },
-//   //    { text: "القطة", isCorrect: false, id: "4" },
-//   //   ],
-//   //   images: [
-//   //    "../../public/imgs/test_image.svg",
-//   //    "../../public/imgs/video.svg",
-//   //    "../../public/imgs/home-bg-1.png",
-//   //    "../../public/imgs/home-bg-2.png",
-//   //   ],
-//   //   explain: "الفهد هو الحيوان الأسرع في العالم.",
-//   //   required: true,
-//   //   id: "4",
-//   //  },
-// ];
+
 export const DEFAULT_QUESTION = {
   text: '',
   bouns: 1,
@@ -204,6 +144,9 @@ function AddOnlineTest({ test }) {
       day: 0,
     },
   );
+
+  const [timePassed , setTimePassed] = useState(false);
+  const [questionToRemoveDegId, setQuestionToRemoveDegId] = useState(null);
 
   const { groupsOfSelectedlevel } = useTeacherDashboard();
 
@@ -344,6 +287,13 @@ function AddOnlineTest({ test }) {
   // console.log(timeStart, timeDuration);
 
   const handelSaveQuiz = async (isNew) => {
+
+    // if(test && isNew){
+    //   setIsNewTest(true);
+    // }
+
+
+
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
     }
@@ -411,7 +361,7 @@ function AddOnlineTest({ test }) {
         if (res?.status === 200) {
           backToLevel();
         }
-      } else if (test && new Date(Date.now()) >= new Date(test?.startDate) && !isNew) {
+      } else if (timePassed && !isNew) {
         // console.log(testData);
         // console.log(selectedGroups)
         // console.log('comming soon');
@@ -485,9 +435,19 @@ function AddOnlineTest({ test }) {
     }
     setShowTestDeletion(false);
   };
-
+ const handleDeleteQuestionDeg = async () => {
+  // let qId = questionToRemoveDegId;
+  try {
+      toast.success(`تم الحذف بنجاح ,${questionToRemoveDegId} `);
+  } catch (error) {
+    toast.error('حدث خطأ ما');
+  }
+ }
   useEffect(() => {
     if (test) {
+      if(test && new Date(Date.now()) >= new Date(test?.startDate)){
+        setTimePassed(true);
+      }
       const fetchTestWithId = async () => {
         try {
           const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetQuizById?QuizId=${test.id}`, { headers: { Authorization: authHeader } });
@@ -757,7 +717,7 @@ function AddOnlineTest({ test }) {
       )}
       {!showTestAlert && !showTestRes && (
         <div className="px-12 py-16">
-          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={handleDeleteTest} />
+          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={timePassed?handleDeleteQuestionDeg : handleDeleteTest} />
           <Backtolevels />
           <Heading as={'h1'} className={'my-6 font-almaria-bold text-black'}>
             اختبار جديد
@@ -967,14 +927,15 @@ function AddOnlineTest({ test }) {
                         />
                       )}
                     </div>
+{!timePassed &&
                     <div className="flex gap-6">
                       <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
-
                       <Button variant={'outline'} onClick={() => handelSaveQuiz(false)} className="gap-2">
                         {test ? 'تعديل' : 'اضافة'}
                         {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
                       </Button>
                     </div>
+                      }
                   </div>
                 </div>
               </div>
@@ -1026,6 +987,7 @@ function AddOnlineTest({ test }) {
                   >
                     <div className="flex w-full items-center">
                       <span>{index + 1}.</span>
+
                       <div className="mr-2 flex-grow font-almaria-bold text-lg" dangerouslySetInnerHTML={{ __html: question?.text }} />
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-2 rounded-lg bg-accent-l-1100 px-4 py-2">
@@ -1081,7 +1043,18 @@ function AddOnlineTest({ test }) {
 
                       {/* {i === question.answers.length - 1 && ( */}
                       <div className="flex items-end gap-4">
-                        <GripIcon className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
+                        {timePassed? (
+                          <>
+                          <button type="button" className="col-span-10 mt-4  flex items-start gap-1" onClick={()=>{
+                            setShowTestDeletion(true)
+                            setQuestionToRemoveDegId(question.id)
+                          }}>
+                          <X className="h-5 text-primary-l" />
+                          <span className="font-almaria-bold text-primary-l">الغاء الدرجة</span>
+                        </button>
+                          </>
+                        ): (<>
+                          <GripIcon className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
                         <button type="button" className="col-span-10 mt-4 flex items-center gap-1" onClick={() => edit(index)}>
                           <Edit className="h-5 text-secondary-l" />
                           <span className="font-almaria-bold text-secondary-l">تعديل</span>
@@ -1089,7 +1062,7 @@ function AddOnlineTest({ test }) {
                         <button type="button" className="col-span-10 mt-4 flex items-end gap-1 text-primary-l" onClick={() => deleteQuestion(index)}>
                           <Trash2 />
                           <span className="font-almaria-bold text-primary-l">حذف</span>
-                        </button>
+                        </button></>)}
                       </div>
                       {/* )} */}
                     </Reorder.Group>
