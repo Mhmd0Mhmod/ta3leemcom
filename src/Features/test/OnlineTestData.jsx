@@ -23,6 +23,7 @@ import { format } from 'date-fns';
 import { useReactToPrint } from 'react-to-print';
 import { Bichart } from '@/components/ui/bi-chart.jsx';
 import { Barchart } from '@/components/ui/bar-chart.jsx';
+import { useParams } from 'react-router-dom';
 
 // const RES = {
 //  title: "اختبار بدون عنوان",
@@ -97,6 +98,13 @@ const types = ['النتائج', 'الاحصائيات', 'الطلاب غير ا
 
 let tt = true;
 export default function OnlineTestData({ test }) {
+  const { testId } = useParams();
+  let id = test?.id;
+  if (testId) {
+    id = testId;
+  }
+  console.log(test, id);
+
   const [questions, setQuestions] = useState(QUESTIONS);
   const [testDesc, setTestDesc] = useState({});
   const [testRes, setTestRes] = useState([]);
@@ -169,13 +177,13 @@ export default function OnlineTestData({ test }) {
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetDescreptionOfQuiz?quizId=${test.id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetDescreptionOfQuiz?quizId=${id}`, {
           headers: { Authorization: authHeader },
         });
         if (res.status === 200) {
           setTestDesc(res.data);
         }
-        const data = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllResultsOfQuizId?quizId=${test.id}`, {
+        const data = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllResultsOfQuizId?quizId=${id}`, {
           headers: { Authorization: authHeader },
         });
         if (res.status === 200) {
@@ -190,7 +198,7 @@ export default function OnlineTestData({ test }) {
     };
     const fetchStudentDidntTakeTest = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Student/GetAllStudnetDidntEnterQuizId?quizid=${test.id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Student/GetAllStudnetDidntEnterQuizId?quizid=${id}`, {
           headers: { Authorization: authHeader },
         });
         if (res.status === 200) {
@@ -202,7 +210,7 @@ export default function OnlineTestData({ test }) {
     };
     const fetchTestStats = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllStatsOfQuizId?quizid=${test.id}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/Quiz/GetAllStatsOfQuizId?quizid=${id}`, {
           headers: { Authorization: authHeader },
         });
         if (res.status === 200) {
@@ -215,7 +223,7 @@ export default function OnlineTestData({ test }) {
     fetchTest();
     fetchStudentDidntTakeTest();
     fetchTestStats();
-  }, [test]);
+  }, [id]);
 
   useEffect(() => {
     const fetchTestResult = async () => {

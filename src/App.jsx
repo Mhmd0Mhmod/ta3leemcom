@@ -19,6 +19,7 @@ import Profile from './UI-Global/Profile/Profile.jsx';
 import ShowTestResult from './pages/Dashboard/subpages/StudentDashboard/Components/ShowTestResult.jsx';
 import Cookies from 'js-cookie';
 import Notifications from './pages/Notifications/Notifications.jsx';
+import OnlineTestData from './Features/test/OnlineTestData.jsx';
 
 const Home = React.lazy(() => import('./pages/Home/Home.jsx'));
 const About = React.lazy(() => import('./pages/About/About.jsx'));
@@ -61,6 +62,7 @@ function App() {
                   <Route path="addGroup/:id" element={<GroupDetails />} />
                   <Route path="editGroup/:id" element={<EditGroupDetails />} />
                   <Route path="level" element={<Level />} />
+                  <Route path="testData/:testId" element={<OnlineTestData />} />
 
                   {/* Student Dashboard Routes */}
                   <Route path="tests" element={<StudentTest />} />

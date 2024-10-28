@@ -28,7 +28,7 @@ function ProfileAndLogoutList({ currentUser, logOut }) {
   return (
     <div className={'relative self-center'}>
       <Button className={'flex items-center gap-2 border-0 bg-transparent !text-[#605E5E]'} onClick={() => setOpenList((openList) => !openList)}>
-        {currentUser.name}
+        {currentUser.name.split(' ').slice(0, 2).join(' ')}
         <Drop className={`${openList ? '' : 'rotate-180'} duration-300`} />
       </Button>
       {openList && (

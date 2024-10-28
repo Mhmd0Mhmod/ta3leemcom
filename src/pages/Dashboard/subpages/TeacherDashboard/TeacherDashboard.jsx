@@ -79,7 +79,7 @@ function TeacherDashboard() {
                 />
               ),
             },
-            { name: 'عقد اجتماع', tab: 'meeting', icon: Meeting },
+            // { name: 'عقد اجتماع', tab: 'meeting', icon: Meeting },
           ]}
         />
       </div>

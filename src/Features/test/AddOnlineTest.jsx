@@ -47,7 +47,6 @@ import { Combobox } from '@/components/ui/combobox.jsx';
 
 import { useTeacherDashboard } from '@/Context/TeacherDashboard/TeacherProvider.jsx';
 
-
 export const DEFAULT_QUESTION = {
   text: '',
   bouns: 1,
@@ -145,14 +144,13 @@ function AddOnlineTest({ test }) {
     },
   );
 
-  const [timePassed , setTimePassed] = useState(false);
+  const [timePassed, setTimePassed] = useState(false);
   const [questionToRemoveDegId, setQuestionToRemoveDegId] = useState(null);
 
   const { groupsOfSelectedlevel } = useTeacherDashboard();
 
   let timeStartString = convertTo12HourFormat(timeStart.hour, timeStart.minute);
   let timeDurationString = convertTo12HourFormat(timeDuration.hour, timeDuration.minute, timeDuration.day);
-
   const authUser = useAuthUser();
   const authHeader = useAuthHeader();
   const backToLevel = () => {
@@ -287,12 +285,9 @@ function AddOnlineTest({ test }) {
   // console.log(timeStart, timeDuration);
 
   const handelSaveQuiz = async (isNew) => {
-
     // if(test && isNew){
     //   setIsNewTest(true);
     // }
-
-
 
     if (!title || !questions.length || !date || !authUser || !authUser.teacherId || !searchParams.get('group')) {
       return toast.error('الرجاء ملء جميع الحقول');
@@ -435,17 +430,22 @@ function AddOnlineTest({ test }) {
     }
     setShowTestDeletion(false);
   };
- const handleDeleteQuestionDeg = async () => {
-  // let qId = questionToRemoveDegId;
-  try {
+  const handleDeleteQuestionDeg = async () => {
+    try {
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/Qeustions/DeleteQuestionAfterStarted?id=${questionToRemoveDegId}`, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
+      deleteQuestion(questions.findIndex((q) => q.id === questionToRemoveDegId));
       toast.success(`تم الحذف بنجاح ,${questionToRemoveDegId} `);
-  } catch (error) {
-    toast.error('حدث خطأ ما');
-  }
- }
+    } catch (error) {
+      toast.error('حدث خطأ ما');
+    }
+  };
   useEffect(() => {
     if (test) {
-      if(test && new Date(Date.now()) >= new Date(test?.startDate)){
+      if (test && new Date(Date.now()) >= new Date(test?.startDate)) {
         setTimePassed(true);
       }
       const fetchTestWithId = async () => {
@@ -717,7 +717,7 @@ function AddOnlineTest({ test }) {
       )}
       {!showTestAlert && !showTestRes && (
         <div className="px-12 py-16">
-          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={timePassed?handleDeleteQuestionDeg : handleDeleteTest} />
+          <DeleteConfirmation open={showTestDeletion} setOpen={setShowTestDeletion} onDelete={timePassed ? handleDeleteQuestionDeg : handleDeleteTest} />
           <Backtolevels />
           <Heading as={'h1'} className={'my-6 font-almaria-bold text-black'}>
             اختبار جديد
@@ -927,15 +927,15 @@ function AddOnlineTest({ test }) {
                         />
                       )}
                     </div>
-{!timePassed &&
-                    <div className="flex gap-6">
-                      <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
-                      <Button variant={'outline'} onClick={() => handelSaveQuiz(false)} className="gap-2">
-                        {test ? 'تعديل' : 'اضافة'}
-                        {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
-                      </Button>
-                    </div>
-                      }
+                    {!timePassed && (
+                      <div className="flex gap-6">
+                        <Combobox allGroups={groupsOfSelectedlevel} selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
+                        <Button variant={'outline'} onClick={() => handelSaveQuiz(false)} className="gap-2">
+                          {test ? 'تعديل' : 'اضافة'}
+                          {test ? <Edit className="text-slate-600" /> : <ShareIcon />}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1043,26 +1043,33 @@ function AddOnlineTest({ test }) {
 
                       {/* {i === question.answers.length - 1 && ( */}
                       <div className="flex items-end gap-4">
-                        {timePassed? (
+                        {timePassed ? (
                           <>
-                          <button type="button" className="col-span-10 mt-4  flex items-start gap-1" onClick={()=>{
-                            setShowTestDeletion(true)
-                            setQuestionToRemoveDegId(question.id)
-                          }}>
-                          <X className="h-5 text-primary-l" />
-                          <span className="font-almaria-bold text-primary-l">الغاء الدرجة</span>
-                        </button>
+                            <button
+                              type="button"
+                              className="col-span-10 mt-4 flex items-start gap-1"
+                              onClick={() => {
+                                setShowTestDeletion(true);
+                                setQuestionToRemoveDegId(question.id);
+                              }}
+                            >
+                              <X className="h-5 text-primary-l" />
+                              <span className="font-almaria-bold text-primary-l">الغاء الدرجة</span>
+                            </button>
                           </>
-                        ): (<>
-                          <GripIcon className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
-                        <button type="button" className="col-span-10 mt-4 flex items-center gap-1" onClick={() => edit(index)}>
-                          <Edit className="h-5 text-secondary-l" />
-                          <span className="font-almaria-bold text-secondary-l">تعديل</span>
-                        </button>
-                        <button type="button" className="col-span-10 mt-4 flex items-end gap-1 text-primary-l" onClick={() => deleteQuestion(index)}>
-                          <Trash2 />
-                          <span className="font-almaria-bold text-primary-l">حذف</span>
-                        </button></>)}
+                        ) : (
+                          <>
+                            <GripIcon className="rotate-90 cursor-pointer transition-all duration-300 hover:scale-110" />
+                            <button type="button" className="col-span-10 mt-4 flex items-center gap-1" onClick={() => edit(index)}>
+                              <Edit className="h-5 text-secondary-l" />
+                              <span className="font-almaria-bold text-secondary-l">تعديل</span>
+                            </button>
+                            <button type="button" className="col-span-10 mt-4 flex items-end gap-1 text-primary-l" onClick={() => deleteQuestion(index)}>
+                              <Trash2 />
+                              <span className="font-almaria-bold text-primary-l">حذف</span>
+                            </button>
+                          </>
+                        )}
                       </div>
                       {/* )} */}
                     </Reorder.Group>
