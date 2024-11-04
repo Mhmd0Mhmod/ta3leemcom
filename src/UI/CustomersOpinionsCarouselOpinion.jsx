@@ -14,11 +14,11 @@ function CustomersOpinionsCarouselOpinion({ opinion }) {
       >
         <div className="relative flex h-96 items-center justify-center self-stretch rounded-2xl bg-white p-8 shadow-md sm:shadow-2xl">
           <div className="absolute inset-0 inset-x-10 inset-y-16 flex items-end">
-            <QuationMark />
+            <QuationMark className={"w-10 md:w-20"} />
           </div>
           <p className="p-20 text-justify text-lg text-cyan-700">{message}</p>
           <div className="absolute inset-x-10 inset-y-16 flex rotate-180 items-end">
-            <QuationMark />
+            <QuationMark className={"w-10 md:w-20"} />
           </div>
         </div>
         <div className="mt-4 flex items-center">

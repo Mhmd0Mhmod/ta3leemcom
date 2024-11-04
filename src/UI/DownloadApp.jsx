@@ -38,7 +38,7 @@ export default function DownloadApp() {
         </div>
       </div>
       <div className="min-w-fit">
-        <img src="/public/imgs/DownloadApp.png" alt="DownloadApp" />
+        <img src="imgs/DownloadApp.png" alt="DownloadApp" />
       </div>
     </div>
   );
