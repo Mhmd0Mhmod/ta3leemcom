@@ -60,7 +60,7 @@ function SwiperHome() {
             <div className={"hidden flex-col gap-10 md:flex"}>
               <Button
                 type="light"
-                className={"flex gap-8 p-2 opacity-75 shadow shadow-2xl"}
+                className={"flex gap-8 p-2 opacity-75 shadow-2xl"}
               >
                 <div>
                   <p>تحميل تطبيق</p>
@@ -70,7 +70,7 @@ function SwiperHome() {
               </Button>
               <Button
                 type="light"
-                className={"flex gap-8 p-2 opacity-75 shadow shadow-2xl"}
+                className={"flex gap-8 p-2 opacity-75 shadow-2xl"}
               >
                 <div>
                   <p>تحميل تطبيق</p>

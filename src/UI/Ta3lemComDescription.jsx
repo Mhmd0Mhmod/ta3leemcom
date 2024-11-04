@@ -4,7 +4,7 @@ import FeaturesCarousel from "./FeaturesCarousel.jsx";
 
 function Ta3lemComDescription() {
   return (
-    <div className={"relative flex flex-col gap-4 p-8 xl:flex-row"}>
+    <div className={"container relative flex flex-col gap-4 p-8 xl:flex-row"}>
       <div>
         <div className={"w-full"}>
           <Logo className={"w-full"} />

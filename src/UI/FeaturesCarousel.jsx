@@ -11,7 +11,7 @@ import ArrowLeft from "/public/Icons/arrow-l-red.svg";
 import ArrowRight from "/public/Icons/arrow-r-red.svg";
 import FeaturesCard from "./FeaturesCard.jsx";
 import Button from "./Button.jsx";
-import { useState } from "react";
+import Carousel from "./Carousel.jsx";
 
 const features = [
   { text: "إدارة شاملة للطلاب", icon: <StudentManagement /> },
@@ -28,42 +28,34 @@ const features = [
 ];
 
 function FeaturesCarousel() {
-  const [current, setCurrent] = useState(0);
-
-  function increase() {
-    setCurrent((current + 1) % 3);
-  }
-
-  function decrease() {
-    if (current === 0) setCurrent(2);
-    else setCurrent(current - 1);
-  }
-
   return (
-    <div className={"space-y-7 overflow-hidden"}>
-      <div
-        className={`grid grid-cols-[45%_45%_45%_45%_45%_45%] grid-rows-2 gap-[5%]`}
-        style={{ transform: `translateX(${current * 100}%)` }}
+    <Carousel
+      length={Math.ceil(features.length / 4)}
+      containerClassName={`space-y-20`}
+    >
+      <Carousel.Items
+        className={
+          "grid grid-cols-[45%_45%_45%_45%_45%_45%] grid-rows-2 gap-[5%]"
+        }
       >
         {features.map((feature) => (
           <FeaturesCard key={feature.text} feature={feature} />
         ))}
-      </div>
+      </Carousel.Items>
       <Button
         type={"normal"}
         className={"mr-auto block border border-secondary text-secondary"}
       >
         عرض التفاصيل
       </Button>
-      <div className={"flex w-fit cursor-pointer"}>
-        <Button type={"normal"} onClick={decrease}>
-          <ArrowRight />
-        </Button>
-        <Button type={"normal"} onClick={increase}>
-          <ArrowLeft />
-        </Button>
-      </div>
-    </div>
+      <Carousel.RightButton>
+        <ArrowRight />
+      </Carousel.RightButton>
+      <Carousel.LeftButton>
+        <ArrowLeft />
+      </Carousel.LeftButton>
+      <Carousel.Dotes />
+    </Carousel>
   );
 }
 
