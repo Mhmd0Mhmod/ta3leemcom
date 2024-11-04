@@ -42,7 +42,7 @@ function FeaturesCarousel() {
   return (
     <div className={"space-y-7 overflow-hidden"}>
       <div
-        className={`grid grid-cols-[45%_45%_45%_45%_45%_45%] grid-rows-2 gap-11`}
+        className={`grid grid-cols-[45%_45%_45%_45%_45%_45%] grid-rows-2 gap-[5%]`}
         style={{ transform: `translateX(${current * 100}%)` }}
       >
         {features.map((feature) => (
