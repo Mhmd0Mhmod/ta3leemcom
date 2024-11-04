@@ -1,0 +1,319 @@
+@font-face {
+    font-family: 'Almarai-Regular';
+    src: url('/public/fonts/Almarai-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Regular';
+    src: url('/public/fonts/Almarai-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-Bold';
+    src: url('/public/fonts/Almarai-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Bold';
+    src: url('/public/fonts/Almarai-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-ExtraBold';
+    src: url('/public/fonts/Almarai-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-ExtraBold';
+    src: url('/public/fonts/Almarai-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-Light';
+    src: url('/public/fonts/Almarai-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Light';
+    src: url('/public/fonts/Almarai-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Regular';
+    src: url('/public/fonts/Cairo-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Regular';
+    src: url('/public/fonts/Cairo-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Bold';
+    src: url('/public/fonts/Cairo-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Bold';
+    src: url('/public/fonts/Cairo-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-ExtraBold';
+    src: url('/public/fonts/Cairo-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-ExtraBold';
+    src: url('/public/fonts/Cairo-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Light';
+    src: url('/public/fonts/Cairo-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Light';
+    src: url('/public/fonts/Cairo-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-Regular';
+    src: url('/public/fonts/Almarai-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Regular';
+    src: url('/public/fonts/Almarai-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-Bold';
+    src: url('/public/fonts/Almarai-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Bold';
+    src: url('/public/fonts/Almarai-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-ExtraBold';
+    src: url('/public/fonts/Almarai-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-ExtraBold';
+    src: url('/public/fonts/Almarai-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai-Light';
+    src: url('/public/fonts/Almarai-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Almarai-Light';
+    src: url('/public/fonts/Almarai-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Regular';
+    src: url('/public/fonts/Cairo-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Regular';
+    src: url('/public/fonts/Cairo-Regular.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Bold';
+    src: url('/public/fonts/Cairo-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Bold';
+    src: url('/public/fonts/Cairo-Bold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-ExtraBold';
+    src: url('/public/fonts/Cairo-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-ExtraBold';
+    src: url('/public/fonts/Cairo-ExtraBold.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo-Light';
+    src: url('/public/fonts/Cairo-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+    font-family: 'Cairo-Light';
+    src: url('/public/fonts/Cairo-Light.ttf') format('truetype');
+    font-weight: bold; /* Adjust based on the actual font weight */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-100-Hairline';
+    src: url('/public/fonts/Jost-100-Hairline.ttf') format('truetype'),
+    url('/public/fonts/Jost-100-Hairline.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-100-HairlineItalic';
+    src: url('/public/fonts/Jost-100-HairlineItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-100-HairlineItalic.otf') format('opentype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-200-Thin';
+    src: url('/public/fonts/Jost-200-Thin.ttf') format('truetype'),
+    url('/public/fonts/Jost-200-Thin.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-200-ThinItalic';
+    src: url('/public/fonts/Jost-200-ThinItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-200-ThinItalic.otf') format('opentype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-300-Light';
+    src: url('/public/fonts/Jost-300-Light.ttf') format('truetype'),
+    url('/public/fonts/Jost-300-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-300-LightItalic';
+    src: url('/public/fonts/Jost-300-LightItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-300-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-400-Book';
+    src: url('/public/fonts/Jost-400-Book.ttf') format('truetype'),
+    url('/public/fonts/Jost-400-Book.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-400-BookItalic';
+    src: url('/public/fonts/Jost-400-BookItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-400-BookItalic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-500-Medium';
+    src: url('/public/fonts/Jost-500-Medium.ttf') format('truetype'),
+    url('/public/fonts/Jost-500-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-500-MediumItalic';
+    src: url('/public/fonts/Jost-500-MediumItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-500-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-600-Semi';
+    src: url('/public/fonts/Jost-600-Semi.ttf') format('truetype'),
+    url('/public/fonts/Jost-600-Semi.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-600-SemiItalic';
+    src: url('/public/fonts/Jost-600-SemiItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-600-SemiItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-700-Bold';
+    src: url('/public/fonts/Jost-700-Bold.ttf') format('truetype'),
+    url('/public/fonts/Jost-700-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-700-BoldItalic';
+    src: url('/public/fonts/Jost-700-BoldItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-700-BoldItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-800-Heavy';
+    src: url('/public/fonts/Jost-800-Heavy.ttf') format('truetype'),
+    url('/public/fonts/Jost-800-Hevy.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-800-HeavyItalic';
+    src: url('/public/fonts/Jost-800-HeavyItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-800-HevyItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Jost-900-Black';
+    src: url('/public/fonts/Jost-900-Black.ttf') format('truetype'),
+    url('/public/fonts/Jost-900-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-900-BlackItalic';
+    src: url('/public/fonts/Jost-900-BlackItalic.ttf') format('truetype'),
+    url('/public/fonts/Jost-900-BlackItalic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+}

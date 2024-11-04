@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+    .navbar li {
+        @apply text-2xl hover:text-secondary duration-500;
+    }
+
+    .btn {
+        @apply px-4 py-2  text-white rounded-md;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-white;
+    }
+
+    .btn-secondary {
+        @apply bg-secondary text-white;
+    }
+
+    .btn-danger {
+        @apply bg-danger text-white;
+    }
+
+    .btn-success {
+        @apply bg-success text-white;
+    }
+
+    .btn-warning {
+        @apply bg-warning text-white;
+    }
+
+    .btn-info {
+        @apply bg-info text-white;
+    }
+
+    .btn-light {
+        @apply bg-light text-white;
+    }
+
+    .btn-dark {
+        @apply bg-dark text-white;
+    }
+
+    .btn-outline-primary {
+        @apply border-primary text-primary;
+    }
+
+    .btn-outline-secondary {
+        @apply border-secondary text-secondary;
+    }
+
+    .btn-outline-danger {
+        @apply border-danger text-danger;
+    }
+
+    .btn-outline-success {
+        @apply border-success text-success;
+    }
+
+    .btn-outline-warning {
+        @apply border-warning text-warning;
+    }
+
+    .btn-outline-info {
+        @apply border-info text-info;
+    }
+
+    .btn-outline-light {
+        @apply border-light text-light;
+    }
+
+    .btn-outline-dark {
+        @apply border-dark text-dark;
+    }
+
+    .btn-outline-primary:hover {
+        @apply bg-primary text-white;
+    }
+
+    .btn-outline-secondary:hover {
+        @apply bg-secondary text-white;
+    }
+
+
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+body {
+    font-family: "Almarai-Regular", serif;
+}
+.swiper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+
+}
+
+.swiper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: linear-gradient(
+            to left,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.9) 10%,
+            rgba(0, 0, 0, 0.8) 20%,
+            rgba(0, 0, 0, 0.7) 30%,
+            rgba(0, 0, 0, 0.6) 40%,
+            rgba(0, 0, 0, 0.5) 50%,
+            rgba(0, 0, 0, 0.4) 60%,
+            rgba(0, 0, 0, 0.3) 70%,
+            rgba(0, 0, 0, 0.2) 80%,
+            rgba(0, 0, 0, 0.1) 90%,
+            transparent 100%
+    );
+    mix-blend-mode: multiply;
+
+}
+
+.swiper-slide {
+
+    background-position: center;
+    background-size: contain;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    transform-origin: top;
+
+}
+
+.swiper-pagination {
+    margin-bottom: 20%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #000;
+    opacity: 1;
+    background: white;
+}
+
+.swiper-pagination-bullet-active {
+    color: #fff;
+    background: #0884a2;
+}
