@@ -9,9 +9,9 @@ import Button from "../../UI/Button.jsx";
 import PlayStore from "/public/Icons/google.svg";
 import AppStore from "/public/Icons/apple.svg";
 const images = [
-  "/public/imgs/home-bg-1.png",
-  "/public/imgs/home-bg-2.png",
-  "/public/imgs/home-bg-3.png",
+  "imgs/home-bg-1.png",
+  "imgs/home-bg-2.png",
+  "imgs/home-bg-3.png",
 ];
 
 function SwiperHome() {
