@@ -74,7 +74,7 @@ export default function Footer() {
         </FooterColumn.Description>
         <DownloadAppQR className={"m-auto w-32"} />
       </FooterColumn>
-      <p className="font-almaria-bold col-span-full text-center">
+      <p className="font-almaria-bold col-span-3 text-center">
         © 2024 جميع الحقوق محفوظة لمنصتنا التعليمية.
       </p>
     </div>
