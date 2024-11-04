@@ -72,7 +72,7 @@ export default function Footer() {
         <FooterColumn.Description>
           مسح الباركود لتحميل تطبيق أولياء الأمور
         </FooterColumn.Description>
-        <DownloadAppQR className={"w-32"} />
+        <DownloadAppQR className={"m-auto w-32"} />
       </FooterColumn>
       <p className="font-almaria-bold col-span-full text-center">
         © 2024 جميع الحقوق محفوظة لمنصتنا التعليمية.
