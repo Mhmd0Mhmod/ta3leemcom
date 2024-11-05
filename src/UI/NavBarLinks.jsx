@@ -1,31 +1,48 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-function NavBarLinks({className}) {
-  const [openList, setOpenList] = useState(false);
+const links = [
+  {
+    title: "الرئيسية",
+    to: "/home",
+  },
+  {
+    title: "عن",
+    to: "/about",
+  },
+  {
+    title: "الخدمات",
+    to: "/services",
+  },
+  {
+    title: "تعليمات",
+    to: "/instructions",
+  },
+  {
+    title: "الاشتركات",
+    to: "/subscriptions",
+  },
+  {
+    title: "رأيك",
+    to: "/opinion",
+  },
+  {
+    title: "تواصل معنا",
+    to: "/contact",
+  },
+];
+
+function NavBarLinks({ className }) {
+  const active = useLocation().pathname;
   return (
-    <ul className={`navbar  ${className}`}>
-      <li>
-        <Link to="/home">الرئيسية</Link>
-      </li>
-      <li>
-        <Link to="/about">عن</Link>
-      </li>
-      <li>
-        <Link to="/services">الخدمات</Link>
-      </li>
-      <li>
-        <Link to="/instructions">تعليمات</Link>
-      </li>
-      <li>
-        <Link to="/subscriptions">الاشتركات</Link>
-      </li>
-      <li>
-        <Link to="/opinion">رأيك</Link>
-      </li>
-      <li>
-        <Link to="/contact-with-us">تواصل معنا</Link>
-      </li>
+    <ul className={`navbar ${className}`}>
+      {links.map((link, index) => (
+        <li
+          key={index}
+          className={`navbar-link ${active === link.to ? "active" : ""}`}
+        >
+          <Link to={link.to}>{link.title}</Link>
+        </li>
+      ))}
     </ul>
   );
 }

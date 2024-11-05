@@ -35,10 +35,7 @@ function CustomersOpinionsCarousel({ opinionClassName }) {
         <Arrow className={"w-20"} />
       </Carousel.RightButton>
       <div className={"overflow-hidden"}>
-        <Carousel.Items
-          className={`grid flex-grow`}
-          Style={`grid-template-columns: repeat(${Opinions.length}, 100%);`}
-        >
+        <Carousel.Items>
           {Opinions.map((opinion, index) => (
             <CustomersOpinionsCarouselOpinion
               key={index}

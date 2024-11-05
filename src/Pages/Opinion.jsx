@@ -15,30 +15,32 @@ import toast from "react-hot-toast";
 import CustomersOpinionsCarousel from "../UI/CustomersOpinionsCarousel.jsx";
 import Heading from "../UI/Heading.jsx";
 import Button from "../UI/Button.jsx";
+import { useForm } from "react-hook-form";
 
 function Opinion() {
-  const [rate, setRate] = useState(0);
-  const [comment, setComment] = useState("");
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [loading, setLoading] = useState(false);
+  const rate = watch("rate", 0);
 
-  const handleSetRate = (e) => {
-    setRate(e.target.closest("svg").dataset.value);
+  const handleSetRate = (value) => {
+    setValue("rate", value);
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   sendOpinion(rate, comment)
-  //     .then((res) => {
-  //       if (res?.status === 200) {
-  //         toast.success("تم ارسال رايك بنجاح");
-  //         setRate(0);
-  //         setComment("");
-  //       } else {
-  //         toast.error("حدث خطأ اثناء ارسال رايك");
-  //       }
-  //     })
-  //     .finally(() => setLoading(false));
-  // };
+  const onSubmit = (data) => {
+    setLoading(true);
+    console.log(data);
+    setLoading(false);
+    // sendOpinion(rate, comment)
+    //   .then((res) => {
+    //     if (res?.status === 200) {
+    //       toast.success("تم ارسال رايك بنجاح");
+    //       setRate(0);
+    //       setComment("");
+    //     } else {
+    //       toast.error("حدث خطأ اثناء ارسال رايك");
+    //     }
+    //   })
+    //   .finally(() => setLoading(false));
+  };
   return (
     <div className={"p-5"}>
       <div className="space-y-4 text-center">
@@ -64,33 +66,32 @@ function Opinion() {
         </Heading>
       </div>
       <div className="my-4 flex flex-col gap-10 xl:flex-row">
-        {/*<form onSubmit={handleSubmit}>*/}
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-6 flex items-center justify-center gap-4">
             {rate >= 1 ? (
-              <FilledStar1 data-value={1} onClick={handleSetRate} />
+              <FilledStar1 data-value={1} onClick={() => handleSetRate(1)} />
             ) : (
-              <Star1 data-value={1} onClick={handleSetRate} />
+              <Star1 data-value={1} onClick={() => handleSetRate(1)} />
             )}
             {rate >= 2 ? (
-              <FilledStar2 data-value={2} onClick={handleSetRate} />
+              <FilledStar2 data-value={2} onClick={() => handleSetRate(2)} />
             ) : (
-              <Star2 data-value={2} onClick={handleSetRate} />
+              <Star2 data-value={2} onClick={() => handleSetRate(2)} />
             )}
             {rate >= 3 ? (
-              <FilledStar3 data-value={3} onClick={handleSetRate} />
+              <FilledStar3 data-value={3} onClick={() => handleSetRate(3)} />
             ) : (
-              <Star3 data-value={3} onClick={handleSetRate} />
+              <Star3 data-value={3} onClick={() => handleSetRate(3)} />
             )}
             {rate >= 4 ? (
-              <FilledStar4 data-value={4} onClick={handleSetRate} />
+              <FilledStar4 data-value={4} onClick={() => handleSetRate(4)} />
             ) : (
-              <Star4 data-value={4} onClick={handleSetRate} />
+              <Star4 data-value={4} onClick={() => handleSetRate(4)} />
             )}
             {rate >= 5 ? (
-              <FilledStar5 data-value={5} onClick={handleSetRate} />
+              <FilledStar5 data-value={5} onClick={() => handleSetRate(5)} />
             ) : (
-              <Star5 data-value={5} onClick={handleSetRate} />
+              <Star5 data-value={5} onClick={() => handleSetRate(5)} />
             )}
           </div>
           <div className={"flex flex-col items-center xl:items-stretch"}>
@@ -100,8 +101,7 @@ function Opinion() {
             <textarea
               className="my-6 min-h-72 w-8/12 resize-none rounded-lg border border-gray-300 bg-accent-300 p-4 text-xl xl:w-full"
               placeholder="اكتب رايك هنا"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              {...register("comment")}
             ></textarea>
           </div>
           <div className={"text-center"}>

@@ -3,7 +3,10 @@
 @tailwind utilities;
 @layer components {
     .navbar li {
-        @apply text-2xl hover:text-secondary duration-500;
+        @apply text-2xl hover:text-secondary duration-200 pb-2;
+        &.active{
+            @apply text-secondary  border-b-2 border-secondary;
+        }
     }
 
     .btn {

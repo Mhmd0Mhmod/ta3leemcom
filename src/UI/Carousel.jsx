@@ -80,13 +80,18 @@ function Dotes({
   );
 }
 
-function Items({ containerClassName, className, children, ...props }) {
-  const { current } = useContext(CarouselContext);
+function Items({ className, children, ...props }) {
+  const { current, length } = useContext(CarouselContext);
+
   return (
     <div
       {...props}
       className={className}
-      style={{ transform: `translateX(${current * 100}%)` }}
+      style={{
+        transform: `translateX(${current * 100}%)`,
+        gridTemplateColumns: `repeat(${length}, 100%)`,
+        display: "grid",
+      }}
     >
       {children}
     </div>
