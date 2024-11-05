@@ -1,7 +1,7 @@
 function Heading({ as = "h1", className, children, ...props }) {
   const Component = as;
   const styles = {
-    h1: "text-4xl font-Almaria-bold",
+    h1: "text-5xl font-Almaria-bold",
     h2: "text-3xl font-Almaria-bold",
     h3: "text-2xl font-Almaria-bold",
     h4: "text-xl font-Almaria-bold",

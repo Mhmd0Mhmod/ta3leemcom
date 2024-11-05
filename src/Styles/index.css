@@ -75,11 +75,11 @@
     }
 
     .btn-outline-primary:hover {
-        @apply bg-primary text-white;
+        @apply bg-primary text-white  duration-500;
     }
 
     .btn-outline-secondary:hover {
-        @apply bg-secondary text-white;
+        @apply bg-secondary text-white  duration-500;
     }
 
 

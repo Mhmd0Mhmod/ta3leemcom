@@ -48,12 +48,14 @@ function FeaturesCarousel() {
       >
         عرض التفاصيل
       </Button>
-      <Carousel.RightButton>
-        <ArrowRight />
-      </Carousel.RightButton>
-      <Carousel.LeftButton>
-        <ArrowLeft />
-      </Carousel.LeftButton>
+      <div className={"text-center xl:text-right"}>
+        <Carousel.RightButton>
+          <ArrowRight />
+        </Carousel.RightButton>
+        <Carousel.LeftButton>
+          <ArrowLeft />
+        </Carousel.LeftButton>
+      </div>
       <Carousel.Dotes />
     </Carousel>
   );
