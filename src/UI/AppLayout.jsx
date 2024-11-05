@@ -4,9 +4,9 @@ import Footer from "./Footer.jsx";
 
 function AppLayout() {
   return (
-    <div className={"flex flex-col container"}>
+    <div className={"container flex flex-col"}>
       <Header />
-      <main className={"flex-grow max-w-full overflow-hidden"}>
+      <main className={"my-6 max-w-full flex-grow overflow-hidden"}>
         <Outlet />
       </main>
       <Footer />
