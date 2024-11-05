@@ -1,11 +1,11 @@
 import SmallGoldenStar from "/public/Icons/smallgoldstar.svg";
 import QuationMark from "/public/Icons/quotation-mark.svg";
 
-function CustomersOpinionsCarouselOpinion({ opinion }) {
+function CustomersOpinionsCarouselOpinion({ opinion, className }) {
   const { stars, message, name, role } = opinion;
   return (
     <div
-      className={"m-auto flex h-[40rem] w-[90%] items-center sm:w-3/4 xl:w-1/2"}
+      className={`m-auto flex h-[40rem] w-full items-center sm:w-3/4 xl:w-1/2 ${className}`}
     >
       <div
         className={

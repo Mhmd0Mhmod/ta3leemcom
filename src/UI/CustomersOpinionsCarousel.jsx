@@ -23,7 +23,7 @@ const Opinions = [
   },
 ];
 
-function CustomersOpinionsCarousel() {
+function CustomersOpinionsCarousel({ opinionClassName }) {
   return (
     <Carousel
       length={Opinions.length}
@@ -40,7 +40,11 @@ function CustomersOpinionsCarousel() {
           Style={`grid-template-columns: repeat(${Opinions.length}, 100%);`}
         >
           {Opinions.map((opinion, index) => (
-            <CustomersOpinionsCarouselOpinion key={index} opinion={opinion} />
+            <CustomersOpinionsCarouselOpinion
+              key={index}
+              opinion={opinion}
+              className={opinionClassName}
+            />
           ))}
         </Carousel.Items>
       </div>
