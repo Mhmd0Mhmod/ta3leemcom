@@ -10,8 +10,6 @@ import FilledStar4 from "/public/Icons/filled-star-4.svg";
 import FilledStar5 from "/public/Icons/filled-star-5.svg";
 import Qouts from "/public/Icons/qout.svg";
 import { useState } from "react";
-// import { sendOpinion } from "./helpers.js";
-import toast from "react-hot-toast";
 import CustomersOpinionsCarousel from "../UI/CustomersOpinionsCarousel.jsx";
 import Heading from "../UI/Heading.jsx";
 import Button from "../UI/Button.jsx";
@@ -68,31 +66,11 @@ function Opinion() {
       <div className="my-4 flex flex-col gap-10 xl:flex-row">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-6 flex items-center justify-center gap-4">
-            {rate >= 1 ? (
-              <FilledStar1 data-value={1} onClick={() => handleSetRate(1)} />
-            ) : (
-              <Star1 data-value={1} onClick={() => handleSetRate(1)} />
-            )}
-            {rate >= 2 ? (
-              <FilledStar2 data-value={2} onClick={() => handleSetRate(2)} />
-            ) : (
-              <Star2 data-value={2} onClick={() => handleSetRate(2)} />
-            )}
-            {rate >= 3 ? (
-              <FilledStar3 data-value={3} onClick={() => handleSetRate(3)} />
-            ) : (
-              <Star3 data-value={3} onClick={() => handleSetRate(3)} />
-            )}
-            {rate >= 4 ? (
-              <FilledStar4 data-value={4} onClick={() => handleSetRate(4)} />
-            ) : (
-              <Star4 data-value={4} onClick={() => handleSetRate(4)} />
-            )}
-            {rate >= 5 ? (
-              <FilledStar5 data-value={5} onClick={() => handleSetRate(5)} />
-            ) : (
-              <Star5 data-value={5} onClick={() => handleSetRate(5)} />
-            )}
+            {rate >= 1 ? <FilledStar1 data-value={1} onClick={() => handleSetRate(1)} /> : <Star1 data-value={1} onClick={() => handleSetRate(1)} />}
+            {rate >= 2 ? <FilledStar2 data-value={2} onClick={() => handleSetRate(2)} /> : <Star2 data-value={2} onClick={() => handleSetRate(2)} />}
+            {rate >= 3 ? <FilledStar3 data-value={3} onClick={() => handleSetRate(3)} /> : <Star3 data-value={3} onClick={() => handleSetRate(3)} />}
+            {rate >= 4 ? <FilledStar4 data-value={4} onClick={() => handleSetRate(4)} /> : <Star4 data-value={4} onClick={() => handleSetRate(4)} />}
+            {rate >= 5 ? <FilledStar5 data-value={5} onClick={() => handleSetRate(5)} /> : <Star5 data-value={5} onClick={() => handleSetRate(5)} />}
           </div>
           <div className={"flex flex-col items-center xl:items-stretch"}>
             <Heading as={"h2"} className={"mt-2 text-start text-gray-600"}>
@@ -105,12 +83,7 @@ function Opinion() {
             ></textarea>
           </div>
           <div className={"text-center"}>
-            <Button
-              disabled={loading}
-              className={
-                "self-center px-10 py-3 text-3xl disabled:cursor-not-allowed disabled:bg-gray-700"
-              }
-            >
+            <Button disabled={loading} className={"self-center px-10 py-3 text-3xl disabled:cursor-not-allowed disabled:bg-gray-700"}>
               إرسال
             </Button>
           </div>

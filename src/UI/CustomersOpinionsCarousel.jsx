@@ -1,6 +1,8 @@
 import Arrow from "../../public/Icons/arrow-white.svg";
 import CustomersOpinionsCarouselOpinion from "./CustomersOpinionsCarouselOpinion.jsx";
 import Carousel from "./Carousel.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getOpinions } from "../Features/Opinion/apiOpinion.js";
 
 const Opinions = [
   {
@@ -24,24 +26,19 @@ const Opinions = [
 ];
 
 function CustomersOpinionsCarousel({ opinionClassName }) {
+  const { data: opinions = [] } = useQuery({
+    queryKey: ["opinions"],
+    queryFn: getOpinions,
+  });
   return (
-    <Carousel
-      length={Opinions.length}
-      containerClassName={
-        "grid grid-cols-[auto_1fr_auto] gap-4 grid-rows-[1fr_auto] gap-y-10 "
-      }
-    >
+    <Carousel length={opinions.length} containerClassName={"grid grid-cols-[auto_1fr_auto] gap-4 grid-rows-[1fr_auto] gap-y-10 "}>
       <Carousel.RightButton>
         <Arrow className={"w-20"} />
       </Carousel.RightButton>
       <div className={"overflow-hidden"}>
         <Carousel.Items>
-          {Opinions.map((opinion, index) => (
-            <CustomersOpinionsCarouselOpinion
-              key={index}
-              opinion={opinion}
-              className={opinionClassName}
-            />
+          {opinions.map((opinion, index) => (
+            <CustomersOpinionsCarouselOpinion key={index} opinion={opinion} className={opinionClassName} />
           ))}
         </Carousel.Items>
       </div>

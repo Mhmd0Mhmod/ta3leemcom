@@ -1,12 +1,13 @@
 import { cloneElement, createContext, useContext, useState } from "react";
 import useOutsideRef from "../Hooks/useOutsideRef.js";
 import Button from "./Button.jsx";
+import { createPortal } from "react-dom";
 
 const MenuContext = createContext();
 
 function Menu({ children }) {
   const [listName, setListName] = useState();
-  const close = () => setListName(null);
+  const close = () => setListName("");
   return (
     <MenuContext.Provider
       value={{
@@ -20,29 +21,40 @@ function Menu({ children }) {
   );
 }
 
-function Icon({ name, children }) {
-  const { listName, close, setListName} = useContext(MenuContext);
+function Trigger({ name, children }) {
+  const { listName, close, setListName } = useContext(MenuContext);
 
   function handleClick(e) {
     e.stopPropagation();
-    name === "" || listName !== name ?   setListName(name) :close();
+    if (listName === name) {
+      close();
+    } else {
+      setListName(name);
+    }
   }
 
   return (
-    <Button type={"normal"} className={"text-black text-4xl"} onClick={handleClick}>
+    <Button type={"normal"} className={"text-4xl text-black"} onClick={handleClick}>
       {children}
     </Button>
   );
 }
 
-function List({ name, children }) {
+function List({ name, position, children }) {
   const { listName, close } = useContext(MenuContext);
   const ref = useOutsideRef(close);
-
+  console.log(name, listName);
   if (listName !== name) return null;
-  return <div ref={ref} >{children}</div>;
+  if (position === "relative") {
+    return (
+      <div ref={ref} className={position}>
+        {children}
+      </div>
+    );
+  }
+  return createPortal(<div ref={ref}>{children}</div>, document.body);
 }
 
-Menu.Icon = Icon;
+Menu.Trigger = Trigger;
 Menu.List = List;
 export default Menu;

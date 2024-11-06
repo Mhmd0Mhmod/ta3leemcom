@@ -13,12 +13,10 @@ function Instructions() {
   return (
     <>
       <div className="relative space-y-5">
+        <Heading className="text-center">تعليمات</Heading>
         <div className="absolute left-0 top-16 -rotate-12">
           <Lamp alt="lamp" className="w-24" />
         </div>
-        <Heading as={"h1"} className="text-center">
-          تعليمات
-        </Heading>
         <div className="flex justify-center gap-8">
           <Button>المدرسين</Button>
           <Button type={"outlinePrimary"}>الطلاب</Button>

@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 @layer components {
-    .navbar li {
+    .navbar li{
         @apply text-2xl hover:text-secondary duration-200 pb-2;
-        &.active{
+
+        &.active {
             @apply text-secondary  border-b-2 border-secondary;
         }
     }
@@ -101,6 +102,7 @@ ul {
 body {
     font-family: "Almarai-Regular", serif;
 }
+
 .swiper {
     width: 100%;
     height: 100%;
@@ -170,4 +172,26 @@ body {
 .swiper-pagination-bullet-active {
     color: #fff;
     background: #0884a2;
+}
+
+
+/* Firefox */
+::-webkit-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+/* WebKit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }

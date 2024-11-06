@@ -10,7 +10,7 @@ export default function Subscriptions() {
       <Circles alt="circles" className={"absolute left-0 top-0 -z-10 w-fit"} />
 
       <div className={"relative z-10 flex flex-col"}>
-        <Heading className={"text-center font-Almarai-bold"}>الاشتركات</Heading>
+        <Heading className={"text-center"}>الاشتركات</Heading>
       </div>
       <div className={"mt-28 space-y-8 p-10 xl:my-20"}>
         <p className={"text-xl text-gray-400"}>لا تقلق حول التكلفه</p>

@@ -3,16 +3,26 @@ import Button from "../UI/Button.jsx";
 import SendMessage from "/public/Icons/sendmessaage.svg";
 import ContactUsPhoto from "/public/Icons/contactusphoto.svg";
 import { useForm } from "react-hook-form";
+import { useSubmitContact } from "../Features/Contact/useSubmitContact.js";
+import toast from "react-hot-toast";
 
 export default function ContactWithUs() {
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState, rest } = useForm();
+  const { submitContact, isPending } = useSubmitContact();
   const { errors } = formState;
   const inputStyle =
     "h-12 p-2 border border-[#0884A24D] bg-[#0884A21A]  rounded-md ";
   const labelStyle = "flex flex-col gap-2 flex-grow text-[#6D757D] text-[20px]";
-
   function onSubmit(data) {
-    console.log(data);
+    submitContact(data, {
+      onSuccess: () => {
+        toast.success("تم ارسال الرسالة بنجاح");
+        rest();
+      },
+      onError: () => {
+        toast.error("حدث خطأ اثناء ارسال الرسالة");
+      },
+    });
   }
 
   return (
@@ -31,6 +41,7 @@ export default function ContactWithUs() {
                 الاسم
                 <input
                   type="text"
+                  disabled={isPending}
                   className={inputStyle}
                   {...register("name", {
                     required: {
@@ -47,6 +58,7 @@ export default function ContactWithUs() {
                 البريد الالكتروني
                 <input
                   type="email"
+                  disabled={isPending}
                   className={inputStyle}
                   {...register("email", {
                     required: {
@@ -64,6 +76,7 @@ export default function ContactWithUs() {
               الموضوع
               <input
                 type="text"
+                disabled={isPending}
                 className={inputStyle}
                 {...register("subject", {
                   required: {

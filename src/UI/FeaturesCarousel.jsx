@@ -30,13 +30,15 @@ const features = [
 function FeaturesCarousel() {
   return (
     <Carousel
-      length={Math.ceil(features.length / 4)}
+      length={Math.ceil(features.length)}
+      numInColumn={2}
+      numOfShowsColumns={2}
+      numOfShowsRows={2}
       containerClassName={`space-y-20`}
     >
       <Carousel.Items
-        className={
-          "grid grid-cols-[45%_45%_45%_45%_45%_45%] grid-rows-2 gap-[5%]"
-        }
+        gridColumnSize={"45%"}
+        className={"grid grid-rows-2 gap-[5%]"}
       >
         {features.map((feature) => (
           <FeaturesCard key={feature.text} feature={feature} />

@@ -3,15 +3,23 @@ import Button from "./Button.jsx";
 
 const CarouselContext = createContext();
 
-function Carousel({ length, containerClassName, children }) {
+function Carousel({
+  length,
+  numInColumn = 1,
+  numOfShowsColumns = 1,
+  numOfShowsRows = 1,
+  containerClassName,
+  children,
+}) {
+  const numOfDotes = Math.ceil(length / (numOfShowsColumns * numOfShowsRows));
   const [current, setCurrent] = useState(0);
 
   function increase() {
-    setCurrent((current + 1) % length);
+    setCurrent((current + 1) % numOfDotes);
   }
 
   function decrease() {
-    if (current === 0) setCurrent(length - 1);
+    if (current === 0) setCurrent(numOfDotes - 1);
     else setCurrent(current - 1);
   }
 
@@ -24,7 +32,11 @@ function Carousel({ length, containerClassName, children }) {
       value={{
         current,
         increase,
+        numOfShowsColumns,
+        numOfShowsRows,
+        numOfDotes,
         length,
+        numInColumn,
         decrease,
         handleCurrentChange,
       }}
@@ -55,15 +67,16 @@ function LeftButton({ children }) {
 }
 
 function Dotes({
-  containerClassName,
+  containerClassName = "",
   DotesClassName,
   activeStyle,
   notActiveStyle,
 }) {
-  const { current, length, handleCurrentChange } = useContext(CarouselContext);
+  const { current, handleCurrentChange, numOfDotes } =
+    useContext(CarouselContext);
   return (
     <div className={`flex justify-center ${containerClassName}`}>
-      {Array.from({ length }, (_, i) => (
+      {Array.from({ length: numOfDotes }).map((_, i) => (
         <div
           key={i}
           onClick={() => handleCurrentChange(i)}
@@ -80,8 +93,9 @@ function Dotes({
   );
 }
 
-function Items({ className, children, ...props }) {
-  const { current, length } = useContext(CarouselContext);
+function Items({ className, gridColumnSize = "100%", children, ...props }) {
+  const { current, length, numInColumn, numOfShowsRows } =
+    useContext(CarouselContext);
 
   return (
     <div
@@ -89,7 +103,8 @@ function Items({ className, children, ...props }) {
       className={className}
       style={{
         transform: `translateX(${current * 100}%)`,
-        gridTemplateColumns: `repeat(${length}, 100%)`,
+        gridTemplateColumns: `repeat(${Math.ceil(length / numInColumn)}, ${gridColumnSize})`,
+        gridTemplateRows: `repeat(${numOfShowsRows}, 1fr)`,
         display: "grid",
       }}
     >
