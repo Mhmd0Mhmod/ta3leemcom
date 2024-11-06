@@ -42,7 +42,7 @@ function Opinion() {
   return (
     <div className={"p-5"}>
       <div className="space-y-4 text-center">
-        <Heading as={"h5"} className={"text-secondary"}>
+        <Heading as={"h5"} className={"text-Secondary-500"}>
           ماذا يقول عملائنا
         </Heading>
         <Heading as={"h1"} className={"font-Almarai-bold"}>
@@ -51,7 +51,7 @@ function Opinion() {
       </div>
       <div className={"space-y-8 pr-3"}>
         <div className="flex items-center gap-4">
-          <Heading as={"h2"} className={"font-Almarai-bold text-secondary"}>
+          <Heading as={"h2"} className={"text-Secondary-500 font-Almarai-bold"}>
             رايك يهمنا
           </Heading>
           <Qouts />

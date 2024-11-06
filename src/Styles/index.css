@@ -6,10 +6,10 @@
         @apply flex items-center
     }
     .navbar li{
-        @apply text-2xl hover:text-secondary duration-200 pb-2;
+        @apply text-2xl hover:text-Secondary-500 duration-200 pb-2;
 
         &.active {
-            @apply text-secondary  border-b-2 border-secondary;
+            @apply text-Secondary-500  border-b-2 border-Secondary-500;
         }
     }
 
@@ -21,8 +21,8 @@
         @apply bg-primary text-white;
     }
 
-    .btn-secondary {
-        @apply bg-secondary text-white;
+    .btn-Secondary-500 {
+        @apply bg-Secondary-500 text-white;
     }
 
     .btn-danger {
@@ -53,8 +53,8 @@
         @apply border-primary text-primary;
     }
 
-    .btn-outline-secondary {
-        @apply border-secondary text-secondary;
+    .btn-outline-Secondary-500 {
+        @apply border-Secondary-500 text-Secondary-500;
     }
 
     .btn-outline-danger {
@@ -85,8 +85,8 @@
         @apply bg-primary text-white  duration-500;
     }
 
-    .btn-outline-secondary:hover {
-        @apply bg-secondary text-white  duration-500;
+    .btn-outline-Secondary-500:hover {
+        @apply bg-Secondary-500 text-white  duration-500;
     }
 
 

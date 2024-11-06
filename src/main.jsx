@@ -8,7 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ErrorBoundary fallback={(error) => <div>{error.message}</div>}>
+    <ErrorBoundary fallback={ErrorBoundary} onReset={() => window.location.replace("/")}>
       <App />
     </ErrorBoundary>
   </StrictMode>,

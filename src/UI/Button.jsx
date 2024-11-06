@@ -8,7 +8,7 @@
 function Button({ type, children, ...props }) {
   const typeClassMap = {
     primary: "btn-primary",
-    secondary: "btn-secondary",
+    Secondary: "btn-Secondary-500",
     danger: "btn-danger",
     success: "btn-success",
     warning: "btn-warning",

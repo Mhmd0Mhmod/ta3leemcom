@@ -8,11 +8,7 @@ import { EffectFade, Pagination, Autoplay } from "swiper/modules";
 import Button from "../../UI/Button.jsx";
 import PlayStore from "/public/Icons/google.svg";
 import AppStore from "/public/Icons/apple.svg";
-const images = [
-  "imgs/home-bg-1.png",
-  "imgs/home-bg-2.png",
-  "imgs/home-bg-3.png",
-];
+const images = ["imgs/home-bg-1.png", "imgs/home-bg-2.png", "imgs/home-bg-3.png"];
 
 function SwiperHome() {
   return (
@@ -29,15 +25,8 @@ function SwiperHome() {
         className="mySwiper"
       >
         <div className="gap-18 absolute top-0 z-[5] flex h-full w-full flex-col justify-items-center space-y-5 px-16 text-center sm:text-right xl:space-y-20 xl:py-10">
-          <h1
-            className={
-              "mt-5 font-Almarai-bold text-4xl leading-normal text-white xl:text-5xl xl:leading-loose"
-            }
-          >
-            <span className="ml-2 font-Almarai-extraBold text-5xl text-secondary xl:text-8xl">
-              مرحباً بكم
-            </span>{" "}
-            في منصتكم <br />
+          <h1 className={"mt-5 font-Almarai-bold text-4xl leading-normal text-white xl:text-5xl xl:leading-loose"}>
+            <span className="text-Secondary-500 ml-2 font-Almarai-extraBold text-5xl xl:text-8xl">مرحباً بكم</span> في منصتكم <br />
             التعليمية المتكاملة!
           </h1>
 
@@ -46,9 +35,7 @@ function SwiperHome() {
             <br /> للدروس الخصوصية
           </p>
 
-          <div
-            className={"flex items-center justify-center sm:justify-between"}
-          >
+          <div className={"flex items-center justify-center sm:justify-between"}>
             <div className="flex gap-12 self-start text-3xl">
               <Button type={"primary"} className={"px-6 py-3"}>
                 انضم الينا
@@ -58,20 +45,14 @@ function SwiperHome() {
               </Button>
             </div>
             <div className={"hidden flex-col gap-10 md:flex"}>
-              <Button
-                type="light"
-                className={"flex gap-8 p-2 opacity-75 shadow-2xl"}
-              >
+              <Button type="light" className={"flex gap-8 p-2 opacity-75 shadow-2xl"}>
                 <div>
                   <p>تحميل تطبيق</p>
                   <p>ولي الأمر</p>
                 </div>
                 <PlayStore />
               </Button>
-              <Button
-                type="light"
-                className={"flex gap-8 p-2 opacity-75 shadow-2xl"}
-              >
+              <Button type="light" className={"flex gap-8 p-2 opacity-75 shadow-2xl"}>
                 <div>
                   <p>تحميل تطبيق</p>
                   <p>ولي الأمر</p>

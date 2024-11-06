@@ -4,24 +4,20 @@ import Profile from "../../public/Icons/blackProfile.svg";
 import Group from "../../public/Icons/group.svg";
 import Details from "./Details.jsx";
 import Graduted from "../../public/Icons/graduted.svg";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useLevels from "../Features/Dashboard/useLevels.js";
+import Loading from "./Loading.jsx";
 
 function TeacherSidebar({ className }) {
-  const auth = useAuthHeader();
-  const user = useAuthUser();
   const { isOpen } = useSidebarContext();
-  axios
-    .get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Level/GetAllLevels?teacherId=${user.teacherId}`, {
-      headers: {
-        Authorization: auth,
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-    });
+  const { levels: allLevels, isLoading, error } = useLevels();
+  if (isLoading) return <Loading />;
+  const levels = Object.keys(allLevels).map((id) => {
+    console.log(id);
+    return {
+      id,
+      name: allLevels[id][0].name.split(" ").at(-1),
+    };
+  });
   return (
     <>
       <Link to="/TDashboard/student/add">
@@ -42,9 +38,11 @@ function TeacherSidebar({ className }) {
             </Sidebar.Item>
           </Details.Summary>
           <Details.List absolute={!isOpen} className={`${isOpen ? "xl:relative xl:!bg-transparent" : "!bg-white"} ${className}`}>
-            <Details.ListItem>المرحله الابتدائيه</Details.ListItem>
-            <Details.ListItem>المرحله الابتدائيه</Details.ListItem>
-            <Details.ListItem>المرحله الابتدائيه</Details.ListItem>
+            {levels.map((level) => (
+              <Details.ListItem key={level.id}>
+                <Link to={`/TDashboard/level/${level.id}/${allLevels[level.id][0].id}`}>{`المرحله ${level.name}ة`}</Link>
+              </Details.ListItem>
+            ))}
           </Details.List>
         </div>
       </Details>

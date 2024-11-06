@@ -46,7 +46,10 @@ export default {
     extend: {
       colors: {
         primary: "#F54547",
-        secondary: "#0884A2",
+        Secondary: {
+          100: "#68ABBB",
+          500: "#0884A2",
+        },
         danger: "#F54547",
         success: "#4CAF50",
         warning: "#FFC107",

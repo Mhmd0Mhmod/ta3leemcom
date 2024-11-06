@@ -33,6 +33,7 @@ import Toppers from "./Pages/Toppers.jsx";
 import StudentDashboard from "./Pages/Student/StudentDashboard.jsx";
 import StudentTests from "./Pages/Student/Tests.jsx";
 import Attendance from "./Pages/Student/Attendance.jsx";
+import SelectLevel from "./Pages/SelectLevel.jsx";
 
 const clientQuery = new QueryClient({
   defaultOptions: {
@@ -68,7 +69,8 @@ function App() {
                   <Route path={"group/add"} element={<AddGroup />} />
                   <Route path={"group/edit/:groupId"} element={<EditGroup />} />
                   <Route path={"group/details:groupId"} element={<GroupDetails />} />
-                  <Route path={"level"} element={<Level />} />
+                  <Route path={"level"} element={<SelectLevel />} />
+                  <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
                   <Route path={"tests/:groupId"} element={<TeacherTests />} />
                   <Route path={"test/:groupId/create"} element={<CreateTest />} />
                   <Route path={"test/:testId"} element={<Test />} />

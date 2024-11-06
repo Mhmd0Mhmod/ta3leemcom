@@ -29,25 +29,13 @@ const features = [
 
 function FeaturesCarousel() {
   return (
-    <Carousel
-      length={Math.ceil(features.length)}
-      numInColumn={2}
-      numOfShowsColumns={2}
-      numOfShowsRows={2}
-      containerClassName={`space-y-20`}
-    >
-      <Carousel.Items
-        gridColumnSize={"45%"}
-        className={"grid grid-rows-2 gap-[5%]"}
-      >
+    <Carousel length={Math.ceil(features.length)} numInColumn={2} numOfShowsColumns={2} numOfShowsRows={2} containerClassName={`space-y-20`}>
+      <Carousel.Items gridColumnSize={"45%"} className={"grid grid-rows-2 gap-[5%]"}>
         {features.map((feature) => (
           <FeaturesCard key={feature.text} feature={feature} />
         ))}
       </Carousel.Items>
-      <Button
-        type={"normal"}
-        className={"mr-auto block border border-secondary text-secondary"}
-      >
+      <Button type={"normal"} className={"border-Secondary-500 text-Secondary-500 mr-auto block border"}>
         عرض التفاصيل
       </Button>
       <div className={"text-center xl:text-right"}>
