@@ -40,14 +40,14 @@ function Trigger({ name, children }) {
   );
 }
 
-function List({ name, position, children }) {
+function List({ name, className = "", children }) {
   const { listName, close } = useContext(MenuContext);
   const ref = useOutsideRef(close);
-  console.log(name, listName);
   if (listName !== name) return null;
-  if (position === "relative") {
+  const isRelative = className.includes("relative");
+  if (isRelative) {
     return (
-      <div ref={ref} className={position}>
+      <div ref={ref} className={className}>
         {children}
       </div>
     );

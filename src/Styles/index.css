@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 @layer components {
+    .navbar {
+        @apply flex items-center
+    }
     .navbar li{
         @apply text-2xl hover:text-secondary duration-200 pb-2;
 

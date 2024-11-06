@@ -4,9 +4,24 @@ import Profile from "../../public/Icons/blackProfile.svg";
 import Group from "../../public/Icons/group.svg";
 import Details from "./Details.jsx";
 import Graduted from "../../public/Icons/graduted.svg";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 function TeacherSidebar({ className }) {
+  const auth = useAuthHeader();
+  const user = useAuthUser();
   const { isOpen } = useSidebarContext();
+  axios
+    .get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Level/GetAllLevels?teacherId=${user.teacherId}`, {
+      headers: {
+        Authorization: auth,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+    });
   return (
     <>
       <Link to="/TDashboard/student/add">

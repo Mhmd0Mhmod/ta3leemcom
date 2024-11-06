@@ -7,6 +7,13 @@ export default {
       padding: "0",
       margin: "0",
       overflow: "hidden",
+      screens: {
+        sm: "100%",
+        md: "100%",
+        lg: "100%",
+        xl: "100%",
+        "2xl": "100%",
+      },
     },
     fontFamily: {
       Almarai: ["Almarai-Regular", "sans-serif"],
