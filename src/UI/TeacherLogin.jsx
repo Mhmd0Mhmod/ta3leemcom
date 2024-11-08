@@ -13,11 +13,12 @@ import toast from "react-hot-toast";
 import { useUserContext } from "../Context/UserProvider.jsx";
 
 function TeacherLogin() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
   const { useLogin, setIsLogin } = useUserContext();
   const { mutate, isLoading } = useLogin(teacherLogin);
   const [forgetPassword, setForgetPassword] = useState(false);
   const close = useCloseModal();
+  const { errors } = formState;
   if (forgetPassword)
     return (
       <>
@@ -47,17 +48,60 @@ function TeacherLogin() {
       <Heading as={"h2"} className={"mt-10 text-center"}>
         تسجيل الدخول
       </Heading>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center space-y-6 text-gray-600">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center space-y-4 text-gray-600">
         <Heading as={"h4"}>البريد الالكتروني</Heading>
-        <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
-          <Mail className={"h-6 w-6"} />
-          <input type="text" className="w-full focus:outline-0" {...register("email")} placeholder={"example@example.com"} />
+        <div>
+          <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
+            <Mail className={"h-6 w-6"} />
+            <input
+              type="text"
+              className="w-full focus:outline-0"
+              {...register("email", {
+                required: "البريد الالكتروني مطلوب",
+                pattern: {
+                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  message: "البريد الالكتروني غير صحيح",
+                },
+              })}
+              placeholder={"example@example.com"}
+            />
+          </div>
+          <span className="text-sm text-red-500">{errors?.email?.message}</span>
         </div>
 
         <Heading as={"h4"}>كلمة المرور</Heading>
-        <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
-          <Lock className={"h-6 w-6"} />
-          <input type="password" className="w-full focus:outline-0" {...register("password")} placeholder={"********"} />
+        <div>
+          <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
+            <Lock className={"h-6 w-6"} />
+            <input
+              type="password"
+              className="w-full focus:outline-0"
+              {...register("password", {
+                required: "كلمة المرور مطلوبة",
+                minLength: {
+                  value: 8,
+                  message: "كلمة المرور يجب ان تكون 6 احرف على الاقل",
+                },
+                validate: (value) => {
+                  const hasNumber = /\d/.test(value);
+                  const hasUpperCase = /[A-Z]/.test(value);
+                  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+                  if (!hasNumber) {
+                    return "كلمة المرور يجب ان تحتوي على رقم واحد على الاقل";
+                  }
+                  if (!hasUpperCase) {
+                    return "كلمة المرور يجب ان تحتوي على حرف كبير واحد على الاقل";
+                  }
+                  if (!hasSpecialChar) {
+                    return "كلمة المرور يجب ان تحتوي على رمز خاص واحد على الاقل";
+                  }
+                  return true;
+                },
+              })}
+              placeholder={"********"}
+            />
+          </div>
+          <span className="text-sm text-red-500">{errors?.password?.message}</span>
         </div>
 
         <Button type={"normal"} className={"mr-auto text-gray-600 underline"} onClick={toggleForgetPassword}>

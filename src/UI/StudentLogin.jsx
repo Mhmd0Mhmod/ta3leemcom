@@ -10,7 +10,8 @@ import toast from "react-hot-toast";
 import { useUserContext } from "../Context/UserProvider.jsx";
 
 function StudentLogin() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { errors } = formState;
   const { useLogin, setIsLogin } = useUserContext();
   const { mutate, isLoading, error } = useLogin(studentLogin);
   const close = useCloseModal();
@@ -37,8 +38,16 @@ function StudentLogin() {
           </label>
           <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
             <Card className={"h-6 w-6"} />
-            <input type="text" className="w-full focus:outline-0" {...register("code")} placeholder={" XX   XXX  XXX"} />
+            <input
+              type="text"
+              className="w-full focus:outline-0"
+              {...register("code", {
+                required: "الكود مطلوب",
+              })}
+              placeholder={" XX   XXX  XXX"}
+            />
           </div>
+          <span className={"text-sm text-red-500"}>{errors?.code?.message}</span>
           <div className={"text-center"}>
             <Button type="blue" className={`w-3/5 rounded-md px-2 py-3 text-white disabled:cursor-not-allowed disabled:bg-blue-400`} disabled={isLoading}>
               {isLoading ? "جاري تسجيل الدخول" : "تسجيل الدخول"}
