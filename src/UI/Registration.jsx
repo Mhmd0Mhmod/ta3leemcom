@@ -1,18 +1,25 @@
 import Button from "./Button.jsx";
 import { IoArrowBackSharp } from "react-icons/io5";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import Menu from "./Menu.jsx";
+import Menu, { useCloseMenu } from "../Context/Menu.jsx";
 import Logout from "/public/Icons/logout.svg";
 import Drop from "/public/Icons/drop2.svg";
 import Triangle from "/public/Icons/tringle list.svg";
 import SmallProfile from "/public/Icons/profile-unfill.svg";
-import useSignOut from "react-auth-kit/hooks/useSignOut";
-import { useSidebarContext } from "./Sidebar.jsx";
+import Modal from "../Context/Modal.jsx";
+import LoginOptions from "./LoginOptions.jsx";
+import ModalRightStyle from "./ModalRightStyle.jsx";
+import { useUserContext } from "../Context/UserProvider.jsx";
 
 function Registration({ className }) {
-  const user = useAuthUser();
-  const logOut = useSignOut();
+  const { useUser, useLogout } = useUserContext();
+  const user = useUser();
+  const logout = useLogout();
+  const close = useCloseMenu();
   const { role, name } = user || {};
+  function handleLogout() {
+    logout();
+    close();
+  }
   return (
     <div className={`text-xl ${className}`}>
       {role ? (
@@ -31,7 +38,7 @@ function Registration({ className }) {
                   <SmallProfile />
                   <span>الملف الشخصي</span>
                 </li>
-                <li onClick={logOut} className={"flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#FFB2B3]"}>
+                <li onClick={handleLogout} className={"flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#FFB2B3]"}>
                   <Logout />
                   <span>تسجيل الخروج</span>
                 </li>
@@ -40,13 +47,23 @@ function Registration({ className }) {
           </>
         </div>
       ) : (
-        <>
-          <Button className={"bg-transparent text-primary"}>تسجيل الدخول</Button>
+        <Modal>
+          <Modal.Trigger id={"login"}>
+            <Button className={"bg-transparent text-primary"} onClick={() => {}}>
+              تسجيل الدخول
+            </Button>
+          </Modal.Trigger>
+          <Modal.Content id={"login"}>
+            <div className={"flex h-full w-full"}>
+              <LoginOptions />
+              <ModalRightStyle />
+            </div>
+          </Modal.Content>
           <Button type="primary" className={"flex items-center"}>
             انضم الينا
             <IoArrowBackSharp />
           </Button>
-        </>
+        </Modal>
       )}
     </div>
   );

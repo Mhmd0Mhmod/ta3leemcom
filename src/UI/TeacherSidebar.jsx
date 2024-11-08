@@ -2,15 +2,16 @@ import Sidebar, { useSidebarContext } from "./Sidebar.jsx";
 import { Link } from "react-router-dom";
 import Profile from "../../public/Icons/blackProfile.svg";
 import Group from "../../public/Icons/group.svg";
-import Details from "./Details.jsx";
+import Details from "../Context/Details.jsx";
 import Graduted from "../../public/Icons/graduted.svg";
-import useLevels from "../Features/Dashboard/useLevels.js";
+import { useLevels } from "../Features/Dashboard/useLevels.js";
 import Loading from "./Loading.jsx";
 
 function TeacherSidebar({ className }) {
   const { isOpen } = useSidebarContext();
   const { levels: allLevels, isLoading, error } = useLevels();
   if (isLoading) return <Loading />;
+
   const levels = Object.keys(allLevels).map((id) => {
     console.log(id);
     return {

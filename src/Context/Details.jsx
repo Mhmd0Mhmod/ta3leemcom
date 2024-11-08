@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useOutsideRef from "../Hooks/useOutsideRef.js";
-import { useSidebarContext } from "./Sidebar.jsx";
-import Heading from "./Heading.jsx";
+import { useSidebarContext } from "../UI/Sidebar.jsx";
+import Heading from "../UI/Heading.jsx";
 
 const DetailsContext = createContext();
 

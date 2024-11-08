@@ -1,14 +1,14 @@
 import { Link, useParams } from "react-router-dom";
-import useGroups from "../Features/Dashboard/useGroups.js";
-import { useEffect, useState } from "react";
+import { useGroups } from "../Features/Dashboard/useGroups.js";
 import Loading from "./Loading.jsx";
 import Trash from "../../public/Icons/recyclePin.svg";
 import Edit from "../../public/Icons/editPen.svg";
 import Eye from "../../public/Icons/eye.svg";
 import Heading from "./Heading.jsx";
 import Arrow from "/public/Icons/arrow_in_levels.svg";
+import Button from "./Button.jsx";
 
-function GroupsList({ value, onChange }) {
+function GroupsList({ value, onChange, selectAll }) {
   const { levelYearId } = useParams();
   const { groups, isLoading, error } = useGroups(levelYearId);
 
@@ -36,7 +36,7 @@ function GroupsList({ value, onChange }) {
               <li
                 key={group.id}
                 onClick={() => onChange(group.id)}
-                className={`font-Almaria-bold hover:bg-Secondary-100 flex cursor-pointer items-center gap-2 rounded-xl border border-sky-200 p-2 ${value.includes(group.id) ? "bg-Secondary-100 text-white" : ""}`}
+                className={`font-Almaria-bold flex cursor-pointer items-center gap-2 rounded-xl border border-sky-200 p-2 hover:bg-Secondary-100 ${value.includes(group.id) ? "bg-Secondary-100 text-white" : ""}`}
               >
                 <Trash />
                 <Edit />
@@ -46,6 +46,11 @@ function GroupsList({ value, onChange }) {
             ))}
         </ul>
       </div>
+      {!isLoading && groups?.length > 0 && (
+        <Button type={"light"} className={"text-md mt-5 duration-300 hover:bg-Secondary-100 hover:text-white"} onClick={() => selectAll(groups.map((group) => group.id))}>
+          تحديد كل المجموعات
+        </Button>
+      )}
     </div>
   );
 }

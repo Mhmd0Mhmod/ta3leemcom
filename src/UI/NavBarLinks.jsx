@@ -1,11 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import DropDashBoardList from "/public/Icons/DropNavBar.svg";
-import Menu from "./Menu.jsx";
+import Menu from "../Context/Menu.jsx";
 import TeacherSidebar from "./TeacherSidebar.jsx";
 import Sidebar from "./Sidebar.jsx";
-import Heading from "./Heading.jsx";
 import { IoReorderThreeOutline } from "react-icons/io5";
+import { useWindowSize } from "react-use";
+import { useUserContext } from "../Context/UserProvider.jsx";
 
 const links = [
   {
@@ -54,33 +54,37 @@ const teacherDashboard = [
 ];
 
 function NavBarLinks({ className }) {
-  const active = useLocation().pathname;
-  const user = useAuthUser();
+  const { width } = useWindowSize();
+  const { useUser } = useUserContext();
+  const user = useUser();
+  const pathname = useLocation().pathname;
   const { role } = user || {};
   return (
     <>
-      <ul className={`navbar ${className}`}>
-        {links.map((link, index) => (
-          <li key={index} className={`navbar-link ${active === link.to ? "active" : ""}`}>
-            <Link to={link.to}>{link.title}</Link>
-          </li>
-        ))}
-        {role && (
-          <div className={"relative border-r-2"}>
-            <Menu.Trigger name={"teacherDashboard"}>
-              <DropDashBoardList />
-            </Menu.Trigger>
-            <Menu.List name={"teacherDashboard"} className={"relative"}>
-              <div className={"absolute z-[12] shadow-md"}>
-                <Sidebar>
-                  <TeacherSidebar />
-                </Sidebar>
-              </div>
-            </Menu.List>
-          </div>
-        )}
-      </ul>
-      {window.innerWidth < 1280 && (
+      {width >= 1280 && (
+        <ul className={`navbar ${className}`}>
+          {links.map((link, index) => (
+            <li key={index} className={`navbar-link ${pathname === link.to ? "active" : ""}`}>
+              <Link to={link.to}>{link.title}</Link>
+            </li>
+          ))}
+          {!pathname.includes("Dashboard") && role && (
+            <div className={"relative border-r-2"}>
+              <Menu.Trigger name={"teacherDashboard"}>
+                <DropDashBoardList />
+              </Menu.Trigger>
+              <Menu.List name={"teacherDashboard"} className={"relative"}>
+                <div className={"absolute z-[12] shadow-md"}>
+                  <Sidebar>
+                    <TeacherSidebar />
+                  </Sidebar>
+                </div>
+              </Menu.List>
+            </div>
+          )}
+        </ul>
+      )}
+      {width < 1280 && (
         <div className={"order-last xl:hidden"}>
           <Menu.Trigger name={"navbarLinks"}>
             <IoReorderThreeOutline />

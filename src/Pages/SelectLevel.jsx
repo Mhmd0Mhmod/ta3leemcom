@@ -1,4 +1,4 @@
-import useLevels from "../Features/Dashboard/useLevels.js";
+import { useLevels } from "../Features/Dashboard/useLevels.js";
 import Loading from "../UI/Loading.jsx";
 import { Link } from "react-router-dom";
 import Heading from "../UI/Heading.jsx";

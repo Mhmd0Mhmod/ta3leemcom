@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchLevels } from "./helpers.js";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { useUserContext } from "../../Context/UserProvider.jsx";
 
-function UseLevels() {
-  const Authorization = useAuthHeader();
+function useLevels() {
+  const { useUser } = useUserContext();
+  const { token } = useUser();
   const {
     data: levels,
     isLoading,
     error,
   } = useQuery({
     queryKey: ["levels"],
-    queryFn: () => fetchLevels(Authorization),
+    queryFn: () => fetchLevels(token),
   });
   return { levels, isLoading, error };
 }
 
-export default UseLevels;
+export { useLevels };

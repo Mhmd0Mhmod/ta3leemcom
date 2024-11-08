@@ -5,7 +5,8 @@
     .navbar {
         @apply flex items-center
     }
-    .navbar li{
+
+    .navbar li {
         @apply text-2xl hover:text-Secondary-500 duration-200 pb-2;
 
         &.active {
@@ -87,6 +88,13 @@
 
     .btn-outline-Secondary-500:hover {
         @apply bg-Secondary-500 text-white  duration-500;
+    }
+
+    .btn-outline-blue{
+        @apply border border-blue-800 py-3 text-blue-800 duration-500 hover:bg-blue-800 hover:text-white;
+    }
+    .btn-blue{
+        @apply bg-blue-700 text-white py-3;
     }
 
 

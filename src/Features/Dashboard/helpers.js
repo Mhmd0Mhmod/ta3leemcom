@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export async function fetchLevels(Authorization) {
+export async function fetchLevels(token) {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/LevelYear`, {
       headers: {
-        Authorization,
+        Authorization: `Bearer ${token}`,
       },
     });
     const levels = data.reduce((acc, level) => {
@@ -29,11 +29,11 @@ export async function fetchLevels(Authorization) {
   }
 }
 
-export async function fetchGroups(Authorization, levelYearId) {
+export async function fetchGroups(token, levelYearId) {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/GetAllGroupsOfTeacherId?levelYearId=${levelYearId}`, {
       headers: {
-        Authorization,
+        Authorization: `Bearer ${token}`,
       },
     });
     return data;

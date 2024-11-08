@@ -1,6 +1,6 @@
 import Arrow from "../../public/Icons/arrow-white.svg";
 import CustomersOpinionsCarouselOpinion from "./CustomersOpinionsCarouselOpinion.jsx";
-import Carousel from "./Carousel.jsx";
+import Carousel from "../Context/Carousel.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getOpinions } from "../Features/Opinion/apiOpinion.js";
 

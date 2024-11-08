@@ -8,6 +8,7 @@
 function Button({ type, children, ...props }) {
   const typeClassMap = {
     primary: "btn-primary",
+    blue: "btn-blue",
     Secondary: "btn-Secondary-500",
     danger: "btn-danger",
     success: "btn-success",
@@ -16,6 +17,7 @@ function Button({ type, children, ...props }) {
     light: "btn-light text-black",
     dark: "btn-dark",
     outlinePrimary: "btn-outline-primary border border-primary",
+    outlineBlue: "btn-outline-blue",
     transparent: "btn-transparent",
     normal: "btn-normal",
   };

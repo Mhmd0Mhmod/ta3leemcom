@@ -1,10 +1,14 @@
 import Registration from "./Registration.jsx";
 import Logo from "../../public/Icons/ta3leemComLogo.svg";
 import NavBarLinks from "./NavBarLinks.jsx";
-import { IoReorderThreeOutline } from "react-icons/io5";
-import Menu from "./Menu.jsx";
+import Menu from "../Context/Menu.jsx";
+import { useEffect, useState } from "react";
+import { useCookies } from "../Hooks/useCookies.js";
 
 function Header() {
+  const { get } = useCookies();
+  const [isLogin, setIsLogin] = useState(get("user") || false);
+
   return (
     <Menu>
       <nav className={"flex items-center gap-4 whitespace-nowrap xl:pl-10"}>

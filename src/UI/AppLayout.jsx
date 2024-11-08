@@ -6,7 +6,7 @@ function AppLayout() {
   return (
     <div className={"container flex flex-col"}>
       <Header />
-      <main className={"my-2 max-w-full flex-grow overflow-hidden"}>
+      <main className={"my-2 max-w-full flex-grow overflow-y-auto overflow-x-hidden"}>
         <Outlet />
       </main>
       <Footer />

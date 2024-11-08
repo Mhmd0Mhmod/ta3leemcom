@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import useLevels from "../Features/Dashboard/useLevels.js";
+import { useLevels } from "../Features/Dashboard/useLevels.js";
 import Loading from "./Loading.jsx";
 
 function LevelsList() {

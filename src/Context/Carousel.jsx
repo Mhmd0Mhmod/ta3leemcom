@@ -1,16 +1,9 @@
 import { createContext, useContext, useState } from "react";
-import Button from "./Button.jsx";
+import Button from "../UI/Button.jsx";
 
 const CarouselContext = createContext();
 
-function Carousel({
-  length,
-  numInColumn = 1,
-  numOfShowsColumns = 1,
-  numOfShowsRows = 1,
-  containerClassName,
-  children,
-}) {
+function Carousel({ length, numInColumn = 1, numOfShowsColumns = 1, numOfShowsRows = 1, containerClassName, children }) {
   const numOfDotes = Math.ceil(length / (numOfShowsColumns * numOfShowsRows));
   const [current, setCurrent] = useState(0);
 
@@ -66,14 +59,8 @@ function LeftButton({ children }) {
   );
 }
 
-function Dotes({
-  containerClassName = "",
-  DotesClassName,
-  activeStyle,
-  notActiveStyle,
-}) {
-  const { current, handleCurrentChange, numOfDotes } =
-    useContext(CarouselContext);
+function Dotes({ containerClassName = "", DotesClassName, activeStyle, notActiveStyle }) {
+  const { current, handleCurrentChange, numOfDotes } = useContext(CarouselContext);
   return (
     <div className={`flex justify-center ${containerClassName}`}>
       {Array.from({ length: numOfDotes }).map((_, i) => (
@@ -83,9 +70,7 @@ function Dotes({
           className={
             DotesClassName
               ? `${DotesClassName} ${i === current ? activeStyle : notActiveStyle}`
-              : `mx-1 h-3 cursor-pointer rounded-full ${
-                  i === current ? "w-10 bg-primary" : "w-3 bg-gray-300"
-                }`
+              : `mx-1 h-3 cursor-pointer rounded-full ${i === current ? "w-10 bg-primary" : "w-3 bg-gray-300"}`
           }
         />
       ))}
@@ -94,8 +79,7 @@ function Dotes({
 }
 
 function Items({ className, gridColumnSize = "100%", children, ...props }) {
-  const { current, length, numInColumn, numOfShowsRows } =
-    useContext(CarouselContext);
+  const { current, length, numInColumn, numOfShowsRows } = useContext(CarouselContext);
 
   return (
     <div

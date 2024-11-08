@@ -1,7 +1,7 @@
 import Heading from "../../UI/Heading.jsx";
 import { useForm } from "react-hook-form";
 import Profile from "/public/Icons/profile.svg";
-import Dropdown from "../../UI/DropDownList.jsx";
+import Dropdown from "../../Context/DropDownList.jsx";
 import Button from "/src/UI/Button.jsx";
 
 function AddStudent() {

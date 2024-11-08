@@ -11,7 +11,7 @@ import ArrowLeft from "/public/Icons/arrow-l-red.svg";
 import ArrowRight from "/public/Icons/arrow-r-red.svg";
 import FeaturesCard from "./FeaturesCard.jsx";
 import Button from "./Button.jsx";
-import Carousel from "./Carousel.jsx";
+import Carousel from "../Context/Carousel.jsx";
 
 const features = [
   { text: "إدارة شاملة للطلاب", icon: <StudentManagement /> },
@@ -35,7 +35,7 @@ function FeaturesCarousel() {
           <FeaturesCard key={feature.text} feature={feature} />
         ))}
       </Carousel.Items>
-      <Button type={"normal"} className={"border-Secondary-500 text-Secondary-500 mr-auto block border"}>
+      <Button type={"normal"} className={"mr-auto block border border-Secondary-500 text-Secondary-500"}>
         عرض التفاصيل
       </Button>
       <div className={"text-center xl:text-right"}>

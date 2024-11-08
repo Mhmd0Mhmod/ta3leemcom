@@ -1,6 +1,6 @@
 import { cloneElement, createContext, useContext, useState } from "react";
 import useOutsideRef from "../Hooks/useOutsideRef.js";
-import Button from "./Button.jsx";
+import Button from "../UI/Button.jsx";
 import { createPortal } from "react-dom";
 
 const MenuContext = createContext();
@@ -21,7 +21,7 @@ function Menu({ children }) {
   );
 }
 
-function Trigger({ name, children }) {
+function Trigger({ name, children, type = "normal", className }) {
   const { listName, close, setListName } = useContext(MenuContext);
 
   function handleClick(e) {
@@ -34,7 +34,7 @@ function Trigger({ name, children }) {
   }
 
   return (
-    <Button type={"normal"} className={"text-4xl text-black"} onClick={handleClick}>
+    <Button type={type} className={`text-4xl text-black ${className}`} onClick={handleClick}>
       {children}
     </Button>
   );
@@ -44,7 +44,7 @@ function List({ name, className = "", children }) {
   const { listName, close } = useContext(MenuContext);
   const ref = useOutsideRef(close);
   if (listName !== name) return null;
-  const isRelative = className.includes("relative");
+  const isRelative = className.includes("relative") || className.includes("absolute");
   if (isRelative) {
     return (
       <div ref={ref} className={className}>
@@ -57,4 +57,8 @@ function List({ name, className = "", children }) {
 
 Menu.Trigger = Trigger;
 Menu.List = List;
+export function useCloseMenu() {
+  const { close } = useContext(MenuContext);
+  return close;
+}
 export default Menu;
