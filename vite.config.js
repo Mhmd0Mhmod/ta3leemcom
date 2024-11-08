@@ -15,4 +15,7 @@ export default defineConfig({
       include: "**/*.svg",
     }),
   ],
+  rollupOptions: {
+    external: ["js-cookie"], // Specify js-cookie as an external dependency
+  },
 });
