@@ -12,8 +12,9 @@ export function useLogin(login) {
       queryClient.setQueryData(["user"], data);
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error?.response?.data || "حدث خطأ ما , يرجى المحاولة مرة أخرى");
     },
   });
+
   return { mutate, isLoading: isPending, error };
 }

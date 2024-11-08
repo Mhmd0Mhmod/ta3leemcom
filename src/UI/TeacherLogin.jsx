@@ -78,25 +78,6 @@ function TeacherLogin() {
               className="w-full focus:outline-0"
               {...register("password", {
                 required: "كلمة المرور مطلوبة",
-                minLength: {
-                  value: 8,
-                  message: "كلمة المرور يجب ان تكون 6 احرف على الاقل",
-                },
-                validate: (value) => {
-                  const hasNumber = /\d/.test(value);
-                  const hasUpperCase = /[A-Z]/.test(value);
-                  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
-                  if (!hasNumber) {
-                    return "كلمة المرور يجب ان تحتوي على رقم واحد على الاقل";
-                  }
-                  if (!hasUpperCase) {
-                    return "كلمة المرور يجب ان تحتوي على حرف كبير واحد على الاقل";
-                  }
-                  if (!hasSpecialChar) {
-                    return "كلمة المرور يجب ان تحتوي على رمز خاص واحد على الاقل";
-                  }
-                  return true;
-                },
               })}
               placeholder={"********"}
             />
