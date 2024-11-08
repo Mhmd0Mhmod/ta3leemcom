@@ -85,15 +85,15 @@ function TeacherLogin() {
           <span className="text-sm text-red-500">{errors?.password?.message}</span>
         </div>
 
-        <Button type={"normal"} className={"mr-auto text-gray-600 underline"} onClick={toggleForgetPassword}>
+        <Button type="blue" className={"disabled:cursor-not-allowed disabled:bg-blue-500"}>
+          {isLoading ? "جاري التسجيل..." : "سجل الدخول"}
+        </Button>
+      </form>
+      <div className="text-left">
+        <Button type={"normal"} className={"text-gray-600 underline"} onClick={toggleForgetPassword}>
           نسيت كلمة المرور ؟
         </Button>
-        <div className="text-center">
-          <Button type="blue" className={"disabled:cursor-not-allowed disabled:bg-blue-500"}>
-            {isLoading ? "جاري التسجيل..." : "سجل الدخول"}
-          </Button>
-        </div>
-      </form>
+      </div>
     </>
   );
 }
