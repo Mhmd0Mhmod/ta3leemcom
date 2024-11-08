@@ -15,13 +15,13 @@ function Tests() {
         <hr className="w-[70%]" />
         <BreadCrumb />
       </div>
-      <div className={"relative"}>
+      <div className={"relative w-fit"}>
         <Menu>
           <Menu.Trigger name={"createTest"} type={"Secondary"} className={"flex items-center gap-10 text-white"}>
             <Plus />
             <span className={"text-2xl"}>اضافة اختبار</span>
           </Menu.Trigger>
-          <Menu.List name={"createTest"} className={"absolute right-1/4 top-0 mb-5 flex flex-col gap-1 rounded-lg bg-white p-2"}>
+          <Menu.List name={"createTest"} className={"absolute -left-28 top-0 mb-5 flex flex-col gap-1 rounded-lg bg-white p-2"}>
             <Link className="rounded-md p-2 duration-300 hover:bg-gray-200" to={`/TDashboard/test/${groupsId}/create/online`}>
               اونلاين
             </Link>

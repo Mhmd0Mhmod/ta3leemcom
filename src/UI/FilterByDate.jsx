@@ -38,7 +38,7 @@ function FilterByDate() {
 
   return (
     <div className={"flex flex-col gap-4 bg-white p-4"}>
-      <form className={"flex gap-5"}>
+      <form className={"flex flex-col gap-5 xl:flex-row"}>
         <div className={"flex flex-col divide-y border p-1"}>
           <label htmlFor="from">من</label>
           <input type="date" id="from" {...register("from")} />
