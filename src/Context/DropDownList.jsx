@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 // Context for managing dropdown state
@@ -31,12 +31,11 @@ const Dropdown = ({ children }) => {
   );
 };
 
-function Toggle({ placeholder = "" }) {
+function Toggle({ value, placeholder = "" }) {
   const { isOpen, toggleDropdown, selected } = useContext(DropdownContext);
-
   return (
     <button onClick={toggleDropdown} className="flex w-full items-center justify-between rounded-md border-2 border-gray-400 bg-gray-100 p-3">
-      {selected || placeholder}
+      {value ? selected : placeholder}
       <FaChevronDown className={`transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`} />
     </button>
   );
@@ -52,7 +51,6 @@ function Item({ children, text, onClick }) {
   const { close, setSelected } = useContext(DropdownContext);
 
   function handleClick(e) {
-    console.log(text);
     e.preventDefault();
     setSelected(text);
     onClick();

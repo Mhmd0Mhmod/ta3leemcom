@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useUser } from "../Hooks/useUser.js";
-import { useLogin } from "../Hooks/useLogin.js";
-import { useLogout } from "../Hooks/useLogout.js";
+import { useUser } from "../Features/Registration/useUser.js";
+import { useLogin } from "../Features/Registration/useLogin.js";
+import { useLogout } from "../Features/Registration/useLogout.js";
 
 const UserContext = createContext();
 

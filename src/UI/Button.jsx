@@ -5,7 +5,7 @@
 //   children: null,
 // }
 
-function Button({ type, children, ...props }) {
+function Button({ type, children, formType, ...props }) {
   const typeClassMap = {
     primary: "btn-primary",
     blue: "btn-blue",
@@ -24,7 +24,11 @@ function Button({ type, children, ...props }) {
 
   props.className += ` btn ${typeClassMap[type] || "btn-primary"}`;
 
-  return <button {...props}>{children}</button>;
+  return (
+    <button {...props} type={formType}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;

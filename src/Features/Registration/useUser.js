@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useCookies } from "./useCookies.js";
+import { useCookies } from "../../Hooks/useCookies.js";
 import { useEffect } from "react";
 
 export function useUser() {

@@ -10,16 +10,22 @@ import Loading from "./Loading.jsx";
 
 function StudentsGroupsTable() {
   const [search, setSearch] = useState("");
+  const [sorted, setSorted] = useState(false);
   const { students, isLoading, error } = useStudents();
   const navigate = useNavigate();
-  let editedStudents = students;
+  let [editedStudents, setEditedStudents] = useState(students || []);
   useEffect(() => {
-    editedStudents = students?.filter((student) => student.name.includes(search));
+    setEditedStudents(students?.filter((student) => student.name.toLowerCase().includes(search.toLowerCase())));
   }, [search, students]);
   if (isLoading) return <Loading />;
 
   function sortStudent() {
-    editedStudents = students.sort((a, b) => a.name.localeCompare(b.name));
+    setSorted(!sorted);
+    if (sorted) {
+      setEditedStudents([...editedStudents].sort((a, b) => a.name.localeCompare(b.name)));
+    } else {
+      setEditedStudents([...editedStudents].sort((a, b) => b.name.localeCompare(a.name)));
+    }
   }
 
   const handleDelete = (id) => {

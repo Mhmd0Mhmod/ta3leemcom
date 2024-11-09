@@ -13,7 +13,12 @@
             @apply text-Secondary-500  border-b-2 border-Secondary-500;
         }
     }
-
+    input {
+        @apply focus:outline-none focus:ring-1 focus:ring-Secondary-500 focus:border-transparent;
+    }
+    button {
+        @apply disabled:cursor-not-allowed;
+    }
     .btn {
         @apply px-4 py-2  text-white rounded-md;
     }

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useCookies } from "./useCookies.js";
+import { useCookies } from "../../Hooks/useCookies.js";
 import toast from "react-hot-toast";
 
 export function useLogin(login) {

@@ -7,7 +7,6 @@ function SelectLevel() {
   const { levels: allLevels, isLoading, error } = useLevels();
   if (isLoading) return <Loading />;
   const levels = Object.keys(allLevels).map((id) => {
-    console.log(id);
     return {
       id,
       name: allLevels[id][0].name.split(" ").at(-1),

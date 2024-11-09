@@ -1,31 +1,22 @@
 import Heading from "./Heading.jsx";
 import Button from "./Button.jsx";
-import { useState } from "react";
-import Arrow from "/public/Icons/arrow-back.svg";
-import ForgetPassword from "./ForgetPassword.jsx";
 import { useForm } from "react-hook-form";
 import Mail from "/public/Icons/mail.svg";
 import Lock from "/public/Icons/Vector.svg";
-import { teacherLogin } from "../Stores/authStore.js";
+import { teacherLogin } from "../Features/Registration/authHelpers.js";
 
 import { useCloseModal } from "../Context/Modal.jsx";
 import toast from "react-hot-toast";
 import { useUserContext } from "../Context/UserProvider.jsx";
+import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
 
 function TeacherLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
   const { useLogin, setIsLogin } = useUserContext();
   const { mutate, isLoading } = useLogin(teacherLogin);
-  const [forgetPassword, setForgetPassword] = useState(false);
   const close = useCloseModal();
   const { errors } = formState;
-  if (forgetPassword)
-    return (
-      <>
-        <Arrow className={"l absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer"} onClick={toggleForgetPassword} />
-        <ForgetPassword />
-      </>
-    );
+  const navigate = ModalWithRoutes.useNavigate();
 
   function onSubmit(data) {
     mutate(data, {
@@ -38,9 +29,9 @@ function TeacherLogin() {
     });
   }
 
-  function toggleForgetPassword(e) {
-    e.preventDefault();
-    setForgetPassword((prev) => !prev);
+  function navigateToForgetPassword() {
+    close();
+    navigate("forgetPassword");
   }
 
   return (
@@ -89,10 +80,17 @@ function TeacherLogin() {
           {isLoading ? "جاري التسجيل..." : "سجل الدخول"}
         </Button>
       </form>
-      <div className="text-left">
-        <Button type={"normal"} className={"text-gray-600 underline"} onClick={toggleForgetPassword}>
-          نسيت كلمة المرور ؟
-        </Button>
+      <div className="flex justify-between">
+        <ModalWithRoutes.Trigger to={"forgetPassword"} className={"text-gray-600 underline"}>
+          <Button type={"normal"} className={"text-gray-600 underline"} onClick={navigateToForgetPassword}>
+            نسيت كلمة المرور ؟
+          </Button>
+        </ModalWithRoutes.Trigger>
+        <ModalWithRoutes.Trigger to={"signup"} className={"text-gray-600 underline"}>
+          <Button type={"normal"} className={"text-gray-600 underline"}>
+            ليس لديك حساب ؟
+          </Button>
+        </ModalWithRoutes.Trigger>
       </div>
     </>
   );

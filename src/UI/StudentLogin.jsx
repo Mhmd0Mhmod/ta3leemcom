@@ -2,12 +2,13 @@ import { useForm } from "react-hook-form";
 import Card from "/public/Icons/card.svg";
 import Button from "./Button.jsx";
 
-import { studentLogin } from "../Stores/authStore.js";
+import { studentLogin } from "../Features/Registration/authHelpers.js";
 
 import Heading from "./Heading.jsx";
 import { useCloseModal } from "../Context/Modal.jsx";
 import toast from "react-hot-toast";
 import { useUserContext } from "../Context/UserProvider.jsx";
+import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
 
 function StudentLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
@@ -55,6 +56,11 @@ function StudentLogin() {
           </div>
         </div>
       </form>
+      <ModalWithRoutes.Trigger to={"teacherLogin"}>
+        <Button type="normal" className={"text-gray-600 underline"}>
+          تسجيل الدخول كمعلم
+        </Button>
+      </ModalWithRoutes.Trigger>
     </>
   );
 }
