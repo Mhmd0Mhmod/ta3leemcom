@@ -17,7 +17,7 @@ function Sidebar({ className, children }) {
         close,
       }}
     >
-      <div className={`${isOpen ? "xl:w-64" : "xl:w-fit"} w-full self-start rounded-xl bg-[#F5F7F9] p-4 font-cairo text-xl ${className}`}>
+      <div className={`${isOpen ? "xl:w-64" : "xl:w-fit"} w-full self-start whitespace-nowrap rounded-xl bg-[#F5F7F9] p-4 font-cairo text-xl ${className}`}>
         <ul className={"flex flex-row justify-between xl:flex-col xl:gap-2"}>
           <li className={"hidden cursor-pointer self-end xl:block"} onClick={toggle}>
             <Menu className={`${isOpen ? "" : "rotate-Y-180"} transition duration-100`} />

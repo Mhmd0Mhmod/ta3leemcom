@@ -11,7 +11,7 @@ function Dashboard({ children }) {
         <div className={"absolute left-0 top-0"}>
           <ThreeCircles />
         </div>
-        <div className={"relative z-10"}>
+        <div className={"relative z-10 min-h-screen"}>
           <Outlet />
         </div>
       </div>

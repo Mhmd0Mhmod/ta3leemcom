@@ -7,22 +7,24 @@ import { studentLogin } from "../Features/Registration/authHelpers.js";
 import Heading from "./Heading.jsx";
 import { useCloseModal } from "../Context/Modal.jsx";
 import toast from "react-hot-toast";
-import { useUserContext } from "../Context/UserProvider.jsx";
 import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
+import { useLogin } from "../Features/Registration/useLogin.js";
+import { useDispatch } from "react-redux";
+import { login as reduxLogin } from "../Reducers/AuthReducer.js";
 
 function StudentLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
   const { errors } = formState;
-  const { useLogin, setIsLogin } = useUserContext();
   const { mutate, isLoading, error } = useLogin(studentLogin);
   const close = useCloseModal();
+  const dispatch = useDispatch();
   function onSubmit(data) {
     mutate(data, {
       onSuccess: () => {
         toast.success("تم تسجيل الدخول بنجاح, مرحبا بك 👋");
         reset();
-        setIsLogin(true);
         close();
+        dispatch(reduxLogin());
       },
     });
   }

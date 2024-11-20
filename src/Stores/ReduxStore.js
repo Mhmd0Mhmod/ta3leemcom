@@ -1,11 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../Reducers/AuthReducer.js";
 
 export const store = configureStore({
   reducer: {
-    // AddStudent: AddStudentReducer,
-    // TestResults: TestResultsReducer,
-    // EditTest: EditTestReducer,
-    // GroupDetails: GroupDetailsReducer,
-    // TeacherDashboard: TeacherDashboardReducer,
+    Auth: authReducer,
   },
 });

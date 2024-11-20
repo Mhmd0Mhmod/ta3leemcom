@@ -5,7 +5,10 @@ import TeacherSidebar from "./TeacherSidebar.jsx";
 import Sidebar from "./Sidebar.jsx";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { useWindowSize } from "react-use";
-import { useUserContext } from "../Context/UserProvider.jsx";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { isLogin } from "../Reducers/AuthReducer.js";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const links = [
   {
@@ -55,10 +58,9 @@ const teacherDashboard = [
 
 function NavBarLinks({ className }) {
   const { width } = useWindowSize();
-  const { useUser } = useUserContext();
-  const user = useUser();
   const pathname = useLocation().pathname;
-  const { role } = user || {};
+  const isLogined = useSelector(isLogin);
+  const { role } = useAuthUser() || {};
   return (
     <>
       {width >= 1280 && (

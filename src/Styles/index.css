@@ -13,9 +13,10 @@
             @apply text-Secondary-500  border-b-2 border-Secondary-500;
         }
     }
-    input {
+    input:not([type='checkbox']):not([type='radio']) {
         @apply focus:outline-none focus:ring-1 focus:ring-Secondary-500 focus:border-transparent;
     }
+
     button {
         @apply disabled:cursor-not-allowed;
     }
@@ -101,7 +102,7 @@
     .btn-blue{
         @apply bg-blue-700 text-white py-3;
     }
-
+    
 
 }
 
@@ -199,8 +200,8 @@ body {
 
 /* WebKit browsers */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+
+    height: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {

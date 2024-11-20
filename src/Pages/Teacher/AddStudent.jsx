@@ -8,7 +8,9 @@ import DropDownList from "./DropDownList.jsx";
 import { useGroups } from "../../Features/Dashboard/useGroups.js";
 import { useAddStudent } from "../../Features/Dashboard/useAddStudent.js";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Alert from "../../UI/Alert.jsx";
+import { Link } from "react-router-dom";
 
 function AddStudent() {
   const { register, formState, reset, handleSubmit, watch, setValue } = useForm();
@@ -27,20 +29,27 @@ function AddStudent() {
   useEffect(() => {
     setValue("levelYearId", null);
     setValue("groupId", null);
-  }, [mainLevelId]);
+  }, [mainLevelId, setValue]);
   useEffect(() => {
     setValue("groupId", null);
-  }, [levelYearId]);
-
+  }, [levelYearId, setValue]);
+  const [id, setId] = useState(null);
+  const [type, setType] = useState(null);
   const onSubmit = (data) => {
     if (!groupId) {
       return toast.error("يجب اختيار المجموعه");
     }
     const bodyData = { name: data.name, groupId: groupId };
     addStudent(bodyData, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setId(data.id);
+        setType("success");
         reset();
         toast.success("تم اضافة الطالب بنجاح");
+      },
+      onError: () => {
+        setType("error");
+        toast.error(error.message);
       },
     });
   };
@@ -125,6 +134,20 @@ function AddStudent() {
           </Button>
         </div>
       </form>
+      <Alert type={type}>
+        <Alert.Success>
+          <p>تم اضافة الطالب بنجاح</p>
+          <Link to={`/TDashboard/student/${id}`} className={"underline"}>
+            عرض
+          </Link>
+          <Link to={`/TDashboard/student/${id}/edit`} className={"underline"}>
+            تعديل
+          </Link>
+        </Alert.Success>
+        <Alert.Error>
+          <p>حدث خطأ ما</p>
+        </Alert.Error>
+      </Alert>
     </>
   );
 }

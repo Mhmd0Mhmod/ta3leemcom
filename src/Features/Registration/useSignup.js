@@ -1,9 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { signup as signupAPI } from "./authHelpers.js";
 
 export function useSignup() {
-  const queryClient = useQueryClient();
   const {
     mutate: signup,
     isPending,

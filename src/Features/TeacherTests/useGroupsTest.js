@@ -4,13 +4,12 @@ import { getTests } from "./helpers";
 
 import { useEffect, useState } from "react";
 import { format, isAfter, isBefore } from "date-fns";
-import { useUserContext } from "../../Context/UserProvider";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 function useGroupsTest() {
   const { groupsId } = useParams();
   const groupsIds = groupsId.split(",");
-  const { useUser } = useUserContext();
-  const { token } = useUser();
+  const token = useAuthHeader();
   const [operatedTests, setOperatedTests] = useState([]);
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
@@ -24,42 +23,37 @@ function useGroupsTest() {
     queryKey: ["groupsTests", groupsIds],
     queryFn: () => getTests(groupsIds, token),
   });
-  useEffect(() => {
-    if (isLoading) return;
-    if (search) {
-      setSearchedTests(groupsTests?.filter((test) => test.title.includes(search)));
-    } else {
-      setSearchedTests([...groupsTests]);
-    }
-  }, [search, groupsTests, isLoading]);
-
+  const type = searchParams.get("type");
+  const from = searchParams.get("from");
+  const to = searchParams.get("to");
+  const day = searchParams.get("day");
   useEffect(() => {
     if (isLoading) return;
     setOperatedTests([...groupsTests]);
   }, [groupsTests, isLoading]);
-
   useEffect(() => {
-    if (isLoading) return;
-    if (searchParams.has("type")) {
-      const type = searchParams.get("type") === "online" ? "اونلاين" : "اوفلاين";
-      setOperatedTests(searchedTests?.filter((test) => test.type === type));
-    }
-    if (searchParams.has("from") && searchParams.has("to")) {
-      setOperatedTests(
-        searchedTests?.filter(
-          (test) => isBefore(searchParams.get("from"), format(test.startDate, "yyyy-MM-dd")) && isAfter(searchParams.get("to"), format(test.startDate, "yyyy-MM-dd")),
-        ),
-      );
-      return;
-    }
-    if (searchParams.has("day")) {
-      setOperatedTests(searchedTests?.filter((test) => format(test.startDate, "yyyy-MM-dd") === searchParams.get("day")));
-      return;
-    }
-    if (!searchParams.has("type") && !searchParams.has("from") && !searchParams.has("to") && !searchParams.has("day")) setOperatedTests([...searchedTests]);
-  }, [searchParams, searchedTests, isLoading]);
-
-  return { tests: operatedTests, search, setSearch, isLoading, error };
+    if (operatedTests.length === 0) return;
+    const searched = operatedTests.filter((test) => {
+      if (search) {
+        return test.title.includes(search);
+      }
+      return true;
+    });
+    const searchedByType = type ? searched.filter((test) => test.type === type) : searched;
+    const searchedByDate = searchedByType.filter((test) => {
+      if (from && to) {
+        const startDate = new Date(test.startDate);
+        return isAfter(startDate, new Date(from)) && isBefore(startDate, new Date(to));
+      }
+      if (day) {
+        const startDate = new Date(test.startDate);
+        return format(startDate, "EEEE") === day;
+      }
+      return true;
+    });
+    setSearchedTests(searchedByDate);
+  }, [search, type, from, to, day, operatedTests]);
+  return { tests: searchedTests, isLoading, setSearch, search };
 }
 
 export { useGroupsTest };

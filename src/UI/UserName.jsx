@@ -3,13 +3,21 @@ import Drop from "/public/Icons/drop2.svg";
 import Triangle from "/public/Icons/tringle list.svg";
 import SmallProfile from "/public/Icons/profile-unfill.svg";
 import Menu, { useCloseMenu } from "../Context/Menu";
-function UserName({ name, logout }) {
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { logout as reduxLogout } from "../Reducers/AuthReducer";
+function UserName({ name }) {
   const close = useCloseMenu();
-  console.log(close);
-
+  const logout = useSignOut();
+  const dispath = useDispatch();
   function handleLogout() {
-    logout();
+    logout({
+      redirectTo: "/",
+    });
+    toast.success("تم تسجيل الخروج بنجاح");
     close?.();
+    dispath(reduxLogout());
   }
   return (
     <div className="relative">

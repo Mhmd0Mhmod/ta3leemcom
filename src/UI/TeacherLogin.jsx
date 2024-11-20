@@ -4,27 +4,28 @@ import { useForm } from "react-hook-form";
 import Mail from "/public/Icons/mail.svg";
 import Lock from "/public/Icons/Vector.svg";
 import { teacherLogin } from "../Features/Registration/authHelpers.js";
-
 import { useCloseModal } from "../Context/Modal.jsx";
 import toast from "react-hot-toast";
-import { useUserContext } from "../Context/UserProvider.jsx";
 import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
-
+import { useLogin } from "../Features/Registration/useLogin.js";
+import { login as reduxLogin } from "/src/Reducers/AuthReducer.js";
+import { useDispatch } from "react-redux";
 function TeacherLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
-  const { useLogin, setIsLogin } = useUserContext();
-  const { mutate, isLoading } = useLogin(teacherLogin);
+  const dispatch = useDispatch();
+
+  const { login, isPending, error } = useLogin(teacherLogin);
   const close = useCloseModal();
   const { errors } = formState;
   const navigate = ModalWithRoutes.useNavigate();
 
   function onSubmit(data) {
-    mutate(data, {
+    login(data, {
       onSuccess: () => {
-        setIsLogin(true);
         toast.success("تم تسجيل الدخول بنجاح, مرحبا بك 👋");
         reset();
         close();
+        dispatch(reduxLogin());
       },
     });
   }
@@ -36,10 +37,10 @@ function TeacherLogin() {
 
   return (
     <>
-      <Heading as={"h2"} className={"mt-10 text-center"}>
+      <Heading as={"h2"} className={"mt-5 text-center"}>
         تسجيل الدخول
       </Heading>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center space-y-4 text-gray-600">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-0 flex flex-col justify-center space-y-4 text-gray-600">
         <Heading as={"h4"}>البريد الالكتروني</Heading>
         <div>
           <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
@@ -77,7 +78,7 @@ function TeacherLogin() {
         </div>
 
         <Button type="blue" className={"disabled:cursor-not-allowed disabled:bg-blue-500"}>
-          {isLoading ? "جاري التسجيل..." : "سجل الدخول"}
+          {isPending ? "جاري التسجيل..." : "سجل الدخول"}
         </Button>
       </form>
       <div className="flex justify-between">

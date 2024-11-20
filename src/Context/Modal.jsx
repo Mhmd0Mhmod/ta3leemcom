@@ -1,4 +1,4 @@
-import { cloneElement, createContext, useContext, useEffect, useState } from "react";
+import { cloneElement, createContext, useCallback, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Exit from "../../public/Icons/exit.svg";
 
@@ -35,12 +35,20 @@ function Trigger({ id, children, ...props }) {
   });
 }
 
-function Content({ id, onExit, children }) {
+function Content({ id, onExit, children, className }) {
   const { name, setName } = useContext(ModelContext);
+  const handleExit = useCallback(
+    function (e) {
+      e.preventDefault();
+      setName(null);
+      onExit?.();
+    },
+    [setName, onExit],
+  );
   useEffect(() => {
     function handleKeyDown(event) {
       if (event.key === "Escape") {
-        handleExit();
+        handleExit(event);
       }
     }
 
@@ -48,23 +56,12 @@ function Content({ id, onExit, children }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+  }, [handleExit]);
   if (id !== name) return null;
-
-  function handleExit() {
-    setName(null);
-    onExit?.();
-  }
 
   return createPortal(
     <div className="fixed inset-0 z-[11] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="relative w-full max-w-screen-sm overflow-hidden rounded-lg bg-white shadow-lg md:max-w-screen-md lg:h-5/6 lg:max-w-screen-lg">
+      <div className={`relative w-full max-w-screen-sm overflow-hidden rounded-lg bg-white shadow-lg md:max-w-screen-md lg:h-5/6 lg:max-w-screen-lg ${className || ""}`}>
         <Exit className={"absolute inset-5 cursor-pointer"} onClick={handleExit} />
         {children}
       </div>

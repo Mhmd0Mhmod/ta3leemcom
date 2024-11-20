@@ -4,7 +4,7 @@ export async function fetchLevels(token) {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/LevelYear`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
       },
     });
     const levels = data.reduce((acc, level) => {
@@ -34,7 +34,7 @@ export async function fetchGroups(token, levelYearId) {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/GetAllGroupsOfTeacherId?levelYearId=${levelYearId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
       },
     });
     return data;
@@ -46,7 +46,7 @@ export async function fetchGroups(token, levelYearId) {
 export async function addStudent(token, bodyData) {
   const { data, status } = await axios.post(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student/create`, bodyData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
 
@@ -56,10 +56,11 @@ export async function addStudent(token, bodyData) {
     throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
   }
 }
+
 export async function addGroup(token, bodyData) {
   const { data, status } = await axios.post(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/Add`, bodyData, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token,
     },
   });
   if (status === 200) {
@@ -67,4 +68,27 @@ export async function addGroup(token, bodyData) {
   } else {
     throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
   }
+}
+
+export async function getStudent(token, studentId) {
+  const { data, status } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student/GetStudent?id=${studentId}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === 200) {
+    return data;
+  }
+  throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+}
+export async function getGroup(token, groupId) {
+  const { data, status } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student/GetStudent?id=${groupId}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === 200) {
+    return data;
+  }
+  throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
 }

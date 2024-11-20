@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import { getStudents } from "./helpers.js";
 import { useQuery } from "@tanstack/react-query";
-import { useUserContext } from "../../Context/UserProvider.jsx";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export function useStudents() {
   const { groupsId } = useParams();
   const groupsIds = groupsId.split(",");
-  const { useUser } = useUserContext();
-  const { token } = useUser();
+  const token = useAuthHeader();
 
   const {
     data: students,

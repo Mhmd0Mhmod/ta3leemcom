@@ -34,6 +34,14 @@ export const RoutesOfModal = [
     to: "verifyAccount",
     component: <VerifyAccount />,
   },
+  {
+    to: "deleteStudent",
+    component: <div>deleteStudent</div>,
+  },
+  {
+    to: "editStudent",
+    component: <div>editStudent</div>,
+  },
 ];
 
 function AppLayout() {

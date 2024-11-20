@@ -16,7 +16,7 @@ import EditTest from "./Pages/Teacher/EditTest.jsx";
 import TestResults from "./Pages/Teacher/TestResults.jsx";
 import TestAnswers from "./Pages/TestAnswers.jsx";
 import Students from "./Pages/Teacher/Students.jsx";
-import Months from "./Pages/Teacher/months.jsx";
+import Months from "./Pages/Teacher/Months.jsx";
 import Toppers from "./Pages/Toppers.jsx";
 import StudentTests from "./Pages/Student/Tests.jsx";
 import Attendance from "./Pages/Student/Attendance.jsx";
@@ -25,7 +25,8 @@ import { lazy, Suspense } from "react";
 import Loading from "./UI/Loading.jsx";
 import CreateTestOnline from "./Pages/Teacher/CreateTestOnline.jsx";
 import CreateTestOffline from "./Pages/Teacher/CreateTestOffline.jsx";
-import { UserProvider } from "./Context/UserProvider.jsx";
+import AuthProvider from "react-auth-kit";
+import { reactAuthStore } from "./Stores/reactAuthStore.js";
 
 const Home = lazy(() => import("./Pages/Home.jsx"));
 const About = lazy(() => import("./Pages/About.jsx"));
@@ -41,6 +42,7 @@ const clientQuery = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
       retry: false,
     },
   },
@@ -52,7 +54,7 @@ function App() {
       <QueryClientProvider client={clientQuery}>
         <Suspense fallback={<Loading />}>
           <BrowserRouter>
-            <UserProvider>
+            <AuthProvider store={reactAuthStore}>
               <Routes>
                 <Route element={<AppLayout />}>
                   <Route index element={<Navigate replace to="home" />} />
@@ -66,13 +68,16 @@ function App() {
                   <Route path={"TDashboard"} element={<TeacherDashboard />}>
                     <Route index element={<Navigate replace to="student/add" />} />
                     <Route index path={"student/add"} element={<AddStudent />} />
-                    <Route path={"student/:studentId/edit/"} element={<EditStudent />} />
-                    <Route path={"student/:studentId/details"} element={<DetailsStudent />} />
+                    <Route path={"student/:studentId/edit"} element={<EditStudent />} />
+                    <Route path={"student/:studentId"} element={<DetailsStudent />} />
+
                     <Route path={"group/add"} element={<AddGroup />} />
                     <Route path={"group/edit/:groupId"} element={<EditGroup />} />
                     <Route path={"group/details:groupId"} element={<GroupDetails />} />
+
                     <Route path={"level"} element={<SelectLevel />} />
                     <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
+
                     <Route path={"tests/:groupsId"} element={<TeacherTests />} />
                     <Route path={"test/:groupsId/create/online"} element={<CreateTestOnline />} />
                     <Route path={"test/:groupsId/create/offline"} element={<CreateTestOffline />} />
@@ -80,8 +85,9 @@ function App() {
                     <Route path={"test/:testId/answers"} element={<TestAnswers />} />
                     <Route path={"test/:testId/edit"} element={<EditTest />} />
                     <Route path={"test/results/:testId"} element={<TestResults />} />
+
                     <Route path={"students/:groupsId"} element={<Students />} />
-                    <Route path={"months/:groupsId"} element={<Months />} />
+                    <Route path={"months/:level/:groupsId"} element={<Months />} />
                     <Route path={"toppers/:groupsId"} element={<Toppers />} />
                   </Route>
                   <Route path={"SDashboard"} element={<StudentDashboard />}>
@@ -96,7 +102,7 @@ function App() {
                   <Route path="*" element={<PageNotFound />} />
                 </Route>
               </Routes>
-            </UserProvider>
+            </AuthProvider>
           </BrowserRouter>
         </Suspense>
         <Toaster position={"top-center"} />

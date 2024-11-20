@@ -7,7 +7,9 @@ import DropDownList from "./DropDownList.jsx";
 import { useLevels } from "../../Features/Dashboard/useLevels.js";
 import { useAddGroup } from "../../Features/Dashboard/useAddGroup.js";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Alert from "../../UI/Alert.jsx";
+import { Link } from "react-router-dom";
 
 function AddGroup() {
   const { register, formState, handleSubmit, watch, setValue, reset } = useForm();
@@ -17,15 +19,23 @@ function AddGroup() {
   const groupId = watch("groupId");
   const { levels, isLoading, error } = useLevels();
   const { addGroup, isLoading: adding } = useAddGroup();
+  const [type, setType] = useState(null);
+  const [id, setId] = useState(null);
   useEffect(() => {
     setValue("levelYearId", null);
   }, [mainLevelId]);
   const onSubmit = (data) => {
     const bodyData = { name: data.name, levelYearId: levelYearId };
     addGroup(bodyData, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setType("success");
+        setId(data.id);
         reset();
         toast.success("تم اضافة المجموعه بنجاح");
+      },
+      onError: () => {
+        setType("error");
+        toast.error(error.message);
       },
     });
   };
@@ -97,6 +107,20 @@ function AddGroup() {
           </Button>
         </div>
       </form>
+      <Alert type={type}>
+        <Alert.Success>
+          <p>تم اضافة الطالب بنجاح</p>
+          <Link to={`/TDashboard/group/${id}`} className={"underline"}>
+            عرض
+          </Link>
+          <Link to={`/TDashboard/group/${id}/edit`} className={"underline"}>
+            تعديل
+          </Link>
+        </Alert.Success>
+        <Alert.Error>
+          <p>حدث خطأ ما</p>
+        </Alert.Error>
+      </Alert>
     </>
   );
 }

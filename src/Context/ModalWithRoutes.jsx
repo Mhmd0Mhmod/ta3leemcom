@@ -1,9 +1,8 @@
-import { cloneElement, createContext, useContext, useEffect, useState } from "react";
-import Modal, { useCloseModal } from "./Modal";
+import { cloneElement, createContext, useContext, useState } from "react";
+import Modal from "./Modal";
 
-const ModalWithRoutesContext = createContext();
 import Arrow from "/public/Icons/arrow-back.svg";
-import Exit from "/public/Icons/exit.svg";
+const ModalWithRoutesContext = createContext();
 
 function ModalWithRoutes({ routes, children }) {
   const [to, setTo] = useState("");
@@ -44,8 +43,6 @@ function ModalWithRoutes({ routes, children }) {
 
 function Content({ id, children }) {
   const { stackHistory, handleBack, reset } = useContext(ModalWithRoutesContext);
-
-  console.log(stackHistory);
 
   return (
     <Modal.Content id={id} onExit={reset}>

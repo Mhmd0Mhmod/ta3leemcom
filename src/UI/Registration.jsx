@@ -1,18 +1,18 @@
-import { useUserContext } from "../Context/UserProvider.jsx";
 import LoginButton from "./LoginButton.jsx";
 import SignupButton from "./SignupButton.jsx";
 import UserName from "./UserName.jsx";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { useSelector } from "react-redux";
+import { isLogin } from "../Reducers/AuthReducer.js";
 
 function Registration({ className }) {
-  const { useUser, useLogout } = useUserContext();
-  const user = useUser();
-  const logout = useLogout();
-  const { role, name } = user || {};
+  const { role, name } = useAuthUser() || {};
+  const isLogined = useSelector(isLogin);
 
   return (
     <div className={`text-xl ${className}`}>
-      {role ? (
-        <UserName name={name} logout={logout} />
+      {isLogined ? (
+        <UserName name={name} />
       ) : (
         <>
           <LoginButton />

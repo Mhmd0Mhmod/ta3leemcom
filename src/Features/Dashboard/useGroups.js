@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchGroups } from "./helpers.js";
-import { useUserContext } from "../../Context/UserProvider.jsx";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 function useGroups(selectedYear) {
-  const { useUser } = useUserContext();
-  const { token } = useUser();
+  const token = useAuthHeader();
 
   const {
     data: groups,
