@@ -14,5 +14,6 @@ export function useStudent() {
     queryKey: ["student", studentId],
     queryFn: () => getStudent(token, studentId),
   });
+
   return { student, isLoading, error };
 }

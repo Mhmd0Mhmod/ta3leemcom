@@ -10,20 +10,19 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import Alert from "../../UI/Alert.jsx";
 import { Link } from "react-router-dom";
+import { MainLevels } from "../../Config/config.js";
 
 function AddGroup() {
   const { register, formState, handleSubmit, watch, setValue, reset } = useForm();
   const { errors } = formState;
-  const mainLevelId = watch("mainLevelId");
-  const levelYearId = watch("levelYearId");
-  const groupId = watch("groupId");
+  const { mainLevelId, levelYearId } = watch();
   const { levels, isLoading, error } = useLevels();
   const { addGroup, isLoading: adding } = useAddGroup();
   const [type, setType] = useState(null);
   const [id, setId] = useState(null);
   useEffect(() => {
     setValue("levelYearId", null);
-  }, [mainLevelId]);
+  }, [mainLevelId, setValue]);
   const onSubmit = (data) => {
     const bodyData = { name: data.name, levelYearId: levelYearId };
     addGroup(bodyData, {
@@ -65,21 +64,7 @@ function AddGroup() {
         <div className={"flex flex-col gap-16 md:flex-row xl:gap-28"}>
           <DropDownList
             label={"المرحله الدراسيه"}
-            value={mainLevelId}
-            options={[
-              {
-                id: 1,
-                name: "المرحله الابتدائيه",
-              },
-              {
-                id: 2,
-                name: "المرحله الاعداديه",
-              },
-              {
-                id: 3,
-                name: "المرحله الثانويه",
-              },
-            ]}
+            options={MainLevels}
             render={(item) => (
               <Dropdown.Item key={item.id} text={item.name} onClick={() => setValue("mainLevelId", item.id)}>
                 {item.name}
@@ -91,7 +76,6 @@ function AddGroup() {
             <DropDownList
               label={"الصف الدراسي"}
               options={levels?.[mainLevelId]}
-              value={levelYearId}
               render={(item) => (
                 <Dropdown.Item key={item.id} text={item.name} onClick={() => setValue("levelYearId", item.id)}>
                   {item.name}

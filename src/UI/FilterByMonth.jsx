@@ -22,14 +22,14 @@ function FilterByMonth() {
       <Dropdown.Toggle value={value ? `${value.monthName} - ${value.year}` : ""} placeholder={"اختر الشهر"} />
       <Dropdown.Menu close={false}>
         {months?.map((month) => (
-          <div className={"hover: flex items-center p-1 hover:bg-blue-200"} key={month.monthId}>
+          <div className={"hover: flex items-center p-1 px-4 hover:bg-blue-200"} key={month.monthId}>
             <Dropdown.Item text={`${month.monthName} - ${month.year}`} onClick={() => handleSearchParams(month.monthId)}>
               <span>
                 {month.monthName} - {month.year}
               </span>
             </Dropdown.Item>
             <Modal.Trigger id={`deleteMonths-${month.monthId}`}>
-              <Trash />
+              <Trash className={"cursor-pointer"} />
             </Modal.Trigger>
             <Modal.Content id={`deleteMonths-${month.monthId}`} title={"حذف الشهر"}>
               <AlertWindow title={"هل انت متأكد من حذف الشهر؟"} description={" "} />

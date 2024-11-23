@@ -5,7 +5,7 @@ import AppLayout from "./UI/AppLayout";
 import { Toaster } from "react-hot-toast";
 import AddStudent from "./Pages/Teacher/AddStudent.jsx";
 import EditStudent from "./Pages/Teacher/EditStudent.jsx";
-import DetailsStudent from "./Pages/Teacher/DetailsStudent.jsx";
+import StudentDetails from "./Pages/Teacher/StudentDetails.jsx";
 import AddGroup from "./Pages/Teacher/AddGroup.jsx";
 import EditGroup from "./Pages/Teacher/EditGroup.jsx";
 import GroupDetails from "./Pages/Teacher/GroupDetails.jsx";
@@ -69,11 +69,11 @@ function App() {
                     <Route index element={<Navigate replace to="student/add" />} />
                     <Route index path={"student/add"} element={<AddStudent />} />
                     <Route path={"student/:studentId/edit"} element={<EditStudent />} />
-                    <Route path={"student/:studentId"} element={<DetailsStudent />} />
+                    <Route path={"student/:studentId"} element={<StudentDetails />} />
 
                     <Route path={"group/add"} element={<AddGroup />} />
-                    <Route path={"group/edit/:groupId"} element={<EditGroup />} />
-                    <Route path={"group/details:groupId"} element={<GroupDetails />} />
+                    <Route path={"group/:groupId/edit"} element={<EditGroup />} />
+                    <Route path={"group/:groupId"} element={<GroupDetails />} />
 
                     <Route path={"level"} element={<SelectLevel />} />
                     <Route path={"level/:levelId/:levelYearId"} element={<Level />} />

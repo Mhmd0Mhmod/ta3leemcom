@@ -9,16 +9,14 @@ import ModalWithRoutes from "../../Context/ModalWithRoutes.jsx";
 import Modal from "../../Context/Modal.jsx";
 import DeleteStudentWindow from "../../UI/AlertWindow.jsx";
 
-function DetailsStudent() {
+function StudentDetails() {
   const { student, isLoading, error } = useStudent();
-  const navigate = useNavigate();
   if (isLoading) {
     return <Loading />;
   }
   if (error) {
     return <div>Error: {error?.message}</div>;
   }
-  const pathName = window.location.pathname;
   const { name, groupName, levelName, levelYearName } = student || {};
   return (
     <div className={"space-y-5"}>
@@ -27,9 +25,9 @@ function DetailsStudent() {
       </Heading>
       <hr />
       <div className={"relative z-10 flex gap-5"}>
-        <Button type={"Secondary"} onClick={() => navigate(pathName + "/edit")}>
+        <Link to="edit" className={"flex items-center justify-center rounded bg-Secondary-500 px-4 text-white"}>
           تعديل
-        </Button>
+        </Link>
         <Modal.Trigger id={"deleteStudent"}>
           <Button>حذف</Button>
         </Modal.Trigger>
@@ -77,4 +75,4 @@ function DetailsStudent() {
   );
 }
 
-export default DetailsStudent;
+export default StudentDetails;

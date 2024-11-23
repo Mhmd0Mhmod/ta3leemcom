@@ -8,7 +8,8 @@ import StudentLogin from "./StudentLogin.jsx";
 import ForgetPassword from "./ForgetPassword.jsx";
 import SignupForm from "./SignupForm.jsx";
 import VerifyAccount from "./VerifyAccount.jsx";
-
+import { Provider } from "react-redux";
+import { store } from "../Stores/ReduxStore.js";
 export const RoutesOfModal = [
   {
     to: "loginOptions",
@@ -34,27 +35,21 @@ export const RoutesOfModal = [
     to: "verifyAccount",
     component: <VerifyAccount />,
   },
-  {
-    to: "deleteStudent",
-    component: <div>deleteStudent</div>,
-  },
-  {
-    to: "editStudent",
-    component: <div>editStudent</div>,
-  },
 ];
 
 function AppLayout() {
   return (
-    <ModalWithRoutes routes={RoutesOfModal}>
-      <div className={"container flex flex-col"}>
-        <Header />
-        <main className={"my-2 max-w-full flex-grow overflow-y-auto overflow-x-hidden"}>
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-    </ModalWithRoutes>
+    <Provider store={store}>
+      <ModalWithRoutes routes={RoutesOfModal}>
+        <div className={"container flex flex-col"}>
+          <Header />
+          <main className={"my-2 max-w-full flex-grow overflow-y-auto overflow-x-hidden"}>
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </ModalWithRoutes>
+    </Provider>
   );
 }
 

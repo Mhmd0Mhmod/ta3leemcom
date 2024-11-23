@@ -5,7 +5,6 @@ let style = "flex items-center animate-slide-in gap-2 p-4 shadow-[0px_13px_19px_
 const AlertContext = createContext(null);
 
 function Alert({ type, children }) {
-  console.log(type);
   if (!type) return null;
   return <AlertContext.Provider value={{ type }}>{children}</AlertContext.Provider>;
 }

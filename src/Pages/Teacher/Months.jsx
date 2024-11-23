@@ -31,9 +31,8 @@ function Months() {
             <CounterPaidStudents />
           </div>
         </div>
-        <div className={"overflow-x-auto"}>
-          <MonthsTable />
-        </div>
+
+        <MonthsTable />
       </div>
     </Menu>
   );

@@ -22,3 +22,19 @@ export function convertArabicMonthAndYearToDate(arabic_month, year) {
   const date = new Date(year, month, 1); // Day is set to 1
   return date;
 }
+
+// Levels
+export const MainLevels = [
+  {
+    id: 1,
+    name: "المرحله الابتدائيه",
+  },
+  {
+    id: 2,
+    name: "المرحله الاعداديه",
+  },
+  {
+    id: 3,
+    name: "المرحله الثانويه",
+  },
+];

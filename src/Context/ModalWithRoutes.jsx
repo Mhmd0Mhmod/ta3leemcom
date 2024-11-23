@@ -9,7 +9,7 @@ function ModalWithRoutes({ routes, children }) {
   const [stackHistory, setStackHistory] = useState([]);
 
   function handleSetTo(to) {
-    setStackHistory((prev) => [...prev, to]);
+    setStackHistory((prev) => [...prev.filter((item) => item != to), to]);
     setTo(to);
   }
 

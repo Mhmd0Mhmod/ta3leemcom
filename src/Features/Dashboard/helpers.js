@@ -81,8 +81,9 @@ export async function getStudent(token, studentId) {
   }
   throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
 }
+
 export async function getGroup(token, groupId) {
-  const { data, status } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student/GetStudent?id=${groupId}`, {
+  const { data, status } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/GetGroup?id=${groupId}`, {
     headers: {
       Authorization: token,
     },
@@ -91,4 +92,45 @@ export async function getGroup(token, groupId) {
     return data;
   }
   throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+}
+
+export async function editStudent(token, bodyData) {
+  const { data, status } = await axios.put(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student/Edit`, bodyData, {
+    headers: {
+      Authorization: token,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  if (status === 200) {
+    return data;
+  } else {
+    throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+  }
+}
+
+export async function editGroup(token, bodyData) {
+  const { data, status } = await axios.put(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/Edit`, bodyData, {
+    headers: {
+      Authorization: token,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  if (status === 200) {
+    return data;
+  } else {
+    throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+  }
+}
+
+export async function deleteGroup(token, groupId) {
+  const { status } = await axios.delete(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/Delete?id=${groupId}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === 200) {
+    return true;
+  } else {
+    throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+  }
 }
