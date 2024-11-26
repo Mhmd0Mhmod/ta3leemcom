@@ -27,6 +27,7 @@ import CreateTestOnline from "./Pages/Teacher/CreateTestOnline.jsx";
 import CreateTestOffline from "./Pages/Teacher/CreateTestOffline.jsx";
 import AuthProvider from "react-auth-kit";
 import { reactAuthStore } from "./Stores/reactAuthStore.js";
+import CreateTest from "./Pages/Teacher/CreateTest.jsx";
 
 const Home = lazy(() => import("./Pages/Home.jsx"));
 const About = lazy(() => import("./Pages/About.jsx"));
@@ -79,8 +80,10 @@ function App() {
                     <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
 
                     <Route path={"tests/:groupsId"} element={<TeacherTests />} />
-                    <Route path={"test/:groupsId/create/online"} element={<CreateTestOnline />} />
-                    <Route path={"test/:groupsId/create/offline"} element={<CreateTestOffline />} />
+                    <Route path={"test/:groupsId/create"} element={<CreateTest />}>
+                      <Route path={"online"} element={<CreateTestOnline />} />
+                      <Route path={"offline"} element={<CreateTestOffline />} />
+                    </Route>
                     <Route path={"test/:testId"} element={<Test />} />
                     <Route path={"test/:testId/answers"} element={<TestAnswers />} />
                     <Route path={"test/:testId/edit"} element={<EditTest />} />

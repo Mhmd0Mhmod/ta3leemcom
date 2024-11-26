@@ -11,7 +11,7 @@ function Months() {
     <Menu>
       <div className={"space-y-10"}>
         <div>
-          <Heading>الأشهور</Heading>
+          <Heading>الأشهر</Heading>
         </div>
         <hr className={"w-3/4"} />
         <div className={"flex items-center justify-between"}>

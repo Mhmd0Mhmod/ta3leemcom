@@ -41,7 +41,7 @@ function Level() {
           {[
             { name: "الاختبارات", Icon: Tests, tab: "tests" },
             { name: "الطلاب", Icon: Students, tab: "students" },
-            { name: "الاشهور", Icon: Months, tab: `months/${levelYearId}` },
+            { name: "الاشهر", Icon: Months, tab: `months/${levelYearId}` },
             { name: "الاوائل", Icon: Toppers, tab: "toppers" },
           ].map((item, i) => (
             <Link to={`/TDashboard/${item.tab}/${selectedGroups.join(",")}`} onClick={handleMove} key={i} className={"flex cursor-pointer flex-col items-center gap-5"}>

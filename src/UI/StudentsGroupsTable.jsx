@@ -7,6 +7,8 @@ import EditIcon from "/public/Icons/edit_icon.svg";
 import DeleteIcon from "/public/Icons/trash_icon.svg";
 import Sort from "/public/Icons/sort.svg";
 import Loading from "./Loading.jsx";
+import Modal from "../Context/Modal.jsx";
+import AlertWindow from "./AlertWindow.jsx";
 
 function StudentsGroupsTable() {
   const [search, setSearch] = useState("");
@@ -36,7 +38,7 @@ function StudentsGroupsTable() {
     navigate(`/TDashboard/student/${id}/edit`);
   };
   const showStudent = (id) => {
-    navigate(`/TDashboard/student/${id}/details`);
+    navigate(`/TDashboard/student/${id}`);
   };
   return (
     <>
@@ -62,7 +64,12 @@ function StudentsGroupsTable() {
                   <div className="flex items-center justify-between">
                     <EditIcon onClick={() => handleEdit(student.id)} alt="Edit" />
                     <span onClick={() => showStudent(student.id)}>{`${index + 1}. ${student.name}`}</span>
-                    <DeleteIcon onClick={() => handleDelete(student.id)} />
+                    <Modal.Trigger id={student.id}>
+                      <DeleteIcon />
+                    </Modal.Trigger>
+                    <Modal.Content id={student.id}>
+                      <AlertWindow title={"هل انت متأكد من حذف الطالب؟"} description={" "} onConfirm={() => handleDelete(student.id)} />
+                    </Modal.Content>
                   </div>
                 </TableCell>
               </TableRow>

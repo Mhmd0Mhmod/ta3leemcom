@@ -23,7 +23,7 @@ function useGroupsTest() {
     queryKey: ["groupsTests", groupsIds],
     queryFn: () => getTests(groupsIds, token),
   });
-  const type = searchParams.get("type");
+  const type = searchParams.get("type") === "online" ? "اونلاين" : searchParams.get("type") === "offline" ? "اوفلاين" : null;
   const from = searchParams.get("from");
   const to = searchParams.get("to");
   const day = searchParams.get("day");

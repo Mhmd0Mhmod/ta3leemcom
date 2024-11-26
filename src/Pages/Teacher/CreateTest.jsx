@@ -1,5 +1,11 @@
+import TestSetting from "../../UI/TestSetting.jsx";
+
 function CreateTest() {
-  return <div></div>;
+  return (
+    <div>
+      <TestSetting />
+    </div>
+  );
 }
 
 export default CreateTest;
