@@ -7,7 +7,7 @@ function AddQuestion() {
       <div>
         <div>
           <input type="text" placeholder="اكتب سؤالك هنا ..." />
-          <input type={"number"} className={}/>
+          <input type={"number"} />
         </div>
       </div>
     </>
