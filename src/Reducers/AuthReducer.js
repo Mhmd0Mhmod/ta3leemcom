@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import { isAuthenticated } from "react-auth-kit/utils/utils";
 import Cookies from "js-cookie";
 
 const authStore = createSlice({

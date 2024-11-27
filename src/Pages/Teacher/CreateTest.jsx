@@ -1,9 +1,11 @@
+import { Outlet } from "react-router-dom";
 import TestSetting from "../../UI/TestSetting.jsx";
 
 function CreateTest() {
   return (
-    <div>
+    <div className="space-y-10">
       <TestSetting />
+      <Outlet />
     </div>
   );
 }

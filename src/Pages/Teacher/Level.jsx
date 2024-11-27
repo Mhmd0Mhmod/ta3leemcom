@@ -39,7 +39,7 @@ function Level() {
         <GroupsList value={selectedGroups} onChange={selectGroup} selectAll={ToggleSelectAllGroups} />
         <div className={"mt-16 grid flex-grow grid-cols-2 grid-rows-2 gap-20 self-center xl:gap-x-80 xl:gap-y-20"}>
           {[
-            { name: "الاختبارات", Icon: Tests, tab: "tests" },
+            { name: "الاختبارات", Icon: Tests, tab: `tests/${levelYearId}` },
             { name: "الطلاب", Icon: Students, tab: "students" },
             { name: "الاشهر", Icon: Months, tab: `months/${levelYearId}` },
             { name: "الاوائل", Icon: Toppers, tab: "toppers" },

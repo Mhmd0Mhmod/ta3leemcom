@@ -9,8 +9,7 @@ import Arrow from "/public/Icons/arrow_in_levels.svg";
 import Button from "./Button.jsx";
 
 function GroupsList({ value, onChange, selectAll }) {
-  const { levelYearId } = useParams();
-  const { groups, isLoading, error } = useGroups(levelYearId);
+  const { groups, isLoading, error } = useGroups();
 
   return (
     <div className={"flex flex-col pr-10"}>

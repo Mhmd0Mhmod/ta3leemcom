@@ -10,7 +10,7 @@ import DownloadAppQR from "/public/Icons/downloadAppQR.svg";
 import { Link } from "react-router-dom";
 export default function Footer() {
   return (
-    <div className="grid w-full max-w-fit grid-rows-[1fr_auto] place-content-center gap-8 overflow-hidden bg-gray-100 p-4 text-center md:grid-cols-[1.2fr_1fr_1fr_1fr_1fr_1fr]">
+    <div className="grid w-full min-w-fit grid-rows-[1fr_auto] place-content-center gap-8 overflow-hidden bg-gray-100 p-4 text-center md:grid-cols-[1.2fr_1fr_1fr_1fr_1fr_1fr]">
       <FooterColumn className={"col-span-2 mt-0 space-y-4 xl:col-span-1"} title={<Logo className="w-full" />} c>
         <FooterColumn.Description>نحن منصة تعليمية متكاملة تهدف إلى تسهيل العملية التعليمية من خلال تقديم أدوات فعالة للمعلمين، الطلاب، وأولياء الأمور.</FooterColumn.Description>
         <FooterColumn.List className="flex justify-center gap-10 !space-y-0">

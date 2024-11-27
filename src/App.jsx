@@ -79,8 +79,8 @@ function App() {
                     <Route path={"level"} element={<SelectLevel />} />
                     <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
 
-                    <Route path={"tests/:groupsId"} element={<TeacherTests />} />
-                    <Route path={"test/:groupsId/create"} element={<CreateTest />}>
+                    <Route path={"tests/:levelYearId/:groupsId"} element={<TeacherTests />} />
+                    <Route path={"tests/:levelYearId/:groupsId/create"} element={<CreateTest />}>
                       <Route path={"online"} element={<CreateTestOnline />} />
                       <Route path={"offline"} element={<CreateTestOffline />} />
                     </Route>

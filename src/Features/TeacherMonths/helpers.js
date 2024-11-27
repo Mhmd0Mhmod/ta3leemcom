@@ -71,7 +71,6 @@ export async function addMonths(token, groupId, months) {
       );
     });
     const data = await Promise.allSettled(createMonthsPromises);
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
