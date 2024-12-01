@@ -54,7 +54,7 @@ function Attendance() {
                 حالة الدفع الشهر
               </Heading>
 
-              <div className={"flex w-full items-center justify-center gap-2 rounded-md bg-white py-5 shadow-md"}>
+              <div className={"flex w-full items-center justify-center gap-2 rounded-md bg-white py-5 text-xl shadow-md"}>
                 {selectedMonth.pay ? (
                   <>
                     <Paid />
@@ -74,9 +74,9 @@ function Attendance() {
               </Heading>
               <div className={"flex w-full flex-wrap items-center justify-between gap-2 rounded-md bg-white p-1 shadow-md"}>
                 {selectedMonth.days.length === 0 ? (
-                  <>
+                  <div className="w-full p-4 text-center text-xl">
                     <span>لا توجد حصص</span>
-                  </>
+                  </div>
                 ) : (
                   selectedMonth.days.map((day, i) => (
                     <div key={i} className={"flex flex-col items-center gap-2 rounded-md p-4 hover:bg-gray-100"}>
