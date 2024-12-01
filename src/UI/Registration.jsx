@@ -6,13 +6,13 @@ import { useSelector } from "react-redux";
 import { isLogin } from "../Reducers/AuthReducer.js";
 
 function Registration({ className }) {
-  const { role, name } = useAuthUser() || {};
+  const { name } = useAuthUser() || {};
   const isLogined = useSelector(isLogin);
 
   return (
     <div className={`text-xl ${className}`}>
       {isLogined ? (
-        <UserName name={name} />
+        <UserName name={name.split(" ").slice(0, 3).join(" ")} />
       ) : (
         <>
           <LoginButton />

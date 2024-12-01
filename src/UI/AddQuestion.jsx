@@ -3,7 +3,7 @@ import { Save, X } from "lucide-react";
 import toast from "react-hot-toast";
 import Toggle from "./Toggle.jsx";
 import { Plus } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editQuestion, setQuestions } from "../Reducers/testReducer.js";
 import Button from "./Button.jsx";
 function AddQuestion({ questionToEdit, onEdit }) {
@@ -12,15 +12,14 @@ function AddQuestion({ questionToEdit, onEdit }) {
     defaultValues: questionToEdit || {
       content: "",
       mark: 1,
-      compulsory: true,
+      type: true,
       choices: [{ id: 1, content: "", isCorrect: false }],
       explain: "",
     },
   });
-
   const dispatch = useDispatch();
 
-  const { choices, compulsory } = watch();
+  const { choices, type } = watch();
 
   const addOption = () => {
     const id = choices[choices.length - 1].id + 1;
@@ -54,6 +53,8 @@ function AddQuestion({ questionToEdit, onEdit }) {
       toast.error("يجب اختيار اجابة صحيحة");
       return;
     }
+
+    data.type = data.type ? "mandatory" : "optional";
     if (id) {
       data.id = id;
       onEdit?.();
@@ -86,11 +87,15 @@ function AddQuestion({ questionToEdit, onEdit }) {
             autoComplete="off"
             {...register("content", {
               required: "يجب ادخال السؤال",
+              minLength: {
+                value: 10,
+                message: "يجب ان يكون طول السؤال اكبر من 10 حروف",
+              },
             })}
           />
           <div className="flex items-center gap-2">
             <input type={"number"} className="w-10 rounded-lg border-2 border-gray-400 bg-inherit text-center" {...register("mark")} min={0} defaultValue={1} />
-            <span>{compulsory ? "اجباري" : "بونص"}</span>
+            <span>{type === "Mandatory" ? "اجباري" : "بونص"}</span>
           </div>
         </div>
         <div className="space-y-4">
@@ -123,7 +128,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
         </div>
         <hr className="m-auto w-11/12 border-t-2" />
         <div className="flex gap-4">
-          <Toggle register={register} name={"compulsory"} value={compulsory} id={`addToggle-${id || 0}`} />
+          <Toggle register={register} name={"type"} value={type} id={`addToggle-${id || 0}`} />
           <label htmlFor="addToggle">اجباري</label>
         </div>
       </div>

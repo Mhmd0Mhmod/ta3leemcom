@@ -16,6 +16,8 @@ export function useMonths() {
     queryKey: ["months", groupId],
     queryFn: () => getGroupMonths(token, groupId),
   });
+  console.log(months);
+
   useEffect(() => {
     if (months && !searchParam.get("m")) {
       const monthId = months?.at(-1).monthId;

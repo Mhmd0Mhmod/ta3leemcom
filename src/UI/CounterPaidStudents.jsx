@@ -5,6 +5,7 @@ import { useMonthData } from "../Features/TeacherMonths/useMonthData";
 function CounterPaidStudents() {
   const { monthData, isLoading } = useMonthData();
   if (isLoading) return null;
+
   const paidStudents = monthData?.monthStudents.filter((student) => student.pay).length;
   return (
     <>

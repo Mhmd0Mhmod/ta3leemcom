@@ -2,7 +2,6 @@ import Heading from "./Heading.jsx";
 import Button from "./Button.jsx";
 import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { useSignup } from "../Features/Registration/useSignup.js";
 
 function SignupForm() {
@@ -35,7 +34,7 @@ function SignupForm() {
   return (
     <>
       <Heading className={"text-center"}>انشئ حسابك</Heading>
-      <form className={"!mt-4 flex h-4/6 flex-col justify-between space-y-1"} onSubmit={handleSubmit(onSubmit)}>
+      <form className={"!mt-4 flex h-4/6 flex-col justify-between space-y-2"} onSubmit={handleSubmit(onSubmit)}>
         <Heading as={"h4"} className={"text-Secondary-100"}>
           الاسم الثلاثي
         </Heading>

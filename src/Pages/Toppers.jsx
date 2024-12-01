@@ -3,8 +3,8 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useToppers } from "../Features/Toppers/useToppers";
 import Loading from "../UI/Loading";
-import toast from "react-hot-toast";
 import Heading from "../UI/Heading";
+
 const style = {
   0: {
     text: "!bg-[#8F2222] text-white",
@@ -19,6 +19,7 @@ const style = {
     number: "!bg-[#B46300] text-white !border-[#EE943C]",
   },
 };
+
 function Toppers() {
   const { height } = useWindowSize();
   const { toppers, isLoading, error } = useToppers();
@@ -34,10 +35,11 @@ function Toppers() {
     <>
       <Confetti height={height} numberOfPieces={2000} tweenDuration={5000} recycle={animation} />
       <div className={"m-auto flex flex-col gap-6 text-center"}>
-        <Heading className={"font-almaria-bold"}>المتفوقون</Heading>
+        <Heading className={"font-Almarai-bold"}>المتفوقون</Heading>
         <hr className="h-2 w-[70%]" />
       </div>
-      <div className={"font-almaria-bold m-auto flex w-3/4 flex-col"}>
+      <div className={"m-auto flex w-3/4 flex-col font-Almarai-bold"}>
+        {!isLoading && !toppers && <div className={"text-center text-xl"}>لا يوجد متفوقون </div>}
         {toppers?.map((el, index) => (
           <div className={`relative flex items-center rounded`} key={el.id}>
             <div className={`relative`}>

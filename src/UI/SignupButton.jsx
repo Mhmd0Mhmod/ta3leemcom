@@ -2,7 +2,6 @@ import ModalWithRoutes from "../Context/ModalWithRoutes";
 import Button from "./Button";
 import { IoArrowBackSharp } from "react-icons/io5";
 import ModalRightStyle from "./ModalRightStyle";
-import SignupForm from "./SignupForm";
 
 function SignupButton({ id }) {
   return (

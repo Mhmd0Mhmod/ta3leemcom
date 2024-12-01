@@ -3,7 +3,6 @@ import Qustion from "./Question";
 
 function Questions() {
   const questions = useSelector((state) => state.test?.questions);
-  console.log(questions);
 
   return (
     <div className="space-y-4">

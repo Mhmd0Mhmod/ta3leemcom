@@ -1,4 +1,4 @@
-import Sidebar, { useSidebarContext } from "./Sidebar.jsx";
+import Sidebar, { useSidebarContext } from "../Context/Sidebar.jsx";
 import { Link } from "react-router-dom";
 import Profile from "../../public/Icons/blackProfile.svg";
 import Group from "../../public/Icons/group.svg";
@@ -13,7 +13,6 @@ function TeacherSidebar({ className }) {
   if (isLoading) return <Loading />;
 
   const levels = Object.keys(allLevels).map((id) => {
-    console.log(id);
     return {
       id,
       name: allLevels[id][0].name.split(" ").at(-1),

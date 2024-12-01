@@ -25,7 +25,6 @@ function Opinion() {
   };
   const onSubmit = (data) => {
     setLoading(true);
-    console.log(data);
     setLoading(false);
     // sendOpinion(rate, comment)
     //   .then((res) => {
@@ -51,7 +50,7 @@ function Opinion() {
       </div>
       <div className={"space-y-8 pr-3"}>
         <div className="flex items-center gap-4">
-          <Heading as={"h2"} className={"text-Secondary-500 font-Almarai-bold"}>
+          <Heading as={"h2"} className={"font-Almarai-bold text-Secondary-500"}>
             رايك يهمنا
           </Heading>
           <Qouts />

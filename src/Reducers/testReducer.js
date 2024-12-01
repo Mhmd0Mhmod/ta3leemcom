@@ -7,15 +7,42 @@ const initialState = {
   type: "",
   bonus: 0,
   teacherId: null,
-  groupIds: [],
-  compulsory: 0,
+  groupsIds: [],
   questions: [],
-  timeDuration: {},
+  timeDuration: {
+    hours: 0,
+    minutes: 0,
+    days: 0,
+    mode: "AM",
+  },
 };
 const testReducer = createSlice({
   name: "test",
   initialState,
   reducers: {
+    reset: (state) => {
+      state.title = "";
+      state.mark = 0;
+      state.startDate = null;
+      state.type = "";
+      state.bonus = 0;
+      state.teacherId = null;
+      state.groupsIds = [];
+      state.questions = [];
+      state.timeDuration = {
+        hours: 0,
+        minutes: 0,
+        days: 0,
+        mode: "AM",
+      };
+    },
+    setTest: (state, action) => {
+      if (!action.payload) return;
+      const entries = Object.entries(action.payload);
+      entries.forEach(([key, value]) => {
+        state[key] = value;
+      });
+    },
     setTitle: (state, action) => {
       state.title = action.payload;
     },
@@ -28,12 +55,12 @@ const testReducer = createSlice({
     setTeacherId: (state, action) => {
       state.teacherId = action.payload;
     },
-    setGroupIds: (state, action) => {
-      state.groupIds = action.payload;
+    setGroupsIds: (state, action) => {
+      state.groupsIds = action.payload;
     },
     setQuestions: (state, action) => {
       const question = { ...action.payload, id: state.questions.length + 1 };
-      if (action.payload.compulsory) {
+      if (action.payload.type === "mandatory") {
         state.mark += Number(action.payload.mark);
       } else {
         state.bonus += Number(action.payload.mark);
@@ -42,11 +69,10 @@ const testReducer = createSlice({
     },
     setTimeDuration: (state, action) => {
       state.timeDuration = action.payload;
+      state.timeDuration.mode = "AM";
     },
     editQuestion(state, action) {
       const index = state.questions.findIndex((question) => question.id === action.payload.id);
-      console.log(action.payload);
-
       state.questions[index] = action.payload;
     },
     deleteQuestion(state, action) {
@@ -57,6 +83,7 @@ const testReducer = createSlice({
 });
 
 export default testReducer.reducer;
-export const { setTitle, setStartDate, setType, setTeacherId, setGroupIds, setQuestions, setTimeDuration, setTimeStart, editQuestion, deleteQuestion } = testReducer.actions;
+export const { reset, setTest, setTitle, setStartDate, setType, setTeacherId, setGroupsIds, setQuestions, setTimeDuration, setTimeStart, editQuestion, deleteQuestion } =
+  testReducer.actions;
 export const selectTest = (state) => state.test;
 export const selectTitle = (state) => state.test.title;

@@ -20,7 +20,7 @@ function useGroupsTest() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["groupsTests", groupsIds],
+    queryKey: ["groupsTests", ...groupsIds],
     queryFn: () => getTests(groupsIds, token),
   });
   const type = searchParams.get("type") === "online" ? "اونلاين" : searchParams.get("type") === "offline" ? "اوفلاين" : null;
@@ -28,7 +28,7 @@ function useGroupsTest() {
   const to = searchParams.get("to");
   const day = searchParams.get("day");
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || !groupsTests?.length) return;
     setOperatedTests([...groupsTests]);
   }, [groupsTests, isLoading]);
   useEffect(() => {

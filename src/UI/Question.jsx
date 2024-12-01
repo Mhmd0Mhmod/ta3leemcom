@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Button from "./Button";
-import { CircleCheck, CircleX, Edit, Trash } from "lucide-react";
+import { CircleCheck, CircleX, Copy, Edit, Trash } from "lucide-react";
 import AddQuestion from "./AddQuestion";
 import { useDispatch } from "react-redux";
-import { deleteQuestion } from "../Reducers/testReducer";
+import { deleteQuestion, setQuestions } from "../Reducers/testReducer";
 
 function Question({ question }) {
   const [disabled, setDisabled] = useState(true);
@@ -12,10 +12,13 @@ function Question({ question }) {
   const finishEdit = () => {
     setDisabled(true);
   };
+  if (!disabled) return <AddQuestion questionToEdit={question} onEdit={finishEdit} />;
   function remove() {
     dispatch(deleteQuestion(question.id));
   }
-  if (!disabled) return <AddQuestion questionToEdit={question} onEdit={finishEdit} />;
+  function duplicate() {
+    dispatch(setQuestions({ ...question }));
+  }
   return (
     <div className="space-y-4 rounded-md bg-white p-4">
       <div className="flex justify-between">
@@ -42,8 +45,12 @@ function Question({ question }) {
           <p className="w-3/4 rounded-md bg-gray-200 p-2">{explain}</p>
         </span>
       </div>
-      <div className="mr-auto flex">
-        <Button type="normal" onClick={() => setDisabled(false)} className="mr-auto flex items-center gap-4 text-Secondary-500">
+      <div className="mr-auto flex w-fit">
+        <Button type="normal" onClick={duplicate} className="flex items-center gap-4 text-Secondary-500">
+          <Copy />
+          <span>تكرار</span>
+        </Button>
+        <Button type="normal" onClick={() => setDisabled(false)} className="flex items-center gap-4 text-Secondary-500">
           <Edit />
           <span>تعديل</span>
         </Button>

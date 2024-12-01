@@ -14,10 +14,14 @@ import { useDeleteSession } from "../Features/TeacherMonths/useDeleteSession.js"
 import { useState } from "react";
 import Button from "./Button.jsx";
 import { useSaveChanges } from "../Features/TeacherMonths/useSaveChanges.js";
+import { useSearchParams } from "react-router-dom";
 
 const Icon = ToggleIcon({ IconTrue: Paid, IconFalse: NotPaid });
 
 function MonthsTable() {
+  const [searchParams] = useSearchParams();
+  const monthId = searchParams.get("m");
+
   const [changes, setChanges] = useState({
     absenceStudents: [],
     monthStudents: [],
@@ -31,9 +35,9 @@ function MonthsTable() {
     deleteSession(id);
   }
 
-  console.log("monthData", monthData);
   function handlePayStudent(student) {
-    const { studentId, studentName, monthId, pay } = student;
+    const { studentId, name: studentName, monthId, pay } = student;
+
     const studentIndex = changes.monthStudents.findIndex((s) => s.studentId === studentId);
     if (studentIndex === -1) {
       setChanges((prev) => ({
@@ -57,7 +61,7 @@ function MonthsTable() {
   }
 
   function handleAbsenceStudent(dayId, student, attended) {
-    const { studentId, studentName } = student;
+    const { studentId, name: studentName } = student;
     const absenceIndex = changes.absenceStudents.findIndex((a) => a.dayId === dayId && a.studentId === studentId);
     if (absenceIndex === -1) {
       setChanges((prev) => ({
@@ -89,6 +93,10 @@ function MonthsTable() {
 
   function handleSaveChanges() {
     if (changes.monthStudents.length === 0) changes.monthStudents = [...monthData.monthStudents];
+    changes.monthStudents = changes.monthStudents.map((student) => {
+      return { ...student, monthId };
+    });
+
     saveChanges(changes, {
       onSuccess: () => {
         reset();
@@ -104,7 +112,7 @@ function MonthsTable() {
         </div>
       )}
       <div className={"overflow-x-auto"}>
-        <div className={"grid min-w-[500px] select-none grid-cols-[auto_1fr_auto_auto] gap-5 overflow-x-auto"}>
+        <div className={"grid min-h-52 min-w-[500px] select-none grid-cols-[auto_1fr_auto_auto] gap-5 overflow-x-auto"}>
           <Table className={"mt-2"}>
             <TableHead>
               <TableHeadCell>اسم الطالب</TableHeadCell>
@@ -116,7 +124,7 @@ function MonthsTable() {
                 const toggled = findInChanges !== undefined ? findInChanges : student.pay;
                 return (
                   <TableRow key={student.studentId}>
-                    <TableCell>{student.studentName}</TableCell>
+                    <TableCell>{student.name}</TableCell>
                     <TableCell>
                       <div className={"flex justify-center"}>
                         <Icon isToggled={toggled} onClick={() => handlePayStudent(student)} />
@@ -128,17 +136,17 @@ function MonthsTable() {
             </TableBody>
           </Table>
           <div className={"flex rotate-180 overflow-x-auto rounded-lg"}>
-            <Table className={"rotate-180 self-end"}>
+            <Table className={"rotate-180"}>
               <TableHead>
                 {monthData?.days.map((day) => (
-                  <TableHeadCell key={day.id}>
+                  <TableHeadCell key={day.dayId}>
                     <div className={"flex items-center justify-center gap-4"}>
                       <span>{format(new Date(day.date), "yyyy/MM/dd")}</span>
-                      <Modal.Trigger id={day.id}>
+                      <Modal.Trigger id={day.dayId}>
                         <Trash className={"cursor-pointer"} />
                       </Modal.Trigger>
-                      <Modal.Content id={day.id} className={"!h-fit !w-fit"}>
-                        <AlertWindow title={"هل انت متأكد من حذف اليوم؟"} description={" "} onConfirm={() => confirmDelete(day.id)} />
+                      <Modal.Content id={day.dayId} className={"!h-fit !w-fit"}>
+                        <AlertWindow title={"هل انت متأكد من حذف اليوم؟"} description={" "} onConfirm={() => confirmDelete(day.dayId)} />
                       </Modal.Content>
                     </div>
                   </TableHeadCell>
@@ -147,13 +155,13 @@ function MonthsTable() {
               <TableBody>
                 {monthData?.monthStudents.map((student, i) => (
                   <TableRow key={student.studentId}>
-                    {monthData?.days.map((day) => {
-                      const findInChanges = changes.absenceStudents.find((st) => st.studentId === student.studentId && st.dayId === day.id)?.attended;
-                      const toggled = findInChanges !== undefined ? findInChanges : day.studentAbsences[i].attended;
+                    {student.studentAbsences.map((day) => {
+                      const findInChanges = changes.absenceStudents.find((a) => a.dayId === day.dayId && a.studentId === student.studentId)?.attended;
+                      const toggled = findInChanges !== undefined ? findInChanges : day.isAttended;
                       return (
-                        <TableCell key={day.id}>
-                          <div className="flex justify-center">
-                            <Icon isToggled={toggled} onClick={() => handleAbsenceStudent(day.id, student, day.studentAbsences[i].attended)} />
+                        <TableCell key={day.dayId}>
+                          <div className={"flex justify-center"}>
+                            <Icon isToggled={toggled} onClick={() => handleAbsenceStudent(day.dayId, student, day.isAttended)} />
                           </div>
                         </TableCell>
                       );
@@ -169,9 +177,12 @@ function MonthsTable() {
               <TableHeadCell> اجمالي</TableHeadCell>
             </TableHead>
             <TableBody>
-              {monthData?.monthStudents.map((student, i) => {
-                const total = monthData.days.reduce((acc, day) => {
-                  return acc + (day.studentAbsences[i].attended ? 1 : 0);
+              {monthData?.monthStudents.map((student) => {
+                const total = student.studentAbsences.reduce((acc, day) => {
+                  if (day.isAttended) {
+                    return acc + 1;
+                  }
+                  return acc;
                 }, 0);
                 return (
                   <TableRow key={student.studentId}>

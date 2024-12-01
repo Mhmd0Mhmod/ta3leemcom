@@ -7,18 +7,22 @@ import useSignOut from "react-auth-kit/hooks/useSignOut";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { logout as reduxLogout } from "../Reducers/AuthReducer";
+import { useNavigate } from "react-router-dom";
+
 function UserName({ name }) {
   const close = useCloseMenu();
   const logout = useSignOut();
-  const dispath = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   function handleLogout() {
-    logout({
-      redirectTo: "/",
-    });
+    logout();
+    navigate("/");
     toast.success("تم تسجيل الخروج بنجاح");
     close?.();
-    dispath(reduxLogout());
+    dispatch(reduxLogout());
   }
+
   return (
     <div className="relative">
       <Menu.Trigger name={"userMenu"}>
@@ -43,4 +47,5 @@ function UserName({ name }) {
     </div>
   );
 }
+
 export default UserName;

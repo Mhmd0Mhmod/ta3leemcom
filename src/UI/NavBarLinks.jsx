@@ -2,13 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import DropDashBoardList from "/public/Icons/DropNavBar.svg";
 import Menu from "../Context/Menu.jsx";
 import TeacherSidebar from "./TeacherSidebar.jsx";
-import Sidebar from "./Sidebar.jsx";
+import Sidebar from "../Context/Sidebar.jsx";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { useWindowSize } from "react-use";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { isLogin } from "../Reducers/AuthReducer.js";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import StudentSidebar from "./StudentSidebar.jsx";
 
 const links = [
   {
@@ -55,6 +56,20 @@ const teacherDashboard = [
     title: "المراحل الدراسيه",
   },
 ];
+const studentDashboard = [
+  {
+    to: "/SDashboard/tests",
+    title: "الاختبارات",
+  },
+  {
+    to: "/SDashboard/toppers",
+    title: "المتفوقين",
+  },
+  {
+    to: "/SDashboard/attendance",
+    title: "الحضور",
+  },
+];
 
 function NavBarLinks({ className }) {
   const { width } = useWindowSize();
@@ -70,19 +85,22 @@ function NavBarLinks({ className }) {
               <Link to={link.to}>{link.title}</Link>
             </li>
           ))}
-          {!pathname.includes("Dashboard") && role && (
-            <div className={"relative border-r-2"}>
-              <Menu.Trigger name={"teacherDashboard"}>
-                <DropDashBoardList />
-              </Menu.Trigger>
-              <Menu.List name={"teacherDashboard"} className={"relative"}>
-                <div className={"absolute z-[12] shadow-md"}>
-                  <Sidebar>
-                    <TeacherSidebar />
-                  </Sidebar>
-                </div>
-              </Menu.List>
-            </div>
+          {isLogined && !pathname.includes("Dashboard") && (
+            <>
+              <div className={"relative border-r-2"}>
+                <Menu.Trigger name={"teacherDashboard"}>
+                  <DropDashBoardList />
+                </Menu.Trigger>
+                <Menu.List name={"teacherDashboard"} className={"relative"}>
+                  <div className={"absolute z-[12] shadow-md"}>
+                    <Sidebar>
+                      {role === "Teacher" && <TeacherSidebar />}
+                      {role === "Student" && <StudentSidebar />}
+                    </Sidebar>
+                  </div>
+                </Menu.List>
+              </div>
+            </>
           )}
         </ul>
       )}
@@ -102,14 +120,27 @@ function NavBarLinks({ className }) {
                     {link.title}
                   </Link>
                 ))}
-                {role === "Teacher" && (
+                {isLogin && (
                   <>
                     <span className={"text-xl text-primary"}>لوحه التحكم</span>
-                    {teacherDashboard.map((link, index) => (
-                      <Link to={link.to} key={index}>
-                        {link.title}
-                      </Link>
-                    ))}
+                    {role === "Teacher" && (
+                      <>
+                        {teacherDashboard.map((link, index) => (
+                          <Link to={link.to} key={index}>
+                            {link.title}
+                          </Link>
+                        ))}
+                      </>
+                    )}
+                    {role === "Student" && (
+                      <>
+                        {studentDashboard.map((link, index) => (
+                          <Link to={link.to} key={index}>
+                            {link.title}
+                          </Link>
+                        ))}
+                      </>
+                    )}
                   </>
                 )}
               </div>

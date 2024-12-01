@@ -11,11 +11,13 @@ import AppStore from "/public/Icons/apple.svg";
 import SignupButton from "../../UI/SignupButton.jsx";
 import { useNavigate } from "react-router-dom";
 import KnowMore from "../../UI/KnowMore.jsx";
+import { useSelector } from "react-redux";
 
 const images = ["imgs/home-bg-1.png", "imgs/home-bg-2.png", "imgs/home-bg-3.png"];
 
 function SwiperHome() {
-  const navigate = useNavigate();
+  const { isLogin } = useSelector((state) => state.Auth);
+
   return (
     <>
       <Swiper
@@ -42,7 +44,7 @@ function SwiperHome() {
 
           <div className={"flex items-center justify-center sm:justify-between"}>
             <div className="flex gap-12 self-start text-3xl">
-              <SignupButton id={"homeSignup"} />
+              {!isLogin && <SignupButton id={"homeSignup"} />}
               <KnowMore type="normal" className={"border px-6 py-3"} title={"تعرف اكثر"} />
             </div>
             <div className={"hidden flex-col gap-10 md:flex"}>

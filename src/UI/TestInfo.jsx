@@ -4,35 +4,50 @@ import QuestionIcon from "/public/Icons/question_icon.svg";
 import FlagIcon from "/public/Icons/flag_icon.svg";
 import PounsIcon from "/public/Icons/bouns_icon.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { setTitle } from "../Reducers/testReducer";
+import { setGroupsIds, setTeacherId, setTitle } from "../Reducers/testReducer";
 import { useGroups } from "../Features/Dashboard/useGroups";
 import { useParams } from "react-router-dom";
 import { useLevels } from "../Features/Dashboard/useLevels";
 import Loading from "./Loading";
+import { useEffect } from "react";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 function TestInfo() {
-  const dispatch = useDispatch();
-  const { levelYearId, groupsId } = useParams();
+  const { teacherId } = useAuthUser();
   const test = useSelector((state) => state.test);
+  const dispatch = useDispatch();
+  let { groupsId } = useParams();
+
   const { groups: allGroups, isLoading } = useGroups();
-  const { levels } = useLevels();
+
+  if (!groupsId) {
+    groupsId = test.groupsIds || [];
+  } else {
+    groupsId?.split(",").map((id) => +id) || [];
+  }
+  useEffect(() => {
+    dispatch(setTeacherId(teacherId));
+  }, [teacherId, dispatch]);
+  useEffect(() => {
+    dispatch(setGroupsIds(groupsId));
+  }, [groupsId, dispatch]);
+
   if (isLoading) return <Loading />;
+
+  console.log(groupsId);
+
   const groups = allGroups?.filter((group) => groupsId.includes(group.id));
-  const allLevels = Object.values(levels).flat();
-  const levelName = allLevels.find((level) => level.id === +levelYearId)?.name;
-  const { name, questions, mark, bonus } = test;
+
+  const { title, questions, mark, bonus } = test;
+
   const onChange = (e) => {
     dispatch(setTitle(e.target.value));
   };
 
   return (
     <div className={"space-y-4"}>
-      <input className={"w-full rounded-md border border-gray-300 p-2"} placeholder={"اسم الاختبار"} value={name} onChange={onChange} />
+      <input className={"w-full rounded-md border border-gray-300 p-2"} placeholder={"اسم الاختبار"} value={title} onChange={onChange} />
       <div className={"grid grid-cols-3 grid-rows-2 gap-6"}>
-        <span className={"flex items-center gap-2"}>
-          <LevelIcon />
-          <span>{levelName}</span>
-        </span>
         <div>
           <span className={"peer flex items-center gap-2 duration-500"}>
             <GroupIcon />

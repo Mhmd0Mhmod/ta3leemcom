@@ -12,7 +12,7 @@ export const useDeleteGroup = () => {
     isPending,
     error,
   } = useMutation({
-    mutationFn: () => deleteGroupAPI(token, groupId),
+    mutationFn: (id) => deleteGroupAPI(token, id || groupId),
     onSuccess: () => {
       queryClient.invalidateQueries(["group", groupId]);
     },

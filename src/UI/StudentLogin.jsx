@@ -15,11 +15,11 @@ import { login as reduxLogin } from "../Reducers/AuthReducer.js";
 function StudentLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
   const { errors } = formState;
-  const { mutate, isLoading, error } = useLogin(studentLogin);
+  const { login, isLoading, error } = useLogin(studentLogin);
   const close = useCloseModal();
   const dispatch = useDispatch();
   function onSubmit(data) {
-    mutate(data, {
+    login(data, {
       onSuccess: () => {
         toast.success("تم تسجيل الدخول بنجاح, مرحبا بك 👋");
         reset();

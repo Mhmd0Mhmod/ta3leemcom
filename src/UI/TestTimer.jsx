@@ -1,7 +1,8 @@
 import { AlarmCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-function TestTimer({ timeDuration }) {
+function TestTimer({ timeDuration, onSubmit }) {
   const { hours, minutes, days } = timeDuration;
   const [time, setTime] = useState(minutes * 60 + hours * 3600 + days * 86400);
 
@@ -15,8 +16,18 @@ function TestTimer({ timeDuration }) {
         return prev - 1;
       });
     }, 1000);
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+
+  useEffect(() => {
+    if (time === 0) {
+      toast.success("تم انتهاء الوقت");
+      onSubmit();
+    }
+  }, [time, onSubmit]);
 
   return (
     <div className="mr-auto flex w-fit gap-3 rounded-md bg-white p-2">

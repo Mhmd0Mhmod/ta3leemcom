@@ -219,3 +219,45 @@ input[type="number"] {
   background-image: url("/public/imgs/show_test_bg.png");
   background-position: center;
 }
+.student__tests {
+  position: relative;
+  z-index: 1;
+}
+
+.student__tests::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/public/imgs/icon-business-target-project-tasks-list-time.png");
+  background-size: cover;
+  opacity: 5%;
+  z-index: -1;
+}
+.months__student__header {
+  position: relative;
+  white-space: nowrap;
+}
+
+.months__student__header::before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 5px;
+  background: #0884a2;
+  top: -15px;
+}
+
+.months__student__header::after {
+  content: "";
+  width: 23px;
+  height: 23px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: absolute;
+  right: -15px;
+  top: 5px;
+  z-index: -1;
+}

@@ -21,7 +21,7 @@ export function useAddSession() {
       }),
     onSuccess: () => {
       toast.success("تمت اضافة الحصه بنجاح");
-      queryClient.invalidateQueries(["month", monthId]);
+      queryClient.refetchQueries(["month", monthId]);
     },
     onError: (error) => {
       toast.error(error.message);

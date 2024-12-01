@@ -18,7 +18,7 @@ function MonthsList() {
   const [search, setSearch] = useState("");
   const { addMonths } = useAddMonths();
   const { months: all } = useMonths();
-  allMonths = allMonths.filter((month) => !all.some((m) => m.monthName === month.name && m.year === month.year));
+  allMonths = allMonths.filter((month) => !all?.some((m) => m.monthName === month.name && m.year === month.year));
   const filteredMonths = allMonths.filter((month) => month.name.toLowerCase().includes(search.toLowerCase()));
 
   function handleSearch(e) {

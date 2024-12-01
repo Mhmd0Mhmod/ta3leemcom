@@ -7,9 +7,24 @@ import Eye from "../../public/Icons/eye.svg";
 import Heading from "./Heading.jsx";
 import Arrow from "/public/Icons/arrow_in_levels.svg";
 import Button from "./Button.jsx";
+import Modal from "../Context/Modal.jsx";
+import AlertWindow from "./AlertWindow.jsx";
+import { useDeleteGroup } from "../Features/Dashboard/useDeleteGroup.js";
+import toast from "react-hot-toast";
 
 function GroupsList({ value, onChange, selectAll }) {
   const { groups, isLoading, error } = useGroups();
+  const { deleteGroup, isPending } = useDeleteGroup();
+  function handleDelete(id) {
+    deleteGroup(id, {
+      onSuccess: () => {
+        toast.success("تم حذف المجموعة بنجاح");
+      },
+      onError: () => {
+        toast.error("حدث خطأ أثناء حذف المجموعة");
+      },
+    });
+  }
 
   return (
     <div className={"flex flex-col pr-10"}>
@@ -23,7 +38,7 @@ function GroupsList({ value, onChange, selectAll }) {
         {isLoading && <Loading />}
         <ul className={"flex flex-col gap-5"}>
           {!isLoading && groups?.length === 0 && (
-            <li className="flex items-center justify-between">
+            <li className="flex items-center justify-between gap-4">
               <span>لا يوجد مجموعات</span>
               <Link to="/TDashboard/group/add" className="flex items-center gap-2 rounded-xl bg-[#0884A2] px-2 py-1 text-white">
                 <span>اضافة مجموعة</span>
@@ -37,10 +52,19 @@ function GroupsList({ value, onChange, selectAll }) {
                 onClick={() => onChange(group.id)}
                 className={`font-Almaria-bold flex cursor-pointer items-center gap-2 rounded-xl border border-sky-200 p-2 hover:bg-Secondary-100 ${value.includes(group.id) ? "bg-Secondary-100 text-white" : ""}`}
               >
-                <Trash />
-                <Edit />
+                <Modal.Trigger id={`delete-${group.id}`}>
+                  <Trash />
+                </Modal.Trigger>
+                <Modal.Content id={`delete-${group.id}`} className={"p-5"}>
+                  <AlertWindow title={"حذف المجموعة"} description={"هل انت متأكد من حذف المجموعة؟"} onConfirm={() => handleDelete(group.id)} />
+                </Modal.Content>
+                <Link to={`/TDashboard/group/${group.id}/edit`}>
+                  <Edit />
+                </Link>
                 <span className={"flex-1 text-center"}>{group.name}</span>
-                <Eye />
+                <Link to={`/TDashboard/group/${group.id}`}>
+                  <Eye />
+                </Link>
               </li>
             ))}
         </ul>
