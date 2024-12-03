@@ -40,14 +40,16 @@ function ModalWithRoutes({ routes, children }) {
     </ModalWithRoutesContext.Provider>
   );
 }
+function BackArrow({ className }) {
+  const { stackHistory, handleBack } = useContext(ModalWithRoutesContext);
+  return stackHistory.length > 1 && <Arrow onClick={handleBack} className={"absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer"} />;
+}
 
 function Content({ id, children }) {
-  const { stackHistory, handleBack, reset } = useContext(ModalWithRoutesContext);
+  const { reset } = useContext(ModalWithRoutesContext);
 
   return (
     <Modal.Content id={id} onExit={reset}>
-      {stackHistory.length > 1 && <Arrow onClick={handleBack} className={"absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer"} />}
-
       {children}
     </Modal.Content>
   );
@@ -84,6 +86,7 @@ const useNavigate = () => {
 };
 ModalWithRoutes.Content = Content;
 ModalWithRoutes.Trigger = Trigger;
+ModalWithRoutes.BackArrow = BackArrow;
 ModalWithRoutes.Outlet = Outlet;
 ModalWithRoutes.OpenModal = OpenModal;
 ModalWithRoutes.useNavigate = useNavigate;

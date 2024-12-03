@@ -11,9 +11,19 @@ import Logo from "../UI/Logo";
 import toast from "react-hot-toast";
 import SubmittedQuiz from "../UI/SubmittedQuiz";
 import { setAnswers } from "../Reducers/testAnswers";
+import { useTest } from "../Features/TeacherTests/useTest";
+import { setTest } from "../Reducers/testReducer";
+import Loading from "../UI/Loading";
 function Test() {
   const test = useSelector((state) => state.test);
+  const { test: quiz, isLoading, error } = useTest();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (isLoading) return;
+    if (test?.id !== quiz?.id) {
+      dispatch(setTest(quiz));
+    }
+  }, [quiz, test, dispatch, isLoading]);
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -28,6 +38,7 @@ function Test() {
       submitAnswersDate: null,
     },
   });
+  if (isLoading) return <Loading />;
   const { isSubmitted } = formState;
 
   const onSubmit = (data) => {
@@ -45,7 +56,7 @@ function Test() {
         <form id="quiz" onSubmit={handleSubmit(onSubmit)}>
           <div className="m-auto mt-7 w-11/12 space-y-4 md:w-3/4">
             <TestTitle title={test.title} />
-            <TestTimer timeDuration={test.timeDuration} onSubmit={handleSubmit(onSubmit)} />
+            <TestTimer onSubmit={handleSubmit(onSubmit)} />
             <TestAnwers questions={test.questions} register={register} />
             <div className="flex items-center justify-between">
               <Button type={"Secondary"} className={"flex items-center justify-center gap-4"}>

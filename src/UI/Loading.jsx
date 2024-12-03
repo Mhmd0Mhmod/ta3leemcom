@@ -1,10 +1,10 @@
 import React from "react";
 
-const Loading = ({ size = "32" }) => {
+const Loading = ({ size = "64" }) => {
   const spinnerSize = `${size}px`;
   return (
     <div className="flex h-screen w-full items-center justify-center">
-      <div className="animate-spin rounded-full border-b-2 border-t-2 border-gray-900" style={{ width: spinnerSize, height: spinnerSize }}></div>
+      <div className="h-16 w-16 animate-spin rounded-full border-8 border-gray-200 border-t-white" style={{ width: spinnerSize, height: spinnerSize }}></div>
     </div>
   );
 };

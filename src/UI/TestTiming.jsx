@@ -7,41 +7,33 @@ import EyeIcon from "../../public/Icons/show_icon.svg";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { reset, setStartDate, setTimeDuration } from "../Reducers/testReducer.js";
+import { setTimeDuration } from "../Reducers/testReducer.js";
 import Button from "./Button.jsx";
 import { useUploadQuiz } from "../Features/TeacherTests/useUploadQuiz.js";
 import toast from "react-hot-toast";
 
 function TestTiming() {
   const { uploadQuiz, isPending, error } = useUploadQuiz();
-  const { testId } = useParams();
+  const test = useSelector((state) => state.test);
+  const { startDate: start, timeDuration } = test;
 
-  const {
-    startDate: start,
-    timeDuration: { hours: h, minutes: m, days: d },
-  } = useSelector((state) => state.test);
-  const { register, watch } = useForm({
+  const { register, watch, reset } = useForm({
     defaultValues: {
-      startDate: start || format(new Date(), "yyyy-MM-dd'T'HH:mm"),
-      hours: h,
-      minutes: m,
-      days: d,
+      startDate: start,
+      ...timeDuration,
     },
   });
   const dispatch = useDispatch();
-  const { startDate, hours, minutes, days } = watch();
+  const { startDate, hours, minute, days } = watch();
   useEffect(() => {
-    if (startDate) {
-      dispatch(setStartDate(startDate));
-    }
-  }, [startDate, dispatch]);
+    if (start) reset({ startDate: start });
+  }, [start, reset]);
   useEffect(() => {
-    dispatch(setTimeDuration({ hours, minutes, days }));
-  }, [hours, minutes, days, dispatch]);
+    if (timeDuration) reset(timeDuration);
+  }, [timeDuration, reset]);
   function handleSubmit() {
-    if (testId !== "0") {
-      return;
-    }
+    dispatch(setTimeDuration({ startDate }));
+    dispatch(setTimeDuration({ hours, minute, days }));
     uploadQuiz(null, {
       onSuccess: () => {
         toast.success("تم حفظ الاختبار بنجاح");
@@ -61,10 +53,10 @@ function TestTiming() {
 
       <div className={"relative flex items-center gap-2 rounded-lg bg-gray-200 p-1"}>
         <Alarm />
-        <TestDuration register={register} />
+        <TestDuration register={register} timeDuration={timeDuration} />
       </div>
       <div className={"rounded-lg bg-gray-200 p-1 text-sm"}>
-        <input type={"datetime-local"} className={"w-full bg-gray-200"} defaultValue={format(new Date(), "yyyy-MM-dd'T'HH:mm")} {...register("startDate")} />
+        <input type={"datetime-local"} className={"w-full bg-gray-200"} defaultValue={format(start, "yyyy-MM-dd'T'HH:mm")} {...register("startDate")} />
       </div>
 
       <div>

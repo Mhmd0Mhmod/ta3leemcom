@@ -6,8 +6,6 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export function useAddGroup() {
   const token = useAuthHeader();
-  const user = useAuthUser();
-  console.log(user);
 
   const { teacherId } = useAuthUser();
   const { mutate: addGroup, isLoading } = useMutation({

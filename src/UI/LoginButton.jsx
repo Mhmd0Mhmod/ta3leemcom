@@ -1,10 +1,6 @@
 import ModalWithRoutes from "../Context/ModalWithRoutes";
 import Button from "./Button";
-import ForgetPassword from "./ForgetPassword";
-import LoginOptions from "./LoginOptions";
 import ModalRightStyle from "./ModalRightStyle";
-import StudentLogin from "./StudentLogin";
-import TeacherLogin from "./TeacherLogin";
 
 function LoginButton() {
   return (
@@ -14,6 +10,7 @@ function LoginButton() {
       </ModalWithRoutes.OpenModal>
       <ModalWithRoutes.Content id={"login"}>
         <div className={"flex h-full w-full"}>
+          <ModalWithRoutes.BackArrow />
           <div className="w-1/2 space-y-20 p-8">
             <ModalWithRoutes.Outlet />
           </div>

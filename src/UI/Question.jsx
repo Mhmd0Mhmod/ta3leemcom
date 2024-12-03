@@ -5,10 +5,10 @@ import AddQuestion from "./AddQuestion";
 import { useDispatch } from "react-redux";
 import { deleteQuestion, setQuestions } from "../Reducers/testReducer";
 
-function Question({ question }) {
+function Question({ question, number }) {
   const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
-  const { id, content, choices, mark, explain, compulsory } = question;
+  const { content, choices, mark, explain, compulsory } = question;
   const finishEdit = () => {
     setDisabled(true);
   };
@@ -23,7 +23,7 @@ function Question({ question }) {
     <div className="space-y-4 rounded-md bg-white p-4">
       <div className="flex justify-between">
         <div className="flex w-3/4 items-center gap-4 whitespace-nowrap rounded-md">
-          <span>{id} - </span>
+          <span>{number} - </span>
           <p className="w-full rounded-md bg-gray-200 p-2"> {content}</p>
         </div>
         <div className="flex items-center gap-4">

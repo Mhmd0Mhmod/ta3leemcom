@@ -12,24 +12,46 @@ import { useEffect, useState } from "react";
 import Alert from "../../UI/Alert.jsx";
 import { Link } from "react-router-dom";
 import { MainLevels } from "../../Config/config.js";
+import { useEditStudent } from "../../Features/Dashboard/useEditStudent.js";
 
-function AddStudent() {
-  const { register, formState, reset, handleSubmit, watch, setValue } = useForm();
+function AddStudent({ studentToEdit }) {
+  const { id: studentId } = studentToEdit || {};
+  const { register, formState, reset, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      name: studentToEdit?.name || "",
+      mainLevelId: studentToEdit?.levelId || null,
+      levelYearId: studentToEdit?.levelYearId || undefined,
+      groupId: studentToEdit?.groupId || null,
+    },
+  });
   const { errors } = formState;
   const { mainLevelId, levelYearId, groupId } = watch();
+
   const { groups } = useGroups(levelYearId);
   const { levels, isLoading, error } = useLevels();
+  const { editStudent, isPending: isEditing } = useEditStudent();
   const { addStudent, isLoading: adding } = useAddStudent();
-  function setGroupId(value) {
-    setValue("groupId", value);
-  }
   useEffect(() => {
-    setValue("levelYearId", null);
-    setValue("groupId", null);
-  }, [mainLevelId, setValue]);
+    if (studentToEdit) {
+      setValue("name", studentToEdit.name);
+      setValue("mainLevelId", studentToEdit.levelId);
+      setValue("levelYearId", studentToEdit.levelYearId);
+      setValue("groupId", studentToEdit.groupId);
+    }
+  }, [studentToEdit, setValue]);
   useEffect(() => {
-    setValue("groupId", null);
-  }, [levelYearId, setValue]);
+    const level = levels?.[mainLevelId]?.find((item) => item?.id === levelYearId);
+    if (!level) {
+      setValue("levelYearId", null);
+      setValue("groupId", null);
+    }
+  }, [levels, mainLevelId, levelYearId, setValue]);
+  useEffect(() => {
+    const group = groups?.find((item) => item?.id === groupId);
+    if (group && group?.levelYearId !== levelYearId) {
+      setValue("groupId", null);
+    }
+  }, [mainLevelId, groups, groupId, levelYearId, setValue]);
 
   const [id, setId] = useState(null);
   const [type, setType] = useState(null);
@@ -39,22 +61,33 @@ function AddStudent() {
     }
 
     const bodyData = { name: data.name, groupId: groupId };
-    addStudent(bodyData, {
-      onSuccess: (data) => {
-        setId(data.id);
-        setType("success");
-        reset();
-        toast.success("تم اضافة الطالب بنجاح");
-      },
-      onError: () => {
-        setType("error");
-        toast.error(error.message);
-      },
-    });
+    if (studentId) {
+      editStudent(bodyData, {
+        onSuccess: (data) => {
+          toast.success("تم تعديل الطالب بنجاح");
+        },
+        onError: (error) => {
+          toast.error("حدث خطأ ما");
+        },
+      });
+    } else {
+      addStudent(bodyData, {
+        onSuccess: (data) => {
+          setId(data.id);
+          setType("success");
+          reset();
+          toast.success("تم اضافة الطالب بنجاح");
+        },
+        onError: () => {
+          setType("error");
+          toast.error(error.message);
+        },
+      });
+    }
   };
   return (
     <>
-      <Heading className={"text-center !text-4xl"}>بيانات الطالب</Heading>
+      <Heading className={"text-center !text-4xl"}>{studentId ? "تعديل بيانات الطالب" : "اضافة طالب جديد"}</Heading>
       <form className={"mt-16 space-y-4"} onSubmit={handleSubmit(onSubmit)}>
         <div className={"flex w-3/4 flex-col gap-4"}>
           <label htmlFor={"name"} className={"font-Almarai-bold text-xl"}>
@@ -106,7 +139,7 @@ function AddStudent() {
               options={groups}
               value={groups?.find((item) => item.id === groupId)?.name || "اختر المجموعه"}
               render={(item) => (
-                <Dropdown.Item key={item.id} text={item.name} onClick={() => setGroupId(item.id)}>
+                <Dropdown.Item key={item.id} text={item.name} onClick={() => setValue("groupId", item.id)}>
                   {item.name}
                 </Dropdown.Item>
               )}
@@ -115,7 +148,7 @@ function AddStudent() {
           </div>
         </div>
         <div className={"!mt-52 text-center"}>
-          <Button type={"outlinePrimary"} className={"px-10 text-xl"} disabled={isLoading || adding}>
+          <Button type={"outlinePrimary"} className={"px-10 text-xl"} disabled={isLoading || adding || isEditing}>
             اضافة
           </Button>
         </div>

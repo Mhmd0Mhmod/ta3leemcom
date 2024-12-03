@@ -3,21 +3,24 @@ import { Save, X } from "lucide-react";
 import toast from "react-hot-toast";
 import Toggle from "./Toggle.jsx";
 import { Plus } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editQuestion, setQuestions } from "../Reducers/testReducer.js";
 import Button from "./Button.jsx";
 function AddQuestion({ questionToEdit, onEdit }) {
   const { id } = questionToEdit || {};
-  const { register, handleSubmit, watch, setValue, reset } = useForm({
-    defaultValues: questionToEdit || {
-      content: "",
-      mark: 1,
-      type: true,
-      choices: [{ id: 1, content: "", isCorrect: false }],
-      explain: "",
-    },
-  });
   const dispatch = useDispatch();
+
+  const { register, handleSubmit, watch, setValue, reset, getValues } = useForm({
+    defaultValues: id
+      ? questionToEdit
+      : {
+          content: "",
+          mark: 1,
+          type: true,
+          choices: [{ id: 1, content: "", isCorrect: false }],
+          explain: "",
+        },
+  });
 
   const { choices, type } = watch();
 
@@ -55,6 +58,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
     }
 
     data.type = data.type ? "mandatory" : "optional";
+
     if (id) {
       data.id = id;
       onEdit?.();
@@ -100,21 +104,24 @@ function AddQuestion({ questionToEdit, onEdit }) {
         </div>
         <div className="space-y-4">
           <ul className="space-y-4">
-            {choices.map((el) => (
-              <li key={el.id} className="flex items-center gap-4">
-                <X className="cursor-pointer" onClick={() => removeOption(el)} />
-                <input type="radio" name="isCorrect" checked={el.isCorrect} onChange={() => handleRadioChange(el)} />
-                <input
-                  type="text"
-                  placeholder="اكتب خيارك هنا ..."
-                  className="w-1/2 rounded p-2"
-                  autoComplete="off"
-                  {...register(`choices.${el.id - 1}.content`, {
-                    required: `يجب ادخال الخيار رقم ${el.id}`,
-                  })}
-                />
-              </li>
-            ))}
+            {choices.map((el, i) => {
+              return (
+                <li key={el.id} className="flex items-center gap-4">
+                  <X className="cursor-pointer" onClick={() => removeOption(el)} />
+                  <input type="radio" name="isCorrect" checked={el.isCorrect} onChange={() => handleRadioChange(el)} />
+                  <input
+                    type="text"
+                    placeholder="اكتب خيارك هنا ..."
+                    className="w-1/2 rounded p-2"
+                    defaultValue={el.content}
+                    autoComplete="off"
+                    {...register(`choices[${i}].content`, {
+                      required: `يجب ادخال الخيار رقم ${i + 1}`,
+                    })}
+                  />
+                </li>
+              );
+            })}
           </ul>
           <span className={"flex cursor-pointer items-center gap-4 text-Secondary-500"} onClick={addOption}>
             <Plus />

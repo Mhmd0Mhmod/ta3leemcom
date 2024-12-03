@@ -6,13 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 export function useTest() {
   const { testId } = useParams();
   const token = useAuthHeader();
-  const {
+
+  let {
     data: test,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["test", testId],
+    queryKey: ["test", testId || 0],
     queryFn: () => getTest(testId, token),
   });
+
   return { test, isLoading, error };
 }

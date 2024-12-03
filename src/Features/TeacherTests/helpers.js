@@ -12,11 +12,22 @@ export async function getTests(groupsIds, token) {
 }
 
 export async function getTest(quizId, token) {
+  if (quizId == 0 || !quizId) return null;
+
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Quiz/GetQuizById?QuizId=${quizId}`, {
       headers: { Authorization: token },
     });
-    return data;
+    const quiz = Object.entries(data).reduce((acc, [key, value]) => {
+      if (key === "questionsOfQuizzes") {
+        acc.questions = [...value];
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    return quiz;
   } catch (error) {
     throw new Error(error?.response?.data?.message || error.message);
   }

@@ -2,8 +2,7 @@ import { compareAsc, parseISO } from "date-fns";
 import CurrentTest from "./CurrentTest";
 
 function CurrentTests({ tests }) {
-  const sortedTests = tests.sort((a, b) => compareAsc(parseISO(a.startDate), parseISO(b.startDate)));
-  console.log(sortedTests);
+  let sortedTests = tests.sort((a, b) => compareAsc(parseISO(a.startDate), parseISO(b.startDate)));
 
   return (
     <div className="space-y-5">

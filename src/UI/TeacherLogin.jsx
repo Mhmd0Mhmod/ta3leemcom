@@ -77,7 +77,7 @@ function TeacherLogin() {
           <span className="text-sm text-red-500">{errors?.password?.message}</span>
         </div>
 
-        <Button type="blue" className={"disabled:cursor-not-allowed disabled:bg-blue-500"}>
+        <Button type="blue" disabled={isPending} className={"disabled:cursor-not-allowed disabled:bg-blue-500"}>
           {isPending ? "جاري التسجيل..." : "سجل الدخول"}
         </Button>
       </form>

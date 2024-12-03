@@ -28,6 +28,11 @@ import CreateTestOnline from "./Pages/Teacher/CreateTestOnline.jsx";
 import CreateTestOffline from "./Pages/Teacher/CreateTestOffline.jsx";
 import AuthProvider from "react-auth-kit";
 import CreateTest from "./Pages/Teacher/CreateTest.jsx";
+import Profile from "./Pages/Profile.jsx";
+import UserData from "./Pages/UserData.jsx";
+import UserSubscription from "./Pages/UserSubscription.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+import UserDataEdit from "./UI/UserDataEdit.jsx";
 
 const Home = lazy(() => import("./Pages/Home.jsx"));
 const About = lazy(() => import("./Pages/About.jsx"));
@@ -65,43 +70,56 @@ function App() {
                   <Route path="instructions" element={<Instructions />} />
                   <Route path="subscriptions" element={<Subscriptions />} />
                   <Route path="opinion" element={<Opinion />} />
-                  <Route path={"TDashboard"} element={<DashboardLayout />}>
-                    <Route index element={<Navigate replace to="student/add" />} />
-                    <Route index path={"student/add"} element={<AddStudent />} />
-                    <Route path={"student/:studentId/edit"} element={<EditStudent />} />
-                    <Route path={"student/:studentId"} element={<StudentDetails />} />
 
-                    <Route path={"group/add"} element={<AddGroup />} />
-                    <Route path={"group/:groupId/edit"} element={<EditGroup />} />
-                    <Route path={"group/:groupId"} element={<GroupDetails />} />
-
-                    <Route path={"level"} element={<SelectLevel />} />
-                    <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
-
-                    <Route path={"tests/:levelYearId/:groupsId"} element={<TeacherTests />} />
-
-                    <Route path={"tests/:levelYearId/:groupsId/create"} element={<CreateTest />}>
-                      <Route path={"online"} element={<CreateTestOnline />} />
-                      <Route path={"offline"} element={<CreateTestOffline />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="profile" element={<Profile />}>
+                      <Route index element={<Navigate replace to="user" />} />
+                      <Route index path="user" element={<UserData />} />
+                      <Route index path="user/edit" element={<UserDataEdit />} />
+                      <Route path={"subscription"} element={<UserSubscription />} />
                     </Route>
-                    <Route path="test/:levelYearId/:testId/edit" element={<EditTest />} />
 
-                    <Route path={"test/:testId"} element={<Test />} />
+                    <Route path={"TDashboard"} element={<DashboardLayout />}>
+                      <Route index element={<Navigate replace to="student/add" />} />
+                      <Route index path={"student/add"} element={<AddStudent />} />
+                      <Route path={"student/:studentId/edit"} element={<EditStudent />} />
+                      <Route path={"student/:studentId"} element={<StudentDetails />} />
 
-                    <Route path={"test/:testId/answers"} element={<TestAnswers />} />
-                    <Route path={"test/:testId/results"} element={<TestResults />} />
+                      <Route path={"group/add"} element={<AddGroup />} />
+                      <Route path={"group/:groupId/edit"} element={<EditGroup />} />
+                      <Route path={"group/:groupId"} element={<GroupDetails />} />
 
-                    <Route path={"students/:groupsId"} element={<Students />} />
-                    <Route path={"months/:level/:groupsId"} element={<Months />} />
-                    <Route path={"toppers/:groupsId"} element={<Toppers />} />
-                  </Route>
-                  <Route path={"SDashboard"} element={<DashboardLayout />}>
-                    <Route index element={<Navigate replace to="tests" />} />
-                    <Route path={"tests"} element={<StudentTests />} />
-                    <Route path={"test/:testId"} element={<Test />} />
-                    <Route path={"test/answers/:testId"} element={<TestAnswers />} />
-                    <Route path={"toppers"} element={<Toppers />} />
-                    <Route path={"attendance"} element={<Attendance />} />
+                      <Route path={"level"} element={<SelectLevel />} />
+                      <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
+
+                      <Route path={"tests/:levelYearId/:groupsId"} element={<TeacherTests />} />
+
+                      <Route element={<CreateTest />}>
+                        <Route path={"tests/:levelYearId/:groupsId/create/online"} element={<CreateTestOnline />} />
+                        <Route path={"tests/:levelYearId/:groupsId/createoffline"} element={<CreateTestOffline />} />
+                        <Route path="test/:levelYearId/:testId/edit" element={<CreateTestOnline />} />
+                      </Route>
+
+                      <Route path={"test/:testId"} element={<Test />} />
+
+                      <Route path={"test/:testId/answers"} element={<TestAnswers />} />
+                      <Route path={"test/:testId/results"} element={<TestResults />} />
+
+                      <Route path={"students/:groupsId"} element={<Students />} />
+                      <Route path={"months/:level/:groupsId"} element={<Months />} />
+                      <Route path={"toppers/:groupsId"} element={<Toppers />} />
+                    </Route>
+
+                    <Route path={"SDashboard"} element={<DashboardLayout />}>
+                      <Route index element={<Navigate replace to="tests" />} />
+                      <Route path={"tests"} element={<StudentTests />} />
+                      <Route path={"test/:testId"} element={<Test />} />
+                      <Route path={"test/:testId/answers"} element={<TestAnswers />} />
+
+                      <Route path={"toppers"} element={<Toppers />} />
+
+                      <Route path={"attendance"} element={<Attendance />} />
+                    </Route>
                   </Route>
 
                   <Route path="*" element={<PageNotFound />} />

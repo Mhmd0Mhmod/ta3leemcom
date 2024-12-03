@@ -11,6 +11,7 @@ function TestSetting() {
         <Logo />
         <TrashIcon />
       </div>
+
       <div className={"flex flex-col lg:flex-row lg:justify-between"}>
         <TestImage className={"self-center"} />
         <TestInfo />

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { format } from "date-fns";
 
 const initialState = {
   title: "",
   mark: 0,
-  startDate: null,
+  startDate: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
   type: "",
   bonus: 0,
   teacherId: null,
@@ -11,7 +12,7 @@ const initialState = {
   questions: [],
   timeDuration: {
     hours: 0,
-    minutes: 0,
+    minute: 0,
     days: 0,
     mode: "AM",
   },
@@ -23,7 +24,7 @@ const testReducer = createSlice({
     reset: (state) => {
       state.title = "";
       state.mark = 0;
-      state.startDate = null;
+      state.startDate = format(new Date(), "yyyy-MM-dd'T'HH:mm");
       state.type = "";
       state.bonus = 0;
       state.teacherId = null;
@@ -31,7 +32,7 @@ const testReducer = createSlice({
       state.questions = [];
       state.timeDuration = {
         hours: 0,
-        minutes: 0,
+        minute: 0,
         days: 0,
         mode: "AM",
       };

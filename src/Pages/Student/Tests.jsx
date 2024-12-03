@@ -6,11 +6,11 @@ import HeadIcon from "/public/Icons/head-icon-student.svg";
 import Loading from "../../UI/Loading";
 
 function Tests() {
-  const { tests, isLoading, error } = useAllStudentTests();
+  let { tests, isLoading, error } = useAllStudentTests();
   if (isLoading) return <Loading />;
+  tests = tests.map((test) => ({ ...test, duration: test.duration.replaceAll(".", ":") }));
   const currentTests = tests.filter((test) => (test.quizStatus === "Not Started" || test.quizStatus === "Started") && test.solveStatus === "Not Solved");
   const endedTests = tests.filter((test) => test.quizStatus === "Ended" || test.solveStatus === "Solved");
-  console.log(endedTests);
 
   return (
     <div className="student__tests h-screen space-y-10">

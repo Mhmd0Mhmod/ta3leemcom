@@ -7,7 +7,7 @@ function Questions() {
   return (
     <div className="space-y-4">
       {questions.map((question, i) => (
-        <Qustion question={question} key={i} />
+        <Qustion question={question} number={i + 1} key={i} />
       ))}
     </div>
   );

@@ -7,7 +7,8 @@ import useSignOut from "react-auth-kit/hooks/useSignOut";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { logout as reduxLogout } from "../Reducers/AuthReducer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ModalWithRoutes from "../Context/ModalWithRoutes";
 
 function UserName({ name }) {
   const close = useCloseMenu();
@@ -32,12 +33,14 @@ function UserName({ name }) {
         </div>
       </Menu.Trigger>
       <Menu.List name={"userMenu"} className={"relative"}>
-        <ul className={"absolute left-2 top-2 z-40 flex flex-col gap-4 rounded border bg-white p-2"}>
+        <ul className={"absolute left-2 top-2 z-[11] flex flex-col gap-4 rounded border bg-white p-2"}>
           <Triangle className="absolute -top-5 left-2 w-20" />
-          <li className={"flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#B4D3E0]"}>
-            <SmallProfile />
-            <span>الملف الشخصي</span>
-          </li>
+          <Link to="/profile">
+            <li onClick={close} className={"flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#B4D3E0]"}>
+              <SmallProfile />
+              <span>الملف الشخصي</span>
+            </li>
+          </Link>
           <li onClick={handleLogout} className={"flex w-48 cursor-pointer items-center gap-4 rounded p-1 text-xl duration-300 hover:bg-[#FFB2B3]"}>
             <Logout />
             <span>تسجيل الخروج</span>

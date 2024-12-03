@@ -41,8 +41,6 @@ function SidebarItem({ Icon, children }) {
   );
 }
 
-Sidebar.Item = SidebarItem;
-
 export function useSidebarContext() {
   if (!useContext(SidebarContext)) {
     throw new Error("useContextMenu must be used within Sidebar");
@@ -51,4 +49,5 @@ export function useSidebarContext() {
   return { isOpen, toggle, open, close };
 }
 
+Sidebar.Item = SidebarItem;
 export default Sidebar;

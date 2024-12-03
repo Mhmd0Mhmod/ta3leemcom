@@ -11,32 +11,65 @@ import { useEffect, useState } from "react";
 import Alert from "../../UI/Alert.jsx";
 import { Link } from "react-router-dom";
 import { MainLevels } from "../../Config/config.js";
+import { useEditGroup } from "../../Features/Dashboard/useEditGroup.js";
 
-function AddGroup() {
-  const { register, formState, handleSubmit, watch, setValue, reset } = useForm();
+function AddGroup({ groupToEdit }) {
+  const { id: groupId } = groupToEdit || {};
+  const { register, formState, handleSubmit, watch, setValue, reset } = useForm({
+    defaultValues: {
+      name: groupToEdit?.name,
+      mainLevelId: groupToEdit?.levelId,
+      levelYearId: groupToEdit?.levelYearId,
+    },
+  });
   const { errors } = formState;
   const { mainLevelId, levelYearId } = watch();
   const { levels, isLoading, error } = useLevels();
   const { addGroup, isLoading: adding } = useAddGroup();
+  const { editGroup, isPending: editing, error: editingError } = useEditGroup();
   const [type, setType] = useState(null);
   const [id, setId] = useState(null);
+
   useEffect(() => {
-    setValue("levelYearId", null);
-  }, [mainLevelId, setValue]);
+    if (groupToEdit) {
+      setValue("name", groupToEdit.name);
+      setValue("mainLevelId", groupToEdit.levelId);
+      setValue("levelYearId", groupToEdit.levelYearId);
+    }
+  }, [groupToEdit, setValue]);
+
+  useEffect(() => {
+    const level = levels?.[mainLevelId]?.find((item) => item?.id === levelYearId);
+    if (!level) {
+      setValue("levelYearId", null);
+    }
+  }, [levels, mainLevelId, levelYearId, setValue]);
+
   const onSubmit = (data) => {
     const bodyData = { name: data.name, levelYearId: levelYearId };
-    addGroup(bodyData, {
-      onSuccess: (data) => {
-        setType("success");
-        setId(data.id);
-        reset();
-        toast.success("تم اضافة المجموعه بنجاح");
-      },
-      onError: () => {
-        setType("error");
-        toast.error(error.message);
-      },
-    });
+    if (groupId) {
+      editGroup(bodyData, {
+        onSuccess: () => {
+          toast.success("تم تعديل المجموعه بنجاح");
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      });
+    } else {
+      addGroup(bodyData, {
+        onSuccess: (data) => {
+          setType("success");
+          setId(data.id);
+          reset();
+          toast.success("تم اضافة المجموعه بنجاح");
+        },
+        onError: () => {
+          setType("error");
+          toast.error(error.message);
+        },
+      });
+    }
   };
   return (
     <>
@@ -65,6 +98,7 @@ function AddGroup() {
           <DropDownList
             label={"المرحله الدراسيه"}
             options={MainLevels}
+            value={MainLevels.find((item) => item.id === mainLevelId)?.name || "اختر المرحله الدراسيه"}
             render={(item) => (
               <Dropdown.Item key={item.id} text={item.name} onClick={() => setValue("mainLevelId", item.id)}>
                 {item.name}
@@ -76,6 +110,7 @@ function AddGroup() {
             <DropDownList
               label={"الصف الدراسي"}
               options={levels?.[mainLevelId]}
+              value={levels?.[mainLevelId]?.find((item) => item.id === levelYearId)?.name || "اختر الصف الدراسي"}
               render={(item) => (
                 <Dropdown.Item key={item.id} text={item.name} onClick={() => setValue("levelYearId", item.id)}>
                   {item.name}

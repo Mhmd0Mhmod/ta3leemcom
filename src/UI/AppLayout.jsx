@@ -10,6 +10,7 @@ import SignupForm from "./SignupForm.jsx";
 import VerifyAccount from "./VerifyAccount.jsx";
 import { Provider } from "react-redux";
 import { store } from "../Stores/ReduxStore.js";
+import Profile from "../Pages/Profile.jsx";
 export const RoutesOfModal = [
   {
     to: "loginOptions",
@@ -34,6 +35,10 @@ export const RoutesOfModal = [
   {
     to: "verifyAccount",
     component: <VerifyAccount />,
+  },
+  {
+    to: "profile",
+    component: <Profile />,
   },
 ];
 

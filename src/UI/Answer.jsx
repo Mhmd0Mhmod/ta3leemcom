@@ -1,14 +1,10 @@
 import { Check, X } from "lucide-react";
 
 function Answer({ question, answer }) {
-  console.log(question, answer);
-  const { id, content, choices } = question;
+  const { content, choices } = question;
 
   return (
-    <div className="space-y-3 bg-white p-4">
-      <p>
-        {id} - {content}
-      </p>
+    <>
       {choices.map((choice) => {
         const checked = Number(answer?.choiceId) === choice.id;
         const correct = choice.isCorrect;
@@ -23,7 +19,7 @@ function Answer({ question, answer }) {
           </div>
         );
       })}
-    </div>
+    </>
   );
 }
 export default Answer;

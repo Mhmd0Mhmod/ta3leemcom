@@ -1,12 +1,14 @@
 import { AlarmCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
-function TestTimer({ timeDuration, onSubmit }) {
-  const { hours, minutes, days } = timeDuration;
-  const [time, setTime] = useState(minutes * 60 + hours * 3600 + days * 86400);
-
+function TestTimer({ onSubmit }) {
+  const test = useSelector((state) => state.test);
+  const [startCount, setStartCount] = useState(false);
+  const [time, setTime] = useState(0);
   useEffect(() => {
+    if (!startCount) return;
     const interval = setInterval(() => {
       setTime((prev) => {
         if (prev === 0) {
@@ -20,15 +22,22 @@ function TestTimer({ timeDuration, onSubmit }) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [startCount]);
+  useEffect(() => {
+    if (!test.id) return;
+    const { hours, minute, days } = test.timeDuration;
+    setTime(minute * 60 + hours * 3600 + days * 86400);
+    setStartCount(true);
+  }, [test]);
 
   useEffect(() => {
+    if (!startCount) return;
+    if (!test.id) return;
     if (time === 0) {
       toast.success("تم انتهاء الوقت");
       onSubmit();
     }
-  }, [time, onSubmit]);
-
+  }, [time, test, onSubmit, startCount]);
   return (
     <div className="mr-auto flex w-fit gap-3 rounded-md bg-white p-2">
       <AlarmCheck />
