@@ -1,34 +1,30 @@
-import { useSelector } from "react-redux";
 import Image from "/public/imgs/icon-business-target-project-tasks-list-time.png";
 import { useTestDesc } from "../Features/TestResults/useTestDesc";
 import Loading from "./Loading";
 import Heading from "./Heading";
-import Results from "/public/Icons/StudentTests.svg";
-import Statistics from "/public/Icons/stats_icon.svg";
 import StudentsIcon from "/public/Icons/students_white_icon.svg";
-import NotSolveStudentsIcon from "/public/Icons/notAttended.svg";
-
+import { HiOutlineChartPie } from "react-icons/hi";
 import QuestionsIcon from "/public/Icons/question_white_icon.svg";
 import Bouns from "/public/Icons/bouns_white_icon.svg";
 import Flag from "/public/Icons/flag_white_icon.svg";
 import { Link, useLocation } from "react-router-dom";
 import { LiaUserTimesSolid } from "react-icons/lia";
+import { LucideClipboardList } from "lucide-react";
 function TestResultsTitle() {
   const { testDesc, isLoading, error } = useTestDesc();
-
   const pathName = useLocation().pathname.split("/");
   const current = pathName.pop();
   if (isLoading) return <Loading />;
   const { bounce, title, numQuestions, numStuedntsNotSolveQuiz, numStuedntsSolveQuiz, mark } = testDesc;
 
   return (
-    <div className="flex whitespace-nowrap rounded-md bg-Secondary-500 px-2 py-4 text-white shadow-md">
-      <div className="w-64 opacity-20">
+    <div className="flex items-center whitespace-nowrap rounded-md bg-Secondary-500 px-2 py-4 text-white shadow-md">
+      <div className="max-w-64 opacity-20">
         <img src={Image} alt="Test Results" className="w-full" />
       </div>
-      <div className="flex flex-grow flex-col items-center justify-evenly">
+      <div className="flex flex-grow flex-col items-center justify-evenly gap-4">
         <Heading as="h2">{title}</Heading>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           {[
             {
               title: "طالب",
@@ -65,7 +61,7 @@ function TestResultsTitle() {
             );
           })}
         </div>
-        <div className="flex justify-between gap-5">
+        <div className="flex flex-wrap justify-center gap-5">
           {[
             {
               to: "students-not-attempted",
@@ -74,12 +70,12 @@ function TestResultsTitle() {
             },
             {
               to: "students-result",
-              Icon: Results,
+              Icon: LucideClipboardList,
               title: "النتائج",
             },
             {
               to: "statistics",
-              Icon: Statistics,
+              Icon: HiOutlineChartPie,
               title: "الاحصائيات",
             },
           ].map(({ to, Icon, title }, i) => {
@@ -87,16 +83,16 @@ function TestResultsTitle() {
               <Link
                 to={`${pathName.join("/")}/${to}`}
                 key={`${to}-${i}`}
-                className={`flex items-center gap-2 rounded-md p-1 text-white ${current === to ? "bg-black text-white" : "bg-white !text-black"} `}
+                className={`flex items-center gap-2 rounded-md px-2 py-1 text-white ${current === to ? "bg-black text-white" : "bg-white !text-black"} `}
               >
-                <Icon alt={title} className="w-10" />
+                <Icon alt={title} />
                 <span>{title}</span>
               </Link>
             );
           })}
         </div>
       </div>
-      <div className="w-64 opacity-20">
+      <div className="max-w-64 opacity-20">
         <img src={Image} alt="Test Results" className="w-full" />
       </div>
     </div>
