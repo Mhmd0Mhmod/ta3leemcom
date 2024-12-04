@@ -7,6 +7,7 @@ import Loading from "../../UI/Loading";
 
 function Tests() {
   let { tests, isLoading, error } = useAllStudentTests();
+
   if (isLoading) return <Loading />;
   tests = tests.map((test) => ({ ...test, duration: test.duration.replaceAll(".", ":") }));
   const currentTests = tests.filter((test) => (test.quizStatus === "Not Started" || test.quizStatus === "Started") && test.solveStatus === "Not Solved");

@@ -16,7 +16,7 @@ import { setTest } from "../Reducers/testReducer";
 import Loading from "../UI/Loading";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { useSubmittingTest } from "../Features/StudentTests/useSubmittingTest.js";
-import { isBefore } from "date-fns";
+import { isAfter, isBefore } from "date-fns";
 
 function Test() {
   const test = useSelector((state) => state.test);
@@ -45,7 +45,7 @@ function Test() {
   const { isSubmitted } = formState;
 
   const onSubmit = (data) => {
-    if (role === "Student" && test.quizStatus === "Starting" && isBefore(new Date(), new Date(test.startDate))) {
+    if (role === "Student" && isBefore(new Date(), test.endDate) && isAfter(new Date(), test.startDate)) {
       const toastId = toast.loading("جاري ارسال الاجابات");
       submitSolve(data, {
         onSuccess: () => {
@@ -58,9 +58,7 @@ function Test() {
     } else {
       toast.success(" تم حفظ اجابات المحاوله التدريبيه بنجاح ");
     }
-    console.log(data.questionForms);
-
-    dispatch(setAnswers(data.questionForms));
+    // dispatch(setAnswers(data.questionForms));
   };
   if (isSubmitted) {
     document.body.style.overflow = "auto";

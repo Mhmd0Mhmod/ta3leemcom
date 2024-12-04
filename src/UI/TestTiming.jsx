@@ -11,6 +11,7 @@ import { setStartDate, setTimeDuration, setTimeStart } from "../Reducers/testRed
 import Button from "./Button.jsx";
 import { useUploadQuiz } from "../Features/TeacherTests/useUploadQuiz.js";
 import toast from "react-hot-toast";
+import { reset as resetTest } from "../Reducers/testReducer.js";
 
 function TestTiming() {
   const { uploadQuiz, isPending, error } = useUploadQuiz();
@@ -40,14 +41,13 @@ function TestTiming() {
     uploadQuiz(null, {
       onSuccess: () => {
         toast.success("تم حفظ الاختبار بنجاح");
+        dispatch(resetTest());
       },
       onError: () => {
         toast.error("حدث خطأ");
       },
     });
-    dispatch(reset());
   }
-  console.log(start);
 
   console.log({ startDate, hours, minute, days });
   function saveTime() {

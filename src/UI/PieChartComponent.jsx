@@ -50,7 +50,7 @@ const PieChartComponent = ({ choices }) => {
   const data = prepareData(choices);
 
   return (
-    <div className="h-[400px] w-full overflow-auto sm:h-[500px] md:h-[600px] lg:h-[700px]">
+    <div className="h-[200px] w-full overflow-auto sm:h-[300px] md:h-[400px] lg:h-[500px]">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie className="focus:outline-none" data={data} cx="50%" cy="50%" labelLine={false} label={renderCustomLabel} outerRadius="80%" fill="#8884d8" dataKey="value">

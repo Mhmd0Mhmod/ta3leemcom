@@ -17,6 +17,7 @@ function useSubmittingTest() {
   } = useMutation({
     mutationFn: (data) => {
       const bodyData = { ...data, studentId, quizId: testId, submitAnswersDateTime: new Date().toISOString() };
+      console.log("bodyData", bodyData);
       return submitSolveAPI(bodyData, token);
     },
     onSuccess: () => {
