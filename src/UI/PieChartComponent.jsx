@@ -30,6 +30,7 @@ const renderLegend = (props) => {
     </ul>
   );
 };
+
 const prepareData = (choices) => {
   const data = [
     { name: "صحيح", value: choices.find((choice) => choice.isCorrect).choiceSelectionCount },
@@ -49,20 +50,15 @@ const PieChartComponent = ({ choices }) => {
   const data = prepareData(choices);
 
   return (
-    <div>
-      <ResponsiveContainer width="100%" height={400}>
+    <div className="h-auto w-full overflow-auto">
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
-          <Pie data={data} cx="50%" cy="50%" labelLine={false} label={renderCustomLabel} outerRadius={150} fill="#8884d8" dataKey="value">
+          <Pie className="focus:outline-none" data={data} cx="50%" cy="50%" labelLine={false} label={renderCustomLabel} outerRadius="80%" fill="#8884d8" dataKey="value">
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Legend
-            layout="vertical"
-            verticalAlign="middle"
-            align="right"
-            content={renderLegend} // Use custom legend renderer
-          />
+          <Legend layout="vertical" verticalAlign="middle" align="right" content={renderLegend} />
         </PieChart>
       </ResponsiveContainer>
     </div>

@@ -9,7 +9,7 @@ function QuestionStatistics({ question, idx }) {
         {idx + 1}. {questionContent}
       </p>
       <p className="text-gray-500">{correctAnswerCount + incorrectAnswerCount} اجابه </p>
-      <div className="grid grid-cols-1 xl:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2">
         <PieChartComponent choices={choices} />
         <BarChartComponent choices={choices} />
       </div>

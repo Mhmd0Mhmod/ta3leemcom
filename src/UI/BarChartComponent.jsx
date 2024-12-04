@@ -13,7 +13,7 @@ const prepare = (choices) => {
 const BarChartComponent = ({ choices }) => {
   const data = prepare(choices);
   return (
-    <div className="overflow-auto">
+    <div className="h-[400px] w-full overflow-auto sm:h-[500px] md:h-[600px] lg:h-[700px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
           <XAxis dataKey="number" />

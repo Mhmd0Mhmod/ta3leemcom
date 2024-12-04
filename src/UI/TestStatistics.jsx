@@ -4,7 +4,6 @@ import QuestionStatistics from "./QuestionStatistics";
 
 function TestStatistics() {
   const { testStatistics, isLoading, isError } = useTestStatistics();
-  console.log(testStatistics, isLoading, isError);
   if (isLoading) return <Loading />;
   return <div className="space-y-5">{testStatistics && testStatistics.map((question, idx) => <QuestionStatistics key={question.studentId} question={question} idx={idx} />)}</div>;
 }
