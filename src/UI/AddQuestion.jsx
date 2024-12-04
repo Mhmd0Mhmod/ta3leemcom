@@ -80,6 +80,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
       } else toast.error(errors[key].message);
     });
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-4">
       <div className="space-y-4 border border-r-4 border-r-Secondary-500 bg-gray-100 p-4 shadow-lg">
@@ -99,7 +100,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
           />
           <div className="flex items-center gap-2">
             <input type={"number"} className="w-10 rounded-lg border-2 border-gray-400 bg-inherit text-center" {...register("mark")} min={0} defaultValue={1} />
-            <span>{type === "Mandatory" ? "اجباري" : "بونص"}</span>
+            <span>{type ? "اجباري" : "بونص"}</span>
           </div>
         </div>
         <div className="space-y-4">

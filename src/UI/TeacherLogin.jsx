@@ -29,6 +29,9 @@ function TeacherLogin() {
         close();
         dispatch(reduxLogin());
       },
+      onError: (error) => {
+        toast.error(error.message, { id: toastId });
+      },
     });
   }
 
