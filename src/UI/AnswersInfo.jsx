@@ -6,7 +6,6 @@ function AnswersInfo({ test, answers }) {
   const { questions } = test;
 
   const correctAnswers = questions.map((question) => question.choices.find((choice) => choice.isCorrect)?.id);
-  console.log(correctAnswers, questions);
 
   const studentAnswers = answers?.map((answer) => answer.choiceId);
   const correctAnswersCount = correctAnswers.reduce((acc, correctAnswer, index) => {
@@ -15,6 +14,7 @@ function AnswersInfo({ test, answers }) {
     }
     return acc;
   }, 0);
+
   const { timeDuration } = test;
 
   return (

@@ -1,4 +1,3 @@
-import { useForm } from "react-hook-form";
 import Heading from "./Heading";
 
 function TestAnwers({ questions, register }) {

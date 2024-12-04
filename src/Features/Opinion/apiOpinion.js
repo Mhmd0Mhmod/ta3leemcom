@@ -17,7 +17,7 @@ export async function sendOpinion(rate, comment) {
     message: comment,
   };
   const token = Cookies.get("_auth");
-  const res = await axios.post(`${import.meta.env.VITE_API_URL}/Comments/AddFeedback`, bodyData, {
+  const res = await axios.post(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Comments/AddFeedback`, bodyData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

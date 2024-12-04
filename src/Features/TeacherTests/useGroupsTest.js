@@ -9,7 +9,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 function useGroupsTest() {
   const { groupsId } = useParams();
   const groupsIds = groupsId.split(",");
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const [operatedTests, setOperatedTests] = useState([]);
   const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");

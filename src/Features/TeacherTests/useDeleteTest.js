@@ -7,7 +7,7 @@ function useDeleteTest() {
   const queryClient = useQueryClient();
   const { groupsId } = useParams();
   const groupsIds = groupsId.split(",");
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const {
     mutate: deleteTest,
     isPending,

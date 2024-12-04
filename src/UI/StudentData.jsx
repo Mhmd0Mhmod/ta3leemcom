@@ -3,7 +3,7 @@ import ProfileImage from "./ProfileImage";
 import Heading from "./Heading";
 
 function StudentData() {
-  const student = useAuthUser();
+  const student = useAuthUser() || {};
   console.log(student);
 
   return (

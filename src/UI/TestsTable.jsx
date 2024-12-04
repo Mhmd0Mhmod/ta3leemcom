@@ -10,6 +10,7 @@ import Modal from "../Context/Modal.jsx";
 import AlertWindow from "./AlertWindow.jsx";
 import toast from "react-hot-toast";
 import { useDeleteTest } from "../Features/TeacherTests/useDeleteTest.js";
+import { translateToArabic } from "../Config/config.js";
 
 function TestsTable() {
   const { tests, isLoading, setSearch, search } = useGroupsTest();
@@ -65,7 +66,7 @@ function TestsTable() {
                       </Modal.Content>
                     </div>
                   </TableCell>
-                  <TableCell align="center">{test.type}</TableCell>
+                  <TableCell align="center">{translateToArabic(test.type)}</TableCell>
                   <TableCell align="center">{formatArabicDate(test.startDate)}</TableCell>
                 </TableRow>
               ))}

@@ -7,8 +7,8 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 function useUpdateTeacherData() {
   const queryClient = useQueryClient();
-  const token = useAuthHeader();
-  const user = useAuthUser();
+  const token = useAuthHeader() || null;
+  const user = useAuthUser() || {};
   const { teacherId } = user;
   const login = useSignIn();
   const {

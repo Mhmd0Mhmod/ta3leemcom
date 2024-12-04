@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editStudent as editStudentAPI } from "./helpers.js";
 
 export const useEditStudent = () => {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { studentId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();

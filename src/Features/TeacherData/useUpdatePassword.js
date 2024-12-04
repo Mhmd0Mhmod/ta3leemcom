@@ -4,8 +4,8 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { updateTeacherPassword } from "./helpers";
 
 function useUpdatePassword() {
-  const token = useAuthHeader();
-  const { teacherId } = useAuthUser();
+  const token = useAuthHeader() || null;
+  const { teacherId } = useAuthUser() || {};
 
   const {
     mutate: updatePassword,

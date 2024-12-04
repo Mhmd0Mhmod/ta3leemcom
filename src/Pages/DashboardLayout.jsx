@@ -5,7 +5,7 @@ import StudentSidebar from "../UI/StudentSidebar";
 import Sidebar from "../Context/Sidebar";
 
 function DashboardLayout() {
-  const { role } = useAuthUser();
+  const { role } = useAuthUser() || {};
 
   return (
     <Dashboard>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Heading from "./Heading";
 
 function TeacherData() {
-  const teacher = useAuthUser();
+  const teacher = useAuthUser() || {};
   const { name, email, phone } = teacher || {};
   return (
     <div className="space-y-10">
@@ -19,7 +19,7 @@ function TeacherData() {
       <div className="grid w-3/4 gap-16">
         <div className="col-span-2 space-y-5">
           <Heading as="h3">الاسم الكامل</Heading>
-          <p className="rounded-md bg-gray-200 p-4 text-lg">{name}</p>
+          <ptes>{name}</ptes>
         </div>
         <div className="col-span-2 space-y-5 md:col-auto">
           <Heading as="h3">رقم الهاتف</Heading>

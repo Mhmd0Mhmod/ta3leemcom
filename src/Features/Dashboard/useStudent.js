@@ -5,7 +5,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export function useStudent() {
   const { studentId } = useParams();
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const {
     data: student,
     isLoading,

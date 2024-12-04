@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteGroup = () => {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { groupId } = useParams();
   const queryClient = useQueryClient();
   const {

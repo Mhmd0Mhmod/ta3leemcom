@@ -10,6 +10,7 @@ import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
 import { useLogin } from "../Features/Registration/useLogin.js";
 import { login as reduxLogin } from "/src/Reducers/AuthReducer.js";
 import { useDispatch } from "react-redux";
+
 function TeacherLogin() {
   const { register, handleSubmit, reset, formState } = useForm();
   const dispatch = useDispatch();
@@ -20,9 +21,10 @@ function TeacherLogin() {
   const navigate = ModalWithRoutes.useNavigate();
 
   function onSubmit(data) {
+    const toastId = toast.loading("جاري تسجيل الدخول");
     login(data, {
       onSuccess: () => {
-        toast.success("تم تسجيل الدخول بنجاح, مرحبا بك 👋");
+        toast.success("تم تسجيل الدخول بنجاح", { id: toastId });
         reset();
         close();
         dispatch(reduxLogin());

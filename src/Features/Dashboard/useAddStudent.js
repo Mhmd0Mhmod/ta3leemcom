@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export function useAddStudent() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { mutate: addStudent, isPending } = useMutation({
     mutationFn: (bodyData) => addStudentAPI(token, bodyData),
     onError: (error) => {

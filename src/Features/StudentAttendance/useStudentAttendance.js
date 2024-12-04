@@ -4,8 +4,8 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { getStudentAttendance as studentAttendanceAPI } from "./helpers";
 
 function useStudentAttendance() {
-  const token = useAuthHeader();
-  const { studentId } = useAuthUser();
+  const token = useAuthHeader() || null;
+  const { studentId } = useAuthUser() || {};
   const {
     data: attendance,
     isLoading,

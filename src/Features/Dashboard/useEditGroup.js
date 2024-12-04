@@ -5,10 +5,10 @@ import { editGroup as editGroupAPI } from "./helpers.js";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export const useEditGroup = () => {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { groupId } = useParams();
   const queryClient = useQueryClient();
-  const { teacherId } = useAuthUser();
+  const { teacherId } = useAuthUser() || {};
   const navigate = useNavigate();
   const {
     mutate: editGroup,

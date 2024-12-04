@@ -3,7 +3,7 @@ import { fetchLevels } from "./helpers.js";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 function useLevels() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const {
     data: levels,
     isLoading,

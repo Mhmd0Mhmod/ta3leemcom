@@ -13,3 +13,8 @@ export const formatMonthInArabic = (year, month) => {
   const date = new Date(`${year}-${month}-01`);
   return new Intl.DateTimeFormat("ar-EG", { month: "long" }).format(date);
 };
+
+export const translateToArabicDate = (date) => {
+  const dateObj = new Date(date);
+  return new Intl.DateTimeFormat("ar-EG").format(dateObj);
+};

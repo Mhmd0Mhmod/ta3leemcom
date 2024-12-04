@@ -8,8 +8,8 @@ export function useToppers() {
   const { groupsId } = useParams();
 
   const groupsIds = groupsId?.split(",") || [];
-  const token = useAuthHeader();
-  const { groupId } = useAuthUser();
+  const token = useAuthHeader() || null;
+  const { groupId } = useAuthUser() || {};
   if (groupsIds?.length === 0) {
     groupsIds.push(groupId);
   }

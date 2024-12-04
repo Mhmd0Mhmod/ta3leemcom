@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function useTest() {
   const { testId } = useParams();
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
 
   let {
     data: test,

@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 
 export function useMonths() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const [searchParam, setSearchParam] = useSearchParams();
   const groupId = searchParam.get("sg");
   const {

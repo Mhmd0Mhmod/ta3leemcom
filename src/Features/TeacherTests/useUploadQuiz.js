@@ -5,7 +5,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function useUploadQuiz() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const naviate = useNavigate();
   const { groupsId, levelYearId } = useParams();
   const groupsIds = groupsId?.split(",");
@@ -17,7 +17,7 @@ export function useUploadQuiz() {
     isPending,
     error,
   } = useMutation({
-    mutationFn: () => addOnlineQuiz(test, token),
+    mutationFn: () => addOnlineQuiz({ ...test, groupsIds }, token),
     onSettled: () => {
       queryClient.refetchQueries(["groupsTests", ...groupsIds]);
     },

@@ -7,7 +7,7 @@ import EyeIcon from "../../public/Icons/show_icon.svg";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setTimeDuration } from "../Reducers/testReducer.js";
+import { setStartDate, setTimeDuration, setTimeStart } from "../Reducers/testReducer.js";
 import Button from "./Button.jsx";
 import { useUploadQuiz } from "../Features/TeacherTests/useUploadQuiz.js";
 import toast from "react-hot-toast";
@@ -26,23 +26,33 @@ function TestTiming() {
   const dispatch = useDispatch();
   const { startDate, hours, minute, days } = watch();
   useEffect(() => {
-    if (start) reset({ startDate: start });
-  }, [start, reset]);
+    if (start)
+      reset({
+        startDate: format(start, "yyyy-MM-dd'T'HH:mm"),
+        ...timeDuration,
+      });
+  }, [start, timeDuration, reset]);
   useEffect(() => {
-    if (timeDuration) reset(timeDuration);
-  }, [timeDuration, reset]);
+    if (timeDuration) reset({ ...timeDuration, startDate: format(start, "yyyy-MM-dd'T'HH:mm") });
+  }, [timeDuration, reset, start]);
   function handleSubmit() {
-    dispatch(setTimeDuration({ startDate }));
-    dispatch(setTimeDuration({ hours, minute, days }));
+    saveTime();
     uploadQuiz(null, {
       onSuccess: () => {
         toast.success("تم حفظ الاختبار بنجاح");
-        dispatch(reset());
       },
       onError: () => {
         toast.error("حدث خطأ");
       },
     });
+    dispatch(reset());
+  }
+  console.log(start);
+
+  console.log({ startDate, hours, minute, days });
+  function saveTime() {
+    dispatch(setStartDate(startDate));
+    dispatch(setTimeDuration({ hours, minute, days }));
   }
   return (
     <div className={"flex flex-col justify-between gap-4"}>
@@ -56,12 +66,12 @@ function TestTiming() {
         <TestDuration register={register} timeDuration={timeDuration} />
       </div>
       <div className={"rounded-lg bg-gray-200 p-1 text-sm"}>
-        <input type={"datetime-local"} className={"w-full bg-gray-200"} defaultValue={format(start, "yyyy-MM-dd'T'HH:mm")} {...register("startDate")} />
+        <input type={"datetime-local"} className={"w-full bg-gray-200"} defaultValue={format(startDate, "yyyy-MM-dd'T'HH:mm")} {...register("startDate")} />
       </div>
 
       <div>
         <Link to="/TDashboard/test/0">
-          <span className={"flex items-center gap-2 rounded-lg bg-gray-200 p-2"}>
+          <span className={"flex items-center gap-2 rounded-lg bg-gray-200 p-2"} onClick={saveTime}>
             <EyeIcon />
             <span>{"عرض الاختبار"}</span>
           </span>

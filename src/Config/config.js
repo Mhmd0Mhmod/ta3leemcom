@@ -38,3 +38,33 @@ export const MainLevels = [
     name: "المرحله الثانويه",
   },
 ];
+
+export const translateToArabic = (english) => {
+  const lowerCase = english.toLowerCase();
+  const map = {
+    primary: "المرحله الابتدائيه",
+    middle: "المرحله الاعداديه",
+    high: "المرحله الثانويه",
+    online: "اونلاين",
+    offline: "اوفلاين",
+    ended: "انتهي",
+    started: "جاري",
+    solved: "تم الحل",
+    "not solved": "لم يتم الحل",
+    send: "ارسال",
+    delete: "حذف",
+    edit: "تعديل",
+    test: "اختبار",
+    training: "تدريب",
+    question: "سؤال",
+    answer: "اجابه",
+    true: "صح",
+    false: "خطأ",
+    single: "اختيار واحد",
+    multiple: "اختيارات متعدده",
+    text: "نص",
+    image: "صوره",
+  };
+
+  return map[lowerCase];
+};

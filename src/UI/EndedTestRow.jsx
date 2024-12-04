@@ -1,9 +1,13 @@
-import { format } from "date-fns";
 import { TableCell } from "./Table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { translateToArabicDate } from "../lib/lib.js";
 
 function EndedTestRow({ test }) {
-  const { quizStatus, startDate, solveStatus, title, studentMark } = test;
+  const { quizStatus, startDate, solveStatus, title, studentMark, totalMark } = test;
+  const navgiate = useNavigate();
+  function handleOnClick() {
+    navgiate(-1);
+  }
 
   return (
     <>
@@ -18,7 +22,13 @@ function EndedTestRow({ test }) {
         </div>
       </TableCell>
       <TableCell align="center">
-        {quizStatus === "Ended" && solveStatus === "Solved" && <span className="text-green-500">{studentMark}</span>}
+        {quizStatus === "Ended" && solveStatus === "Solved" && (
+          <div className="space-x-2">
+            <span className="text-gray-500">{totalMark}</span>
+            <span className="text-gray-500">/</span>
+            <span className="peer text-green-500">{studentMark}</span>
+          </div>
+        )}
         {quizStatus === "Ended" && solveStatus === "Not Solved" && <span className="text-red-500">لم يتم الحل</span>}
         {quizStatus === "Started" && <span className="text-yellow-500">جاري الاختبار</span>}
       </TableCell>
@@ -27,7 +37,7 @@ function EndedTestRow({ test }) {
         {quizStatus === "Started" && <span className="text-yellow-500">جاري الاختبار</span>}
       </TableCell>
       <TableCell align="center">{test.startDate && test.endDate ? "اونلاين" : "اوفلاين"}</TableCell>
-      <TableCell align="center">{format(startDate, "yyyy/MM/dd")}</TableCell>
+      <TableCell align="center">{translateToArabicDate(startDate)}</TableCell>
     </>
   );
 }

@@ -4,6 +4,7 @@ import Question from "/public/Icons/question_icon.svg";
 import Bouns from "/public/Icons/bouns_icon.svg";
 import Point from "/public/Icons/flag_icon.svg";
 import { format, formatDate } from "date-fns";
+import { translateToArabicDate } from "../lib/lib.js";
 
 function CurrentTest({ test }) {
   return (
@@ -33,7 +34,7 @@ function CurrentTest({ test }) {
       </div>
       <div className={"grid grid-cols-2 gap-2 text-center"}>
         <span>تاريخ الاختبار</span>
-        <span className={"rounded bg-gray-200 px-4 py-2"}>{formatDate(test.startDate, "yyyy/MM/dd")}</span>
+        <span className={"rounded bg-gray-200 px-4 py-2"}>{translateToArabicDate(test.startDate)}</span>
 
         <span>وقت الاختبار</span>
         <span

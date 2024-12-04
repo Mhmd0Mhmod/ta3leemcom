@@ -9,8 +9,10 @@ import { useDispatch } from "react-redux";
 import { logout as reduxLogout } from "../Reducers/AuthReducer";
 import { Link, useNavigate } from "react-router-dom";
 import ModalWithRoutes from "../Context/ModalWithRoutes";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
-function UserName({ name }) {
+function UserName() {
+  const { name } = useAuthUser() || {};
   const close = useCloseMenu();
   const logout = useSignOut();
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ function UserName({ name }) {
     <div className="relative">
       <Menu.Trigger name={"userMenu"}>
         <div className={"flex items-center gap-2 text-xl"}>
-          <span>{name}</span>
+          <span>{name.split(" ").slice(0, 2).join(" ")}</span>
           <Drop />
         </div>
       </Menu.Trigger>

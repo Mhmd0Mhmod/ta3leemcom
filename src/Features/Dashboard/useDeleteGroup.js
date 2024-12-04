@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteGroup as deleteGroupAPI } from "./helpers.js";
 
 export const useDeleteGroup = () => {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { groupId } = useParams();
   const queryClient = useQueryClient();
   const {

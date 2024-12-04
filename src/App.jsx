@@ -33,6 +33,12 @@ import UserData from "./Pages/UserData.jsx";
 import UserSubscription from "./Pages/UserSubscription.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import UserDataEdit from "./UI/UserDataEdit.jsx";
+import UserSubscriptionUpgrade from "./UI/UserSubscriptionUpgrade.jsx";
+import Notifications from "./Pages/Teacher/Notifications.jsx";
+import ProtectedTeacher from "./ProtectedTeacher.jsx";
+import TestStudentsResult from "./UI/TestStudentsResult.jsx";
+import TestStudentsNotAttempted from "./UI/TestStudentsNotAttempted.jsx";
+import TestStatistics from "./UI/TestStatistics.jsx";
 
 const Home = lazy(() => import("./Pages/Home.jsx"));
 const About = lazy(() => import("./Pages/About.jsx"));
@@ -77,7 +83,10 @@ function App() {
                       <Route index path="user" element={<UserData />} />
                       <Route index path="user/edit" element={<UserDataEdit />} />
                       <Route path={"subscription"} element={<UserSubscription />} />
+                      <Route path={"subscription/upgrade"} element={<UserSubscriptionUpgrade />} />
                     </Route>
+
+                    <Route path={"notifications"} element={<Notifications />} />
 
                     <Route path={"TDashboard"} element={<DashboardLayout />}>
                       <Route index element={<Navigate replace to="student/add" />} />
@@ -103,10 +112,17 @@ function App() {
                       <Route path={"test/:testId"} element={<Test />} />
 
                       <Route path={"test/:testId/answers"} element={<TestAnswers />} />
-                      <Route path={"test/:testId/results"} element={<TestResults />} />
+                      <Route path={"test/:testId/results"} element={<TestResults />}>
+                        <Route index element={<Navigate replace to="students-result" />} />
+                        <Route path={"students-not-attempted"} element={<TestStudentsNotAttempted />} />
+                        <Route index path={"students-result"} element={<TestStudentsResult />} />
+                        <Route path={"statistics"} element={<TestStatistics />} />
+                      </Route>
 
                       <Route path={"students/:groupsId"} element={<Students />} />
+
                       <Route path={"months/:level/:groupsId"} element={<Months />} />
+
                       <Route path={"toppers/:groupsId"} element={<Toppers />} />
                     </Route>
 
@@ -121,7 +137,6 @@ function App() {
                       <Route path={"attendance"} element={<Attendance />} />
                     </Route>
                   </Route>
-
                   <Route path="*" element={<PageNotFound />} />
                 </Route>
               </Routes>

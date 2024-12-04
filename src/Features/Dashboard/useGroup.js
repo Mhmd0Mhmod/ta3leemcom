@@ -5,7 +5,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export const useGroup = () => {
   const { groupId } = useParams();
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const { data, isLoading, error } = useQuery({
     queryKey: ["group", groupId],
     queryFn: () => getGroup(token, groupId),

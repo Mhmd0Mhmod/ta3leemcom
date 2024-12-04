@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { getMonthData } from "./helpers";
 
 export function useMonthData() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const [searchParam] = useSearchParams();
   const monthId = searchParam.get("m");
   const {

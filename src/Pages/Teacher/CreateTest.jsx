@@ -12,8 +12,6 @@ function CreateTest() {
   useEffect(() => {
     if (test) {
       dispatch(setTest(test));
-    } else {
-      dispatch(reset());
     }
   }, [test, dispatch]);
   if (isLoading) return <Loading />;

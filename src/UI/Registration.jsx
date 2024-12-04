@@ -4,15 +4,19 @@ import UserName from "./UserName.jsx";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { useSelector } from "react-redux";
 import { isLogin } from "../Reducers/AuthReducer.js";
+import NotificationIcon from "./NotificationIcon.jsx";
 
 function Registration({ className }) {
-  const { name } = useAuthUser() || {};
   const isLogined = useSelector(isLogin);
+  const { role } = useAuthUser() || {};
 
   return (
     <div className={`text-xl ${className}`}>
       {isLogined ? (
-        <UserName name={name.split(" ").slice(0, 3).join(" ")} />
+        <div className={"flex items-center"}>
+          <UserName />
+          {role === "Teacher" && <NotificationIcon />}
+        </div>
       ) : (
         <>
           <LoginButton />

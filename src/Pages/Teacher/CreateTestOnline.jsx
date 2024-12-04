@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 function CreateTestOnline() {
-  const { teacherId } = useAuthUser();
+  const { teacherId } = useAuthUser() || {};
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setType("online"));

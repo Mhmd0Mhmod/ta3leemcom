@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 
 export function useDeleteSession() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const [searchParam] = useSearchParams();
   const queryClient = useQueryClient();
   const monthId = searchParam.get("m");

@@ -4,7 +4,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useParams } from "react-router-dom";
 
 function useGroups(selectedYear) {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   let { levelYearId } = useParams();
   levelYearId = selectedYear || levelYearId;
   const {

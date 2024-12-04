@@ -19,9 +19,10 @@ function StudentLogin() {
   const close = useCloseModal();
   const dispatch = useDispatch();
   function onSubmit(data) {
+    const tostId = toast.loading("جاري تسجيل الدخول");
     login(data, {
       onSuccess: () => {
-        toast.success("تم تسجيل الدخول بنجاح, مرحبا بك 👋");
+        toast.success("تم تسجيل الدخول بنجاح", { id: tostId });
         reset();
         close();
         dispatch(reduxLogin());

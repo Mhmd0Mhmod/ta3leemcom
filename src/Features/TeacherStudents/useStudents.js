@@ -6,7 +6,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 export function useStudents() {
   const { groupsId } = useParams();
   const groupsIds = groupsId.split(",");
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
 
   const {
     data: students,

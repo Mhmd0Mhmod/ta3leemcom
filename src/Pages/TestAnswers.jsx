@@ -6,7 +6,6 @@ import AnswersInfo from "../UI/AnswersInfo";
 function TestAnswers() {
   const test = useSelector((state) => state.test);
   const { answers } = useSelector((state) => state.testAnswers);
-
   return (
     <div className="space-y-5">
       <TestTitle title={test.title} />

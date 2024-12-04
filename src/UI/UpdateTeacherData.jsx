@@ -6,7 +6,7 @@ import { useUpdateTeacherData } from "../Features/TeacherData/useUpdateTeacherDa
 import toast from "react-hot-toast";
 
 function UpdateTeacherData() {
-  const { name, phone } = useAuthUser();
+  const { name, phone } = useAuthUser() || {};
   const splitName = name.split(" ").filter((n) => n.trim());
 
   const { updateData, isPending, error } = useUpdateTeacherData();

@@ -4,7 +4,7 @@ import { saveChanges as saveChangesAPI } from "./helpers";
 import { useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 export function useSaveChanges() {
-  const token = useAuthHeader();
+  const token = useAuthHeader() || null;
   const [searchParam] = useSearchParams();
   const monthId = searchParam.get("m");
   const queryClient = useQueryClient();

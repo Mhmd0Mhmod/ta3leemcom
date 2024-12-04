@@ -13,22 +13,17 @@ function Tests() {
   const endedTests = tests.filter((test) => test.quizStatus === "Ended" || test.solveStatus === "Solved");
 
   return (
-    <div className="student__tests h-screen space-y-10">
+    <div className="student__tests mb-8 h-screen space-y-10">
       <div className={"flex items-center"}>
-        <Heading as={"h3"} className={"font-almaria-bold"}>
-          الاختبارات الحالية{" "}
-        </Heading>
+        <Heading as={"h3"}>الاختبارات الحالية </Heading>
         <HeadIcon />
       </div>
       <div className="max-h-96 overflow-auto">
         <CurrentTests tests={currentTests} />
       </div>
-
       <hr />
       <div className={"flex items-center"}>
-        <Heading as={"h3"} className={"font-almaria-bold"}>
-          الاختبارات المنتهيه{" "}
-        </Heading>
+        <Heading as={"h3"}>الاختبارات المنتهيه </Heading>
         <HeadIcon />
       </div>
       <EndedTestsTable tests={endedTests} />

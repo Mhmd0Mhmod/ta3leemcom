@@ -24,7 +24,7 @@ function TestTimer({ onSubmit }) {
     };
   }, [startCount]);
   useEffect(() => {
-    if (!test.id) return;
+    if (!test) return;
     const { hours, minute, days } = test.timeDuration;
     setTime(minute * 60 + hours * 3600 + days * 86400);
     setStartCount(true);
@@ -32,7 +32,6 @@ function TestTimer({ onSubmit }) {
 
   useEffect(() => {
     if (!startCount) return;
-    if (!test.id) return;
     if (time === 0) {
       toast.success("تم انتهاء الوقت");
       onSubmit();
