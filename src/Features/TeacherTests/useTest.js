@@ -14,6 +14,7 @@ export function useTest() {
   } = useQuery({
     queryKey: ["test", testId || 0],
     queryFn: () => getTest(testId, token),
+    enabled: Boolean(Number(testId)),
   });
 
   return { test, isLoading, error };

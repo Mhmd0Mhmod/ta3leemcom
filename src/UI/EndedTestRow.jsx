@@ -1,23 +1,31 @@
-import { TableCell } from "./Table";
+import { TableCell, TableRow } from "./Table";
 import { Link, useNavigate } from "react-router-dom";
 import { translateToArabicDate } from "../lib/lib.js";
+import Button from "./Button.jsx";
 
 function EndedTestRow({ test }) {
-  const { quizStatus, startDate, solveStatus, title, studentMark, totalMark } = test;
+  const { quizStatus, startDate, solveStatus, title, studentMark, totalMark, studentQuizId } = test;
   const navgiate = useNavigate();
-  function handleOnClick() {
-    navgiate(-1);
+  function handleOnClick(e) {
+    e.stopPropagation();
+    if (quizStatus !== "Ended" || solveStatus === "Not Solved") return;
+    navgiate(`/SDashboard/test/${studentQuizId}/answers`);
+  }
+  function handleTryTest(e) {
+    e.stopPropagation();
+    if (quizStatus !== "Ended") return;
+    navgiate(`/SDashboard/test/${test.quizId}`);
   }
 
   return (
-    <>
+    <TableRow onClick={handleOnClick}>
       <TableCell>
         <div className="flex items-center justify-between">
           <span>{title}</span>
           {quizStatus === "Ended" && (
-            <Link to={`/SDashboard/test/${test.quizId}`} className="rounded-md bg-Secondary-500 px-4 py-2 text-white">
+            <Button type={"Secondary"} onClick={handleTryTest}>
               محاوله تدريبيه
-            </Link>
+            </Button>
           )}
         </div>
       </TableCell>
@@ -38,7 +46,7 @@ function EndedTestRow({ test }) {
       </TableCell>
       <TableCell align="center">{test.startDate && test.endDate ? "اونلاين" : "اوفلاين"}</TableCell>
       <TableCell align="center">{translateToArabicDate(startDate)}</TableCell>
-    </>
+    </TableRow>
   );
 }
 export default EndedTestRow;

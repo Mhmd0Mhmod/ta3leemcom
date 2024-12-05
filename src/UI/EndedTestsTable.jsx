@@ -1,6 +1,6 @@
 import { compareAsc, parseISO } from "date-fns";
 import EndedTestRow from "./EndedTestRow";
-import { Table, TableBody, TableHead, TableHeadCell, TableRow } from "./Table";
+import { Table, TableBody, TableHead, TableHeadCell } from "./Table";
 
 function EndedTestsTable({ tests }) {
   const sortedTests = tests.sort((a, b) => compareAsc(parseISO(a.startDate), parseISO(b.startDate)));
@@ -17,9 +17,9 @@ function EndedTestsTable({ tests }) {
         </TableHead>
         <TableBody>
           {sortedTests.map((test) => (
-            <TableRow key={test.quizId}>
-              <EndedTestRow test={test} />
-            </TableRow>
+            <>
+              <EndedTestRow test={test} key={test.studentQuizId} />
+            </>
           ))}
         </TableBody>
       </Table>

@@ -10,7 +10,11 @@ const TableHead = ({ className, children }) => (
   </thead>
 );
 
-const TableRow = ({ children, className }) => <tr className={`border-b last:border-none hover:bg-gray-50 ${className}`}>{children}</tr>;
+const TableRow = ({ children, className, ...props }) => (
+  <tr {...props} className={`border-b last:border-none hover:bg-gray-50 ${className}`}>
+    {children}
+  </tr>
+);
 
 const TableCell = ({ children, colSpan, align = "left", className, ...props }) => (
   <td colSpan={colSpan} className={`px-6 py-3 text-${align} text-gray-700 ${className}`} {...props}>

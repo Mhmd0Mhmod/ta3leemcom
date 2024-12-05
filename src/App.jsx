@@ -106,7 +106,7 @@ function App() {
                       <Route element={<CreateTest />}>
                         <Route path={"tests/:levelYearId/:groupsId/create/online"} element={<CreateTestOnline />} />
                         <Route path={"tests/:levelYearId/:groupsId/createoffline"} element={<CreateTestOffline />} />
-                        <Route path="test/:levelYearId/:testId/edit" element={<CreateTestOnline />} />
+                        <Route path="test/:levelYearId/:testId/edit" element={<EditTest />} />
                       </Route>
 
                       <Route path={"test/:testId"} element={<Test />} />

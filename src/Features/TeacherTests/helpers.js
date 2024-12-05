@@ -67,3 +67,14 @@ export async function deleteQuiz(quizId, token) {
     throw new Error(error?.response?.data?.message || error.message);
   }
 }
+
+export async function updateNotStartedQuiz(bodyData, token) {
+  try {
+    const { data } = await axios.put(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Quiz/UpdateOnlineQuizBeforeStart`, bodyData, {
+      headers: { Authorization: token },
+    });
+    return data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}

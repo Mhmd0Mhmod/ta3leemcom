@@ -5,9 +5,12 @@ import { Table, TableHead, TableRow, TableCell, TableBody, TableHeadCell } from 
 import { HiMiniCheckCircle } from "react-icons/hi2";
 import { HiXCircle } from "react-icons/hi2";
 import Loading from "./Loading";
+import { Link, useNavigate } from "react-router-dom";
 function TestStudentsResult() {
+  const navigate = useNavigate();
   const { studentsAnswers, isLoading: answersLoading, error: answersErrors } = useStudentsReuslt();
   const { testDesc, isLoading: descLoading, error: descError } = useTestDesc();
+  console.log(studentsAnswers);
 
   if (answersLoading || descLoading) return <Loading />;
   return (
@@ -30,7 +33,7 @@ function TestStudentsResult() {
         </TableHead>
         <TableBody>
           {studentsAnswers?.map((student) => (
-            <TableRow key={student.id}>
+            <TableRow onClick={() => navigate(`/TDashboard/test/${student.id}/answers`)} key={student.id}>
               <TableCell align="center">{format(student.submitAnswerTime, "hh:mm a")}</TableCell>
               <TableCell align="center" className={"text-ellipsis"}>
                 {student.stuentName}{" "}

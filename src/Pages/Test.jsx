@@ -19,33 +19,42 @@ import { useSubmittingTest } from "../Features/StudentTests/useSubmittingTest.js
 import { isAfter, isBefore } from "date-fns";
 
 function Test() {
-  const test = useSelector((state) => state.test);
   const { role } = useAuthUser() || {};
   const { test: quiz, isLoading } = useTest();
+  const test = useSelector((state) => state.test);
+
   const { submitSolve, isPending, error } = useSubmittingTest();
   const dispatch = useDispatch();
   useEffect(() => {
     if (isLoading) return;
-    if (test?.id !== quiz?.id) {
+    if (test) {
       dispatch(setTest(quiz));
     }
   }, [quiz, test, dispatch, isLoading]);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     defaultValues: {
       questionForms: [...test.questions.map((question) => ({ questionId: question.id, choiceId: null }))],
     },
   });
+  useEffect(() => {
+    if (isLoading) return;
+    if (test?.questions?.length === 0) return;
+    reset({
+      questionForms: [...test.questions.map((question) => ({ questionId: question.id, choiceId: null }))],
+    });
+  }, [test, reset, isLoading]);
   if (isLoading) return <Loading />;
   const { isSubmitted } = formState;
 
   const onSubmit = (data) => {
-    if (role === "Student" && isBefore(new Date(), test.endDate) && isAfter(new Date(), test.startDate)) {
+    if (role === "Student" && isAfter(new Date(), new Date(test.startDate)) && isBefore(new Date(), new Date(test.endDate))) {
       const toastId = toast.loading("جاري ارسال الاجابات");
       submitSolve(data, {
         onSuccess: () => {
@@ -57,8 +66,8 @@ function Test() {
       });
     } else {
       toast.success(" تم حفظ اجابات المحاوله التدريبيه بنجاح ");
+      dispatch(setAnswers({ answers: data.questionForms }));
     }
-    // dispatch(setAnswers(data.questionForms));
   };
   if (isSubmitted) {
     document.body.style.overflow = "auto";
@@ -71,7 +80,7 @@ function Test() {
           <div className="m-auto mt-7 w-11/12 space-y-4 md:w-3/4">
             <TestTitle title={test.title} />
             <TestTimer onSubmit={handleSubmit(onSubmit)} />
-            <TestAnwers questions={test.questions} register={register} />
+            <TestAnwers register={register} />
             <div className="flex items-center justify-between">
               <Button type={"Secondary"} className={"flex items-center justify-center gap-4"}>
                 <Send />

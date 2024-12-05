@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import Heading from "./Heading";
 
-function TestAnwers({ questions, register }) {
+function TestAnwers({ register }) {
+  const questions = useSelector((state) => state.test.questions);
+
   return (
     <div className="space-y-4">
       {questions.map((question, idx) => (

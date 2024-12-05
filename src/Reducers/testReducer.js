@@ -39,10 +39,11 @@ const testReducer = createSlice({
     },
     setTest: (state, action) => {
       if (!action.payload) return;
-
       const entries = Object.entries(action.payload);
       entries.forEach(([key, value]) => {
-        state[key] = value;
+        if (key === "questionsOfQuizzes") {
+          state["questions"] = value;
+        } else state[key] = value;
       });
     },
     setTitle: (state, action) => {

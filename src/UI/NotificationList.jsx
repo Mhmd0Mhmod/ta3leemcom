@@ -33,7 +33,7 @@ function NotificationList() {
       {!isLoading && notifications.length === 0 && <p className="text-center text-gray-400">لا يوجد اشعارات</p>}
       {!isLoading && notifications.length > 0 && (
         <ul className={"space-y-4 divide-y-2"}>
-          {notifications.slice(-5).map((notification) => (
+          {notifications.slice(0, 5).map((notification) => (
             <NotificationListItem key={notification.notificationId} notification={notification} />
           ))}
         </ul>

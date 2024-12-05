@@ -1,9 +1,10 @@
 import { Printer } from "lucide-react";
 import Heading from "./Heading";
+import { useSelector } from "react-redux";
 
-function AnswersInfo({ test, answers }) {
-  const mark = test.mark;
-  const { questions } = test;
+function AnswersInfo({ questions, timeDuration, mark, answers }) {
+  // const test = useSelector((state) => state.test);
+  // const answers = useSelector((state) => state.testAnswers.answers);
 
   const correctAnswers = questions.map((question) => question.choices.find((choice) => choice.isCorrect)?.id);
 
@@ -14,8 +15,6 @@ function AnswersInfo({ test, answers }) {
     }
     return acc;
   }, 0);
-
-  const { timeDuration } = test;
 
   return (
     <div className="flex justify-between">

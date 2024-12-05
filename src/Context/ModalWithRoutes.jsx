@@ -42,7 +42,7 @@ function ModalWithRoutes({ routes, children }) {
 }
 function BackArrow({ className }) {
   const { stackHistory, handleBack } = useContext(ModalWithRoutesContext);
-  return stackHistory.length > 1 && <Arrow onClick={handleBack} className={"absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer"} />;
+  return stackHistory.length > 1 && <Arrow onClick={handleBack} className={`absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer ${className || ""}`} />;
 }
 
 function Content({ id, children }) {

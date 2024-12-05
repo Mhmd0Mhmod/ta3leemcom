@@ -30,7 +30,6 @@ export async function fetchLevels(token) {
 }
 
 export async function fetchGroups(token, levelYearId) {
-  if (!levelYearId) return [];
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/GetAllGroupsOfTeacherId?levelYearId=${levelYearId}`, {
       headers: {

@@ -14,6 +14,7 @@ function useGroups(selectedYear) {
   } = useQuery({
     queryKey: ["groups", levelYearId],
     queryFn: () => fetchGroups(token, levelYearId),
+    enabled: Boolean(Number(levelYearId)),
   });
   return { groups, isLoading, error };
 }

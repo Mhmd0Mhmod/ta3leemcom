@@ -11,7 +11,7 @@ import VerifyAccount from "./VerifyAccount.jsx";
 import { Provider } from "react-redux";
 import { store } from "../Stores/ReduxStore.js";
 import Profile from "../Pages/Profile.jsx";
-export const RoutesOfModal = [
+const RoutesOfModal = [
   {
     to: "loginOptions",
     component: <LoginOptions />,

@@ -1,12 +1,7 @@
-import CreateTest from "./CreateTest";
 import CreateTestOnline from "./CreateTestOnline";
 
 function EditTest() {
-  return (
-    <>
-      <CreateTestOnline />
-    </>
-  );
+  return <CreateTestOnline />;
 }
 
 export default EditTest;

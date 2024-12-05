@@ -36,3 +36,13 @@ export async function getStudentStatistics(testId, token) {
   }
   throw new Error("Failed to fetch data");
 }
+
+export async function getStudentAnswers(studentQuizId, token) {
+  const { data, status } = await axios.get(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Quiz/GetStudentSolutionByStudentQuizId?studentQuizId=${studentQuizId}`, {
+    headers: { Authorization: token },
+  });
+  if (status === 200) {
+    return data;
+  }
+  throw new Error("Failed to fetch data");
+}

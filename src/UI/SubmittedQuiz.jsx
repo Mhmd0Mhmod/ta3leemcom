@@ -3,9 +3,11 @@ import Heading from "./Heading";
 import TestSent from "/public/Icons/test_sent_icon.svg";
 import { useSelector } from "react-redux";
 import { isAfter } from "date-fns";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 function SubmittedQuiz() {
   const test = useSelector((state) => state.test);
+  const { role } = useAuthUser();
   return (
     <div className="flex flex-col items-center py-32">
       <TestSent className="mx-auto" />
@@ -14,7 +16,7 @@ function SubmittedQuiz() {
       </Heading>
       <p className="mb-8 mt-4 text-lg">شكراً لك على إرسال إجاباتك. </p>
       <div className="flex items-center gap-3 font-Almarai-bold text-xl">
-        {isAfter(new Date(), new Date(test.endDate)) && (
+        {(isAfter(new Date(), new Date(test.endDate)) || role === "Teacher") && (
           <Link to={"answers"} replace={true} className="rounded-md border border-Secondary-500 bg-white px-7 py-2 text-Secondary-500">
             النتيجة
           </Link>

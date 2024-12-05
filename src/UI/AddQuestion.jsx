@@ -10,7 +10,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
   const { id } = questionToEdit || {};
   const dispatch = useDispatch();
 
-  const { register, handleSubmit, watch, setValue, reset, getValues } = useForm({
+  const { register, handleSubmit, watch, setValue, reset } = useForm({
     defaultValues: id
       ? questionToEdit
       : {
