@@ -3,20 +3,49 @@ import Button from "./Button";
 import { CircleCheck, CircleX, Copy, Edit, Trash } from "lucide-react";
 import AddQuestion from "./AddQuestion";
 import { useDispatch } from "react-redux";
-import { deleteQuestion, setQuestions } from "../Reducers/testReducer";
+import { deleteQuestion as deleteQuestionRedux } from "../Reducers/testReducer";
+import { useRemoveQuestion } from "../Features/TeacherTests/useRemoveQuestion";
+import toast from "react-hot-toast";
+import { useUpdateQuestion } from "../Features/TeacherTests/useUpdateQuestion";
 
-function Question({ question, number }) {
+function Question({ question, number, ended = false }) {
   const [disabled, setDisabled] = useState(true);
+  const { deleteQuestion, isPending, error } = useRemoveQuestion();
+  const { editQuestion } = useUpdateQuestion();
   const dispatch = useDispatch();
   const { content, choices, mark, explain, compulsory } = question;
-  const finishEdit = () => {
+  const finishEdit = (question) => {
+    if (ended) {
+      const toastId = toast.loading("جاري تعديل السؤال");
+      editQuestion(question, {
+        onSuccess: () => {
+          toast.success("تم تعديل السؤال بنجاح", { id: toastId });
+        },
+        onError: () => {
+          toast.error("حدث خطأ اثناء تعديل السؤال", { id: toastId });
+        },
+      });
+    }
+
     setDisabled(true);
   };
   if (!disabled) return <AddQuestion questionToEdit={question} onEdit={finishEdit} />;
   function remove() {
-    dispatch(deleteQuestion(question.id));
+    if (ended) {
+      const toastId = toast.loading("جاري حذف السؤال");
+      deleteQuestion(question.id, {
+        onSuccess: () => {
+          toast.success("تم حذف السؤال بنجاح", { id: toastId });
+          dispatch(deleteQuestionRedux(question.id));
+        },
+        onError: () => {
+          toast.error("حدث خطأ اثناء حذف السؤال", { id: toastId });
+        },
+      });
+    } else dispatch(deleteQuestionRedux(question.id));
   }
   function duplicate() {
+    if (ended) return;
     dispatch(setQuestions({ ...question }));
   }
   return (
@@ -46,10 +75,12 @@ function Question({ question, number }) {
         </span>
       </div>
       <div className="mr-auto flex w-fit">
-        <Button type="normal" onClick={duplicate} className="flex items-center gap-4 text-Secondary-500">
-          <Copy />
-          <span>تكرار</span>
-        </Button>
+        {!ended && (
+          <Button type="normal" onClick={duplicate} className="flex items-center gap-4 text-Secondary-500">
+            <Copy />
+            <span>تكرار</span>
+          </Button>
+        )}
         <Button type="normal" onClick={() => setDisabled(false)} className="flex items-center gap-4 text-Secondary-500">
           <Edit />
           <span>تعديل</span>

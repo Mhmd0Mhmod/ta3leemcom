@@ -61,7 +61,7 @@ function AddQuestion({ questionToEdit, onEdit }) {
 
     if (id) {
       data.id = id;
-      onEdit?.();
+      onEdit?.(data);
       dispatch(editQuestion(data));
     } else {
       dispatch(setQuestions(data));

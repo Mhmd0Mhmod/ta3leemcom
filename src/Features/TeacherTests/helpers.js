@@ -78,3 +78,25 @@ export async function updateNotStartedQuiz(bodyData, token) {
     throw new Error(error?.response?.data?.message || error.message);
   }
 }
+
+export async function removeQuestionEnded(id, token) {
+  try {
+    const { data } = await axios.delete(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Qeustions/DeleteQuestionAfterStarted?id=${id}`, {
+      headers: { Authorization: token },
+    });
+    return data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}
+export async function updateQuestionEnded(bodyData, token) {
+  try {
+    await axios.put(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Qeustions/Edit-QuestionAfterStarted`, bodyData, {
+      headers: { Authorization: token },
+    });
+
+    return;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}
