@@ -14,29 +14,29 @@ import CustomersOpinionsCarousel from "../UI/CustomersOpinionsCarousel.jsx";
 import Heading from "../UI/Heading.jsx";
 import Button from "../UI/Button.jsx";
 import { useForm } from "react-hook-form";
+import { sendOpinion } from "../Features/Opinion/apiOpinion.js";
+import toast from "react-hot-toast";
 
 function Opinion() {
-  const { register, handleSubmit, setValue, watch } = useForm();
-  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, setValue, watch, reset, formState } = useForm();
   const rate = watch("rate", 0);
-
+  const { comment } = watch();
   const handleSetRate = (value) => {
     setValue("rate", value);
   };
+  const { isSubmitting } = formState;
+
   const onSubmit = (data) => {
-    setLoading(true);
-    setLoading(false);
-    // sendOpinion(rate, comment)
-    //   .then((res) => {
-    //     if (res?.status === 200) {
-    //       toast.success("تم ارسال رايك بنجاح");
-    //       setRate(0);
-    //       setComment("");
-    //     } else {
-    //       toast.error("حدث خطأ اثناء ارسال رايك");
-    //     }
-    //   })
-    //   .finally(() => setLoading(false));
+    console.log(data);
+
+    sendOpinion(rate, comment).then((res) => {
+      if (res?.status === 200) {
+        toast.success("تم ارسال رايك بنجاح");
+        reset();
+      } else {
+        toast.error("حدث خطأ اثناء ارسال رايك");
+      }
+    });
   };
   return (
     <div className={"p-5"}>
@@ -82,7 +82,7 @@ function Opinion() {
             ></textarea>
           </div>
           <div className={"text-center"}>
-            <Button disabled={loading} className={"self-center px-10 py-3 text-3xl disabled:cursor-not-allowed disabled:bg-gray-700"}>
+            <Button disabled={isSubmitting} className={"self-center px-10 py-3 text-3xl disabled:cursor-not-allowed disabled:bg-gray-700"}>
               إرسال
             </Button>
           </div>

@@ -3,19 +3,21 @@ import Button from "./Button";
 import { CircleCheck, CircleX, Copy, Edit, Trash } from "lucide-react";
 import AddQuestion from "./AddQuestion";
 import { useDispatch } from "react-redux";
-import { deleteQuestion as deleteQuestionRedux } from "../Reducers/testReducer";
+import { deleteQuestion as deleteQuestionRedux, setQuestions } from "../Reducers/testReducer";
 import { useRemoveQuestion } from "../Features/TeacherTests/useRemoveQuestion";
 import toast from "react-hot-toast";
 import { useUpdateQuestion } from "../Features/TeacherTests/useUpdateQuestion";
 
 function Question({ question, number, ended = false }) {
   const [disabled, setDisabled] = useState(true);
-  const { deleteQuestion, isPending, error } = useRemoveQuestion();
+  const { deleteQuestion } = useRemoveQuestion();
   const { editQuestion } = useUpdateQuestion();
   const dispatch = useDispatch();
   const { content, choices, mark, explain, compulsory } = question;
   const finishEdit = (question) => {
     if (ended) {
+      console.log(question);
+
       const toastId = toast.loading("جاري تعديل السؤال");
       editQuestion(question, {
         onSuccess: () => {
