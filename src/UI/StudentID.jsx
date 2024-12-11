@@ -1,11 +1,11 @@
-import ID from "/public/imgs/id.png";
+import ID from "/public/imgs/ID.png";
 import Heading from "./Heading.jsx";
 
 function StudentId({ student }) {
   const { name, groupName, levelName, levelYearName, code } = student || {};
   return (
     <div id="studentDetails" className={"print-full relative -mt-20 flex flex-col"}>
-      <img src={"/public/imgs/id.png"} alt="Id" className={"w-full"} />
+      <img src={ID} alt="Id" className={"w-full"} />
       {/*<Profile alt="profile" className={"absolute"} />*/}
       <div className="rounded-b-md border-2 border-t-0 border-gray-500 bg-gray-200 bg-cover bg-center bg-no-repeat p-4 text-lg">
         <div className={"mb-5"}>
