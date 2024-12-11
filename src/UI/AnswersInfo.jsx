@@ -1,8 +1,9 @@
 import { Printer } from "lucide-react";
 import Heading from "./Heading";
 import { useSelector } from "react-redux";
+import { print } from "../Config/config";
 
-function AnswersInfo({ questions, timeDuration, mark, answers }) {
+function AnswersInfo({ questions, timeDuration, mark, answers, rank }) {
   // const test = useSelector((state) => state.test);
   // const answers = useSelector((state) => state.testAnswers.answers);
 
@@ -15,7 +16,9 @@ function AnswersInfo({ questions, timeDuration, mark, answers }) {
     }
     return acc;
   }, 0);
-
+  const printAnswers = () => {
+    print("testAnswers");
+  };
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-4">
@@ -36,15 +39,18 @@ function AnswersInfo({ questions, timeDuration, mark, answers }) {
           <span>{timeDuration.days}</span>
         </span>
       </div>
-      <div className="flex items-center gap-4">
-        <Heading as="h4">الترتيب :</Heading>
-        <span className="flex gap-3 rounded-md bg-white p-2">
-          <span>1</span>
-        </span>
-      </div>
+      {rank && (
+        <div className="flex items-center gap-4">
+          <Heading as="h4">الترتيب :</Heading>
+          <span className="flex gap-3 rounded-md bg-white p-2">
+            <span>{rank}</span>
+          </span>
+        </div>
+      )}
 
-      <Printer />
+      <Printer onClick={printAnswers} />
     </div>
   );
 }
+
 export default AnswersInfo;

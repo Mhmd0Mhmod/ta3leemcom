@@ -14,7 +14,7 @@ export const useDeleteGroup = () => {
   } = useMutation({
     mutationFn: (id) => deleteGroupAPI(token, id || groupId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["group", groupId]);
+      queryClient.removeQueries(["group", groupId]);
     },
   });
   return { deleteGroup, isPending, error };

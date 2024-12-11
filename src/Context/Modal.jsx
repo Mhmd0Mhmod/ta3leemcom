@@ -61,7 +61,7 @@ function Content({ id, onExit, children, className }) {
 
   return createPortal(
     <div className="fixed inset-0 z-[11] flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className={`relative w-full max-w-screen-sm overflow-hidden rounded-lg bg-white shadow-lg md:max-w-screen-md lg:h-5/6 lg:max-w-screen-lg ${className || ""}`}>
+      <div className={`relative h-fit w-fit max-w-screen-sm overflow-hidden rounded-lg bg-white shadow-lg md:max-w-screen-md lg:h-5/6 lg:max-w-screen-lg ${className || ""}`}>
         <Exit className={"absolute inset-5 cursor-pointer"} onClick={handleExit} />
         {children}
       </div>

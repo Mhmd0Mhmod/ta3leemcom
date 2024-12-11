@@ -14,21 +14,29 @@ export default function Footer() {
       <FooterColumn className={"col-span-2 mt-0 space-y-4 xl:col-span-1"} title={<Logo className="w-full" />} c>
         <FooterColumn.Description>نحن منصة تعليمية متكاملة تهدف إلى تسهيل العملية التعليمية من خلال تقديم أدوات فعالة للمعلمين، الطلاب، وأولياء الأمور.</FooterColumn.Description>
         <FooterColumn.List className="flex justify-center gap-10 !space-y-0">
-          <Gmail />
-          <Facebook />
-          <Instagram />
-          <LinkedIn />
+          <a target="_blank" href="mailto:codencore.contact@gmail.com">
+            <Gmail />
+          </a>
+          <a target="_blank" href="https://www.facebook.com/profile.php?id=61563327304747">
+            <Facebook />
+          </a>
+          <a target="_blank" href="https://www.instagram.com/ta3leem_com/profilecard/?igsh=MWM2bTN6NWs5ZGxjbw==">
+            <Instagram />
+          </a>
+          <a target="_blank" href="https://www.linkedin.com/company/ta3leemcom/ ">
+            <LinkedIn />
+          </a>
         </FooterColumn.List>
       </FooterColumn>
       <FooterColumn title={"اتصل بنا"} className={"col-span-2 space-y-8 xl:col-span-1"}>
         <FooterColumn.List>
           <div className="flex gap-7">
-            <Phone />
-            <span>01000000000</span>
+            {/* <Phone />
+            <span>01000000000</span> */}
           </div>
           <div className="mt-5 flex gap-7">
             <ContactMail />
-            <span>ta3leemcom@outlook.com</span>
+            <span>support@ta3lemcom.com</span>
           </div>
         </FooterColumn.List>
       </FooterColumn>
@@ -59,7 +67,7 @@ export default function Footer() {
         <FooterColumn.Description>مسح الباركود لتحميل تطبيق أولياء الأمور</FooterColumn.Description>
         <DownloadAppQR className={"m-auto w-32"} />
       </FooterColumn>
-      <p className="font-almaria-bold col-span-3 text-center">© 2024 جميع الحقوق محفوظة لمنصتنا التعليمية.</p>
+      <p className="font-Almaria-bold col-span-full text-center">© 2024 جميع الحقوق محفوظة لمنصتنا التعليمية.</p>
     </div>
   );
 }

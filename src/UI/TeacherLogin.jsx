@@ -10,11 +10,17 @@ import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";
 import { useLogin } from "../Features/Registration/useLogin.js";
 import { login as reduxLogin } from "/src/Reducers/AuthReducer.js";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 function TeacherLogin() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { register, handleSubmit, reset, formState } = useForm();
   const dispatch = useDispatch();
-
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   const { login, isPending, error } = useLogin(teacherLogin);
   const close = useCloseModal();
   const { errors } = formState;
@@ -30,7 +36,7 @@ function TeacherLogin() {
         dispatch(reduxLogin());
       },
       onError: (error) => {
-        toast.error(error.message, { id: toastId });
+        toast.error(error?.response?.data || "حدث خطأ ما , يرجى المحاولة مرة أخرى", { id: toastId });
       },
     });
   }
@@ -51,6 +57,7 @@ function TeacherLogin() {
           <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
             <Mail className={"h-6 w-6"} />
             <input
+              dir="ltr"
               type="text"
               className="w-full focus:outline-0"
               {...register("email", {
@@ -71,13 +78,17 @@ function TeacherLogin() {
           <div className={"flex gap-10 rounded-md border-2 border-gray-400 p-2"}>
             <Lock className={"h-6 w-6"} />
             <input
-              type="password"
+              dir="ltr"
+              type={showPassword ? "text" : "password"}
               className="w-full focus:outline-0"
               {...register("password", {
                 required: "كلمة المرور مطلوبة",
               })}
               placeholder={"********"}
             />
+            <span onClick={togglePasswordVisibility} className={"cursor-pointer"}>
+              {showPassword ? <Eye /> : <EyeOff />}
+            </span>
           </div>
           <span className="text-sm text-red-500">{errors?.password?.message}</span>
         </div>

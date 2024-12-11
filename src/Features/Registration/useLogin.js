@@ -17,9 +17,6 @@ export function useLogin(login) {
         userState: user,
       });
     },
-    onError: (error) => {
-      toast.error(error?.response?.data || "حدث خطأ ما , يرجى المحاولة مرة أخرى");
-    },
   });
 
   return { login: mutate, isLoading: isPending, error };

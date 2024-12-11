@@ -30,8 +30,14 @@ function CustomersOpinionsCarousel({ opinionClassName }) {
     queryKey: ["opinions"],
     queryFn: getOpinions,
   });
+  if (!opinions.length) {
+    return null;
+  }
   return (
-    <Carousel length={opinions.length} containerClassName={"grid grid-cols-[auto_1fr_auto] gap-4 grid-rows-[1fr_auto] gap-y-10 "}>
+    <Carousel
+      length={opinions.length}
+      containerClassName={"w-full grid grid-cols-[auto_1fr_auto] gap-4 grid-rows-[1fr_auto] gap-y-10 "}
+    >
       <Carousel.RightButton>
         <Arrow className={"w-20"} />
       </Carousel.RightButton>

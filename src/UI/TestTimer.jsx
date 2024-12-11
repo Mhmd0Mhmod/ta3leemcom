@@ -25,7 +25,10 @@ function TestTimer({ onSubmit }) {
   }, [startCount]);
   useEffect(() => {
     if (!test) return;
-    const { hours, minute, days } = test.timeDuration;
+    const {
+      timeDuration: { hours, minute, days },
+      endDate,
+    } = test;
     setTime(minute * 60 + hours * 3600 + days * 86400);
     setStartCount(true);
   }, [test]);
@@ -41,9 +44,9 @@ function TestTimer({ onSubmit }) {
     <div className="mr-auto flex w-fit gap-3 rounded-md bg-white p-2">
       <AlarmCheck />
       <p>
-        <span>{time % 60} : </span>
-        <span>{Math.floor(time / 60) % 60} : </span>
-        <span>{Math.floor(time / 3600) % 24} : </span>
+        <span>{String(time % 60).padStart(2, "0")} : </span>
+        <span>{String(Math.floor(time / 60) % 60).padStart(2, "0")} : </span>
+        <span>{String(Math.floor(time / 3600) % 24).padStart(2, "0")} : </span>
         <span>{Math.floor(time / 86400)} </span>
       </p>
     </div>

@@ -8,7 +8,7 @@ function LoginButton() {
       <ModalWithRoutes.OpenModal id={"login"} to={"loginOptions"}>
         <Button className={"bg-transparent text-primary"}>تسجيل الدخول</Button>
       </ModalWithRoutes.OpenModal>
-      <ModalWithRoutes.Content id={"login"}>
+      <ModalWithRoutes.Content id={"login"} className={"h-full w-full"}>
         <div className={"flex h-full w-full"}>
           <ModalWithRoutes.BackArrow />
           <div className="w-1/2 space-y-20 p-8">

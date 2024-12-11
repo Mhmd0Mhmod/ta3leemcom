@@ -24,10 +24,10 @@ const links = [
     title: "الخدمات",
     to: "/services",
   },
-  {
-    title: "تعليمات",
-    to: "/instructions",
-  },
+  // {
+  //   title: "تعليمات",
+  //   to: "/instructions",
+  // },
   {
     title: "الاشتركات",
     to: "/subscriptions",

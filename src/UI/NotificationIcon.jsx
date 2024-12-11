@@ -12,7 +12,7 @@ function NotificationIcon() {
   const queryClient = useQueryClient();
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://ta3leemcom-api.runasp.net/notificationHub`, {
+      .withUrl(`https://api.ta3lemcom.com/notificationHub`, {
         accessTokenFactory: () => token.slice(7),
         withCredentials: true,
       })

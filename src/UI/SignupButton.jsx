@@ -12,7 +12,7 @@ function SignupButton({ id }) {
           <IoArrowBackSharp />
         </Button>
       </ModalWithRoutes.OpenModal>
-      <ModalWithRoutes.Content id={id}>
+      <ModalWithRoutes.Content id={id} className={"h-full w-full"}>
         <div className={"flex h-full w-full"}>
           <div className="w-1/2 space-y-20 p-8">
             <ModalWithRoutes.Outlet />

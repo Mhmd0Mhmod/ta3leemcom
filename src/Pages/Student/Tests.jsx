@@ -7,6 +7,7 @@ import Loading from "../../UI/Loading";
 
 function Tests() {
   let { tests, isLoading, error } = useAllStudentTests();
+  console.log(tests);
 
   if (isLoading) return <Loading />;
   tests = tests.map((test) => ({ ...test, duration: test.duration.replaceAll(".", ":") }));

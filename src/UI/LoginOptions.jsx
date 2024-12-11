@@ -1,6 +1,3 @@
-import { useState } from "react";
-import TeacherLogin from "./TeacherLogin.jsx";
-import StudentLogin from "./StudentLogin.jsx";
 import Button from "./Button.jsx";
 import Heading from "./Heading.jsx";
 import ModalWithRoutes from "../Context/ModalWithRoutes.jsx";

@@ -15,7 +15,7 @@ function LevelsList() {
             <Link
               key={i}
               to={`/TDashboard/level/${levelId}/${level.id}`}
-              className={`relative cursor-pointer whitespace-nowrap p-1 ${+levelYearId === level.id ? "border-b border-b-black" : ""}`}
+              className={`relative cursor-pointer whitespace-nowrap p-1 ${+levelYearId === level.id ? "border-b border-b-black" : "text-gray-500 duration-300 hover:-translate-y-0.5 hover:translate-x-1 hover:text-black"}`}
             >
               <li>{level.name}</li>
             </Link>

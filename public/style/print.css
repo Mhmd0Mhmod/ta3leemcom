@@ -1,0 +1,46 @@
+@media print {
+  body {
+    -webkit-print-color-adjust: exact; /* For Safari/Chrome */
+    print-color-adjust: exact; /* For Firefox/Edge */
+    color-adjust: exact; /* Legacy property for older browsers */
+  }
+  .bg-Secondary-100 {
+    background-color: #f7fafc;
+  }
+  .bg-Secondary-500 {
+    background-color: #718096;
+  }
+  .text-Secondary-500 {
+    color: #718096;
+  }
+  .text-Secondary-100 {
+    color: #f7fafc;
+  }
+  .flex {
+    display: flex;
+  }
+  .gap-4 {
+    gap: 1rem;
+  }
+  .items-center {
+    align-items: center;
+  }
+  .justify-between {
+    justify-content: space-between;
+  }
+  .rounded-md {
+    border-radius: 0.375rem;
+  }
+  .bg-white {
+    background-color: #fff;
+  }
+  .p-2 {
+    padding: 0.5rem;
+  }
+  .flex {
+    display: flex;
+  }
+  .gap-3 {
+    gap: 0.75rem;
+  }
+}

@@ -1,19 +1,20 @@
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteStudent as deleteStudentAPI } from "./helpers";
 
-export const useDeleteGroup = () => {
+export const useDeleteStudent = () => {
   const token = useAuthHeader() || null;
-  const { groupId } = useParams();
+  const { studentId } = useParams();
   const queryClient = useQueryClient();
   const {
     mutate: deleteStudent,
     isPending,
     error,
   } = useMutation({
-    mutationFn: () => deleteStudent(token, groupId),
+    mutationFn: (id) => deleteStudentAPI(token, id || studentId),
     onSuccess: () => {
-      queryClient.invalidateQueries(["group", groupId]);
+      queryClient.removeQueries(["student", studentId]);
     },
   });
   return { deleteStudent, isPending, error };

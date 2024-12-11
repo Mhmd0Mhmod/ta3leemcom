@@ -38,7 +38,7 @@ function Test() {
       document.body.style.overflow = "auto";
     };
   }, []);
-  const { register, handleSubmit, formState, reset } = useForm({
+  const { register, handleSubmit, setValue, formState } = useForm({
     defaultValues: {
       questionForms: [...test.questions.map((question) => ({ questionId: question.id, choiceId: null }))],
     },
@@ -46,12 +46,11 @@ function Test() {
   useEffect(() => {
     if (isLoading) return;
     if (test?.questions?.length === 0) return;
-    reset({
-      questionForms: [...test.questions.map((question) => ({ questionId: question.id, choiceId: null }))],
-    });
-  }, [test, reset, isLoading]);
+    setValue("questionForms", [...test.questions.map((question) => ({ questionId: question.id, choiceId: null }))]);
+  }, [test, setValue, isLoading]);
   if (isLoading) return <Loading />;
   const { isSubmitted } = formState;
+  console.log(isSubmitted);
 
   const onSubmit = (data) => {
     if (role === "Student" && isAfter(new Date(), new Date(test.startDate)) && isBefore(new Date(), new Date(test.endDate))) {

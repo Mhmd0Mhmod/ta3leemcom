@@ -17,9 +17,7 @@ function EndedTestsTable({ tests }) {
         </TableHead>
         <TableBody>
           {sortedTests.map((test) => (
-            <>
-              <EndedTestRow test={test} key={test.studentQuizId} />
-            </>
+            <EndedTestRow test={test} key={test.quizId} />
           ))}
         </TableBody>
       </Table>

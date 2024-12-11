@@ -55,6 +55,18 @@ export async function addStudent(token, bodyData) {
     throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
   }
 }
+export async function deleteStudent(token, studentId) {
+  const { status } = await axios.delete(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Student?id=${studentId}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === 200) {
+    return true;
+  } else {
+    throw new Error("حدث خطأ ما , يرجى المحاوله مره اخرى");
+  }
+}
 
 export async function addGroup(token, bodyData) {
   const { data, status } = await axios.post(`${import.meta.env.VITE_TA3LEMCOM_API_URL}/Group/Add`, bodyData, {

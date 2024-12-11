@@ -9,11 +9,14 @@ import Sort from "/public/Icons/sort.svg";
 import Loading from "./Loading.jsx";
 import Modal from "../Context/Modal.jsx";
 import AlertWindow from "./AlertWindow.jsx";
+import { useDeleteStudent } from "../Features/Dashboard/useDeleteStudent.js";
+import toast from "react-hot-toast";
 
 function StudentsGroupsTable() {
   const [search, setSearch] = useState("");
   const [sorted, setSorted] = useState(false);
   const { students, isLoading, error } = useStudents();
+  const { deleteStudent } = useDeleteStudent();
   const navigate = useNavigate();
   let [editedStudents, setEditedStudents] = useState(students || []);
   useEffect(() => {
@@ -31,7 +34,15 @@ function StudentsGroupsTable() {
   }
 
   const handleDelete = (id) => {
-    console.log(`Delete student with ID: ${id}`);
+    const toastId = toast.loading("جاري حذف الطالب...");
+    deleteStudent(id, {
+      onSuccess: () => {
+        toast.success("تم حذف الطالب بنجاح", { id: toastId });
+      },
+      onError: (error) => {
+        toast.error("حدث خطأ أثناء حذف الطالب", { id: toastId });
+      },
+    });
   };
 
   const handleEdit = (id) => {
@@ -68,7 +79,14 @@ function StudentsGroupsTable() {
                       <DeleteIcon />
                     </Modal.Trigger>
                     <Modal.Content id={student.id}>
-                      <AlertWindow title={"هل انت متأكد من حذف الطالب؟"} description={" "} onConfirm={() => handleDelete(student.id)} />
+                      <AlertWindow
+                        title={"هل انت متأكد من حذف الطالب؟"}
+                        description={`
+                      بمجرد حذف الطالب لن تتمكن من استعادته مرة أخرى
+                      هل تريد حذف الطالب؟
+                      `}
+                        onConfirm={() => handleDelete(student.id)}
+                      />
                     </Modal.Content>
                   </div>
                 </TableCell>

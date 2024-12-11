@@ -68,3 +68,46 @@ export const translateToArabic = (english) => {
 
   return map[lowerCase];
 };
+
+export function print(id) {
+  const printableElement = document.getElementById(id);
+  const printWindow = window.open("", "_blank");
+
+  if (printWindow) {
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html dir="rtl">
+        <head>
+          <title>Print</title>
+          <!-- Include TailwindCSS from CDN -->
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+
+          <!-- Include your custom print styles -->
+          <link rel="stylesheet" href="/style/print.css">
+          <link rel="stylesheet" href="/../src/Styles/index.css">
+          <link rel="stylesheet" href="/../src/Styles/fonts.css">
+          <style>
+            /* Add additional inline styles for debugging */
+            body {
+              font-family: Arial, sans-serif;
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+            @media print {
+              /* Debug visibility if needed */
+              .hidden { display: none; }
+            }
+          </style>
+        </head>
+        <body>${printableElement.innerHTML}</body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    // Ensure CSS is loaded before printing
+    printWindow.onload = () => {
+      printWindow.print();
+      printWindow.close();
+    };
+  }
+}

@@ -39,6 +39,7 @@ import ProtectedTeacher from "./ProtectedTeacher.jsx";
 import TestStudentsResult from "./UI/TestStudentsResult.jsx";
 import TestStudentsNotAttempted from "./UI/TestStudentsNotAttempted.jsx";
 import TestStatistics from "./UI/TestStatistics.jsx";
+import ProtectedStudent from "./ProtectedStudent.jsx";
 
 const Home = lazy(() => import("./Pages/Home.jsx"));
 const About = lazy(() => import("./Pages/About.jsx"));
@@ -81,60 +82,65 @@ function App() {
                     <Route path="profile" element={<Profile />}>
                       <Route index element={<Navigate replace to="user" />} />
                       <Route index path="user" element={<UserData />} />
-                      <Route index path="user/edit" element={<UserDataEdit />} />
-                      <Route path={"subscription"} element={<UserSubscription />} />
-                      <Route path={"subscription/upgrade"} element={<UserSubscriptionUpgrade />} />
+                      <Route element={<ProtectedTeacher />}>
+                        <Route index path="user/edit" element={<UserDataEdit />} />
+                        <Route path={"subscription"} element={<UserSubscription />} />
+                        <Route path={"subscription/upgrade"} element={<UserSubscriptionUpgrade />} />
+                      </Route>
                     </Route>
 
-                    <Route path={"notifications"} element={<Notifications />} />
+                    <Route element={<ProtectedTeacher />}>
+                      <Route path={"notifications"} element={<Notifications />} />
 
-                    <Route path={"TDashboard"} element={<DashboardLayout />}>
-                      <Route index element={<Navigate replace to="student/add" />} />
-                      <Route index path={"student/add"} element={<AddStudent />} />
-                      <Route path={"student/:studentId/edit"} element={<EditStudent />} />
-                      <Route path={"student/:studentId"} element={<StudentDetails />} />
+                      <Route path={"TDashboard"} element={<DashboardLayout />}>
+                        <Route index element={<Navigate replace to="student/add" />} />
+                        <Route index path={"student/add"} element={<AddStudent />} />
+                        <Route path={"student/:studentId/edit"} element={<EditStudent />} />
+                        <Route path={"student/:studentId"} element={<StudentDetails />} />
 
-                      <Route path={"group/add"} element={<AddGroup />} />
-                      <Route path={"group/:groupId/edit"} element={<EditGroup />} />
-                      <Route path={"group/:groupId"} element={<GroupDetails />} />
+                        <Route path={"group/add"} element={<AddGroup />} />
+                        <Route path={"group/:groupId/edit"} element={<EditGroup />} />
+                        <Route path={"group/:groupId"} element={<GroupDetails />} />
 
-                      <Route path={"level"} element={<SelectLevel />} />
-                      <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
+                        <Route path={"level"} element={<SelectLevel />} />
+                        <Route path={"level/:levelId/:levelYearId"} element={<Level />} />
 
-                      <Route path={"tests/:levelYearId/:groupsId"} element={<TeacherTests />} />
+                        <Route path={"tests/:levelYearId/:groupsId"} element={<TeacherTests />} />
 
-                      <Route element={<CreateTest />}>
-                        <Route path={"tests/:levelYearId/:groupsId/create/online"} element={<CreateTestOnline />} />
-                        <Route path={"tests/:levelYearId/:groupsId/createoffline"} element={<CreateTestOffline />} />
-                        <Route path="test/:levelYearId/:testId/edit" element={<EditTest />} />
+                        <Route element={<CreateTest />}>
+                          <Route path={"tests/:levelYearId/:groupsId/create/online"} element={<CreateTestOnline />} />
+                          <Route path={"tests/:levelYearId/:groupsId/createoffline"} element={<CreateTestOffline />} />
+                          <Route path="test/:levelYearId/:testId/edit" element={<EditTest />} />
+                        </Route>
+
+                        <Route path={"test/:testId"} element={<Test />} />
+
+                        <Route path={"test/:testId/answers"} element={<TestAnswers />} />
+                        <Route path={"test/:testId/results"} element={<TestResults />}>
+                          <Route index element={<Navigate replace to="students-result" />} />
+                          <Route path={"students-not-attempted"} element={<TestStudentsNotAttempted />} />
+                          <Route index path={"students-result"} element={<TestStudentsResult />} />
+                          <Route path={"statistics"} element={<TestStatistics />} />
+                        </Route>
+
+                        <Route path={"students/:groupsId"} element={<Students />} />
+
+                        <Route path={"months/:level/:groupsId"} element={<Months />} />
+
+                        <Route path={"toppers/:groupsId"} element={<Toppers />} />
                       </Route>
-
-                      <Route path={"test/:testId"} element={<Test />} />
-
-                      <Route path={"test/:testId/answers"} element={<TestAnswers />} />
-                      <Route path={"test/:testId/results"} element={<TestResults />}>
-                        <Route index element={<Navigate replace to="students-result" />} />
-                        <Route path={"students-not-attempted"} element={<TestStudentsNotAttempted />} />
-                        <Route index path={"students-result"} element={<TestStudentsResult />} />
-                        <Route path={"statistics"} element={<TestStatistics />} />
-                      </Route>
-
-                      <Route path={"students/:groupsId"} element={<Students />} />
-
-                      <Route path={"months/:level/:groupsId"} element={<Months />} />
-
-                      <Route path={"toppers/:groupsId"} element={<Toppers />} />
                     </Route>
+                    <Route element={<ProtectedStudent />}>
+                      <Route path={"SDashboard"} element={<DashboardLayout />}>
+                        <Route index element={<Navigate replace to="tests" />} />
+                        <Route path={"tests"} element={<StudentTests />} />
+                        <Route path={"test/:testId"} element={<Test />} />
+                        <Route path={"test/:testId/answers"} element={<TestAnswers />} />
 
-                    <Route path={"SDashboard"} element={<DashboardLayout />}>
-                      <Route index element={<Navigate replace to="tests" />} />
-                      <Route path={"tests"} element={<StudentTests />} />
-                      <Route path={"test/:testId"} element={<Test />} />
-                      <Route path={"test/:testId/answers"} element={<TestAnswers />} />
+                        <Route path={"toppers"} element={<Toppers />} />
 
-                      <Route path={"toppers"} element={<Toppers />} />
-
-                      <Route path={"attendance"} element={<Attendance />} />
+                        <Route path={"attendance"} element={<Attendance />} />
+                      </Route>
                     </Route>
                   </Route>
                   <Route path="*" element={<PageNotFound />} />

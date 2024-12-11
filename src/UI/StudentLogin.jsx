@@ -23,12 +23,14 @@ function StudentLogin() {
     login(data, {
       onSuccess: () => {
         toast.success("تم تسجيل الدخول بنجاح", { id: tostId });
-        reset();
         close();
         dispatch(reduxLogin());
       },
       onError: (error) => {
-        toast.error(error, { id: tostId });
+        toast.error(error?.response?.data || "حدث خطأ ما , يرجى المحاولة مرة أخرى", { id: tostId });
+      },
+      onSettled: () => {
+        reset();
       },
     });
   }

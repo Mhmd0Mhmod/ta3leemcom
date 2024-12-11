@@ -9,7 +9,6 @@ import FilledStar3 from "/public/Icons/filled-star-3.svg";
 import FilledStar4 from "/public/Icons/filled-star-4.svg";
 import FilledStar5 from "/public/Icons/filled-star-5.svg";
 import Qouts from "/public/Icons/qout.svg";
-import { useState } from "react";
 import CustomersOpinionsCarousel from "../UI/CustomersOpinionsCarousel.jsx";
 import Heading from "../UI/Heading.jsx";
 import Button from "../UI/Button.jsx";
@@ -26,9 +25,7 @@ function Opinion() {
   };
   const { isSubmitting } = formState;
 
-  const onSubmit = (data) => {
-    console.log(data);
-
+  const onSubmit = () => {
     sendOpinion(rate, comment).then((res) => {
       if (res?.status === 200) {
         toast.success("تم ارسال رايك بنجاح");

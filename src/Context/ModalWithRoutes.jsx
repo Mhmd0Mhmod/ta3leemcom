@@ -45,11 +45,11 @@ function BackArrow({ className }) {
   return stackHistory.length > 1 && <Arrow onClick={handleBack} className={`absolute inset-y-4 right-[45%] h-10 w-10 cursor-pointer ${className || ""}`} />;
 }
 
-function Content({ id, children }) {
+function Content({ id, children, className }) {
   const { reset } = useContext(ModalWithRoutesContext);
 
   return (
-    <Modal.Content id={id} onExit={reset}>
+    <Modal.Content id={id} onExit={reset} className={className}>
       {children}
     </Modal.Content>
   );
